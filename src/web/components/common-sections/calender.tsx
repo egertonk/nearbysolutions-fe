@@ -94,7 +94,6 @@ export const Calender: React.FC<Props> = ({
                         key={`current-day-${days.dayTitle}`}
                       >
                         <div className="flex items-center justify-center w-full rounded-full cursor-pointer">
-                          kkkk
                           <a
                             role="link"
                             href="#"
