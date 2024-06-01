@@ -4,6 +4,7 @@ import { Search } from "../common-sections/Search";
 import { TalentCard } from "./talentCard";
 import { useState } from "react";
 import { TalentDetailPage } from "./talentDetailPage";
+import { TalentInformation } from "../../lib/types/orderTypes";
 
 export const Talent: React.FC = () => {
   const MAX_TALENT = 1;
@@ -12,10 +13,16 @@ export const Talent: React.FC = () => {
   const [searchResults, setSearchResults] = useState(talentInformation);
   const isSearchResults = searchResults.length === 0;
 
+  const [talentInformationCard, setTalentInformationCard] =
+    useState<TalentInformation[]>(searchResults);
+
   return (
     <>
       {showTalentDetailPage ? (
-        <TalentDetailPage talentID={talentID} />
+        <TalentDetailPage
+          talentID={talentID}
+          talentInformationCard={talentInformationCard}
+        />
       ) : (
         <>
           <Search
@@ -35,7 +42,8 @@ export const Talent: React.FC = () => {
               <div className="grid grid-cols-1 lg:grid-cols-4 gap-4">
                 <TalentCard
                   setTalentID={setTalentID}
-                  talentDetails={searchResults}
+                  talentInformationCard={talentInformationCard}
+                  setTalentInformationCard={setTalentInformationCard}
                   setShowTalentDetailPage={setShowTalentDetailPage}
                 />
               </div>

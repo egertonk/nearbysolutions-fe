@@ -36,3 +36,35 @@ export type SearchResults = {
   };
   verifyStatus: boolean;
 }[];
+
+type SocialMediaDetail = {
+  name: string;
+  link: string;
+};
+
+type VacationDaysOff = {
+  startDate: string;
+  endDate: string;
+};
+
+export type JobTitlePricing = {
+  isFixPrice: boolean;
+  selectedStatus: boolean;
+  title: string;
+  price: {
+    fixPrice: number;
+    ratePerHour: number;
+  };
+};
+
+export type TalentInformation = {
+  talentID: number;
+  imageSource: string;
+  fullName: string;
+  jobTitlesPrice: JobTitlePricing[];
+  talentIntroduction: string;
+  socialMediaDetails: SocialMediaDetail[];
+  verifyStatus: boolean;
+  vacationStatus: boolean;
+  vacationDaysOff: VacationDaysOff;
+};

@@ -1,10 +1,10 @@
-import { useEffect, useState } from "react";
+import { useEffect } from "react";
 import { breakUpDate, compareDates, talentScheduleData } from "../../lib";
 import { useNavigate } from "react-router-dom";
-import { CalenderForm } from "./calenderForm";
 import { useCalenderStates } from "../../lib/useCalenderStates";
-import { Calender } from "./calender";
-import { DatePicker } from "./datePicker";
+import { CalenderForm } from "../common-sections/calenderForm";
+import { Calender } from "../common-sections/calender";
+import { DatePicker } from "../common-sections/datePicker";
 
 type Props = {
   orderNumber: number;
@@ -68,17 +68,7 @@ export const EditOrder: React.FC<Props> = ({ orderNumber }) => {
 
   return (
     <>
-      <form className="md:p-8 p-5 dark:bg-gray-800 bg-white rounded-t auto-cols-max ">
-        <CalenderForm
-          order={order || undefined}
-          userSelectedDate={userSelectedDate}
-          isEditOrder={true}
-          handleSubmit={handleSubmit}
-          userSelectedTime={userSelectedTime}
-        />
-      </form>
-
-      <div className="flex flex-col lg:flex-row justify-center">
+      <div className="flex flex-col lg:flex justify-center">
         <Calender
           fullDate={`${currentMonthSelection} ${currentYearSelection}`}
           setShowNextMonth={setShowNextMonth}
@@ -100,6 +90,16 @@ export const EditOrder: React.FC<Props> = ({ orderNumber }) => {
           isTimeChangeAllow={isDateChangeAllow}
         />
       </div>
+
+      <form className="md:p-8 p-5 dark:bg-gray-800 bg-white rounded-t auto-cols-max">
+        <CalenderForm
+          order={order || undefined}
+          userSelectedDate={userSelectedDate}
+          isEditOrder={true}
+          handleSubmit={handleSubmit}
+          userSelectedTime={userSelectedTime}
+        />
+      </form>
     </>
   );
 };

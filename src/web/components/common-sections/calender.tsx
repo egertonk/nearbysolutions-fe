@@ -1,4 +1,5 @@
 import { greaterThanArrowSVG, lessThanArrowSVG } from "../../assets/svg/svgs";
+import { cSettings } from "../../lib";
 import { DateSelection } from "../../lib/types/calenderTypes";
 import { useCalender } from "../../lib/useCalender";
 
@@ -23,13 +24,57 @@ export const Calender: React.FC<Props> = ({
   setShowNextMonth,
   updateDateSelection,
 }) => {
-  const { date, dayTitles, nextWeeksArray, currentWeeksArray } = useCalender();
+  const {
+    date,
+    dayTitles,
+    nextWeeksArray,
+    currentWeeksArray,
+    monthNameToNumber,
+  } = useCalender();
 
   const weeksArray = showNextMonth ? nextWeeksArray : currentWeeksArray;
   const disablePastDatesTime =
     "cursor-none pointer-events-none bg-gray-200 rounded-full w-5 h-6";
   const selectedCSS =
     "focus:outline-none focus:ring-indigo-700 focus:bg-red-500 hover:bg-red-500 text-base w-5 flex items-center justify-center font-medium text-white bg-red-700 rounded-full";
+
+  const calculateDaysBetweenDates = (startDate: string, endDate: string) => {
+    const start = new Date(startDate);
+    const end = new Date(endDate);
+    const dates = [];
+
+    for (let d = start; d <= end; d.setDate(d.getDate() + 1)) {
+      dates.push([d.getDate(), d.getMonth() + 1, d.getFullYear()]); // getMonth() returns month index starting from 0
+    }
+
+    return dates;
+  };
+
+  const startDate = cSettings.vacationStartDate;
+  const endDate = cSettings.vacationEndDate;
+  const daysBetweenArray = calculateDaysBetweenDates(startDate, endDate);
+
+  const isVacationValid = (calendarDay: number) => {
+    const calenderDate = `${calendarDay}/${currentMonthSelection}/${currentYearSelection}`;
+    console.log(calenderDate);
+    const [splitDay, splitMonth, splitear] = calenderDate.split("/");
+    const monthNumber = monthNameToNumber[splitMonth.substring(0, 3)];
+    const parseDate = [
+      parseInt(splitDay, 10),
+      monthNumber,
+      parseInt(splitear, 10),
+    ];
+
+    const [day, month, year] = parseDate;
+
+    const dayStatus = daysBetweenArray.some(
+      (date) => date[0] === day && date[1] === month && date[2] === year
+    );
+
+    return dayStatus;
+  };
+
+  console.log(cSettings);
 
   return (
     <div className="md:p-8 p-5 dark:bg-gray-800 bg-white rounded-t auto-cols-max">
@@ -93,10 +138,12 @@ export const Calender: React.FC<Props> = ({
                         className="w-full h-full"
                         key={`current-day-${days.dayTitle}`}
                       >
-                        <div className="flex items-center justify-center w-full rounded-full cursor-pointer">
-                          <a
-                            role="link"
-                            href="#"
+                        <div
+                          className={`${
+                            isVacationValid(days.day) && "bg-black"
+                          } flex items-center justify-center w-full rounded-full cursor-pointer`}
+                        >
+                          <button
                             onClick={() =>
                               updateDateSelection(
                                 days.day,
@@ -108,16 +155,22 @@ export const Calender: React.FC<Props> = ({
                             className="focus:outline-none  focus:ring-2 focus:ring-offset-2 focus:ring-indigo-700 focus:bg-indigo-500 hover:bg-indigo-500 text-base w-8 h-8 flex items-center justify-center font-medium text-white bg-indigo-700 rounded-full"
                           >
                             {days.day}
-                          </a>
+                          </button>
                         </div>
                       </div>
                     </td>
                   ) : (
                     <td className="pt-6">
-                      <div className="px-4 flex w-full justify-center">
+                      <div
+                        className={`${
+                          isVacationValid(days.day) && "bg-black"
+                        } px-4 flex w-full justify-center`}
+                      >
                         <p
                           className={`${
-                            days.day >= date
+                            isVacationValid(days.day)
+                              ? "text-white cursor-none pointer-events-none"
+                              : days.day >= date
                               ? `text-base cursor-pointer font-medium  ${
                                   isDateChangeAllow &&
                                   days.day === userSelectedDate?.day
@@ -130,7 +183,6 @@ export const Calender: React.FC<Props> = ({
                           }`}
                         >
                           <a
-                            role="link"
                             onClick={() =>
                               updateDateSelection(
                                 days.day,
@@ -154,7 +206,7 @@ export const Calender: React.FC<Props> = ({
                                   }
                                   `}
                           >
-                            {days.day}
+                            {isVacationValid(days.day) ? "Out" : days.day}
                           </a>
                         </p>
                       </div>

@@ -1,15 +1,17 @@
 import { useState } from "react";
 import { talentScheduleData } from "../../lib";
-import { EditOrder } from "./editOrder";
+import { EditOrder } from "../Orders/editOrder";
 
 type Props = {
   isEditOrder?: boolean;
+  showEdits?: boolean;
   setIsEditOrder?: React.Dispatch<React.SetStateAction<boolean>>;
 };
 
 export const WorkOrderList: React.FC<Props> = ({
   setIsEditOrder,
   isEditOrder,
+  showEdits,
 }) => {
   const [orderNumber, setOrderNumber] = useState(0);
   const customerProfileID = 12534; // api
@@ -38,10 +40,10 @@ export const WorkOrderList: React.FC<Props> = ({
                     key={`2-${scheduleData.orderNumber}`}
                   >
                     <div
-                      className="px-4 lg:flex items-center p-3 border-l-8 border-purple-600"
+                      className="px-4 md:flex flex-row items-center border-l-8 border-purple-600"
                       key={`3-${scheduleData.orderNumber}`}
                     >
-                      <div className="space-y-1 border-r-2 pr-3 w-60">
+                      <div className="border-r-2 w-60">
                         <div className="text-sm leading-5 font-semibold">
                           <span className="text-xs leading-4 font-normal text-gray-500">
                             Order Date:
@@ -56,7 +58,7 @@ export const WorkOrderList: React.FC<Props> = ({
                         </div>
                       </div>
 
-                      <div className="ml-3 space-y-1 border-r-2 pr-3 w-80">
+                      <div className="border-r-2 w-60 ">
                         <div className="text-base leading-6 font-normal">
                           Talent: {scheduleData.JobTitlesSection}
                         </div>
@@ -68,7 +70,7 @@ export const WorkOrderList: React.FC<Props> = ({
                               </span>{" "}
                               {scheduleData.orderNumber}
                             </div>
-                            <div className="text-sm leading-4 font-normal">
+                            <div className="text-sm leading-4 font-normal text-wrap">
                               <span className="text-xs leading-4 font-normal text-gray-500">
                                 Task Description:
                               </span>{" "}
@@ -103,7 +105,7 @@ export const WorkOrderList: React.FC<Props> = ({
                         </div>
                       </div>
 
-                      <div className="ml-3 space-y-1 md:w-60 items-center w-60">
+                      <div className="flex">
                         <div
                           className={`p-1 w-20 ml-3 my-5 ${
                             scheduleData.orderStatus
@@ -119,29 +121,31 @@ export const WorkOrderList: React.FC<Props> = ({
                             }`}
                           </div>
                         </div>
-                        <a
-                          role="link"
-                          onClick={() => handleEdit(scheduleData.orderNumber)}
-                          href="#"
-                          className="hover:text-purple-500 text-base w-5 flex items-center justify-center font-medium text-gray rounded-full"
-                        >
-                          <svg
-                            className="h-8 w-8 text-purple-500"
-                            width={24}
-                            height={24}
-                            viewBox="0 0 24 24"
-                            xmlns="http://www.w3.org/2000/svg"
-                            fill="none"
-                            stroke="currentColor"
-                            strokeWidth={2}
-                            strokeLinecap="round"
-                            strokeLinejoin="round"
+                        {showEdits && scheduleData.orderStatus && (
+                          <a
+                            role="link"
+                            onClick={() => handleEdit(scheduleData.orderNumber)}
+                            href="#"
+                            className="hover:text-purple-500 text-base w-5 flex items-center justify-center font-medium text-gray rounded-full ml-4"
                           >
-                            {" "}
-                            <path d="M11 4H4a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2v-7" />{" "}
-                            <path d="M18.5 2.5a2.121 2.121 0 0 1 3 3L12 15l-4 1 1-4 9.5-9.5z" />
-                          </svg>
-                        </a>
+                            <svg
+                              className="h-8 w-8 text-purple-500"
+                              width={24}
+                              height={24}
+                              viewBox="0 0 24 24"
+                              xmlns="http://www.w3.org/2000/svg"
+                              fill="none"
+                              stroke="currentColor"
+                              strokeWidth={2}
+                              strokeLinecap="round"
+                              strokeLinejoin="round"
+                            >
+                              {" "}
+                              <path d="M11 4H4a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2v-7" />{" "}
+                              <path d="M18.5 2.5a2.121 2.121 0 0 1 3 3L12 15l-4 1 1-4 9.5-9.5z" />
+                            </svg>
+                          </a>
+                        )}
                       </div>
 
                       {/* <div className="ml-3 space-y-1 border-r-2 pr-3 w-16 md:w-32 lg:w-48">

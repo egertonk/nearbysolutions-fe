@@ -36,12 +36,12 @@ export const Footer: React.FC = () => {
     <footer className="bg-white">
       <div className="mx-auto max-w-screen-xl px-4 pb-6 pt-16 sm:px-6 lg:px-8 lg:pt-24">
         <div className="grid grid-cols-1 gap-8 lg:grid-cols-3">
-          <div>
-            <div className="flex justify-center text-violet-600 sm:justify-start">
+          <div className="justify-center item-center justify-content justify-self">
+            <div className="bg-black justify-content ">
               <img
                 className="h-40 w-48"
                 src={`${nearbySolutionsLogo}`}
-                alt=""
+                alt="Company Logo"
               />
             </div>
 

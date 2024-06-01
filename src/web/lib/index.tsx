@@ -21,7 +21,7 @@ import {
 } from "../assets/svg/svgs";
 
 export const priceWithComma = (price: string | number) => {
-  const formattedPrice = price.toLocaleString();
+  const formattedPrice = price?.toLocaleString();
 
   return <span>{formattedPrice}</span>;
 };
@@ -136,7 +136,20 @@ export const talentInformation = [
     imageSource:
       "https://images.unsplash.com/photo-1438761681033-6461ffad8d80?ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&ixlib=rb-1.2.1&auto=format&fit=crop&w=1170&q=80",
     fullName: "Jessa During",
-    jobTitles: ["Graphic Designer", "Nurse"],
+    jobTitlesPrice: [
+      {
+        isFixPrice: true,
+        selectedStatus: false,
+        title: "Graphic Designer",
+        price: { fixPrice: 10000, ratePerHour: 0 },
+      },
+      {
+        isFixPrice: false,
+        selectedStatus: true,
+        title: "Nurse",
+        price: { fixPrice: 0, ratePerHour: 100 },
+      },
+    ],
     talentIntroduction:
       "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.",
     socialMediaDetails: [
@@ -146,15 +159,32 @@ export const talentInformation = [
       { name: "Youtube", link: "https://www.Youtube.com/" },
       { name: "Whatsapp", link: "https://www.Whatsapp.com/" },
     ],
-    solutionPricing: { fixPrice: 30000, ratePerHour: 47 },
     verifyStatus: true,
+    vacationStatus: true,
+    vacationDaysOff: {
+      startDate: "06/10/2024",
+      endDate: "06/10/2024",
+    },
   },
   {
     talentID: 222,
     imageSource:
       "https://images.unsplash.com/photo-1438761681033-6461ffad8d80?ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&ixlib=rb-1.2.1&auto=format&fit=crop&w=1170&q=80",
     fullName: "Egerton During",
-    jobTitles: ["Software Engineer", "Fullstack Developer"],
+    jobTitlesPrice: [
+      {
+        isFixPrice: true,
+        selectedStatus: true,
+        title: "Software Engineer",
+        price: { fixPrice: 10000, ratePerHour: 100 },
+      },
+      {
+        isFixPrice: false,
+        selectedStatus: false,
+        title: "Fullstack Developer",
+        price: { fixPrice: 0, ratePerHour: 200 },
+      },
+    ],
     talentIntroduction:
       "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.",
     socialMediaDetails: [
@@ -164,15 +194,32 @@ export const talentInformation = [
       { name: "Linkedin", link: "https://www.linkedin.com/" },
       { name: "youtube", link: "https://www.youtube.com/" },
     ],
-    solutionPricing: { fixPrice: 10000, ratePerHour: 0 },
     verifyStatus: true,
+    vacationStatus: false,
+    vacationDaysOff: {
+      startDate: "06/10/2024",
+      endDate: "06/10/2024",
+    },
   },
   {
     talentID: 1133333,
     imageSource:
       "https://images.unsplash.com/flagged/photo-1570612861542-284f4c12e75f?ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&ixlib=rb-1.2.1&auto=format&fit=crop&w=1170&q=80",
     fullName: "Jade Bradley",
-    jobTitles: ["Help Desk"],
+    jobTitlesPrice: [
+      {
+        isFixPrice: false,
+        selectedStatus: false,
+        title: "Help Desk",
+        price: { fixPrice: 10000, ratePerHour: 0 },
+      },
+      {
+        isFixPrice: true,
+        selectedStatus: true,
+        title: "bbbbbbbb Desk",
+        price: { fixPrice: 3000, ratePerHour: 300 },
+      },
+    ],
     talentIntroduction:
       "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.",
     socialMediaDetails: [
@@ -182,15 +229,26 @@ export const talentInformation = [
       { name: "Linkedin", link: "https://www.linkedin.com/" },
       { name: "youtube", link: "https://www.youtube.com/" },
     ],
-    solutionPricing: { fixPrice: 10000, ratePerHour: 0 },
     verifyStatus: false,
+    vacationStatus: true,
+    vacationDaysOff: {
+      startDate: "06/10/2024",
+      endDate: "06/10/2024",
+    },
   },
   {
     talentID: 44141,
     imageSource:
       "https://images.unsplash.com/flagged/photo-1570612861542-284f4c12e75f?ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&ixlib=rb-1.2.1&auto=format&fit=crop&w=1170&q=80",
     fullName: "Dany Bailey",
-    jobTitles: ["Help Desk"],
+    jobTitlesPrice: [
+      {
+        isFixPrice: true,
+        selectedStatus: true,
+        title: "Nurse s",
+        price: { fixPrice: 100, ratePerHour: 20 },
+      },
+    ],
     talentIntroduction:
       "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.",
     socialMediaDetails: [
@@ -200,297 +258,381 @@ export const talentInformation = [
       { name: "Linkedin", link: "https://www.linkedin.com/" },
       { name: "youtube", link: "https://www.youtube.com/" },
     ],
-    solutionPricing: { fixPrice: 10000, ratePerHour: 0 },
     verifyStatus: true,
+    vacationStatus: false,
+    vacationDaysOff: {
+      startDate: "06/10/2024",
+      endDate: "06/10/2024",
+    },
   },
-  {
-    talentID: 75896,
-    imageSource:
-      "https://images.unsplash.com/photo-1438761681033-6461ffad8d80?ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&ixlib=rb-1.2.1&auto=format&fit=crop&w=1170&q=80",
-    fullName: "Jessa During",
-    jobTitles: ["Graphic Designer", "Nurse"],
-    talentIntroduction:
-      "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.",
-    socialMediaDetails: [
-      { name: "Google", link: "https://www.Google.com/" },
-      { name: "TikTok", link: "https://www.TikTok.com/" },
-      { name: "x", link: "https://www.x.com/" },
-      { name: "Youtube", link: "https://www.Youtube.com/" },
-      { name: "Whatsapp", link: "https://www.Whatsapp.com/" },
-    ],
-    solutionPricing: { fixPrice: 30000, ratePerHour: 47 },
-    verifyStatus: true,
-  },
-  {
-    talentID: 33333,
-    imageSource:
-      "https://images.unsplash.com/photo-1438761681033-6461ffad8d80?ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&ixlib=rb-1.2.1&auto=format&fit=crop&w=1170&q=80",
-    fullName: "Egerton During",
-    jobTitles: ["Software Engineer", "Fullstack Developer"],
-    talentIntroduction:
-      "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.",
-    socialMediaDetails: [
-      { name: "facebook", link: "https://www.facebook.com/" },
-      { name: "Instagram", link: "https://www.Instagram.com/" },
-      { name: "X", link: "https://www.x.com/" },
-      { name: "Linkedin", link: "https://www.linkedin.com/" },
-      { name: "youtube", link: "https://www.youtube.com/" },
-    ],
-    solutionPricing: { fixPrice: 10000, ratePerHour: 0 },
-    verifyStatus: true,
-  },
-  {
-    talentID: 43456321,
-    imageSource:
-      "https://images.unsplash.com/flagged/photo-1570612861542-284f4c12e75f?ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&ixlib=rb-1.2.1&auto=format&fit=crop&w=1170&q=80",
-    fullName: "Jade Bradley",
-    jobTitles: ["Help Desk"],
-    talentIntroduction:
-      "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.",
-    socialMediaDetails: [
-      { name: "facebook", link: "https://www.facebook.com/" },
-      { name: "Instagram", link: "https://www.Instagram.com/" },
-      { name: "X", link: "https://www.x.com/" },
-      { name: "Linkedin", link: "https://www.linkedin.com/" },
-      { name: "youtube", link: "https://www.youtube.com/" },
-    ],
-    solutionPricing: { fixPrice: 10000, ratePerHour: 0 },
-    verifyStatus: false,
-  },
-  {
-    talentID: 121211,
-    imageSource:
-      "https://images.unsplash.com/flagged/photo-1570612861542-284f4c12e75f?ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&ixlib=rb-1.2.1&auto=format&fit=crop&w=1170&q=80",
-    fullName: "Dany Bailey",
-    jobTitles: ["Help Desk"],
-    talentIntroduction:
-      "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.",
-    socialMediaDetails: [
-      { name: "facebook", link: "https://www.facebook.com/" },
-      { name: "Instagram", link: "https://www.Instagram.com/" },
-      { name: "X", link: "https://www.x.com/" },
-      { name: "Linkedin", link: "https://www.linkedin.com/" },
-      { name: "youtube", link: "https://www.youtube.com/" },
-    ],
-    solutionPricing: { fixPrice: 10000, ratePerHour: 0 },
-    verifyStatus: false,
-  },
-  {
-    talentID: 131313,
-    imageSource:
-      "https://images.unsplash.com/photo-1438761681033-6461ffad8d80?ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&ixlib=rb-1.2.1&auto=format&fit=crop&w=1170&q=80",
-    fullName: "Jessa During",
-    jobTitles: ["Graphic Designer", "Nurse"],
-    talentIntroduction:
-      "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.",
-    socialMediaDetails: [
-      { name: "Google", link: "https://www.Google.com/" },
-      { name: "TikTok", link: "https://www.TikTok.com/" },
-      { name: "x", link: "https://www.x.com/" },
-      { name: "Youtube", link: "https://www.Youtube.com/" },
-      { name: "Whatsapp", link: "https://www.Whatsapp.com/" },
-    ],
-    solutionPricing: { fixPrice: 30000, ratePerHour: 47 },
-    verifyStatus: false,
-  },
-  {
-    talentID: 141414,
-    imageSource:
-      "https://images.unsplash.com/photo-1438761681033-6461ffad8d80?ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&ixlib=rb-1.2.1&auto=format&fit=crop&w=1170&q=80",
-    fullName: "Egerton During",
-    jobTitles: ["Software Engineer", "Fullstack Developer"],
-    talentIntroduction:
-      "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.",
-    socialMediaDetails: [
-      { name: "facebook", link: "https://www.facebook.com/" },
-      { name: "Instagram", link: "https://www.Instagram.com/" },
-      { name: "X", link: "https://www.x.com/" },
-      { name: "Linkedin", link: "https://www.linkedin.com/" },
-      { name: "youtube", link: "https://www.youtube.com/" },
-    ],
-    solutionPricing: { fixPrice: 10000, ratePerHour: 0 },
-    verifyStatus: false,
-  },
-  {
-    talentID: 15151,
-    imageSource:
-      "https://images.unsplash.com/flagged/photo-1570612861542-284f4c12e75f?ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&ixlib=rb-1.2.1&auto=format&fit=crop&w=1170&q=80",
-    fullName: "Jade Bradley",
-    jobTitles: ["Help Desk"],
-    talentIntroduction:
-      "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.",
-    socialMediaDetails: [
-      { name: "facebook", link: "https://www.facebook.com/" },
-      { name: "Instagram", link: "https://www.Instagram.com/" },
-      { name: "X", link: "https://www.x.com/" },
-      { name: "Linkedin", link: "https://www.linkedin.com/" },
-      { name: "youtube", link: "https://www.youtube.com/" },
-    ],
-    solutionPricing: { fixPrice: 10000, ratePerHour: 0 },
-    verifyStatus: true,
-  },
-  {
-    talentID: 161616,
-    imageSource:
-      "https://images.unsplash.com/flagged/photo-1570612861542-284f4c12e75f?ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&ixlib=rb-1.2.1&auto=format&fit=crop&w=1170&q=80",
-    fullName: "Dany Bailey",
-    jobTitles: ["Help Desk"],
-    talentIntroduction:
-      "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.",
-    socialMediaDetails: [
-      { name: "facebook", link: "https://www.facebook.com/" },
-      { name: "Instagram", link: "https://www.Instagram.com/" },
-      { name: "X", link: "https://www.x.com/" },
-      { name: "Linkedin", link: "https://www.linkedin.com/" },
-      { name: "youtube", link: "https://www.youtube.com/" },
-    ],
-    solutionPricing: { fixPrice: 10000, ratePerHour: 0 },
-    verifyStatus: true,
-  },
-  {
-    talentID: 171717,
-    imageSource:
-      "https://images.unsplash.com/photo-1438761681033-6461ffad8d80?ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&ixlib=rb-1.2.1&auto=format&fit=crop&w=1170&q=80",
-    fullName: "Jessa During",
-    jobTitles: ["Graphic Designer", "Nurse"],
-    talentIntroduction:
-      "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.",
-    socialMediaDetails: [
-      { name: "Google", link: "https://www.Google.com/" },
-      { name: "TikTok", link: "https://www.TikTok.com/" },
-      { name: "x", link: "https://www.x.com/" },
-      { name: "Youtube", link: "https://www.Youtube.com/" },
-      { name: "Whatsapp", link: "https://www.Whatsapp.com/" },
-    ],
-    solutionPricing: { fixPrice: 30000, ratePerHour: 47 },
-    verifyStatus: true,
-  },
-  {
-    talentID: 181818,
-    imageSource:
-      "https://images.unsplash.com/photo-1438761681033-6461ffad8d80?ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&ixlib=rb-1.2.1&auto=format&fit=crop&w=1170&q=80",
-    fullName: "Egerton During",
-    jobTitles: ["Software Engineer", "Fullstack Developer"],
-    talentIntroduction:
-      "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.",
-    socialMediaDetails: [
-      { name: "facebook", link: "https://www.facebook.com/" },
-      { name: "Instagram", link: "https://www.Instagram.com/" },
-      { name: "X", link: "https://www.x.com/" },
-      { name: "Linkedin", link: "https://www.linkedin.com/" },
-      { name: "youtube", link: "https://www.youtube.com/" },
-    ],
-    solutionPricing: { fixPrice: 10000, ratePerHour: 0 },
-    verifyStatus: true,
-  },
-  {
-    talentID: 191919,
-    imageSource:
-      "https://images.unsplash.com/flagged/photo-1570612861542-284f4c12e75f?ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&ixlib=rb-1.2.1&auto=format&fit=crop&w=1170&q=80",
-    fullName: "Jade Bradley",
-    jobTitles: ["Help Desk"],
-    talentIntroduction:
-      "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.",
-    socialMediaDetails: [
-      { name: "facebook", link: "https://www.facebook.com/" },
-      { name: "Instagram", link: "https://www.Instagram.com/" },
-      { name: "X", link: "https://www.x.com/" },
-      { name: "Linkedin", link: "https://www.linkedin.com/" },
-      { name: "youtube", link: "https://www.youtube.com/" },
-    ],
-    solutionPricing: { fixPrice: 10000, ratePerHour: 0 },
-    verifyStatus: false,
-  },
-  {
-    talentID: 171757,
-    imageSource:
-      "https://images.unsplash.com/flagged/photo-1570612861542-284f4c12e75f?ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&ixlib=rb-1.2.1&auto=format&fit=crop&w=1170&q=80",
-    fullName: "Dany Bailey",
-    jobTitles: ["Help Desk"],
-    talentIntroduction:
-      "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.",
-    socialMediaDetails: [
-      { name: "facebook", link: "https://www.facebook.com/" },
-      { name: "Instagram", link: "https://www.Instagram.com/" },
-      { name: "X", link: "https://www.x.com/" },
-      { name: "Linkedin", link: "https://www.linkedin.com/" },
-      { name: "youtube", link: "https://www.youtube.com/" },
-    ],
-    solutionPricing: { fixPrice: 10000, ratePerHour: 0 },
-    verifyStatus: false,
-  },
-  {
-    talentID: 1363636,
-    imageSource:
-      "https://images.unsplash.com/photo-1438761681033-6461ffad8d80?ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&ixlib=rb-1.2.1&auto=format&fit=crop&w=1170&q=80",
-    fullName: "Jessa During",
-    jobTitles: ["Graphic Designer", "Nurse"],
-    talentIntroduction:
-      "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.",
-    socialMediaDetails: [
-      { name: "Google", link: "https://www.Google.com/" },
-      { name: "TikTok", link: "https://www.TikTok.com/" },
-      { name: "x", link: "https://www.x.com/" },
-      { name: "Youtube", link: "https://www.Youtube.com/" },
-      { name: "Whatsapp", link: "https://www.Whatsapp.com/" },
-    ],
-    solutionPricing: { fixPrice: 30000, ratePerHour: 47 },
-    verifyStatus: false,
-  },
-  {
-    talentID: 145756555,
-    imageSource:
-      "https://images.unsplash.com/photo-1438761681033-6461ffad8d80?ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&ixlib=rb-1.2.1&auto=format&fit=crop&w=1170&q=80",
-    fullName: "Egerton During",
-    jobTitles: ["Software Engineer", "Fullstack Developer"],
-    talentIntroduction:
-      "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.",
-    socialMediaDetails: [
-      { name: "facebook", link: "https://www.facebook.com/" },
-      { name: "Instagram", link: "https://www.Instagram.com/" },
-      { name: "X", link: "https://www.x.com/" },
-      { name: "Linkedin", link: "https://www.linkedin.com/" },
-      { name: "youtube", link: "https://www.youtube.com/" },
-    ],
-    solutionPricing: { fixPrice: 10000, ratePerHour: 0 },
-    verifyStatus: true,
-  },
-  {
-    talentID: 321456,
-    imageSource:
-      "https://images.unsplash.com/flagged/photo-1570612861542-284f4c12e75f?ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&ixlib=rb-1.2.1&auto=format&fit=crop&w=1170&q=80",
-    fullName: "Jade Bradley",
-    jobTitles: ["Help Desk"],
-    talentIntroduction:
-      "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.",
-    socialMediaDetails: [
-      { name: "facebook", link: "https://www.facebook.com/" },
-      { name: "Instagram", link: "https://www.Instagram.com/" },
-      { name: "X", link: "https://www.x.com/" },
-      { name: "Linkedin", link: "https://www.linkedin.com/" },
-      { name: "youtube", link: "https://www.youtube.com/" },
-    ],
-    solutionPricing: { fixPrice: 10000, ratePerHour: 0 },
-    verifyStatus: false,
-  },
-  {
-    talentID: 785451125,
-    imageSource:
-      "https://images.unsplash.com/flagged/photo-1570612861542-284f4c12e75f?ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&ixlib=rb-1.2.1&auto=format&fit=crop&w=1170&q=80",
-    fullName: "Dany Bailey",
-    jobTitles: ["Help Desk"],
-    talentIntroduction:
-      "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.",
-    socialMediaDetails: [
-      { name: "facebook", link: "https://www.facebook.com/" },
-      { name: "Instagram", link: "https://www.Instagram.com/" },
-      { name: "X", link: "https://www.x.com/" },
-      { name: "Linkedin", link: "https://www.linkedin.com/" },
-      { name: "youtube", link: "https://www.youtube.com/" },
-    ],
-    solutionPricing: { fixPrice: 10000, ratePerHour: 0 },
-    verifyStatus: true,
-  },
+  // {
+  //   talentID: 75896,
+  //   imageSource:
+  //     "https://images.unsplash.com/photo-1438761681033-6461ffad8d80?ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&ixlib=rb-1.2.1&auto=format&fit=crop&w=1170&q=80",
+  //   fullName: "Jessa During",
+  //   jobTitles: ["Graphic Designer", "Nurse"],
+  //   talentIntroduction:
+  //     "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.",
+  //   socialMediaDetails: [
+  //     { name: "Google", link: "https://www.Google.com/" },
+  //     { name: "TikTok", link: "https://www.TikTok.com/" },
+  //     { name: "x", link: "https://www.x.com/" },
+  //     { name: "Youtube", link: "https://www.Youtube.com/" },
+  //     { name: "Whatsapp", link: "https://www.Whatsapp.com/" },
+  //   ],
+  //   solutionPricing: { fixPrice: 30000, ratePerHour: 47 },
+  //   verifyStatus: true,
+  //   vacationStatus: false,
+  //   vacationDaysOff: {
+  //     startDate: "06/10/2024",
+  //     endDate: "06/10/2024",
+  //   },
+  // },
+  // {
+  //   talentID: 33333,
+  //   imageSource:
+  //     "https://images.unsplash.com/photo-1438761681033-6461ffad8d80?ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&ixlib=rb-1.2.1&auto=format&fit=crop&w=1170&q=80",
+  //   fullName: "Egerton During",
+  //   jobTitles: ["Software Engineer", "Fullstack Developer"],
+  //   talentIntroduction:
+  //     "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.",
+  //   socialMediaDetails: [
+  //     { name: "facebook", link: "https://www.facebook.com/" },
+  //     { name: "Instagram", link: "https://www.Instagram.com/" },
+  //     { name: "X", link: "https://www.x.com/" },
+  //     { name: "Linkedin", link: "https://www.linkedin.com/" },
+  //     { name: "youtube", link: "https://www.youtube.com/" },
+  //   ],
+  //   solutionPricing: { fixPrice: 10000, ratePerHour: 0 },
+  //   verifyStatus: true,
+  //   vacationStatus: false,
+  //   vacationDaysOff: {
+  //     startDate: "06/10/2024",
+  //     endDate: "06/10/2024",
+  //   },
+  // },
+  // {
+  //   talentID: 43456321,
+  //   imageSource:
+  //     "https://images.unsplash.com/flagged/photo-1570612861542-284f4c12e75f?ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&ixlib=rb-1.2.1&auto=format&fit=crop&w=1170&q=80",
+  //   fullName: "Jade Bradley",
+  //   jobTitles: ["Help Desk"],
+  //   talentIntroduction:
+  //     "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.",
+  //   socialMediaDetails: [
+  //     { name: "facebook", link: "https://www.facebook.com/" },
+  //     { name: "Instagram", link: "https://www.Instagram.com/" },
+  //     { name: "X", link: "https://www.x.com/" },
+  //     { name: "Linkedin", link: "https://www.linkedin.com/" },
+  //     { name: "youtube", link: "https://www.youtube.com/" },
+  //   ],
+  //   solutionPricing: { fixPrice: 10000, ratePerHour: 0 },
+  //   verifyStatus: false,
+  //   vacationStatus: false,
+  //   vacationDaysOff: {
+  //     startDate: "06/10/2024",
+  //     endDate: "06/10/2024",
+  //   },
+  // },
+  // {
+  //   talentID: 121211,
+  //   imageSource:
+  //     "https://images.unsplash.com/flagged/photo-1570612861542-284f4c12e75f?ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&ixlib=rb-1.2.1&auto=format&fit=crop&w=1170&q=80",
+  //   fullName: "Dany Bailey",
+  //   jobTitles: ["Help Desk"],
+  //   talentIntroduction:
+  //     "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.",
+  //   socialMediaDetails: [
+  //     { name: "facebook", link: "https://www.facebook.com/" },
+  //     { name: "Instagram", link: "https://www.Instagram.com/" },
+  //     { name: "X", link: "https://www.x.com/" },
+  //     { name: "Linkedin", link: "https://www.linkedin.com/" },
+  //     { name: "youtube", link: "https://www.youtube.com/" },
+  //   ],
+  //   solutionPricing: { fixPrice: 10000, ratePerHour: 0 },
+  //   verifyStatus: false,
+  //   vacationStatus: false,
+  //   vacationDaysOff: {
+  //     startDate: "06/10/2024",
+  //     endDate: "06/10/2024",
+  //   },
+  // },
+  // {
+  //   talentID: 131313,
+  //   imageSource:
+  //     "https://images.unsplash.com/photo-1438761681033-6461ffad8d80?ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&ixlib=rb-1.2.1&auto=format&fit=crop&w=1170&q=80",
+  //   fullName: "Jessa During",
+  //   jobTitles: ["Graphic Designer", "Nurse"],
+  //   talentIntroduction:
+  //     "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.",
+  //   socialMediaDetails: [
+  //     { name: "Google", link: "https://www.Google.com/" },
+  //     { name: "TikTok", link: "https://www.TikTok.com/" },
+  //     { name: "x", link: "https://www.x.com/" },
+  //     { name: "Youtube", link: "https://www.Youtube.com/" },
+  //     { name: "Whatsapp", link: "https://www.Whatsapp.com/" },
+  //   ],
+  //   solutionPricing: { fixPrice: 30000, ratePerHour: 47 },
+  //   verifyStatus: false,
+  //   vacationStatus: false,
+  //   vacationDaysOff: {
+  //     startDate: "06/10/2024",
+  //     endDate: "06/10/2024",
+  //   },
+  // },
+  // {
+  //   talentID: 141414,
+  //   imageSource:
+  //     "https://images.unsplash.com/photo-1438761681033-6461ffad8d80?ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&ixlib=rb-1.2.1&auto=format&fit=crop&w=1170&q=80",
+  //   fullName: "Egerton During",
+  //   jobTitles: ["Software Engineer", "Fullstack Developer"],
+  //   talentIntroduction:
+  //     "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.",
+  //   socialMediaDetails: [
+  //     { name: "facebook", link: "https://www.facebook.com/" },
+  //     { name: "Instagram", link: "https://www.Instagram.com/" },
+  //     { name: "X", link: "https://www.x.com/" },
+  //     { name: "Linkedin", link: "https://www.linkedin.com/" },
+  //     { name: "youtube", link: "https://www.youtube.com/" },
+  //   ],
+  //   solutionPricing: { fixPrice: 10000, ratePerHour: 0 },
+  //   verifyStatus: false,
+  //   vacationStatus: false,
+  //   vacationDaysOff: {
+  //     startDate: "06/10/2024",
+  //     endDate: "06/10/2024",
+  //   },
+  // },
+  // {
+  //   talentID: 15151,
+  //   imageSource:
+  //     "https://images.unsplash.com/flagged/photo-1570612861542-284f4c12e75f?ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&ixlib=rb-1.2.1&auto=format&fit=crop&w=1170&q=80",
+  //   fullName: "Jade Bradley",
+  //   jobTitles: ["Help Desk"],
+  //   talentIntroduction:
+  //     "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.",
+  //   socialMediaDetails: [
+  //     { name: "facebook", link: "https://www.facebook.com/" },
+  //     { name: "Instagram", link: "https://www.Instagram.com/" },
+  //     { name: "X", link: "https://www.x.com/" },
+  //     { name: "Linkedin", link: "https://www.linkedin.com/" },
+  //     { name: "youtube", link: "https://www.youtube.com/" },
+  //   ],
+  //   solutionPricing: { fixPrice: 10000, ratePerHour: 0 },
+  //   verifyStatus: true,
+  //   vacationStatus: false,
+  //   vacationDaysOff: {
+  //     startDate: "06/10/2024",
+  //     endDate: "06/10/2024",
+  //   },
+  // },
+  // {
+  //   talentID: 161616,
+  //   imageSource:
+  //     "https://images.unsplash.com/flagged/photo-1570612861542-284f4c12e75f?ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&ixlib=rb-1.2.1&auto=format&fit=crop&w=1170&q=80",
+  //   fullName: "Dany Bailey",
+  //   jobTitles: ["Help Desk"],
+  //   talentIntroduction:
+  //     "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.",
+  //   socialMediaDetails: [
+  //     { name: "facebook", link: "https://www.facebook.com/" },
+  //     { name: "Instagram", link: "https://www.Instagram.com/" },
+  //     { name: "X", link: "https://www.x.com/" },
+  //     { name: "Linkedin", link: "https://www.linkedin.com/" },
+  //     { name: "youtube", link: "https://www.youtube.com/" },
+  //   ],
+  //   solutionPricing: { fixPrice: 10000, ratePerHour: 0 },
+  //   verifyStatus: true,
+  //   vacationStatus: false,
+  //   vacationDaysOff: {
+  //     startDate: "06/10/2024",
+  //     endDate: "06/10/2024",
+  //   },
+  // },
+  // {
+  //   talentID: 171717,
+  //   imageSource:
+  //     "https://images.unsplash.com/photo-1438761681033-6461ffad8d80?ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&ixlib=rb-1.2.1&auto=format&fit=crop&w=1170&q=80",
+  //   fullName: "Jessa During",
+  //   jobTitles: ["Graphic Designer", "Nurse"],
+  //   talentIntroduction:
+  //     "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.",
+  //   socialMediaDetails: [
+  //     { name: "Google", link: "https://www.Google.com/" },
+  //     { name: "TikTok", link: "https://www.TikTok.com/" },
+  //     { name: "x", link: "https://www.x.com/" },
+  //     { name: "Youtube", link: "https://www.Youtube.com/" },
+  //     { name: "Whatsapp", link: "https://www.Whatsapp.com/" },
+  //   ],
+  //   solutionPricing: { fixPrice: 30000, ratePerHour: 47 },
+  //   verifyStatus: true,
+  //   vacationStatus: false,
+  //   vacationDaysOff: {
+  //     startDate: "06/10/2024",
+  //     endDate: "06/10/2024",
+  //   },
+  // },
+  // {
+  //   talentID: 181818,
+  //   imageSource:
+  //     "https://images.unsplash.com/photo-1438761681033-6461ffad8d80?ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&ixlib=rb-1.2.1&auto=format&fit=crop&w=1170&q=80",
+  //   fullName: "Egerton During",
+  //   jobTitles: ["Software Engineer", "Fullstack Developer"],
+  //   talentIntroduction:
+  //     "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.",
+  //   socialMediaDetails: [
+  //     { name: "facebook", link: "https://www.facebook.com/" },
+  //     { name: "Instagram", link: "https://www.Instagram.com/" },
+  //     { name: "X", link: "https://www.x.com/" },
+  //     { name: "Linkedin", link: "https://www.linkedin.com/" },
+  //     { name: "youtube", link: "https://www.youtube.com/" },
+  //   ],
+  //   solutionPricing: { fixPrice: 10000, ratePerHour: 0 },
+  //   verifyStatus: true,
+  //   vacationStatus: false,
+  //   vacationDaysOff: {
+  //     startDate: "06/10/2024",
+  //     endDate: "06/10/2024",
+  //   },
+  // },
+  // {
+  //   talentID: 191919,
+  //   imageSource:
+  //     "https://images.unsplash.com/flagged/photo-1570612861542-284f4c12e75f?ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&ixlib=rb-1.2.1&auto=format&fit=crop&w=1170&q=80",
+  //   fullName: "Jade Bradley",
+  //   jobTitles: ["Help Desk"],
+  //   talentIntroduction:
+  //     "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.",
+  //   socialMediaDetails: [
+  //     { name: "facebook", link: "https://www.facebook.com/" },
+  //     { name: "Instagram", link: "https://www.Instagram.com/" },
+  //     { name: "X", link: "https://www.x.com/" },
+  //     { name: "Linkedin", link: "https://www.linkedin.com/" },
+  //     { name: "youtube", link: "https://www.youtube.com/" },
+  //   ],
+  //   solutionPricing: { fixPrice: 10000, ratePerHour: 0 },
+  //   verifyStatus: false,
+  //   vacationStatus: false,
+  //   vacationDaysOff: {
+  //     startDate: "06/10/2024",
+  //     endDate: "06/10/2024",
+  //   },
+  // },
+  // {
+  //   talentID: 171757,
+  //   imageSource:
+  //     "https://images.unsplash.com/flagged/photo-1570612861542-284f4c12e75f?ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&ixlib=rb-1.2.1&auto=format&fit=crop&w=1170&q=80",
+  //   fullName: "Dany Bailey",
+  //   jobTitles: ["Help Desk"],
+  //   talentIntroduction:
+  //     "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.",
+  //   socialMediaDetails: [
+  //     { name: "facebook", link: "https://www.facebook.com/" },
+  //     { name: "Instagram", link: "https://www.Instagram.com/" },
+  //     { name: "X", link: "https://www.x.com/" },
+  //     { name: "Linkedin", link: "https://www.linkedin.com/" },
+  //     { name: "youtube", link: "https://www.youtube.com/" },
+  //   ],
+  //   solutionPricing: { fixPrice: 10000, ratePerHour: 0 },
+  //   verifyStatus: false,
+  //   vacationStatus: false,
+  //   vacationDaysOff: {
+  //     startDate: "06/10/2024",
+  //     endDate: "06/10/2024",
+  //   },
+  // },
+  // {
+  //   talentID: 1363636,
+  //   imageSource:
+  //     "https://images.unsplash.com/photo-1438761681033-6461ffad8d80?ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&ixlib=rb-1.2.1&auto=format&fit=crop&w=1170&q=80",
+  //   fullName: "Jessa During",
+  //   jobTitles: ["Graphic Designer", "Nurse"],
+  //   talentIntroduction:
+  //     "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.",
+  //   socialMediaDetails: [
+  //     { name: "Google", link: "https://www.Google.com/" },
+  //     { name: "TikTok", link: "https://www.TikTok.com/" },
+  //     { name: "x", link: "https://www.x.com/" },
+  //     { name: "Youtube", link: "https://www.Youtube.com/" },
+  //     { name: "Whatsapp", link: "https://www.Whatsapp.com/" },
+  //   ],
+  //   solutionPricing: { fixPrice: 30000, ratePerHour: 47 },
+  //   verifyStatus: false,
+  //   vacationStatus: false,
+  //   vacationDaysOff: {
+  //     startDate: "06/10/2024",
+  //     endDate: "06/10/2024",
+  //   },
+  // },
+  // {
+  //   talentID: 145756555,
+  //   imageSource:
+  //     "https://images.unsplash.com/photo-1438761681033-6461ffad8d80?ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&ixlib=rb-1.2.1&auto=format&fit=crop&w=1170&q=80",
+  //   fullName: "Egerton During",
+  //   jobTitles: ["Software Engineer", "Fullstack Developer"],
+  //   talentIntroduction:
+  //     "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.",
+  //   socialMediaDetails: [
+  //     { name: "facebook", link: "https://www.facebook.com/" },
+  //     { name: "Instagram", link: "https://www.Instagram.com/" },
+  //     { name: "X", link: "https://www.x.com/" },
+  //     { name: "Linkedin", link: "https://www.linkedin.com/" },
+  //     { name: "youtube", link: "https://www.youtube.com/" },
+  //   ],
+  //   solutionPricing: { fixPrice: 10000, ratePerHour: 0 },
+  //   verifyStatus: true,
+  //   vacationStatus: false,
+  //   vacationDaysOff: {
+  //     startDate: "06/10/2024",
+  //     endDate: "06/10/2024",
+  //   },
+  // },
+  // {
+  //   talentID: 321456,
+  //   imageSource:
+  //     "https://images.unsplash.com/flagged/photo-1570612861542-284f4c12e75f?ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&ixlib=rb-1.2.1&auto=format&fit=crop&w=1170&q=80",
+  //   fullName: "Jade Bradley",
+  //   jobTitles: ["Help Desk"],
+  //   talentIntroduction:
+  //     "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.",
+  //   socialMediaDetails: [
+  //     { name: "facebook", link: "https://www.facebook.com/" },
+  //     { name: "Instagram", link: "https://www.Instagram.com/" },
+  //     { name: "X", link: "https://www.x.com/" },
+  //     { name: "Linkedin", link: "https://www.linkedin.com/" },
+  //     { name: "youtube", link: "https://www.youtube.com/" },
+  //   ],
+  //   solutionPricing: { fixPrice: 10000, ratePerHour: 0 },
+  //   verifyStatus: false,
+  //   vacationStatus: true,
+  //   vacationDaysOff: {
+  //     startDate: "06/10/2024",
+  //     endDate: "06/10/2024",
+  //   },
+  // },
+  // {
+  //   talentID: 785451125,
+  //   imageSource:
+  //     "https://images.unsplash.com/flagged/photo-1570612861542-284f4c12e75f?ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&ixlib=rb-1.2.1&auto=format&fit=crop&w=1170&q=80",
+  //   fullName: "Dany Bailey",
+  //   jobTitles: ["Help Desk"],
+  //   talentIntroduction:
+  //     "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.",
+  //   socialMediaDetails: [
+  //     { name: "facebook", link: "https://www.facebook.com/" },
+  //     { name: "Instagram", link: "https://www.Instagram.com/" },
+  //     { name: "X", link: "https://www.x.com/" },
+  //     { name: "Linkedin", link: "https://www.linkedin.com/" },
+  //     { name: "youtube", link: "https://www.youtube.com/" },
+  //   ],
+  //   solutionPricing: { fixPrice: 10000, ratePerHour: 0 },
+  //   verifyStatus: true,
+  //   vacationStatus: false,
+  //   vacationDaysOff: {
+  //     startDate: "06/10/2024",
+  //     endDate: "06/10/2024",
+  //   },
+  // },
 ];
 
 export const talentScheduleData = [
@@ -580,8 +722,8 @@ export const cSettings = {
   bandStatus: false,
   availableDays: ["Monday", "Tuesday", "Wednesday", "Thursday"],
   vacationStatus: false,
-  vacationStartDate: "",
-  vacationEndDate: "",
+  vacationStartDate: "06/20/2024",
+  vacationEndDate: "06/24/2024",
   twentyFourHoursStatus: false,
   twelveHoursStatus: true,
 };

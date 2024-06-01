@@ -1,18 +1,19 @@
 import { useState } from "react";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import { Dialog, Disclosure } from "@headlessui/react";
 import { Bars3Icon, XMarkIcon } from "@heroicons/react/24/outline";
 import { ChevronDownIcon } from "@heroicons/react/20/solid";
-import { Menulist } from "../Header/Menulist";
+import { Menulist } from "./Menulist";
 import { callsToAction, products } from "../..";
 import nearbySolutionsIcon from "../../assets/company-logos-icons/icononly_transparent_nobuffer.png";
-import { CompanyIcon } from "./companyIcon";
+import { CompanyIcon } from "../common-sections/companyIcon";
 
 function classNames(...classes: string[]) {
   return classes.filter(Boolean).join(" ");
 }
 
 export const NearBySolutionsHeader: React.FC = () => {
+   const navigate = useNavigate();
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
 
   return (
@@ -97,12 +98,12 @@ export const NearBySolutionsHeader: React.FC = () => {
                       </>
                     )}
                   </Disclosure>
-                  <a
-                    href="#"
+                  <Link
+                    to={`/favorite`}
                     className="-mx-3 block rounded-lg px-3 py-2 text-base font-semibold leading-7 text-gray-900 hover:bg-gray-50"
                   >
-                    Features
-                  </a>
+                    Favorite
+                  </Link>
                   <a
                     href="#"
                     className="-mx-3 block rounded-lg px-3 py-2 text-base font-semibold leading-7 text-gray-900 hover:bg-gray-50"

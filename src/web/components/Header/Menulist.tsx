@@ -68,15 +68,24 @@ export const Menulist: React.FC = () => {
           </Popover.Panel>
         </Transition>
       </Popover>
-      <a href="#" className="text-sm font-semibold leading-6 text-gray-900">
-        Features
-      </a>
-      <a href="#" className="text-sm font-semibold leading-6 text-gray-900">
+      <Link
+        to={`/favorite`}
+        className="text-sm font-semibold leading-6 text-gray-900"
+      >
+        Favorite
+      </Link>
+      <Link
+        to={`/Marketplace`}
+        className="text-sm font-semibold leading-6 text-gray-900"
+      >
         Marketplace
-      </a>
-      <a href="#" className="text-sm font-semibold leading-6 text-gray-900">
+      </Link>
+      <Link
+        to={`/Company`}
+        className="text-sm font-semibold leading-6 text-gray-900"
+      >
         Company
-      </a>
+      </Link>
     </Popover.Group>
   );
 };

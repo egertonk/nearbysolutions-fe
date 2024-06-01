@@ -1,11 +1,11 @@
 import React, { useState } from "react";
 import { MagnifyingGlassIcon } from "@heroicons/react/24/outline";
-import { SearchResults } from "../../lib/types/orderTypes";
+import { TalentInformation } from "../../lib/types/orderTypes";
 
 type Props = {
-  searchResults: SearchResults;
-  fallBackData: SearchResults;
-  setSearchResults: React.Dispatch<React.SetStateAction<SearchResults>>;
+  searchResults: TalentInformation[] | [];
+  fallBackData: TalentInformation[];
+  setSearchResults: React.Dispatch<React.SetStateAction<TalentInformation[]>>;
 };
 
 export const Search: React.FC<Props> = ({
@@ -36,7 +36,7 @@ export const Search: React.FC<Props> = ({
   const handleSubmit = () => {
     if (userSearch.length > 0) {
       const result = searchResults.filter((talent) =>
-        talent.jobTitles.includes(userSearch)
+        talent.jobTitlesPrice.map((data) => data.title.includes(userSearch))
       );
       setSearchResults(result || searchResults);
     }

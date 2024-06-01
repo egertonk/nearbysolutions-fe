@@ -4,10 +4,14 @@ import { useCalenderStates } from "../../lib/useCalenderStates";
 import { WorkOrderList } from "../common-sections/workOrderList";
 import { DatePicker } from "../common-sections/datePicker";
 import { useNavigate } from "react-router";
+import { TalentInformation } from "../../lib/types/orderTypes";
 
-type Props = { talentID: number };
+type Props = { talentID: number; talentInformationCard?: TalentInformation[] };
 
-export const TalentDetailPage: React.FC<Props> = ({ talentID }) => {
+export const TalentDetailPage: React.FC<Props> = ({
+  talentID,
+  talentInformationCard,
+}) => {
   const navigate = useNavigate();
 
   const {

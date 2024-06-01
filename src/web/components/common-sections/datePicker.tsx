@@ -20,6 +20,11 @@ export const DatePicker: React.FC<Props> = ({
   userSelectedDate,
   isTimeChangeAllow,
 }) => {
+  //  const talent = talentInformation.find(
+  //    (talent) => talent.talentID === talentID
+  //  ); // Todo: use this to get talent talentInformation - when comming from order Sumarry
+  //  console.log("talent = ", talent);
+
   return (
     <>
       <div className="pt-5 sm:space-x-5 rtl:space-x-reverse auto-cols-max w-full">
