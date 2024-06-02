@@ -1,5 +1,10 @@
-import { useEffect } from "react";
-import { breakUpDate, compareDates, talentScheduleData } from "../../lib";
+import { ChangeEvent, SetStateAction, useEffect, useState } from "react";
+import {
+  breakUpDate,
+  compareDates,
+  talentInformation,
+  talentScheduleData,
+} from "../../lib";
 import { useNavigate } from "react-router-dom";
 import { useCalenderStates } from "../../lib/useCalenderStates";
 import { CalenderForm } from "../common-sections/calenderForm";
@@ -14,6 +19,7 @@ export const EditOrder: React.FC<Props> = ({ orderNumber }) => {
   const today = new Date();
 
   const navigate = useNavigate();
+  const [isError, setIsError] = useState(false);
 
   const {
     showNextMonth,
@@ -24,7 +30,6 @@ export const EditOrder: React.FC<Props> = ({ orderNumber }) => {
     currentMonthSelection,
     currentYearSelection,
     formattedDate,
-    handleChangeTime,
     isCurrentMonth,
     setUserSelectedDate,
     setUserSelectedTime,
@@ -34,9 +39,21 @@ export const EditOrder: React.FC<Props> = ({ orderNumber }) => {
     (data) => data.orderNumber === orderNumber
   ); // Todo: use this to get customer previous order to edit
 
-  const handleSubmit = (selectedTalent: string, taskForTalent: string) => {
-    console.log("selectedTalent edit ", selectedTalent);
-    console.log("taskForTalent edit ", taskForTalent);
+  const talent = talentInformation.find(
+    (talent) => talent.talentID === order?.talentID
+  );
+
+  const jobDetails = talent?.jobTitlesPrice.find(
+    (price) => price.selectedStatus
+  );
+
+  const jobTitle =
+    order !== undefined ? order?.jobTitle : talent?.jobTitlesPrice[0].title;
+  const [selectedTalent, setSelectedTalent] = useState(jobTitle || "");
+
+  const handleSubmit = () => {
+    // console.log("selectedTalent edit ", selectedTalent);
+    // console.log("taskForTalent edit ", taskForTalent);
 
     // submit to database and navig
 
@@ -84,20 +101,77 @@ export const EditOrder: React.FC<Props> = ({ orderNumber }) => {
           formattedDate={formattedDate}
           date={today.getDate()}
           isCurrentMonth={isCurrentMonth}
-          userSelectedTime={userSelectedTime}
           userSelectedDate={userSelectedDate}
-          handleChangeTime={handleChangeTime}
           isTimeChangeAllow={isDateChangeAllow}
+          updateSolutionDetails={function (id: string, value: string): void {
+            throw new Error("Function not implemented.");
+          }}
+          formData={{
+            customerID: "",
+            firstName: "",
+            lastName: "",
+            country: "",
+            address: "",
+            city: "",
+            state: "",
+            zip: "",
+            selectedTalent: "",
+            phoneNumber: "",
+            solutionFormattedDate: formattedDate || "",
+            solutionDate: "",
+            solutionStartTime: "",
+            solutionTask: "",
+            solutionJob: "",
+            talentID: 0,
+            talentFirstName: "",
+            talentLastName: "",
+          }}
+          setShowCustomerForm={function (value: SetStateAction<boolean>): void {
+            throw new Error("Function not implemented.");
+          }}
         />
       </div>
 
       <form className="md:p-8 p-5 dark:bg-gray-800 bg-white rounded-t auto-cols-max">
         <CalenderForm
           order={order || undefined}
-          userSelectedDate={userSelectedDate}
           isEditOrder={true}
           handleSubmit={handleSubmit}
-          userSelectedTime={userSelectedTime}
+          selectedTalent={selectedTalent}
+          setSelectedTalent={setSelectedTalent}
+          jobDetails={jobDetails}
+          formData={{
+            customerID: "", // we can generated it later and it should never be null
+            firstName: "",
+            lastName: "",
+            country: "",
+            address: "",
+            city: "",
+            state: "",
+            zip: "",
+            phoneNumber: "",
+            solutionFormattedDate: "",
+            solutionDate:
+              userSelectedDate !== undefined
+                ? `${userSelectedDate?.day}/${userSelectedDate?.month}/${userSelectedDate?.year}`
+                : "",
+            solutionTask: "",
+            solutionJob: jobDetails?.title || "",
+            solutionStartTime: userSelectedTime || "",
+            selectedTalent: "",
+            talentID: talent?.talentID || 0, // it should never be null
+            talentFirstName: talent?.firstName || "",
+            talentLastName: talent?.lastName || "",
+          }}
+          handleChange={function (
+            e: ChangeEvent<HTMLInputElement | HTMLSelectElement>
+          ): void {
+            throw new Error("Function not implemented.");
+          }}
+          isError={isError}
+          updateSolutionDetails={function (id: string, value: string): void {
+            throw new Error("Function not implemented.");
+          }}
         />
       </form>
     </>

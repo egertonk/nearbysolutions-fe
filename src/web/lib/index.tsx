@@ -19,6 +19,7 @@ import {
   youtube,
   whatsapp,
 } from "../assets/svg/svgs";
+import { JobTitlePricing } from "./types/orderTypes";
 
 export const priceWithComma = (price: string | number) => {
   const formattedPrice = price?.toLocaleString();
@@ -103,6 +104,17 @@ export const breakUpDate = (dateString: string | undefined) => {
   return { day, month, year };
 };
 
+export const isFixPriceValid = (jobTitlesPrice: JobTitlePricing[]) => {
+  const foundValidPrice = jobTitlesPrice.find((data) => data.selectedStatus);
+
+  if (
+    foundValidPrice?.price.fixPrice !== undefined &&
+    foundValidPrice?.price.fixPrice > 0
+  )
+    return true;
+  return false;
+};
+
 export const socialNamesAndIcons = [
   { name: "Discord", icon: discord },
   { name: "Facebook", icon: facebook },
@@ -136,10 +148,12 @@ export const talentInformation = [
     imageSource:
       "https://images.unsplash.com/photo-1438761681033-6461ffad8d80?ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&ixlib=rb-1.2.1&auto=format&fit=crop&w=1170&q=80",
     fullName: "Jessa During",
+    firstName: "Jessa",
+    lastName: "During",
     jobTitlesPrice: [
       {
-        isFixPrice: true,
-        selectedStatus: false,
+        isFixPrice: true, // only one can be have an amout - fixPrice: 10000, ratePerHour: 0
+        selectedStatus: false, // required - only on can be true and rest false
         title: "Graphic Designer",
         price: { fixPrice: 10000, ratePerHour: 0 },
       },
@@ -171,12 +185,14 @@ export const talentInformation = [
     imageSource:
       "https://images.unsplash.com/photo-1438761681033-6461ffad8d80?ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&ixlib=rb-1.2.1&auto=format&fit=crop&w=1170&q=80",
     fullName: "Egerton During",
+    firstName: "Egerton",
+    lastName: "During",
     jobTitlesPrice: [
       {
         isFixPrice: true,
         selectedStatus: true,
         title: "Software Engineer",
-        price: { fixPrice: 10000, ratePerHour: 100 },
+        price: { fixPrice: 10000, ratePerHour: 0 },
       },
       {
         isFixPrice: false,
@@ -206,18 +222,20 @@ export const talentInformation = [
     imageSource:
       "https://images.unsplash.com/flagged/photo-1570612861542-284f4c12e75f?ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&ixlib=rb-1.2.1&auto=format&fit=crop&w=1170&q=80",
     fullName: "Jade Bradley",
+    firstName: "Jade",
+    lastName: "Bradley",
     jobTitlesPrice: [
       {
-        isFixPrice: false,
+        isFixPrice: true,
         selectedStatus: false,
         title: "Help Desk",
         price: { fixPrice: 10000, ratePerHour: 0 },
       },
       {
-        isFixPrice: true,
+        isFixPrice: false,
         selectedStatus: true,
         title: "bbbbbbbb Desk",
-        price: { fixPrice: 3000, ratePerHour: 300 },
+        price: { fixPrice: 0, ratePerHour: 300 },
       },
     ],
     talentIntroduction:
@@ -241,12 +259,14 @@ export const talentInformation = [
     imageSource:
       "https://images.unsplash.com/flagged/photo-1570612861542-284f4c12e75f?ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&ixlib=rb-1.2.1&auto=format&fit=crop&w=1170&q=80",
     fullName: "Dany Bailey",
+    firstName: "Dany",
+    lastName: "Bailey",
     jobTitlesPrice: [
       {
         isFixPrice: true,
         selectedStatus: true,
         title: "Nurse s",
-        price: { fixPrice: 100, ratePerHour: 20 },
+        price: { fixPrice: 100, ratePerHour: 0 },
       },
     ],
     talentIntroduction:
@@ -642,6 +662,7 @@ export const talentScheduleData = [
     locationCity: "Woodbridge",
     locationState: "VA",
     orderStatus: true,
+    pricePaidPerJob: 5000,
     orderTaskDate: "5/30/2024",
     fullName: "Jessa During",
     userTaskDescription: "Take my blood pressure",

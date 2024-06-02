@@ -1,30 +1,28 @@
 import { DateSelection } from "../../lib/types/calenderTypes";
+import { CustomerFormData } from "../../lib/types/orderTypes";
 import { TimeList } from "../common-sections/timeList";
 
 type Props = {
   formattedDate: string;
   date: number;
   isCurrentMonth: boolean;
-  userSelectedTime: string;
+  formData: CustomerFormData;
   userSelectedDate: DateSelection | undefined;
   isTimeChangeAllow?: boolean;
-  handleChangeTime: (e: React.ChangeEvent<HTMLInputElement>) => void;
+  updateSolutionDetails: (id: string, value: string) => void;
+  setShowCustomerForm: React.Dispatch<React.SetStateAction<boolean>>;
 };
 
 export const DatePicker: React.FC<Props> = ({
   formattedDate,
   date,
   isCurrentMonth,
-  handleChangeTime,
-  userSelectedTime,
+  formData,
   userSelectedDate,
   isTimeChangeAllow,
+  updateSolutionDetails,
+  setShowCustomerForm,
 }) => {
-  //  const talent = talentInformation.find(
-  //    (talent) => talent.talentID === talentID
-  //  ); // Todo: use this to get talent talentInformation - when comming from order Sumarry
-  //  console.log("talent = ", talent);
-
   return (
     <>
       <div className="pt-5 sm:space-x-5 rtl:space-x-reverse auto-cols-max w-full">
@@ -58,16 +56,19 @@ export const DatePicker: React.FC<Props> = ({
                 clipRule="evenodd"
               />
             </svg>
-            {userSelectedTime.length > 0 ? userSelectedTime : "Pick a time"}
+            {formData.solutionStartTime.length > 0
+              ? formData.solutionStartTime
+              : "Pick a time"}
           </button>
           <label className="sr-only">Pick a time</label>
           <TimeList
-            handleChangeTime={handleChangeTime}
             isCurrentMonth={isCurrentMonth}
             date={date}
             userSelectedDate={userSelectedDate}
             isTimeChangeAllow={isTimeChangeAllow}
-            userSelectedTime={userSelectedTime}
+            formData={formData}
+            updateSolutionDetails={updateSolutionDetails}
+            setShowCustomerForm={setShowCustomerForm}
           />
         </div>
       </div>

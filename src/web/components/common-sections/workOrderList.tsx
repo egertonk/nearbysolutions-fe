@@ -1,5 +1,5 @@
 import { useState } from "react";
-import { talentScheduleData } from "../../lib";
+import { priceWithComma, talentScheduleData } from "../../lib";
 import { EditOrder } from "../Orders/editOrder";
 
 type Props = {
@@ -27,30 +27,30 @@ export const WorkOrderList: React.FC<Props> = ({
       {isEditOrder ? (
         <EditOrder orderNumber={orderNumber} />
       ) : (
-        <div className="md:py-8 py-5 px-5 justify-center dark:bg-gray-700 rounded-b">
+        <div className="md:py-8 py-5 px-5 justify-center rounded-b">
           <div className="px-4">
             {talentScheduleData.map((scheduleData) => (
               <>
                 <div
-                  className="bg-gray-100 mx-auto border-gray-500 border rounded-sm text-gray-700 mb-0.5 h-30"
+                  className="mx-auto border-gray-500 border rounded-sm mb-0.5 h-30"
                   key={scheduleData.orderNumber}
                 >
                   <div
-                    className="dark:bg-gray-800 bg-white rounded-t auto-cols-max items-center"
+                    className="bg-white rounded-t auto-cols-max items-center"
                     key={`2-${scheduleData.orderNumber}`}
                   >
                     <div
                       className="px-4 md:flex flex-row items-center border-l-8 border-purple-600"
                       key={`3-${scheduleData.orderNumber}`}
                     >
-                      <div className="border-r-2 w-60">
-                        <div className="text-sm leading-5 font-semibold">
+                      <div className="w-60 m-1">
+                        <div className="text-sm font-semibold">
                           <span className="text-xs leading-4 font-normal text-gray-500">
                             Order Date:
                           </span>{" "}
                           {scheduleData.orderDate}
                         </div>
-                        <div className="text-sm leading-5 font-semibold">
+                        <div className="text-sm font-semibold">
                           <span className="text-xs leading-4 font-normal text-gray-500 pr">
                             Start Time:
                           </span>{" "}
@@ -58,20 +58,31 @@ export const WorkOrderList: React.FC<Props> = ({
                         </div>
                       </div>
 
-                      <div className="border-r-2 w-60 ">
-                        <div className="text-base leading-6 font-normal">
+                      <div className="w-60 text-center m-1 md:text-left">
+                        <div className="text-base font-semibold">
                           Talent: {scheduleData.JobTitlesSection}
                         </div>
                         {customerProfileID === scheduleData.customerID && (
                           <>
-                            <div className="text-sm leading-4 font-normal">
-                              <span className="text-xs leading-4 font-normal text-gray-500">
+                            <div className="text-sm">
+                              <span className="text-purple font-semibold">
                                 Order Number:
                               </span>{" "}
                               {scheduleData.orderNumber}
                             </div>
-                            <div className="text-sm leading-4 font-normal text-wrap">
-                              <span className="text-xs leading-4 font-normal text-gray-500">
+
+                            <div className="text-sm">
+                              <span className="text-emerald font-semibold">
+                                Total Cost:
+                              </span>
+                              {" $"}
+                              {priceWithComma(
+                                scheduleData.pricePaidPerJob || ""
+                              )}
+                            </div>
+
+                            <div className="text-sm text-wrap">
+                              <span className="text-purple font-semibold">
                                 Task Description:
                               </span>{" "}
                               {scheduleData.userTaskDescription}
@@ -80,10 +91,10 @@ export const WorkOrderList: React.FC<Props> = ({
                         )}
                       </div>
 
-                      <div className="ml-3 space-y-1 border-r-2 pr-3 border-gray-200 w-60">
-                        <div className="text-xs leading-4 font-medium">
+                      <div className="ml-3 space-y-1 pr-3 h-30 w-60 m-1">
+                        <div className="text-xs font-medium">
                           <svg
-                            className="w-5 h-5 text-gray-400 me-2"
+                            className="w-5 h-5 text-purple me-2"
                             aria-hidden="true"
                             xmlns="http://www.w3.org/2000/svg"
                             width={24}
@@ -99,13 +110,13 @@ export const WorkOrderList: React.FC<Props> = ({
                           </svg>
                           Task Location
                         </div>
-                        <div className="text-center text-sm leading-4 font-semibold text-blue-800">
+                        <div className="text-center text-sm font-semibold text-blue-800">
                           {scheduleData.locationCity},{" "}
                           {scheduleData.locationState}
                         </div>
                       </div>
 
-                      <div className="flex">
+                      <div className="flex justify-center">
                         <div
                           className={`p-1 w-20 ml-3 my-5 ${
                             scheduleData.orderStatus
@@ -115,7 +126,7 @@ export const WorkOrderList: React.FC<Props> = ({
                         >
                           {" "}
                           {/* {todo - show cancel orders only for the customer that order the items} */}
-                          <div className="uppercase text-xs leading-4 font-semibold text-center text-yellow-100">
+                          <div className="uppercase text-xs font-semibold text-center text-yellow-100">
                             {`${
                               scheduleData.orderStatus ? "Active" : "Completed"
                             }`}

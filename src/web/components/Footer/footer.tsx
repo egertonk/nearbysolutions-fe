@@ -37,7 +37,7 @@ export const Footer: React.FC = () => {
       <div className="mx-auto max-w-screen-xl px-4 pb-6 pt-16 sm:px-6 lg:px-8 lg:pt-24">
         <div className="grid grid-cols-1 gap-8 lg:grid-cols-3">
           <div className="justify-center item-center justify-content justify-self">
-            <div className="bg-black justify-content ">
+            <div className="bg-black justify-content md:w-60 w-full text-center">
               <img
                 className="h-40 w-48"
                 src={`${nearbySolutionsLogo}`}

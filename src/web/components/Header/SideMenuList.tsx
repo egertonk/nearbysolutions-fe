@@ -17,7 +17,7 @@ export const SideMenuList: React.FC<Props> = ({
   return (
     <>
       {isEditOrder === false && (
-        <div className="relative w-full md:py-8 py-5 px-5  max-w-xs flex flex-col rounded-lg shadow-">
+        <div className="relative w-full md:w-60 md:py-8 py-5 px-5 flex flex-col rounded-lg shadow-">
           <Link
             to={`/hire-a-talent`}
             type="button"
@@ -28,7 +28,9 @@ export const SideMenuList: React.FC<Props> = ({
           <Link
             type="button"
             className="mb-1 bg-sky-950 py-2 text-left px-4 gap-x-2 rounded-lg text-lg font-medium text-gray-600 shadow-sm text-white hover:bg-purple-600 disabled:opacity-50 disabled:pointer-events-none"
-            onClick={() => setShowTalentDetailPage(true)} to={""}          >
+            onClick={() => setShowTalentDetailPage(true)}
+            to={""}
+          >
             <p>New Order Request</p>
             <span className="text-sm text-gray">
               Talent Name: {talentProfile.fullName}

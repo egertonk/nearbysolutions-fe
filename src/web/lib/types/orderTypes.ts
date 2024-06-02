@@ -20,23 +20,6 @@ export type Order =
     }
   | undefined;
 
-export type SearchResults = {
-  talentID: number;
-  imageSource: string;
-  fullName: string;
-  jobTitles: string[];
-  talentIntroduction: string;
-  socialMediaDetails: {
-    name: string;
-    link: string;
-  }[];
-  solutionPricing: {
-    fixPrice: number;
-    ratePerHour: number;
-  };
-  verifyStatus: boolean;
-}[];
-
 type SocialMediaDetail = {
   name: string;
   link: string;
@@ -61,10 +44,33 @@ export type TalentInformation = {
   talentID: number;
   imageSource: string;
   fullName: string;
+  firstName: string;
+  lastName: string;
   jobTitlesPrice: JobTitlePricing[];
   talentIntroduction: string;
   socialMediaDetails: SocialMediaDetail[];
   verifyStatus: boolean;
   vacationStatus: boolean;
   vacationDaysOff: VacationDaysOff;
+};
+
+export type CustomerFormData = {
+  customerID: string;
+  firstName: string;
+  lastName: string;
+  country: string;
+  address: string;
+  city: string;
+  state: string;
+  zip: string;
+  selectedTalent: string;
+  phoneNumber: string;
+  solutionFormattedDate: string;
+  solutionDate: string;
+  solutionStartTime: string;
+  solutionTask: string;
+  solutionJob: string;
+  talentID: number;
+  talentFirstName: string;
+  talentLastName: string;
 };

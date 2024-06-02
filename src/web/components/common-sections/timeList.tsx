@@ -1,23 +1,26 @@
 import { cSettings, isTimeValid } from "../../lib";
 import { DateSelection } from "../../lib/types/calenderTypes";
+import { CustomerFormData } from "../../lib/types/orderTypes";
 import { useTimeIntervals } from "../../lib/useTimeIntervals";
 
 type Props = {
-  handleChangeTime: (e: React.ChangeEvent<HTMLInputElement>) => void;
   isCurrentMonth: boolean;
   date: number;
   isTimeChangeAllow?: any;
-  userSelectedTime?: string;
   userSelectedDate: DateSelection | undefined;
+  updateSolutionDetails: (id: string, value: string) => void;
+  formData: CustomerFormData;
+  setShowCustomerForm: React.Dispatch<React.SetStateAction<boolean>>;
 };
 
 export const TimeList: React.FC<Props> = ({
-  handleChangeTime,
   isCurrentMonth,
   date,
   userSelectedDate,
   isTimeChangeAllow,
-  userSelectedTime,
+  updateSolutionDetails,
+  formData,
+  setShowCustomerForm,
 }) => {
   const { generate24HourIntervals, generateIntervals } = useTimeIntervals();
   const contractorSettings = cSettings; // API
@@ -34,7 +37,6 @@ export const TimeList: React.FC<Props> = ({
   const timeSelectionCSS =
     "cursor-pointer bg-white inline-flex items-center justify-center w-full p-2 text-sm font-medium text-center  border rounded-lg text-blue-600 border-blue-600 dark:hover:text-white dark:border-blue-500 dark:peer-checked:border-blue-500 peer-checked:border-blue-600 hover:bg-blue-500 dark:text-blue-500 dark:bg-gray-900 dark:hover:bg-purple-600 dark:hover:border-blue-600 dark:peer-checked:bg-purple-500 peer-checked:bg-purple-600 hover:text-white peer-checked:text-white";
 
-  console.log("isTimeChangeAllow ", isTimeChangeAllow);
   return (
     <ul id="timetable" className="grid w-full grid-cols-4 gap-2 mt-5">
       {contractorSettings.twelveHoursStatus
@@ -45,7 +47,7 @@ export const TimeList: React.FC<Props> = ({
                 <li
                   className={`${
                     isTimeChangeAllow &&
-                    userSelectedTime === time.twelveHour &&
+                    formData.solutionStartTime === time.twelveHour &&
                     "bg-purple-600 text-white items-center justify-center w-full p-2 text-sm font-medium text-center  border rounded-lg border-blue-600 "
                   }`}
                 >
@@ -55,12 +57,19 @@ export const TimeList: React.FC<Props> = ({
                     value={`${time.twelveHour}`}
                     className="hidden peer"
                     name="timetable"
-                    onChange={handleChangeTime}
+                    onChange={(e) => {
+                      updateSolutionDetails(
+                        "solutionStartTime",
+                        e.target.value
+                      );
+                      setShowCustomerForm(true);
+                    }}
                   />
                   <label
                     htmlFor={`${time.twelveHour}`}
                     className={`${
-                      isTimeChangeAllow && userSelectedTime === time.twelveHour
+                      isTimeChangeAllow &&
+                      formData.solutionStartTime === time.twelveHour
                         ? ""
                         : timeSelectionCSS
                     }`}
@@ -76,7 +85,13 @@ export const TimeList: React.FC<Props> = ({
                     value={`${time.twelveHour}`}
                     className="hidden peer"
                     name="timetable"
-                    onChange={handleChangeTime}
+                    onChange={(e) => {
+                      updateSolutionDetails(
+                        "solutionStartTime",
+                        e.target.value
+                      );
+                      setShowCustomerForm(true);
+                    }}
                     disabled={
                       isCurrentMonth ? !isTimeValid(time.twelveHour) : false
                     }

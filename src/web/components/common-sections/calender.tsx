@@ -56,7 +56,6 @@ export const Calender: React.FC<Props> = ({
 
   const isVacationValid = (calendarDay: number) => {
     const calenderDate = `${calendarDay}/${currentMonthSelection}/${currentYearSelection}`;
-    console.log(calenderDate);
     const [splitDay, splitMonth, splitear] = calenderDate.split("/");
     const monthNumber = monthNameToNumber[splitMonth.substring(0, 3)];
     const parseDate = [
@@ -73,8 +72,6 @@ export const Calender: React.FC<Props> = ({
 
     return dayStatus;
   };
-
-  console.log(cSettings);
 
   return (
     <div className="md:p-8 p-5 dark:bg-gray-800 bg-white rounded-t auto-cols-max">

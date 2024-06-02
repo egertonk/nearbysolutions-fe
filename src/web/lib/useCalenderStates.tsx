@@ -4,7 +4,6 @@ import { useCalender } from "./useCalender";
 
 export const useCalenderStates = () => {
   const [showNextMonth, setShowNextMonth] = useState(false);
-  const [userSelectedDate, setUserSelectedDate] = useState<DateSelection>();
   const [userSelectedTime, setUserSelectedTime] = useState("");
 
   const {
@@ -24,6 +23,12 @@ export const useCalenderStates = () => {
   const currentYearSelection =
     currentMonthName === "December" ? year + 1 : year;
   const isCurrentMonth = currentMonthName === currentMonthSelection;
+
+  const [userSelectedDate, setUserSelectedDate] = useState<DateSelection>({
+    day: date,
+    month: currentMonthSelection,
+    year: currentYearSelection,
+  });
 
   //Find user day selection
   const specificDate = new Date(
@@ -47,19 +52,6 @@ export const useCalenderStates = () => {
     });
   };
 
-  const handleChangeTime = (e: React.ChangeEvent<HTMLInputElement>) => {
-    const { value } = e.target;
-
-    setUserSelectedTime(value);
-
-    if (userSelectedDate === undefined)
-      setUserSelectedDate({
-        day: date,
-        month: currentMonthSelection,
-        year: currentYearSelection,
-      });
-  };
-
   return {
     showNextMonth,
     setShowNextMonth,
@@ -75,7 +67,6 @@ export const useCalenderStates = () => {
     day,
     year,
     month,
-    handleChangeTime,
     isCurrentMonth,
   };
 };

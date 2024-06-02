@@ -1,5 +1,5 @@
 import { addTalentSVG, removeTalentSVG } from "../../assets/svg/svgs";
-import { priceWithComma } from "../../lib";
+import { isFixPriceValid, priceWithComma } from "../../lib";
 import { JobTitlePricing, TalentInformation } from "../../lib/types/orderTypes";
 import { SocialIcon } from "./socialIcon";
 
@@ -134,6 +134,7 @@ export const TalentCard: React.FC<Props> = ({
               >
                 Select Talent
               </label>
+
               <div className="relative " key={`update-card-${index}`}>
                 <select
                   className="w-full border-none text-white bg-sky-950"
@@ -165,25 +166,28 @@ export const TalentCard: React.FC<Props> = ({
               </div>
             </div>
 
-            <p className="text-base font-normal">
-              <span className="text-gray-400">Fix Solution Price: </span>{" "}
-              <span className="text-white">
-                $
-                {priceWithComma(
-                  getJobAndPrice(talentData?.jobTitlesPrice, "fixPrice") || ""
-                )}
-              </span>
-            </p>
-
-            <p className="text-base font-normal">
-              <span className="text-gray-400">Rate Per Hour: </span>{" "}
-              <span className="text-white">
-                $
-                {priceWithComma(
-                  getJobAndPrice(talentData.jobTitlesPrice, "ratePerHour") || ""
-                )}
-              </span>
-            </p>
+            {isFixPriceValid(talentData.jobTitlesPrice) ? (
+              <p className="text-base font-normal">
+                <span className="text-gray-400">Fix Solution Price: </span>{" "}
+                <span className="text-white">
+                  $
+                  {priceWithComma(
+                    getJobAndPrice(talentData?.jobTitlesPrice, "fixPrice") || ""
+                  )}
+                </span>
+              </p>
+            ) : (
+              <p className="text-base font-normal">
+                <span className="text-gray-400">Rate Per Hour: </span>{" "}
+                <span className="text-white">
+                  $
+                  {priceWithComma(
+                    getJobAndPrice(talentData?.jobTitlesPrice, "ratePerHour") ||
+                      ""
+                  )}
+                </span>
+              </p>
+            )}
 
             <p className="text-base leading-relaxed text-gray-500 font-normal">
               {talentData.talentIntroduction}
