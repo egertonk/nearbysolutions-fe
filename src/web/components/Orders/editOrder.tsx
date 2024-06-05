@@ -125,6 +125,9 @@ export const EditOrder: React.FC<Props> = ({ orderNumber }) => {
             talentID: 0,
             talentFirstName: "",
             talentLastName: "",
+            solutionPrice: 0,
+            solutionPricePerHourStatus: false,
+            solutionPriceDiscountPercentage: 0,
           }}
           setShowCustomerForm={function (value: SetStateAction<boolean>): void {
             throw new Error("Function not implemented.");

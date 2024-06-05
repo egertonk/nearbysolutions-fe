@@ -5,20 +5,23 @@ import { WorkOrderList } from "../common-sections/workOrderList";
 import { DatePicker } from "../common-sections/datePicker";
 import { TalentInformation } from "../../lib/types/orderTypes";
 import { useCustomerPersonalInfoForm } from "../../lib/useCustomerPersonalInfoForm";
-import { talentInformation } from "../../lib";
 import { useState } from "react";
 import { OrderReview } from "../Orders/OrderReview";
 import { Payment } from "../Payment-Process/Payment";
+import { talentInformationPlaceHolder } from "../../lib/PlaceHolders/TalentInformationPlaceHolder";
 
 type Props = { talentID: number; talentInformationCard?: TalentInformation[] };
 
-export const TalentDetailPage: React.FC<Props> = ({ talentID }) => {
+export const TalentDetailPage: React.FC<Props> = ({
+  talentID,
+  talentInformationCard,
+}) => {
   const [reviewOrder, setReviewOrder] = useState(false);
   const [showPayReady, setShowPayReady] = useState(false);
   const [showCustomerForm, setShowCustomerForm] = useState(false);
   const [isError, setIsError] = useState(false);
 
-  const talent = talentInformation.find(
+  const talent = (talentInformationCard || talentInformationPlaceHolder).find(
     (talent) => talent.talentID === talentID
   );
   const jobDetails = talent?.jobTitlesPrice.find(
@@ -36,8 +39,7 @@ export const TalentDetailPage: React.FC<Props> = ({ talentID }) => {
     date,
     isCurrentMonth,
   } = useCalenderStates();
-  console.log("formattedDate           ", formattedDate);
-  console.log("userSelectedDate           ", userSelectedDate);
+
   const [selectedTalent, setSelectedTalent] = useState(jobDetails?.title || "");
   const { formData, handleChange, updateSolutionDetails } =
     useCustomerPersonalInfoForm(
@@ -62,15 +64,13 @@ export const TalentDetailPage: React.FC<Props> = ({ talentID }) => {
     if (validateForm()) {
       // submit to database and navig
       // navigate("/order-summary");
-      setShowPayReady(false);
-      setReviewOrder(true);
+      setShowPayReady(true);
+      // setReviewOrder(true);
     } else {
       setIsError(true);
-      console.log("formData 1111 ", formData);
-      console.log("selectedTalent 1111 ", validateForm());
     }
   };
-
+  console.log("formData ----------> ", formData);
   return (
     <>
       {showPayReady ? (

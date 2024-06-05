@@ -12,6 +12,7 @@ export const useCustomerPersonalInfoForm = (
         price: {
           fixPrice: number;
           ratePerHour: number;
+          discount: number;
         };
       }
     | undefined,
@@ -21,6 +22,14 @@ export const useCustomerPersonalInfoForm = (
   userSelectedTime: string,
   formattedDate: string
 ) => {
+  const priceWithoutDiscount = jobDetails?.isFixPrice
+    ? jobDetails.price.fixPrice
+    : jobDetails?.price.ratePerHour || 0;
+
+  const discountGiven = jobDetails?.isFixPrice
+    ? jobDetails.price.discount
+    : jobDetails?.price.discount || 0;
+
   const [formData, setFormData] = useState<CustomerFormData>({
     customerID: "???????", // we can generated it later and it should never be null
     firstName: "",
@@ -43,6 +52,9 @@ export const useCustomerPersonalInfoForm = (
     talentID: talent?.talentID || 0, // it should never be null
     talentFirstName: talent?.firstName || "",
     talentLastName: talent?.lastName || "",
+    solutionPrice: priceWithoutDiscount,
+    solutionPricePerHourStatus: jobDetails?.isFixPrice ?? false,
+    solutionPriceDiscountPercentage: discountGiven,
   });
 
   const handleChange = (

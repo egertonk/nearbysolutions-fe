@@ -37,6 +37,7 @@ export type JobTitlePricing = {
   price: {
     fixPrice: number;
     ratePerHour: number;
+    discount: number;
   };
 };
 
@@ -73,4 +74,7 @@ export type CustomerFormData = {
   talentID: number;
   talentFirstName: string;
   talentLastName: string;
+  solutionPrice: number;
+  solutionPricePerHourStatus: boolean;
+  solutionPriceDiscountPercentage: number;
 };

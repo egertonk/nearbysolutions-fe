@@ -16,6 +16,7 @@ type Props = {
         price: {
           fixPrice: number;
           ratePerHour: number;
+          discount: number;
         };
       }
     | undefined;
@@ -113,13 +114,18 @@ export const CalenderForm: React.FC<Props> = ({
                   id="solutionTask"
                   rows={4}
                   className="block p-2.5 w-full text-sm text-gray-900 bg-gray-50 rounded-lg border border-gray-300 focus:ring-blue-500 focus:border-blue-500 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
-                  placeholder="Write out your solution..."
+                  placeholder="Write out your solution... Example: Change my car front breaks"
                   defaultValue={formData.solutionTask}
                   maxLength={100}
                   onChange={(e) =>
                     updateSolutionDetails(e.target.id, e.target.value)
                   }
                 />
+                {isError && formData?.solutionTask?.length === 0 && (
+                  <p className="text-red-500 text-xs italic">
+                    Please provide a short Task.
+                  </p>
+                )}
               </div>
 
               <div className="w-full px-3 pt-4">

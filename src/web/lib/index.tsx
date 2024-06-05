@@ -155,13 +155,13 @@ export const talentInformation = [
         isFixPrice: true, // only one can be have an amout - fixPrice: 10000, ratePerHour: 0
         selectedStatus: false, // required - only on can be true and rest false
         title: "Graphic Designer",
-        price: { fixPrice: 10000, ratePerHour: 0 },
+        price: { fixPrice: 10000, ratePerHour: 0, discount: 15 },
       },
       {
         isFixPrice: false,
         selectedStatus: true,
         title: "Nurse",
-        price: { fixPrice: 0, ratePerHour: 100 },
+        price: { fixPrice: 0, ratePerHour: 100, discount: 15 },
       },
     ],
     talentIntroduction:
@@ -192,13 +192,13 @@ export const talentInformation = [
         isFixPrice: true,
         selectedStatus: true,
         title: "Software Engineer",
-        price: { fixPrice: 10000, ratePerHour: 0 },
+        price: { fixPrice: 10000, ratePerHour: 0, discount: 15 },
       },
       {
         isFixPrice: false,
         selectedStatus: false,
         title: "Fullstack Developer",
-        price: { fixPrice: 0, ratePerHour: 200 },
+        price: { fixPrice: 0, ratePerHour: 200, discount: 15 },
       },
     ],
     talentIntroduction:
@@ -229,13 +229,13 @@ export const talentInformation = [
         isFixPrice: true,
         selectedStatus: false,
         title: "Help Desk",
-        price: { fixPrice: 10000, ratePerHour: 0 },
+        price: { fixPrice: 10000, ratePerHour: 0, discount: 15 },
       },
       {
         isFixPrice: false,
         selectedStatus: true,
         title: "bbbbbbbb Desk",
-        price: { fixPrice: 0, ratePerHour: 300 },
+        price: { fixPrice: 0, ratePerHour: 300, discount: 15 },
       },
     ],
     talentIntroduction:
@@ -266,7 +266,7 @@ export const talentInformation = [
         isFixPrice: true,
         selectedStatus: true,
         title: "Nurse s",
-        price: { fixPrice: 100, ratePerHour: 0 },
+        price: { fixPrice: 100, ratePerHour: 0, discount: 15 },
       },
     ],
     talentIntroduction:
