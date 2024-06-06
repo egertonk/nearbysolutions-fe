@@ -147,7 +147,7 @@ export const CustomerPersonalInfoForm: React.FC<Props> = ({
             onChange={handleChange}
           >
             <option>New Mexico</option>
-            <option>Missouri</option>
+            <option>Virginia</option>
             <option>Texas</option>
           </select>
           {isError && formData.state.length === 0 && (

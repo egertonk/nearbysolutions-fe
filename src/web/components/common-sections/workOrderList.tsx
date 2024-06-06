@@ -1,6 +1,7 @@
 import { useState } from "react";
 import { priceWithComma, talentScheduleData } from "../../lib";
 import { EditOrder } from "../Orders/editOrder";
+import { editIconSVG } from "../../assets/svg/svgs";
 
 type Props = {
   isEditOrder?: boolean;
@@ -133,29 +134,12 @@ export const WorkOrderList: React.FC<Props> = ({
                           </div>
                         </div>
                         {showEdits && scheduleData.orderStatus && (
-                          <a
-                            role="link"
+                          <button
                             onClick={() => handleEdit(scheduleData.orderNumber)}
-                            href="#"
                             className="hover:text-purple-500 text-base w-5 flex items-center justify-center font-medium text-gray rounded-full ml-4"
                           >
-                            <svg
-                              className="h-8 w-8 text-purple-500"
-                              width={24}
-                              height={24}
-                              viewBox="0 0 24 24"
-                              xmlns="http://www.w3.org/2000/svg"
-                              fill="none"
-                              stroke="currentColor"
-                              strokeWidth={2}
-                              strokeLinecap="round"
-                              strokeLinejoin="round"
-                            >
-                              {" "}
-                              <path d="M11 4H4a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2v-7" />{" "}
-                              <path d="M18.5 2.5a2.121 2.121 0 0 1 3 3L12 15l-4 1 1-4 9.5-9.5z" />
-                            </svg>
-                          </a>
+                            {editIconSVG}
+                          </button>
                         )}
                       </div>
 

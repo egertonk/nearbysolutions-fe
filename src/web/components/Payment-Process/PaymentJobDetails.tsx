@@ -1,3 +1,4 @@
+import { useEffect, useState } from "react";
 import { CustomerFormData } from "../../lib/types/orderTypes";
 
 type Props = {
@@ -5,6 +6,31 @@ type Props = {
 };
 
 export const PaymentJobDetails: React.FC<Props> = ({ formData }) => {
+  const address = `${formData.address}, ${formData.city}, ${formData.state}, ${formData.zip}.`;
+  const [imageUrl, setImageUrl] = useState("");
+
+  const apiKey = "AIzaSyCkpoGe0dJZVeOo6Rq0k22WS6gPOHsDuuA";
+  const signature = "YQLhWfyFuKgCykLi7ynJv2gAjTE=";
+
+  const fetchMap = () => {
+    const baseUrl = "https://maps.googleapis.com/maps/api/staticmap";
+    const params = new URLSearchParams({
+      center: address,
+      zoom: "13",
+      size: "400x400",
+      markers: "color:purple|label:S|11211|11206|11222",
+      key: apiKey,
+      color: "purple",
+      // signature: signature,
+    });
+
+    const url = `${baseUrl}?${params.toString()}`;
+    setImageUrl(url);
+  };
+
+  useEffect(() => {
+    fetchMap();
+  }, [formData]);
   return (
     <div className="flex-1 px-3">
       <div
@@ -13,7 +39,7 @@ export const PaymentJobDetails: React.FC<Props> = ({ formData }) => {
       >
         <p className="text-xl font-semibold">Job Details</p>
 
-        <div className="h-56 grid grid-cols-2 gap-4 content-start mt-5">
+        <div className="grid grid-cols-2 gap-4 content-start mt-5">
           <div>
             <h3 className="font-semibold">Talent Name</h3>
             <span>
@@ -49,6 +75,7 @@ export const PaymentJobDetails: React.FC<Props> = ({ formData }) => {
             </p>
           </div>
         </div>
+        {imageUrl && <img src={imageUrl} alt="Static Map" />}
       </div>
     </div>
   );

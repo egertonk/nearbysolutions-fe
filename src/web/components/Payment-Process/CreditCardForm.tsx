@@ -3,12 +3,12 @@ import { useCreditCardForm } from "./useCreditCardForm";
 import "../Payment-Process/Styles.css";
 
 type Props = {
-  setShowPaymentInputs: React.Dispatch<React.SetStateAction<boolean>>;
   showPaymentInputs: boolean;
+  togglePaymentInputs: (name: string, status: boolean) => void;
 };
 
 export const CreditCardForm: React.FC<Props> = ({
-  setShowPaymentInputs,
+  togglePaymentInputs,
   showPaymentInputs,
 }) => {
   const { handleChange, handleFocus, handleSubmit, values, errors } =
@@ -195,7 +195,8 @@ export const CreditCardForm: React.FC<Props> = ({
               type="button"
               onClick={() => {
                 // todo - validate first with handleSubmit
-                setShowPaymentInputs(false);
+                togglePaymentInputs("showPaymentInputs", false);
+                togglePaymentInputs("showPayment", false);
               }}
             >
               Submit

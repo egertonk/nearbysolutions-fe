@@ -34,12 +34,12 @@ export const Footer: React.FC = () => {
 
   return (
     <footer className="bg-white">
-      <div className="mx-auto max-w-screen-xl px-4 pb-6 pt-16 sm:px-6 lg:px-8 lg:pt-24">
+      <div className="mx-auto max-w-screen-xl px-4 pb-6 sm:px-6 lg:px-8 lg:pt-24">
         <div className="grid grid-cols-1 gap-8 lg:grid-cols-3">
-          <div className="justify-center item-center justify-content justify-self">
-            <div className="bg-black justify-content md:w-60 w-full text-center">
+          <div className="object-center">
+            <div className="justify-center w-full text-center pl-14 m-4 md:pl-10">
               <img
-                className="h-40 w-48"
+                className="h-50 w-60"
                 src={`${nearbySolutionsLogo}`}
                 alt="Company Logo"
               />

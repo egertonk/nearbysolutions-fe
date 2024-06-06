@@ -28,7 +28,7 @@ export const products = [
     routeName: "bulk-hire",
   },
   {
-    name: "Find Work",
+    name: "Find Work / Post a Job",
     description: "Your customers’ data will be safe and secure",
     href: "#",
     icon: CursorArrowRaysIcon,
