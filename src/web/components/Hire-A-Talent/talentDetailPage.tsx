@@ -1,76 +1,46 @@
-import { CalenderForm } from "../common-sections/calenderForm";
-import { Calender } from "../common-sections/calender";
+import React from "react";
+import { useLocation } from "react-router-dom";
+
 import { useCalenderStates } from "../../lib/useCalenderStates";
 import { WorkOrderList } from "../common-sections/workOrderList";
-import { DatePicker } from "../common-sections/datePicker";
-import { TalentInformation } from "../../lib/types/orderTypes";
 import { useCustomerPersonalInfoForm } from "../../lib/useCustomerPersonalInfoForm";
 import { useState } from "react";
 import { OrderReview } from "../Orders/OrderReview";
 import { Payment } from "../Payment-Process/Payment";
-import { talentInformationPlaceHolder } from "../../lib/PlaceHolders/TalentInformationPlaceHolder";
+import { talentInformation } from "../../lib";
+import { DateTimeSelection } from "./DateTimeSelection";
 
-type Props = { talentID: number; talentInformationCard?: TalentInformation[] };
+export const TalentDetailPage: React.FC = () => {
+  const location = useLocation();
+  const searchParams = new URLSearchParams(location.search);
+  const talentID = searchParams.get("talentID");
 
-export const TalentDetailPage: React.FC<Props> = ({
-  talentID,
-  talentInformationCard,
-}) => {
   const [reviewOrder, setReviewOrder] = useState(false);
   const [showPayReady, setShowPayReady] = useState(false);
   const [showCustomerForm, setShowCustomerForm] = useState(false);
-  const [isError, setIsError] = useState(false);
 
-  const talent = (talentInformationCard || talentInformationPlaceHolder).find(
-    (talent) => talent.talentID === talentID
-  );
+  const talent = talentInformation.find((talent) => {
+    return talent?.talentID.toString() === talentID?.toString();
+  });
+
   const jobDetails = talent?.jobTitlesPrice.find(
     (price) => price.selectedStatus
   );
-  const {
-    showNextMonth,
-    setShowNextMonth,
-    userSelectedDate,
-    userSelectedTime,
-    updateDateSelection,
-    currentMonthSelection,
-    currentYearSelection,
-    formattedDate,
-    date,
-    isCurrentMonth,
-  } = useCalenderStates();
+  const { userSelectedTime, userSelectedDate, formattedDate } =
+    useCalenderStates();
 
   const [selectedTalent, setSelectedTalent] = useState(jobDetails?.title || "");
-  const { formData, handleChange, updateSolutionDetails } =
-    useCustomerPersonalInfoForm(
-      talent,
-      jobDetails,
-      selectedTalent,
-      setSelectedTalent,
-      userSelectedDate,
-      userSelectedTime,
-      formattedDate
-    );
+  const { formData, updateSolutionDetails } = useCustomerPersonalInfoForm(
+    talent,
+    jobDetails,
+    selectedTalent,
+    setSelectedTalent,
+    userSelectedTime,
+    formattedDate,
+    userSelectedDate
+  );
 
-  const validateForm = () => {
-    return Object.values(formData).every((field) => {
-      // console.log(field, "    formData 1111 ", field.toString().length > 0);
-      return field.toString().length > 0;
-    });
-  };
-
-  const handleSubmit = () => {
-    console.log("    validateForm   ", validateForm());
-    if (validateForm()) {
-      // submit to database and navig
-      // navigate("/order-summary");
-      setShowPayReady(true);
-      // setReviewOrder(true);
-    } else {
-      setIsError(true);
-    }
-  };
-  console.log("formData ----------> ", formData);
+  console.log("TalentDetailPage     ------ ", formData);
   return (
     <>
       {showPayReady ? (
@@ -79,40 +49,10 @@ export const TalentDetailPage: React.FC<Props> = ({
         <OrderReview setReviewOrder={setReviewOrder} formData={formData} />
       ) : (
         <>
-          <form className="md:p-8 p-5 dark:bg-gray-800 bg-white rounded-t  ">
-            <CalenderForm
-              handleSubmit={handleSubmit}
-              updateSolutionDetails={updateSolutionDetails}
-              formData={formData}
-              handleChange={handleChange}
-              selectedTalent={selectedTalent}
-              jobDetails={jobDetails}
-              isError={isError}
-            />
-          </form>
-
           {showCustomerForm === false && (
             <>
               <div className="flex flex-col lg:flex-row justify-center">
-                <Calender
-                  fullDate={`${currentMonthSelection} ${currentYearSelection}`}
-                  setShowNextMonth={setShowNextMonth}
-                  showNextMonth={showNextMonth}
-                  updateDateSelection={updateDateSelection}
-                  currentMonthSelection={currentMonthSelection}
-                  currentYearSelection={currentYearSelection}
-                  userSelectedDate={userSelectedDate}
-                />
-
-                <DatePicker
-                  formattedDate={formattedDate}
-                  date={date}
-                  isCurrentMonth={isCurrentMonth}
-                  formData={formData}
-                  userSelectedDate={userSelectedDate}
-                  updateSolutionDetails={updateSolutionDetails}
-                  setShowCustomerForm={setShowCustomerForm}
-                />
+                <DateTimeSelection formData={formData} />
               </div>
 
               <hr className="w-full h-1 mx-auto my-4 bg-purple-300 border-0 rounded md:my-10 dark:bg-gray-700"></hr>

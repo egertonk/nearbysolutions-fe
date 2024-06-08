@@ -1,36 +1,27 @@
 import { useEffect, useState } from "react";
-import { CustomerFormData } from "../../lib/types/orderTypes";
+import { useSelector } from "react-redux";
+import { RootState } from "../../../store";
 
-type Props = {
-  formData: CustomerFormData;
-};
-
-export const PaymentJobDetails: React.FC<Props> = ({ formData }) => {
-  const address = `${formData.address}, ${formData.city}, ${formData.state}, ${formData.zip}.`;
+export const PaymentJobDetails: React.FC = () => {
+  const customerOrder = useSelector(
+    (state: RootState) => state.formData.customerOrder
+  );
+  const address = `${customerOrder.address}, ${customerOrder.city}, ${customerOrder.state}, ${customerOrder.zip}.`;
   const [imageUrl, setImageUrl] = useState("");
 
+  const googleMapURL = "https://maps.googleapis.com/maps/api/staticmap";
   const apiKey = "AIzaSyCkpoGe0dJZVeOo6Rq0k22WS6gPOHsDuuA";
   const signature = "YQLhWfyFuKgCykLi7ynJv2gAjTE=";
 
   const fetchMap = () => {
-    const baseUrl = "https://maps.googleapis.com/maps/api/staticmap";
-    const params = new URLSearchParams({
-      center: address,
-      zoom: "13",
-      size: "400x400",
-      markers: "color:purple|label:S|11211|11206|11222",
-      key: apiKey,
-      color: "purple",
-      // signature: signature,
-    });
-
-    const url = `${baseUrl}?${params.toString()}`;
-    setImageUrl(url);
+    const baseUrl = `${googleMapURL}?size=512x512&maptype=roadmap\&markers=size:mid%7Ccolor:red%7C${address},CA&key=${apiKey}`;
+    setImageUrl(baseUrl);
   };
 
   useEffect(() => {
     fetchMap();
-  }, [formData]);
+  }, [customerOrder]);
+
   return (
     <div className="flex-1 px-3">
       <div
@@ -43,35 +34,35 @@ export const PaymentJobDetails: React.FC<Props> = ({ formData }) => {
           <div>
             <h3 className="font-semibold">Talent Name</h3>
             <span>
-              {formData.talentFirstName} {formData.talentLastName}
+              {customerOrder.talentFirstName} {customerOrder.talentLastName}
             </span>
           </div>
 
           <div>
             <h3 className="font-semibold">Appointment Date</h3>
-            <span>{formData.solutionFormattedDate}</span>
+            <span>{customerOrder.solutionFormattedDate}</span>
           </div>
 
           <div>
             <h3 className="font-semibold">Schedule Time</h3>
-            <span>{formData.solutionStartTime}</span>
+            <span>{customerOrder.solutionStartTime}</span>
           </div>
 
           <div>
             <h3 className="font-semibold">Job Selection</h3>
-            <span>{formData.solutionJob}</span>
+            <span>{customerOrder.solutionJob}</span>
           </div>
 
           <div>
             <h3 className="font-semibold">Job Task</h3>
-            <span>{formData.solutionTask || "N/A"}</span>
+            <span>{customerOrder.solutionTask || "N/A"}</span>
           </div>
 
           <div>
             <h3 className="font-semibold">Job Address</h3>
-            <p>{formData.address}</p>
+            <p>{customerOrder.address}</p>
             <p>
-              {formData.city}, {formData.state}, {formData.zip}.
+              {customerOrder.city}, {customerOrder.state}, {customerOrder.zip}.
             </p>
           </div>
         </div>

@@ -1,15 +1,16 @@
-import { ChangeEvent, SetStateAction, useEffect, useState } from "react";
+import { SetStateAction, useEffect, useState } from "react";
 import {
   breakUpDate,
   compareDates,
   talentInformation,
-  talentScheduleData,
+  customerOderHistory,
 } from "../../lib";
 import { useNavigate } from "react-router-dom";
 import { useCalenderStates } from "../../lib/useCalenderStates";
 import { CalenderForm } from "../common-sections/calenderForm";
-import { Calender } from "../common-sections/calender";
-import { DatePicker } from "../common-sections/datePicker";
+import { useCustomerPersonalInfoForm } from "../../lib/useCustomerPersonalInfoForm";
+import { CustomerOrder } from "../../lib/types/orderTypes";
+import { DateTimeSelection } from "../Hire-A-Talent/DateTimeSelection";
 
 type Props = {
   orderNumber: number;
@@ -19,25 +20,17 @@ export const EditOrder: React.FC<Props> = ({ orderNumber }) => {
   const today = new Date();
 
   const navigate = useNavigate();
-  const [isError, setIsError] = useState(false);
 
   const {
-    showNextMonth,
-    setShowNextMonth,
     userSelectedDate,
-    userSelectedTime,
-    updateDateSelection,
-    currentMonthSelection,
-    currentYearSelection,
     formattedDate,
-    isCurrentMonth,
     setUserSelectedDate,
     setUserSelectedTime,
   } = useCalenderStates();
 
-  const order = talentScheduleData.find(
-    (data) => data.orderNumber === orderNumber
-  ); // Todo: use this to get customer previous order to edit
+  const order = customerOderHistory.find(
+    (data) => data.orderID === orderNumber
+  ) as CustomerOrder; // Todo: use this to get customer previous order to edit
 
   const talent = talentInformation.find(
     (talent) => talent.talentID === order?.talentID
@@ -48,16 +41,14 @@ export const EditOrder: React.FC<Props> = ({ orderNumber }) => {
   );
 
   const jobTitle =
-    order !== undefined ? order?.jobTitle : talent?.jobTitlesPrice[0].title;
+    order !== undefined ? order?.solutionJob : talent?.jobTitlesPrice[0].title;
   const [selectedTalent, setSelectedTalent] = useState(jobTitle || "");
 
   const handleSubmit = () => {
-    // console.log("selectedTalent edit ", selectedTalent);
-    // console.log("taskForTalent edit ", taskForTalent);
-
     // submit to database and navig
-
-    navigate("/order-summary?edited");
+    console.log("/view-order-history");
+    console.log("customerOderHistory ", customerOderHistory);
+    navigate("/view-order-history");
   };
 
   const oldDate = breakUpDate(order?.orderDate);
@@ -68,9 +59,14 @@ export const EditOrder: React.FC<Props> = ({ orderNumber }) => {
 
   const isDateChangeAllow = compareDates(oldDateString, currentDateString);
 
-  console.log("userSelectedDate ", userSelectedDate);
-  console.log("oldDateString ", oldDateString);
-  console.log("currentDateString ", currentDateString);
+  const { formData } = useCustomerPersonalInfoForm(
+    talent,
+    jobDetails,
+    order?.solutionJob,
+    setSelectedTalent,
+    order?.solutionStartTime,
+    formattedDate
+  );
 
   useEffect(() => {
     if (oldDate) {
@@ -79,103 +75,22 @@ export const EditOrder: React.FC<Props> = ({ orderNumber }) => {
         month: oldDate?.month?.toString(),
         year: Number(oldDate?.year),
       });
-      if (order !== undefined) setUserSelectedTime(order?.customerStartTime);
+      if (order !== undefined) setUserSelectedTime(order?.solutionStartTime);
     }
   }, []);
 
   return (
     <>
       <div className="flex flex-col lg:flex justify-center">
-        <Calender
-          fullDate={`${currentMonthSelection} ${currentYearSelection}`}
-          setShowNextMonth={setShowNextMonth}
-          showNextMonth={showNextMonth}
-          updateDateSelection={updateDateSelection}
-          currentMonthSelection={currentMonthSelection}
-          currentYearSelection={currentYearSelection}
-          userSelectedDate={userSelectedDate}
+        <DateTimeSelection
           isDateChangeAllow={isDateChangeAllow}
-        />
-
-        <DatePicker
-          formattedDate={formattedDate}
-          date={today.getDate()}
-          isCurrentMonth={isCurrentMonth}
-          userSelectedDate={userSelectedDate}
           isTimeChangeAllow={isDateChangeAllow}
-          updateSolutionDetails={function (id: string, value: string): void {
-            throw new Error("Function not implemented.");
-          }}
-          formData={{
-            customerID: "",
-            firstName: "",
-            lastName: "",
-            country: "",
-            address: "",
-            city: "",
-            state: "",
-            zip: "",
-            selectedTalent: "",
-            phoneNumber: "",
-            solutionFormattedDate: formattedDate || "",
-            solutionDate: "",
-            solutionStartTime: "",
-            solutionTask: "",
-            solutionJob: "",
-            talentID: 0,
-            talentFirstName: "",
-            talentLastName: "",
-            solutionPrice: 0,
-            solutionPricePerHourStatus: false,
-            solutionPriceDiscountPercentage: 0,
-          }}
-          setShowCustomerForm={function (value: SetStateAction<boolean>): void {
-            throw new Error("Function not implemented.");
-          }}
+          formData={formData}
         />
       </div>
 
       <form className="md:p-8 p-5 dark:bg-gray-800 bg-white rounded-t auto-cols-max">
-        <CalenderForm
-          order={order || undefined}
-          isEditOrder={true}
-          handleSubmit={handleSubmit}
-          selectedTalent={selectedTalent}
-          setSelectedTalent={setSelectedTalent}
-          jobDetails={jobDetails}
-          formData={{
-            customerID: "", // we can generated it later and it should never be null
-            firstName: "",
-            lastName: "",
-            country: "",
-            address: "",
-            city: "",
-            state: "",
-            zip: "",
-            phoneNumber: "",
-            solutionFormattedDate: "",
-            solutionDate:
-              userSelectedDate !== undefined
-                ? `${userSelectedDate?.day}/${userSelectedDate?.month}/${userSelectedDate?.year}`
-                : "",
-            solutionTask: "",
-            solutionJob: jobDetails?.title || "",
-            solutionStartTime: userSelectedTime || "",
-            selectedTalent: "",
-            talentID: talent?.talentID || 0, // it should never be null
-            talentFirstName: talent?.firstName || "",
-            talentLastName: talent?.lastName || "",
-          }}
-          handleChange={function (
-            e: ChangeEvent<HTMLInputElement | HTMLSelectElement>
-          ): void {
-            throw new Error("Function not implemented.");
-          }}
-          isError={isError}
-          updateSolutionDetails={function (id: string, value: string): void {
-            throw new Error("Function not implemented.");
-          }}
-        />
+        <CalenderForm />
       </form>
     </>
   );

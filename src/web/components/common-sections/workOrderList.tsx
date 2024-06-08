@@ -1,26 +1,30 @@
 import { useState } from "react";
-import { priceWithComma, talentScheduleData } from "../../lib";
-import { EditOrder } from "../Orders/editOrder";
+import { priceWithComma, customerOderHistory } from "../../lib";
 import { editIconSVG } from "../../assets/svg/svgs";
+import { EditOrder } from "../Orders/EditOrder";
 
 type Props = {
   isEditOrder?: boolean;
   showEdits?: boolean;
   setIsEditOrder?: React.Dispatch<React.SetStateAction<boolean>>;
+  setIsOrderHistory?: React.Dispatch<React.SetStateAction<boolean>>;
 };
 
 export const WorkOrderList: React.FC<Props> = ({
   setIsEditOrder,
   isEditOrder,
   showEdits,
+  setIsOrderHistory,
 }) => {
   const [orderNumber, setOrderNumber] = useState(0);
-  const customerProfileID = 12534; // api
+  const customerProfileID = 12345; // api
 
   const handleEdit = (orderNumber: number) => {
     setOrderNumber(orderNumber);
     if (setIsEditOrder) setIsEditOrder(true);
-    console.log("isEditOrder ", orderNumber);
+    if (setIsOrderHistory) setIsOrderHistory(false);
+    
+    console.log("isEditOrder----------- ", orderNumber);
   };
 
   return (
@@ -30,46 +34,46 @@ export const WorkOrderList: React.FC<Props> = ({
       ) : (
         <div className="md:py-8 py-5 px-5 justify-center rounded-b">
           <div className="px-4">
-            {talentScheduleData.map((scheduleData) => (
+            {customerOderHistory.map((order) => (
               <>
                 <div
                   className="mx-auto border-gray-500 border rounded-sm mb-0.5 h-30"
-                  key={scheduleData.orderNumber}
+                  key={order.orderID}
                 >
                   <div
                     className="bg-white rounded-t auto-cols-max items-center"
-                    key={`2-${scheduleData.orderNumber}`}
+                    key={`2-${order.orderID}`}
                   >
                     <div
                       className="px-4 md:flex flex-row items-center border-l-8 border-purple-600"
-                      key={`3-${scheduleData.orderNumber}`}
+                      key={`3-${order.orderID}`}
                     >
                       <div className="w-60 m-1">
                         <div className="text-sm font-semibold">
                           <span className="text-xs leading-4 font-normal text-gray-500">
                             Order Date:
                           </span>{" "}
-                          {scheduleData.orderDate}
+                          {order.orderDate}
                         </div>
                         <div className="text-sm font-semibold">
                           <span className="text-xs leading-4 font-normal text-gray-500 pr">
                             Start Time:
                           </span>{" "}
-                          {scheduleData.time}
+                          {order.solutionStartTime}
                         </div>
                       </div>
 
                       <div className="w-60 text-center m-1 md:text-left">
                         <div className="text-base font-semibold">
-                          Talent: {scheduleData.JobTitlesSection}
+                          Talent: {order.solutionJob}
                         </div>
-                        {customerProfileID === scheduleData.customerID && (
+                        {customerProfileID === order.customerID && (
                           <>
                             <div className="text-sm">
                               <span className="text-purple font-semibold">
                                 Order Number:
                               </span>{" "}
-                              {scheduleData.orderNumber}
+                              {order.orderID}
                             </div>
 
                             <div className="text-sm">
@@ -77,16 +81,14 @@ export const WorkOrderList: React.FC<Props> = ({
                                 Total Cost:
                               </span>
                               {" $"}
-                              {priceWithComma(
-                                scheduleData.pricePaidPerJob || ""
-                              )}
+                              {priceWithComma(order.solutionPrice || "")}
                             </div>
 
                             <div className="text-sm text-wrap">
                               <span className="text-purple font-semibold">
                                 Task Description:
                               </span>{" "}
-                              {scheduleData.userTaskDescription}
+                              {order.solutionTask}
                             </div>
                           </>
                         )}
@@ -112,30 +114,25 @@ export const WorkOrderList: React.FC<Props> = ({
                           Task Location
                         </div>
                         <div className="text-center text-sm font-semibold text-blue-800">
-                          {scheduleData.locationCity},{" "}
-                          {scheduleData.locationState}
+                          {order.city}, {order.state}
                         </div>
                       </div>
 
                       <div className="flex justify-center">
                         <div
                           className={`p-1 w-20 ml-3 my-5 ${
-                            scheduleData.orderStatus
-                              ? "bg-green-600"
-                              : "bg-purple-600"
+                            order.orderStatus ? "bg-green-600" : "bg-purple-600"
                           }`}
                         >
                           {" "}
                           {/* {todo - show cancel orders only for the customer that order the items} */}
                           <div className="uppercase text-xs font-semibold text-center text-yellow-100">
-                            {`${
-                              scheduleData.orderStatus ? "Active" : "Completed"
-                            }`}
+                            {`${order.orderStatus ? "Active" : "Completed"}`}
                           </div>
                         </div>
-                        {showEdits && scheduleData.orderStatus && (
+                        {showEdits && order.orderStatus && (
                           <button
-                            onClick={() => handleEdit(scheduleData.orderNumber)}
+                            onClick={() => handleEdit(order.orderID || 0)}
                             className="hover:text-purple-500 text-base w-5 flex items-center justify-center font-medium text-gray rounded-full ml-4"
                           >
                             {editIconSVG}

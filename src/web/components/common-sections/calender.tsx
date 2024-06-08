@@ -1,7 +1,12 @@
+import { useDispatch, useSelector } from "react-redux";
 import { greaterThanArrowSVG, lessThanArrowSVG } from "../../assets/svg/svgs";
 import { cSettings } from "../../lib";
 import { DateSelection } from "../../lib/types/calenderTypes";
 import { useCalender } from "../../lib/useCalender";
+import { RootState } from "../../../store";
+import { CustomerFormData } from "../../lib/types/orderTypes";
+import { setCustomerOrder } from "../../../store/customerContractorSlice";
+import { useEffect } from "react";
 
 type Props = {
   fullDate: string;
@@ -24,6 +29,11 @@ export const Calender: React.FC<Props> = ({
   setShowNextMonth,
   updateDateSelection,
 }) => {
+  const dispatch = useDispatch();
+  const customerOrder = useSelector(
+    (state: RootState) => state.formData.customerOrder
+  );
+
   const {
     date,
     dayTitles,
@@ -72,6 +82,19 @@ export const Calender: React.FC<Props> = ({
 
     return dayStatus;
   };
+
+  const updateStore = () => {
+    const updatedOrder: CustomerFormData = {
+      ...customerOrder,
+      solutionDate: `${userSelectedDate?.month}/${userSelectedDate?.day}/${userSelectedDate?.year}`,
+    };
+
+    dispatch(setCustomerOrder(updatedOrder));
+  };
+
+  useEffect(() => {
+    updateStore();
+  }, [userSelectedDate]);
 
   return (
     <div className="md:p-8 p-5 dark:bg-gray-800 bg-white rounded-t auto-cols-max">
@@ -141,13 +164,13 @@ export const Calender: React.FC<Props> = ({
                           } flex items-center justify-center w-full rounded-full cursor-pointer`}
                         >
                           <button
-                            onClick={() =>
+                            onClick={() => {
                               updateDateSelection(
                                 days.day,
                                 currentMonthSelection,
                                 currentYearSelection
-                              )
-                            }
+                              );
+                            }}
                             tabIndex={0}
                             className="focus:outline-none  focus:ring-2 focus:ring-offset-2 focus:ring-indigo-700 focus:bg-indigo-500 hover:bg-indigo-500 text-base w-8 h-8 flex items-center justify-center font-medium text-white bg-indigo-700 rounded-full"
                           >
@@ -179,15 +202,14 @@ export const Calender: React.FC<Props> = ({
                               : disablePastDatesTime
                           }`}
                         >
-                          <a
-                            onClick={() =>
+                          <button
+                            onClick={() => {
                               updateDateSelection(
                                 days.day,
                                 currentMonthSelection,
                                 currentYearSelection
-                              )
-                            }
-                            href="#"
+                              );
+                            }}
                             className={`
                                   ${
                                     userSelectedDate?.day === days.day &&
@@ -204,7 +226,7 @@ export const Calender: React.FC<Props> = ({
                                   `}
                           >
                             {isVacationValid(days.day) ? "Out" : days.day}
-                          </a>
+                          </button>
                         </p>
                       </div>
                     </td>

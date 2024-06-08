@@ -56,7 +56,8 @@ export type TalentInformation = {
 };
 
 export type CustomerFormData = {
-  customerID: string;
+  orderID: number;
+  customerID: number;
   firstName: string;
   lastName: string;
   country: string;
@@ -64,17 +65,46 @@ export type CustomerFormData = {
   city: string;
   state: string;
   zip: string;
-  selectedTalent: string;
   phoneNumber: string;
   solutionFormattedDate: string;
   solutionDate: string;
-  solutionStartTime: string;
   solutionTask: string;
   solutionJob: string;
+  solutionStartTime: string;
+  selectedTalent: string;
   talentID: number;
   talentFirstName: string;
   talentLastName: string;
   solutionPrice: number;
   solutionPricePerHourStatus: boolean;
   solutionPriceDiscountPercentage: number;
+  orderDate: string;
+  orderStatus: boolean;
+};
+
+export type CustomerOrder = {
+  orderID: number;
+  customerID: number;
+  firstName: string;
+  lastName: string;
+  country: string;
+  address: string;
+  city: string;
+  state: string;
+  zip: string;
+  phoneNumber: string;
+  solutionFormattedDate: string;
+  solutionDate: string;
+  solutionTask: string;
+  solutionJob: string;
+  solutionStartTime: string;
+  selectedTalent: string;
+  talentID: number;
+  talentFirstName: string;
+  talentLastName: string;
+  solutionPrice: number;
+  solutionPricePerHourStatus: boolean;
+  solutionPriceDiscountPercentage: number;
+  orderDate: string;
+  orderStatus: boolean;
 };

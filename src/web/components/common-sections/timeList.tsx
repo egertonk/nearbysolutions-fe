@@ -1,16 +1,17 @@
+import { useNavigate } from "react-router";
 import { cSettings, isTimeValid } from "../../lib";
 import { DateSelection } from "../../lib/types/calenderTypes";
 import { CustomerFormData } from "../../lib/types/orderTypes";
 import { useTimeIntervals } from "../../lib/useTimeIntervals";
+import { useDispatch, useSelector } from "react-redux";
+import { RootState } from "../../../store";
+import { setCustomerOrder } from "../../../store/customerContractorSlice";
 
 type Props = {
   isCurrentMonth: boolean;
   date: number;
   isTimeChangeAllow?: any;
   userSelectedDate: DateSelection | undefined;
-  updateSolutionDetails: (id: string, value: string) => void;
-  formData: CustomerFormData;
-  setShowCustomerForm: React.Dispatch<React.SetStateAction<boolean>>;
 };
 
 export const TimeList: React.FC<Props> = ({
@@ -18,11 +19,13 @@ export const TimeList: React.FC<Props> = ({
   date,
   userSelectedDate,
   isTimeChangeAllow,
-  updateSolutionDetails,
-  formData,
-  setShowCustomerForm,
 }) => {
+  const dispatch = useDispatch();
+  const navigate = useNavigate();
   const { generate24HourIntervals, generateIntervals } = useTimeIntervals();
+  const customerOrder = useSelector(
+    (state: RootState) => state.formData.customerOrder
+  );
   const contractorSettings = cSettings; // API
 
   // Generate the intervals based on the provided start and end times
@@ -33,6 +36,16 @@ export const TimeList: React.FC<Props> = ({
     twentyFourHour: string;
     twelveHour: string;
   }[];
+
+  const updateStore = (e: React.ChangeEvent<HTMLInputElement>) => {
+    const updatedOrder: CustomerFormData = {
+      ...customerOrder,
+      solutionStartTime: e.target.value,
+    };
+
+    dispatch(setCustomerOrder(updatedOrder));
+    navigate(`/customer-form`);
+  };
 
   const timeSelectionCSS =
     "cursor-pointer bg-white inline-flex items-center justify-center w-full p-2 text-sm font-medium text-center  border rounded-lg text-blue-600 border-blue-600 dark:hover:text-white dark:border-blue-500 dark:peer-checked:border-blue-500 peer-checked:border-blue-600 hover:bg-blue-500 dark:text-blue-500 dark:bg-gray-900 dark:hover:bg-purple-600 dark:hover:border-blue-600 dark:peer-checked:bg-purple-500 peer-checked:bg-purple-600 hover:text-white peer-checked:text-white";
@@ -47,7 +60,7 @@ export const TimeList: React.FC<Props> = ({
                 <li
                   className={`${
                     isTimeChangeAllow &&
-                    formData.solutionStartTime === time.twelveHour &&
+                    customerOrder.solutionStartTime === time.twelveHour &&
                     "bg-purple-600 text-white items-center justify-center w-full p-2 text-sm font-medium text-center  border rounded-lg border-blue-600 "
                   }`}
                 >
@@ -57,19 +70,13 @@ export const TimeList: React.FC<Props> = ({
                     value={`${time.twelveHour}`}
                     className="hidden peer"
                     name="timetable"
-                    onChange={(e) => {
-                      updateSolutionDetails(
-                        "solutionStartTime",
-                        e.target.value
-                      );
-                      setShowCustomerForm(true);
-                    }}
+                    onChange={(e) => updateStore(e)}
                   />
                   <label
                     htmlFor={`${time.twelveHour}`}
                     className={`${
                       isTimeChangeAllow &&
-                      formData.solutionStartTime === time.twelveHour
+                      customerOrder.solutionStartTime === time.twelveHour
                         ? ""
                         : timeSelectionCSS
                     }`}
@@ -85,13 +92,7 @@ export const TimeList: React.FC<Props> = ({
                     value={`${time.twelveHour}`}
                     className="hidden peer"
                     name="timetable"
-                    onChange={(e) => {
-                      updateSolutionDetails(
-                        "solutionStartTime",
-                        e.target.value
-                      );
-                      setShowCustomerForm(true);
-                    }}
+                    onChange={(e) => updateStore(e)}
                     disabled={
                       isCurrentMonth ? !isTimeValid(time.twelveHour) : false
                     }
@@ -113,13 +114,14 @@ export const TimeList: React.FC<Props> = ({
             </>
           ))
         : generate24HourIntervals().map((time) => (
-            <li>
+            <li key={time}>
               <input
                 type="radio"
                 id={`${time}`}
-                value=""
+                value={time}
                 className="hidden peer"
                 name="timetable"
+                onChange={(e) => updateStore(e)}
               />
               <label
                 htmlFor={`${time}`}

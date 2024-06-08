@@ -1,27 +1,27 @@
 import React from "react";
+import { useDispatch, useSelector } from "react-redux";
+import { RootState } from "../../../store";
+import { CustomerFormData } from "../../lib/types/orderTypes";
+import { setCustomerOrder } from "../../../store/customerContractorSlice";
 
-type Props = {
-  formData: {
-    firstName: string;
-    lastName: string;
-    country: string;
-    address: string;
-    city: string;
-    state: string;
-    zip: string;
-    selectedTalent: string;
-  };
-  handleChange: (
+export const CustomerPersonalInfoForm: React.FC = () => {
+  const dispatch = useDispatch();
+  const customerOrder = useSelector(
+    (state: RootState) => state.formData.customerOrder
+  );
+
+  const updateStore = (
     e: React.ChangeEvent<HTMLInputElement | HTMLSelectElement>
-  ) => void;
-  isError: boolean;
-};
+  ) => {
+    const { name, value } = e.target;
+    const updatedOrder: CustomerFormData = {
+      ...customerOrder,
+      [name]: value,
+    };
 
-export const CustomerPersonalInfoForm: React.FC<Props> = ({
-  formData,
-  handleChange,
-  isError,
-}) => {
+    dispatch(setCustomerOrder(updatedOrder));
+  };
+
   const inputCSS =
     "appearance-none block w-full text-gray-700 border border-gray-200 rounded py-3 px-4 leading-tight focus:outline-none focus:bg-white focus:border-gray-500";
 
@@ -37,11 +37,12 @@ export const CustomerPersonalInfoForm: React.FC<Props> = ({
         <input
           className="appearance-none block w-full text-gray-700 border rounded py-3 px-4 mb-3 leading-tight focus:outline-none focus:bg-white"
           id="firstName"
+          name="firstName"
           type="text"
-          value={formData.firstName}
-          onChange={handleChange}
+          value={customerOrder.firstName}
+          onChange={updateStore}
         />
-        {isError && formData.firstName.length === 0 && (
+        {customerOrder.firstName.length === 0 && (
           <p className="text-red-500 text-xs italic">
             Please fill out First Name.
           </p>
@@ -58,11 +59,12 @@ export const CustomerPersonalInfoForm: React.FC<Props> = ({
         <input
           className={inputCSS}
           id="lastName"
+          name="lastName"
           type="text"
-          value={formData.lastName}
-          onChange={handleChange}
+          value={customerOrder.lastName}
+          onChange={updateStore}
         />
-        {isError && formData.lastName.length === 0 && (
+        {customerOrder.lastName.length === 0 && (
           <p className="text-red-500 text-xs italic">
             Please fill out Last Name.
           </p>
@@ -79,15 +81,16 @@ export const CustomerPersonalInfoForm: React.FC<Props> = ({
         <select
           className={inputCSS}
           id="country"
-          onChange={handleChange}
-          value={formData.country}
+          name="country"
+          value={customerOrder.country}
+          onChange={updateStore}
         >
-          <option selected>Select Country</option>
+          <option value="">Select Country</option>
           <option value="United States">United States</option>
           <option value="Canada">Canada</option>
           <option value="Philippines">Philippines</option>
         </select>
-        {isError && formData.country.length === 0 && (
+        {customerOrder.country.length === 0 && (
           <p className="text-red-500 text-xs italic">
             Please fill out Country.
           </p>
@@ -104,12 +107,15 @@ export const CustomerPersonalInfoForm: React.FC<Props> = ({
         <input
           className={inputCSS}
           id="address"
+          name="address"
           type="text"
-          value={formData.address}
-          onChange={handleChange}
+          value={customerOrder.address}
+          onChange={updateStore}
         />
-        {isError && formData.address.length === 0 && (
-          <p className="text-red-500 text-xs italic">Please fill out Addres.</p>
+        {customerOrder.address.length === 0 && (
+          <p className="text-red-500 text-xs italic">
+            Please fill out Address.
+          </p>
         )}
       </div>
 
@@ -123,11 +129,12 @@ export const CustomerPersonalInfoForm: React.FC<Props> = ({
         <input
           className={inputCSS}
           id="city"
+          name="city"
           type="text"
-          value={formData.city}
-          onChange={handleChange}
+          value={customerOrder.city}
+          onChange={updateStore}
         />
-        {isError && formData.city.length === 0 && (
+        {customerOrder.city.length === 0 && (
           <p className="text-red-500 text-xs italic">Please fill out City.</p>
         )}
       </div>
@@ -143,20 +150,23 @@ export const CustomerPersonalInfoForm: React.FC<Props> = ({
           <select
             className={inputCSS}
             id="state"
-            value={formData.state}
-            onChange={handleChange}
+            name="state"
+            value={customerOrder.state}
+            onChange={updateStore}
           >
-            <option>New Mexico</option>
-            <option>Virginia</option>
-            <option>Texas</option>
+            <option value="">Select State</option>
+            <option value="New Mexico">New Mexico</option>
+            <option value="Virginia">Virginia</option>
+            <option value="Texas">Texas</option>
           </select>
-          {isError && formData.state.length === 0 && (
+          {customerOrder.state.length === 0 && (
             <p className="text-red-500 text-xs italic">
               Please fill out State.
             </p>
           )}
         </div>
       </div>
+
       <div className="w-full md:w-1/3 px-3 mb-6 md:mb-0 pt-4">
         <label
           className="block uppercase tracking-wide text-gray-700 text-xs font-bold mb-2"
@@ -167,44 +177,15 @@ export const CustomerPersonalInfoForm: React.FC<Props> = ({
         <input
           className={inputCSS}
           id="zip"
+          name="zip"
           type="text"
-          value={formData.zip}
-          onChange={handleChange}
+          value={customerOrder.zip}
+          onChange={updateStore}
         />
-        {isError && formData.zip.length === 0 && (
+        {customerOrder.zip.length === 0 && (
           <p className="text-red-500 text-xs italic">Please fill out Zip.</p>
         )}
       </div>
-
-      {/* <div className="w-full px-3 pt-4">
-        <label
-          htmlFor="selectedTalent"
-          className="block mb-2 text-sm font-medium text-gray-900 dark:text-white"
-        >
-          Select Talent
-        </label>
-        <div className="relative ">
-          <select
-            className="block appearance-none w-full border border-gray-200 text-gray-700 py-3 px-4 pr-8 rounded leading-tight focus:outline-none focus:bg-white focus:border-gray-500"
-            id="selectedTalent"
-            onChange={handleChange}
-            value={formData.selectedTalent}
-          >
-            {talentProfile.jobTitles.map((jobTitle) => (
-              <option key={jobTitle}>{jobTitle}</option>
-            ))}
-          </select>
-          <div className="pointer-events-none absolute inset-y-0 right-0 flex items-center px-2 text-gray-700">
-            <svg
-              className="fill-current h-4 w-4"
-              xmlns="http://www.w3.org/2000/svg"
-              viewBox="0 0 20 20"
-            >
-              <path d="M9.293 12.95l.707.707L15.657 8l-1.414-1.414L10 10.828 5.757 6.586 4.343 8z" />
-            </svg>
-          </div>
-        </div>
-      </div> */}
     </>
   );
 };

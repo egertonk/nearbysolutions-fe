@@ -1,25 +1,35 @@
+import { useNavigate } from "react-router";
 import { addTalentSVG, removeTalentSVG } from "../../assets/svg/svgs";
 import { isFixPriceValid, priceWithComma } from "../../lib";
-import { JobTitlePricing, TalentInformation } from "../../lib/types/orderTypes";
+import {
+  CustomerFormData,
+  JobTitlePricing,
+  TalentInformation,
+} from "../../lib/types/orderTypes";
 import { SocialIcon } from "./socialIcon";
+import { useDispatch, useSelector } from "react-redux";
+import { setCustomerOrder } from "../../../store/customerContractorSlice";
+import { RootState } from "../../../store";
+import { useEffect, useState } from "react";
 
 type Props = {
   talentInformationCard: TalentInformation[];
   setTalentInformationCard: React.Dispatch<
     React.SetStateAction<TalentInformation[]>
   >;
-  setShowTalentDetailPage: React.Dispatch<React.SetStateAction<boolean>>;
-  setTalentID: React.Dispatch<React.SetStateAction<number>>;
   isFavoriteValid?: boolean;
 };
 
 export const TalentCard: React.FC<Props> = ({
   talentInformationCard,
   setTalentInformationCard,
-  setShowTalentDetailPage,
-  setTalentID,
   isFavoriteValid,
 }) => {
+  const dispatch = useDispatch();
+  const navigate = useNavigate();
+  const customerState = useSelector((state: RootState) => state);
+  const [id, setId] = useState(0);
+
   const updateTalentInformation = (
     talentID: number,
     updatedJobTitlePricing: JobTitlePricing[]
@@ -34,8 +44,10 @@ export const TalentCard: React.FC<Props> = ({
       return talent;
     });
 
-    if (updatedTalentInformation)
+    if (updatedTalentInformation) {
       setTalentInformationCard(updatedTalentInformation);
+      setId(talentID);
+    }
   };
 
   const updateSelectedStatus = (
@@ -43,17 +55,14 @@ export const TalentCard: React.FC<Props> = ({
     jobDetailsObject: JobTitlePricing[],
     talentID: number
   ) => {
-    const updatedJobTitlePricing = jobDetailsObject.map((job) => ({
-      ...job,
-      selectedStatus: job.title === selectedJob,
-    }));
+    if (selectedJob !== "Select Jpb") {
+      const updatedJobTitlePricing = jobDetailsObject.map((job) => ({
+        ...job,
+        selectedStatus: job.title === selectedJob,
+      }));
 
-    updateTalentInformation(talentID, updatedJobTitlePricing);
-  };
-
-  const hire = (id: number) => {
-    setTalentID(id);
-    setShowTalentDetailPage(true);
+      updateTalentInformation(talentID, updatedJobTitlePricing);
+    }
   };
 
   const getValue = (jobDetailsObject: JobTitlePricing[]) => {
@@ -71,6 +80,33 @@ export const TalentCard: React.FC<Props> = ({
     return found?.title;
   };
 
+  useEffect(() => {
+    const foundHire = talentInformationCard.find(
+      (talent) => talent.talentID === id
+    );
+
+    const foundPrice = foundHire?.jobTitlesPrice.find(
+      (data) => data.selectedStatus
+    );
+
+    const newdOrder: CustomerFormData = {
+      ...customerState.formData.customerOrder,
+      talentID: foundHire?.talentID || 0,
+      talentFirstName: foundHire?.firstName || "",
+      talentLastName: foundHire?.lastName || "",
+      solutionJob: foundPrice?.title || "",
+      solutionPrice: foundPrice?.isFixPrice
+        ? foundPrice.price.fixPrice || 0
+        : foundPrice?.price.ratePerHour || 0,
+      solutionPricePerHourStatus: foundPrice?.isFixPrice ? false : true,
+      solutionPriceDiscountPercentage: foundPrice?.price.discount || 0,
+      orderStatus: false,
+    };
+
+    dispatch(setCustomerOrder(newdOrder));
+    // navigate(`/talent-detail-page/?talentID=${talentID}`);
+  }, [talentInformationCard]);
+
   return (
     <>
       {talentInformationCard.map((talentData, index) => (
@@ -81,7 +117,9 @@ export const TalentCard: React.FC<Props> = ({
           <div className="w-full md:w-2/5 h-100 group">
             <button
               className=" object-center object-cover w-full h-full group relative "
-              onClick={() => hire(talentData.talentID)}
+              onClick={() =>
+                navigate(`/talent-detail-page/?talentID=${talentData.talentID}`)
+              }
             >
               {/* Start hidden content */}
               <div className="transition-all transform z-40 translate-y-8 opacity-0 group-hover:opacity-100 group-hover:translate-y-0 text-center absolute justify-center">
@@ -145,9 +183,11 @@ export const TalentCard: React.FC<Props> = ({
                       talentData.jobTitlesPrice,
                       talentData.talentID
                     );
+                    // updateStore(talentData.talentID);
                   }}
                   value={getValue(talentData.jobTitlesPrice)}
                 >
+                  <option defaultValue="Select Jpb">Select Job</option>
                   {talentData.jobTitlesPrice.map((details, jobIndex) => (
                     <>
                       <option key={details.title}>{details.title}</option>
@@ -206,7 +246,11 @@ export const TalentCard: React.FC<Props> = ({
               <div className="col-span-3">
                 <button
                   className="px-4 py-2 text-sm text-white bg-purple-600"
-                  onClick={() => hire(talentData.talentID)}
+                  onClick={() =>
+                    navigate(
+                      `/talent-detail-page/?talentID=${talentData.talentID}`
+                    )
+                  }
                 >
                   Hire
                 </button>

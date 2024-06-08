@@ -1,5 +1,5 @@
 import { useState, ChangeEvent, FocusEvent, FormEvent } from "react";
-import validateInfo from "./validateInfo";
+import validateInfo from "./ValidateInfo";
 
 export type Values = {
   cardName: string;

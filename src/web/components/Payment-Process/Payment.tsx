@@ -1,13 +1,8 @@
 import { useState } from "react";
-import { CustomerFormData } from "../../lib/types/orderTypes";
 import { PaymentCustomerDetails } from "./PaymentCustomerDetails";
 import { PaymentJobDetails } from "./PaymentJobDetails";
 import { PaymentSumary } from "./PaymentSumary";
 import { useNavigate } from "react-router";
-
-type Props = {
-  formData: CustomerFormData;
-};
 
 export type PaymentStateProps = {
   showPaymentInputs: boolean;
@@ -19,7 +14,7 @@ export type PaymentStateProps = {
   showSelectPayment: boolean;
 };
 
-export const Payment: React.FC<Props> = ({ formData }) => {
+export const Payment: React.FC = () => {
   const navigate = useNavigate();
 
   const [paymentState, setPaymentState] = useState<PaymentStateProps>({
@@ -78,14 +73,13 @@ export const Payment: React.FC<Props> = ({ formData }) => {
         <div className="container mx-auto">
           <div className="flex flex-col md:flex-row md:-mx-3">
             <PaymentCustomerDetails
-              formData={formData}
               paymentState={paymentState}
               togglePaymentInputs={togglePaymentInputs}
             />
 
-            <PaymentJobDetails formData={formData} />
+            <PaymentJobDetails />
 
-            <PaymentSumary formData={formData} />
+            <PaymentSumary />
           </div>
         </div>
       </section>

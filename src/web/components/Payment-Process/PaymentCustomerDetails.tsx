@@ -5,18 +5,22 @@ import { CreditCardForm } from "./CreditCardForm";
 import { PaymentStateProps } from "./Payment";
 import { PaymentNav } from "./PaymentNav";
 import { PaymentSelection } from "./PaymentSelection";
+import { useSelector } from "react-redux";
+import { RootState } from "../../../store";
 
 type Props = {
-  formData: CustomerFormData;
   paymentState: PaymentStateProps;
   togglePaymentInputs: (name: string, status: boolean) => void;
 };
 
 export const PaymentCustomerDetails: React.FC<Props> = ({
-  formData,
   paymentState,
   togglePaymentInputs,
 }) => {
+  const customerOrder = useSelector(
+    (state: RootState) => state.formData.customerOrder
+  );
+
   const handlePaymentInfoEdit = () => {
     togglePaymentInputs("showPaymentInputs", true);
     togglePaymentInputs("showPayment", true);
@@ -49,20 +53,21 @@ export const PaymentCustomerDetails: React.FC<Props> = ({
                 <div className="text-left mt-5">
                   <h3 className="font-semibold">Name</h3>
                   <span>
-                    {formData.firstName} {formData.lastName}
+                    {customerOrder.firstName} {customerOrder.lastName}
                   </span>
                 </div>
 
                 <div className="text-left mt-3">
                   <h3 className="font-semibold">Phone</h3>
-                  <span>{formData.phoneNumber}</span>
+                  <span>{customerOrder.phoneNumber}</span>
                 </div>
 
                 <div className="text-left mt-3">
                   <h3 className="font-semibold">Address</h3>
-                  <p>{formData.address}</p>
+                  <p>{customerOrder.address}</p>
                   <p>
-                    {formData.city}, {formData.state}, {formData.zip}.
+                    {customerOrder.city}, {customerOrder.state},{" "}
+                    {customerOrder.zip}.
                   </p>
                 </div>
               </>

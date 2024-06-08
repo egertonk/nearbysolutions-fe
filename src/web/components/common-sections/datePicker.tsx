@@ -9,8 +9,6 @@ type Props = {
   formData: CustomerFormData;
   userSelectedDate: DateSelection | undefined;
   isTimeChangeAllow?: boolean;
-  updateSolutionDetails: (id: string, value: string) => void;
-  setShowCustomerForm: React.Dispatch<React.SetStateAction<boolean>>;
 };
 
 export const DatePicker: React.FC<Props> = ({
@@ -20,8 +18,6 @@ export const DatePicker: React.FC<Props> = ({
   formData,
   userSelectedDate,
   isTimeChangeAllow,
-  updateSolutionDetails,
-  setShowCustomerForm,
 }) => {
   return (
     <>
@@ -66,9 +62,6 @@ export const DatePicker: React.FC<Props> = ({
             date={date}
             userSelectedDate={userSelectedDate}
             isTimeChangeAllow={isTimeChangeAllow}
-            formData={formData}
-            updateSolutionDetails={updateSolutionDetails}
-            setShowCustomerForm={setShowCustomerForm}
           />
         </div>
       </div>

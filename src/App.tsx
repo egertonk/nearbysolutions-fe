@@ -8,28 +8,40 @@ import { Login } from "./web/components/Login/login";
 import { Register } from "./web/components/Register/register";
 import { Talent } from "./web/components/Hire-A-Talent/talents";
 import { Footer } from "./web/components/Footer/footer";
-import { OrderSumary } from "./web/components/Orders/orderSumary";
 import { Reviews } from "./web/components/Reviews/reviews";
-import { ViewOrderHistory } from "./web/components/Orders/viewOrderHistory";
 import { Favorite } from "./web/components/Favorite/Favorite";
+import { OrderSumary } from "./web/components/Orders/OrderSumary";
+import { ViewOrderHistory } from "./web/components/Orders/ViewOrderHistory";
+import { TalentDetailPage } from "./web/components/Hire-A-Talent/talentDetailPage";
+import { DateTimeSelection } from "./web/components/Hire-A-Talent/DateTimeSelection";
+import { CalenderForm } from "./web/components/common-sections/calenderForm";
+import { Provider } from "react-redux";
+import store from "./store";
+import { Payment } from "./web/components/Payment-Process/Payment";
 
 function App() {
   return (
-    <div className="App">
-      <header className="App-header">
-        <NearBySolutionsHeader />
-      </header>
-      <Routes>
-        <Route path="/login" element={<Login />} />
-        <Route path="/favorite" element={<Favorite />} />
-        <Route path="/reviews" element={<Reviews />} />
-        <Route path="/register" element={<Register />} />
-        <Route path="/hire-a-talent" element={<Talent />} />
-        <Route path="/order-summary" element={<OrderSumary />} />
-        <Route path="/view-order-history" element={<ViewOrderHistory />} />
-      </Routes>
-      <Footer />
-    </div>
+    <Provider store={store}>
+      <div className="App">
+        <header className="App-header">
+          <NearBySolutionsHeader />
+        </header>
+        <Routes>
+          <Route path="/login" element={<Login />} />
+          <Route path="/favorite" element={<Favorite />} />
+          <Route path="/reviews" element={<Reviews />} />
+          <Route path="/register" element={<Register />} />
+          <Route path="/hire-a-talent" element={<Talent />} />
+          <Route path="/order-summary" element={<OrderSumary />} />
+          <Route path="/view-order-history" element={<ViewOrderHistory />} />
+          <Route path="/talent-detail-page" element={<TalentDetailPage />} />
+          {/* <Route path="/date-time-selection/" element={<DateTimeSelection />} /> */}
+          <Route path="/customer-form" element={<CalenderForm />} />
+          <Route path="/payment" element={<Payment />} />
+        </Routes>
+        <Footer />
+      </div>
+    </Provider>
   );
 }
 

@@ -1,10 +1,10 @@
-import { CustomerFormData } from "../../lib/types/orderTypes";
+import { useSelector } from "react-redux";
+import { RootState } from "../../../store";
 
-type Props = {
-  formData: CustomerFormData;
-};
-
-export const PaymentSumary: React.FC<Props> = ({ formData }) => {
+export const PaymentSumary: React.FC = () => {
+  const customerOrder = useSelector(
+    (state: RootState) => state.formData.customerOrder
+  );
   const calculateFinalPrice = (originalPrice: number, discount: number) => {
     if (originalPrice) {
       const discountGiven = (originalPrice * (discount / 100)).toFixed(2);
@@ -36,7 +36,7 @@ export const PaymentSumary: React.FC<Props> = ({ formData }) => {
                     Job Price
                   </dt>
                   <dd className="text-base font-medium text-gray-900 dark:text-white">
-                    ${formData.solutionPrice}
+                    ${customerOrder.solutionPrice}
                   </dd>
                 </dl>
                 <dl className="flex items-center justify-between gap-4 py-3">
@@ -44,7 +44,7 @@ export const PaymentSumary: React.FC<Props> = ({ formData }) => {
                     Discount Savings Percent
                   </dt>
                   <dd className="text-base font-medium text-green-500">
-                    {formData.solutionPriceDiscountPercentage}% OFF
+                    {customerOrder.solutionPriceDiscountPercentage}% OFF
                   </dd>
                 </dl>
                 <dl className="flex items-center justify-between gap-4 py-3">
@@ -54,8 +54,8 @@ export const PaymentSumary: React.FC<Props> = ({ formData }) => {
                   <dd className="text-base font-medium text-gray-900 dark:text-white text-green-500">
                     $
                     {getDiscountAmount(
-                      formData.solutionPrice,
-                      formData.solutionPriceDiscountPercentage
+                      customerOrder.solutionPrice,
+                      customerOrder.solutionPriceDiscountPercentage
                     )}
                   </dd>
                 </dl>
@@ -64,7 +64,7 @@ export const PaymentSumary: React.FC<Props> = ({ formData }) => {
                     Subtotal
                   </dt>
                   <dd className="text-base font-medium text-gray-900 dark:text-white">
-                    ${formData.solutionPrice}
+                    ${customerOrder.solutionPrice}
                     {/* later calculate the per hour */}
                   </dd>
                 </dl>
@@ -75,8 +75,8 @@ export const PaymentSumary: React.FC<Props> = ({ formData }) => {
                   <dd className="text-base font-bold text-gray-900 dark:text-white">
                     $
                     {calculateFinalPrice(
-                      formData.solutionPrice,
-                      formData.solutionPriceDiscountPercentage
+                      customerOrder.solutionPrice,
+                      customerOrder.solutionPriceDiscountPercentage
                     )}
                   </dd>
                 </dl>

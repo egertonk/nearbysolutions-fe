@@ -1,10 +1,14 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { CustomerFormData, TalentInformation } from "./types/orderTypes";
+import { useDispatch, useSelector } from "react-redux";
+import { setCustomerOrder } from "../../store/customerContractorSlice";
+import { RootState } from "../../store";
 import { DateSelection } from "./types/calenderTypes";
+import { useCalender } from "./useCalender";
 
 export const useCustomerPersonalInfoForm = (
-  talent: TalentInformation | undefined,
-  jobDetails:
+  talent?: TalentInformation | undefined,
+  jobDetails?:
     | {
         isFixPrice: boolean;
         selectedStatus: boolean;
@@ -16,12 +20,16 @@ export const useCustomerPersonalInfoForm = (
         };
       }
     | undefined,
-  selectedTalent: string,
-  setSelectedTalent: (value: React.SetStateAction<string>) => void,
-  userSelectedDate: DateSelection | undefined,
-  userSelectedTime: string,
-  formattedDate: string
+  selectedTalent?: string,
+  setSelectedTalent?: (value: React.SetStateAction<string>) => void,
+  userSelectedTime?: string,
+  formattedDate?: string,
+  userSelectedDate?: DateSelection
 ) => {
+  const { today } = useCalender();
+  const dispatch = useDispatch();
+  const customerState = useSelector((state: RootState) => state);
+
   const priceWithoutDiscount = jobDetails?.isFixPrice
     ? jobDetails.price.fixPrice
     : jobDetails?.price.ratePerHour || 0;
@@ -31,30 +39,60 @@ export const useCustomerPersonalInfoForm = (
     : jobDetails?.price.discount || 0;
 
   const [formData, setFormData] = useState<CustomerFormData>({
-    customerID: "???????", // we can generated it later and it should never be null
-    firstName: "",
-    lastName: "",
-    country: "",
-    address: "",
-    city: "",
-    state: "",
-    zip: "",
-    phoneNumber: "5713301230",
-    solutionFormattedDate: formattedDate || "",
+    orderID: customerState.formData.customerOrder.orderID,
+    customerID: customerState.formData.customerOrder.customerID || 0, // we can generated it later and it should never be null
+    firstName: customerState.formData.customerOrder.firstName || "",
+    lastName: customerState.formData.customerOrder.lastName || "",
+    country: customerState.formData.customerOrder.country || "",
+    address: customerState.formData.customerOrder.address || "",
+    city: customerState.formData.customerOrder.city || "",
+    state: customerState.formData.customerOrder.state || "",
+    zip: customerState.formData.customerOrder.zip || "",
+    phoneNumber:
+      customerState.formData.customerOrder.phoneNumber || "5713301230",
+    solutionFormattedDate:
+      customerState.formData.customerOrder.solutionFormattedDate ||
+      formattedDate ||
+      "",
     solutionDate:
-      userSelectedDate !== undefined
-        ? `${userSelectedDate?.day}/${userSelectedDate?.month}/${userSelectedDate?.year}`
-        : "",
-    solutionTask: "",
-    solutionJob: jobDetails?.title || "",
-    solutionStartTime: userSelectedTime || "",
-    selectedTalent: selectedTalent,
-    talentID: talent?.talentID || 0, // it should never be null
-    talentFirstName: talent?.firstName || "",
-    talentLastName: talent?.lastName || "",
-    solutionPrice: priceWithoutDiscount,
-    solutionPricePerHourStatus: jobDetails?.isFixPrice ?? false,
-    solutionPriceDiscountPercentage: discountGiven,
+      `${userSelectedDate?.month}/${userSelectedDate?.day}/${userSelectedDate?.year}` ||
+      customerState.formData.customerOrder.solutionDate ||
+      "",
+    solutionTask: customerState.formData.customerOrder.solutionTask || "",
+    solutionJob:
+      jobDetails?.title ||
+      customerState.formData.customerOrder.solutionJob ||
+      "",
+    solutionStartTime:
+      userSelectedTime ||
+      customerState.formData.customerOrder.solutionStartTime ||
+      "",
+    selectedTalent:
+      selectedTalent ||
+      customerState.formData.customerOrder.selectedTalent ||
+      "",
+    talentID:
+      talent?.talentID || customerState.formData.customerOrder.talentID || 0, // it should never be null
+    talentFirstName:
+      talent?.firstName ||
+      customerState.formData.customerOrder.talentFirstName ||
+      "",
+    talentLastName:
+      talent?.lastName ||
+      customerState.formData.customerOrder.talentLastName ||
+      "",
+    solutionPrice:
+      customerState.formData.customerOrder.solutionPrice ||
+      priceWithoutDiscount,
+    solutionPricePerHourStatus:
+      jobDetails?.isFixPrice ??
+      (customerState.formData.customerOrder.solutionPricePerHourStatus ||
+        false),
+    solutionPriceDiscountPercentage:
+      customerState.formData.customerOrder.solutionPriceDiscountPercentage ||
+      discountGiven,
+    orderDate: `${today}`,
+    orderStatus: customerState.formData.customerOrder.orderStatus || false,
   });
 
   const handleChange = (
@@ -65,7 +103,7 @@ export const useCustomerPersonalInfoForm = (
       ...prevFormData,
       [id]: value,
     }));
-    if (id === "selectedTalent") {
+    if (id === "selectedTalent" && setSelectedTalent) {
       setSelectedTalent(value);
     }
   };
@@ -76,6 +114,10 @@ export const useCustomerPersonalInfoForm = (
       [`${id}`]: value,
     }));
   };
+
+  useEffect(() => {
+    dispatch(setCustomerOrder(formData));
+  }, []);
 
   return {
     formData,
