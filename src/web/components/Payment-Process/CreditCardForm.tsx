@@ -1,18 +1,30 @@
 import React from "react";
 import { useCreditCardForm } from "./useCreditCardForm";
 import "../Payment-Process/Styles.css";
+import { useDispatch, useSelector } from "react-redux";
+import { RootState } from "../../../store";
+import { setPaymentState } from "../../../store/paymentSlice";
+import { PaymentStateProps } from "../../lib/types/paymentTyoes";
 
-type Props = {
-  showPaymentInputs: boolean;
-  togglePaymentInputs: (name: string, status: boolean) => void;
-};
+export const CreditCardForm: React.FC = () => {
+  const dispatch = useDispatch();
+  const paymentStatus = useSelector(
+    (state: RootState) => state.paymentCheckoutState.paymentCheckoutState
+  );
 
-export const CreditCardForm: React.FC<Props> = ({
-  togglePaymentInputs,
-  showPaymentInputs,
-}) => {
-  const { handleChange, handleFocus, handleSubmit, values, errors } =
-    useCreditCardForm();
+  const { handleChange, handleFocus, values } = useCreditCardForm();
+
+  const handleSelectPaymentEdit = () => {
+    // todo - validate first with handleSubmit
+    const updatedPaymentStatus: PaymentStateProps = {
+      ...paymentStatus,
+      showPaymentInputs: false,
+      showPayment: false,
+      showSelectPayment: false,
+    };
+
+    dispatch(setPaymentState(updatedPaymentStatus));
+  };
 
   return (
     <div className="">
@@ -57,7 +69,7 @@ export const CreditCardForm: React.FC<Props> = ({
         </div>
       </div>
 
-      {showPaymentInputs && (
+      {paymentStatus.showPaymentInputs && (
         <form
           onSubmit={() => {
             // todo - validate first with handleSubmit
@@ -193,11 +205,7 @@ export const CreditCardForm: React.FC<Props> = ({
             <button
               className="bg-purple-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded focus:outline-none"
               type="button"
-              onClick={() => {
-                // todo - validate first with handleSubmit
-                togglePaymentInputs("showPaymentInputs", false);
-                togglePaymentInputs("showPayment", false);
-              }}
+              onClick={() => handleSelectPaymentEdit()}
             >
               Submit
             </button>

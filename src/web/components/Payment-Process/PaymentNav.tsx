@@ -1,32 +1,38 @@
+import { useDispatch, useSelector } from "react-redux";
+import { RootState } from "../../../store";
 import {
   forwardArrowNoCircleSVG,
   forwardArrowSVG,
 } from "../../assets/svg/svgs";
-import { PaymentStateProps } from "./Payment";
+import { setPaymentState } from "../../../store/paymentSlice";
+import { PaymentStateProps } from "../../lib/types/paymentTyoes";
 
 type Props = {
-  paymentState: PaymentStateProps;
   handlePaymentInfoEdit: () => void;
-  togglePaymentInputs: (name: string, status: boolean) => void;
 };
 
-export const PaymentNav: React.FC<Props> = ({
-  paymentState,
-  togglePaymentInputs,
-  handlePaymentInfoEdit,
-}) => {
+export const PaymentNav: React.FC<Props> = ({ handlePaymentInfoEdit }) => {
+  const dispatch = useDispatch();
+  const paymentStatus = useSelector(
+    (state: RootState) => state.paymentCheckoutState.paymentCheckoutState
+  );
+
   const handleSelectPaymentEdit = () => {
-    togglePaymentInputs("showPaymentInfo", true);
-    togglePaymentInputs("showPaymentSelection", true);
-    togglePaymentInputs("showPaymentInfo", false);
-    togglePaymentInputs("showCreditCard", false);
-    togglePaymentInputs("showPaypal", false);
+    const updatedPaymentStatus: PaymentStateProps = {
+      ...paymentStatus,
+      showPaymentSelection: true,
+      showPaymentInfo: false,
+      showCreditCard: false,
+      showPaypal: false,
+    };
+
+    dispatch(setPaymentState(updatedPaymentStatus));
   };
 
   return (
     <nav className="flex mb-3" aria-label="Breadcrumb">
       <ol className="inline-flex items-center space-x-1 md:space-x-2 rtl:space-x-reverse">
-        {paymentState.showPaymentInfo ? (
+        {paymentStatus.showPaymentInfo ? (
           <li className="inline-flex items-center">
             <button
               onClick={() => handleSelectPaymentEdit()}
@@ -47,9 +53,9 @@ export const PaymentNav: React.FC<Props> = ({
           </li>
         )}
 
-        {paymentState.showPaymentInfo && (
+        {paymentStatus.showPaymentInfo && (
           <li>
-            {paymentState.showPaymentInputs ? (
+            {paymentStatus.showPaymentInputs ? (
               <div className="flex items-center">
                 {forwardArrowNoCircleSVG}
                 <span className="ms-1 text-sm font-medium text-gray-500 md:ms-2 dark:text-gray-400">
@@ -70,16 +76,17 @@ export const PaymentNav: React.FC<Props> = ({
           </li>
         )}
 
-        {paymentState.showPaymentInputs === false && (
-          <li>
-            <div className="flex items-center">
-              {forwardArrowNoCircleSVG}
-              <span className="ms-1 text-sm font-medium text-gray-500 md:ms-2 dark:text-gray-400">
-                Customer Details
-              </span>
-            </div>
-          </li>
-        )}
+        {paymentStatus.showPaymentInputs === false &&
+          paymentStatus.showSelectPayment === false && (
+            <li>
+              <div className="flex items-center">
+                {forwardArrowNoCircleSVG}
+                <span className="ms-1 text-sm font-medium text-gray-500 md:ms-2 dark:text-gray-400">
+                  Customer Details
+                </span>
+              </div>
+            </li>
+          )}
       </ol>
     </nav>
   );

@@ -1,25 +1,21 @@
-import { useNavigate } from "react-router";
 import { talentProfile } from "../../lib";
 import { Link } from "react-router-dom";
 
 type Props = {
   isEditOrder?: boolean;
-  setIsEditOrder: React.Dispatch<React.SetStateAction<boolean>>;
   setShowTalentDetailPage: React.Dispatch<React.SetStateAction<boolean>>;
 };
 export const SideMenuList: React.FC<Props> = ({
-  setIsEditOrder,
   isEditOrder,
   setShowTalentDetailPage,
 }) => {
-
   // Show only customer orders
   return (
     <>
       {isEditOrder === false && (
         <div className="relative w-full md:w-60 md:py-8 py-5 px-5 flex flex-col rounded-lg shadow-">
           <Link
-            to={`/hire-a-talent`}
+            to={`/order/hire-a-talent`}
             type="button"
             className="mb-1 bg-sky-950 py-4 px-4 inline-flex gap-x-2 rounded-lg text-lg font-medium text-white text-gray-600 shadow-sm hover:bg-purple-800 disabled:opacity-50 disabled:pointer-events-none dark:bg-neutral-900 dark:border-neutral-700"
           >

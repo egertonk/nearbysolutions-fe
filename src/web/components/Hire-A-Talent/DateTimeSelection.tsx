@@ -1,18 +1,13 @@
-import { CustomerFormData } from "../../lib/types/orderTypes";
 import { useCalenderStates } from "../../lib/useCalenderStates";
 import { Calender } from "../common-sections/calender";
 import { DatePicker } from "../common-sections/datePicker";
 
 type Props = {
-  formData: CustomerFormData;
   isTimeChangeAllow?: boolean;
   isDateChangeAllow?: boolean;
 };
 
-export const DateTimeSelection: React.FC<Props> = ({
-  formData,
-  isDateChangeAllow,
-}) => {
+export const DateTimeSelection: React.FC<Props> = ({ isDateChangeAllow }) => {
   const {
     showNextMonth,
     setShowNextMonth,
@@ -36,13 +31,13 @@ export const DateTimeSelection: React.FC<Props> = ({
         currentYearSelection={currentYearSelection}
         userSelectedDate={userSelectedDate}
         isDateChangeAllow={isDateChangeAllow}
+        formattedDate={formattedDate}
       />
 
       <DatePicker
         formattedDate={formattedDate}
         date={date}
         isCurrentMonth={isCurrentMonth}
-        formData={formData}
         userSelectedDate={userSelectedDate}
       />
     </>

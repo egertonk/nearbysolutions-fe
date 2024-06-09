@@ -1,12 +1,12 @@
+import { useSelector } from "react-redux";
 import { DateSelection } from "../../lib/types/calenderTypes";
-import { CustomerFormData } from "../../lib/types/orderTypes";
 import { TimeList } from "../common-sections/timeList";
+import { RootState } from "../../../store";
 
 type Props = {
   formattedDate: string;
   date: number;
   isCurrentMonth: boolean;
-  formData: CustomerFormData;
   userSelectedDate: DateSelection | undefined;
   isTimeChangeAllow?: boolean;
 };
@@ -15,10 +15,12 @@ export const DatePicker: React.FC<Props> = ({
   formattedDate,
   date,
   isCurrentMonth,
-  formData,
   userSelectedDate,
   isTimeChangeAllow,
 }) => {
+   const customerOrder = useSelector(
+     (state: RootState) => state.formData.customerOrder
+   );
   return (
     <>
       <div className="pt-5 sm:space-x-5 rtl:space-x-reverse auto-cols-max w-full">
@@ -52,8 +54,8 @@ export const DatePicker: React.FC<Props> = ({
                 clipRule="evenodd"
               />
             </svg>
-            {formData.solutionStartTime.length > 0
-              ? formData.solutionStartTime
+            {customerOrder.solutionStartTime.length > 0
+              ? customerOrder.solutionStartTime
               : "Pick a time"}
           </button>
           <label className="sr-only">Pick a time</label>

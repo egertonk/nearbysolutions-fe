@@ -18,6 +18,7 @@ import { CalenderForm } from "./web/components/common-sections/calenderForm";
 import { Provider } from "react-redux";
 import store from "./store";
 import { Payment } from "./web/components/Payment-Process/Payment";
+import { EditOrder } from "./web/components/Orders/EditOrder";
 
 function App() {
   return (
@@ -31,13 +32,22 @@ function App() {
           <Route path="/favorite" element={<Favorite />} />
           <Route path="/reviews" element={<Reviews />} />
           <Route path="/register" element={<Register />} />
+
+          {/* Hire A Talent */}
           <Route path="/hire-a-talent" element={<Talent />} />
-          <Route path="/order-summary" element={<OrderSumary />} />
-          <Route path="/view-order-history" element={<ViewOrderHistory />} />
           <Route path="/talent-detail-page" element={<TalentDetailPage />} />
-          {/* <Route path="/date-time-selection/" element={<DateTimeSelection />} /> */}
+          <Route path="date-time-selection" element={<DateTimeSelection />} />
           <Route path="/customer-form" element={<CalenderForm />} />
+          <Route path="/order-summary" element={<OrderSumary />} />
+
+          {/* Payment */}
           <Route path="/payment" element={<Payment />} />
+
+          {/* Cutomer History */}
+          <Route path="/view-order-history" element={<ViewOrderHistory />} />
+
+          {/* Edit Order */}
+          <Route path="/edit-order" element={<EditOrder />} />
         </Routes>
         <Footer />
       </div>

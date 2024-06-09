@@ -1,7 +1,5 @@
-import { talentProfile } from "../../lib";
 import { WorkOrderList } from "../common-sections/workOrderList";
 import { useState } from "react";
-import { TalentDetailPage } from "../Hire-A-Talent/talentDetailPage";
 import { SideMenuList } from "../Header/SideMenuList";
 import { SortBy } from "../common-sections/SortBy";
 
@@ -40,7 +38,6 @@ export const Orders: React.FC<Props> = ({
 
         <div className="flex flex-col lg:flex-row justify-center">
           <SideMenuList
-            setIsEditOrder={setIsEditOrder}
             isEditOrder={isEditOrder}
             setShowTalentDetailPage={setShowTalentDetailPage}
           />

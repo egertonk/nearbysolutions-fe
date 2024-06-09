@@ -1,29 +1,43 @@
-import { PaymentStateProps } from "./Payment";
+import { useDispatch, useSelector } from "react-redux";
+import { RootState } from "../../../store";
+import { setPaymentState } from "../../../store/paymentSlice";
+import { PaymentStateProps } from "../../lib/types/paymentTyoes";
 
-type Props = {
-  paymentState: PaymentStateProps;
-  togglePaymentInputs: (name: string, status: boolean) => void;
-};
+export const PaymentSelection: React.FC = () => {
+  const dispatch = useDispatch();
+  const paymentStatus = useSelector(
+    (state: RootState) => state.paymentCheckoutState.paymentCheckoutState
+  );
 
-export const PaymentSelection: React.FC<Props> = ({
-  paymentState,
-  togglePaymentInputs,
-}) => {
-  const handlePaymentOptions = (name?: string) => {
-    if (name === "credit") {
-      togglePaymentInputs("showCreditCard", !paymentState.showCreditCard);
-      togglePaymentInputs("showPaypal", false);
-    } else {
-      togglePaymentInputs("showCreditCard", false);
-      togglePaymentInputs("showPaypal", true);
-    }
-    togglePaymentInputs("showPaymentSelection", false);
-    togglePaymentInputs("showPaymentInfo", true);
+  const handlePaymentInfoEdit = (updatedPaymentStatus: PaymentStateProps) => {
+    dispatch(setPaymentState(updatedPaymentStatus));
   };
 
+  const handlePaymentOptions = (name?: string) => {
+    if (name === "credit") {
+      const updatedPaymentStatus: PaymentStateProps = {
+        ...paymentStatus,
+        showCreditCard: true,
+        showPaypal: false,
+        showPaymentSelection: false,
+        showPaymentInfo: true,
+      };
+      handlePaymentInfoEdit(updatedPaymentStatus);
+    } else {
+      const updatedPaymentStatus: PaymentStateProps = {
+        ...paymentStatus,
+        showCreditCard: false,
+        showPaypal: true,
+        showPaymentSelection: false,
+        showPaymentInfo: true,
+      };
+      handlePaymentInfoEdit(updatedPaymentStatus);
+    }
+  };
+  console.log(paymentStatus);
   return (
     <>
-      {paymentState.showPaymentSelection && (
+      {paymentStatus.showPaymentSelection && (
         <>
           <div className="space-y-4">
             <div className="grid grid-cols-2 gap-4 md:grid-cols-2">
@@ -36,7 +50,7 @@ export const PaymentSelection: React.FC<Props> = ({
                       type="radio"
                       name="credit-card-payment-method"
                       className="h-4 w-4 border-gray-300 bg-white text-primary-600 focus:ring-2 focus:ring-primary-600 dark:border-gray-600 dark:bg-gray-700 dark:ring-offset-gray-800 dark:focus:ring-primary-600"
-                      checked={paymentState.showCreditCard}
+                      checked={paymentStatus.showCreditCard}
                       onClick={() => handlePaymentOptions("credit")}
                     />
                   </div>
@@ -66,7 +80,7 @@ export const PaymentSelection: React.FC<Props> = ({
                       type="radio"
                       name="payment-method"
                       className="h-4 w-4 border-gray-300 bg-white text-primary-600 focus:ring-2 focus:ring-primary-600 dark:border-gray-600 dark:bg-gray-700 dark:ring-offset-gray-800 dark:focus:ring-primary-600"
-                      checked={paymentState.showPaypal}
+                      checked={paymentStatus.showPaypal}
                       onClick={() => handlePaymentOptions()}
                     />
                   </div>

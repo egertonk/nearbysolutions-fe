@@ -1,44 +1,21 @@
-import { useState } from "react";
 import { PaymentCustomerDetails } from "./PaymentCustomerDetails";
 import { PaymentJobDetails } from "./PaymentJobDetails";
 import { PaymentSumary } from "./PaymentSumary";
 import { useNavigate } from "react-router";
-
-export type PaymentStateProps = {
-  showPaymentInputs: boolean;
-  showCreditCard: boolean;
-  showPaypal: boolean;
-  showPaymentSelection: boolean;
-  showPaymentInfo: boolean;
-  showPayment: boolean;
-  showSelectPayment: boolean;
-};
+import { useSelector } from "react-redux";
+import { RootState } from "../../../store";
 
 export const Payment: React.FC = () => {
   const navigate = useNavigate();
-
-  const [paymentState, setPaymentState] = useState<PaymentStateProps>({
-    showPaymentInputs: true,
-    showCreditCard: false,
-    showPaypal: false,
-    showPaymentSelection: true,
-    showPaymentInfo: false,
-    showPayment: true,
-    showSelectPayment: true,
-  });
-
-  const togglePaymentInputs = (name: string, status: boolean) => {
-    setPaymentState((prevState) => ({
-      ...prevState,
-      [name]: status,
-    }));
-  };
+  const paymentStatus = useSelector(
+    (state: RootState) => state.paymentCheckoutState.paymentCheckoutState
+  );
 
   return (
     <>
       <div className="text-center ">
         <h1 className="font-bold text-3xl md:text-4xl lg:text-5xl font-heading text-purple-800 mb-4">
-          {paymentState.showPaymentInputs ? "Payment" : "Review Order"}
+          {paymentStatus.showPaymentInputs ? "Payment" : "Review Order"}
         </h1>
 
         <div
@@ -57,7 +34,7 @@ export const Payment: React.FC = () => {
       </div>
 
       <section id="testimonials" className="py-10">
-        {paymentState.showPaymentInputs === false && (
+        {paymentStatus.showPaymentInputs === false && (
           <button
             className="bg-purple-500 w-50 hover:bg-purple-700 text-white font-bold py-2 px-4 rounded focus:outline-none mb-3"
             type="button"
@@ -72,10 +49,7 @@ export const Payment: React.FC = () => {
 
         <div className="container mx-auto">
           <div className="flex flex-col md:flex-row md:-mx-3">
-            <PaymentCustomerDetails
-              paymentState={paymentState}
-              togglePaymentInputs={togglePaymentInputs}
-            />
+            <PaymentCustomerDetails />
 
             <PaymentJobDetails />
 

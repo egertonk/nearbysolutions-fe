@@ -1,31 +1,33 @@
 import React from "react";
 import { editIconSVG } from "../../assets/svg/svgs";
-import { CustomerFormData } from "../../lib/types/orderTypes";
 import { CreditCardForm } from "./CreditCardForm";
-import { PaymentStateProps } from "./Payment";
 import { PaymentNav } from "./PaymentNav";
 import { PaymentSelection } from "./PaymentSelection";
-import { useSelector } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import { RootState } from "../../../store";
+import { setPaymentState } from "../../../store/paymentSlice";
+import { PaymentStateProps } from "../../lib/types/paymentTyoes";
 
-type Props = {
-  paymentState: PaymentStateProps;
-  togglePaymentInputs: (name: string, status: boolean) => void;
-};
+export const PaymentCustomerDetails: React.FC = () => {
+  const dispatch = useDispatch();
+  const paymentStatus = useSelector(
+    (state: RootState) => state.paymentCheckoutState.paymentCheckoutState
+  );
 
-export const PaymentCustomerDetails: React.FC<Props> = ({
-  paymentState,
-  togglePaymentInputs,
-}) => {
   const customerOrder = useSelector(
     (state: RootState) => state.formData.customerOrder
   );
 
   const handlePaymentInfoEdit = () => {
-    togglePaymentInputs("showPaymentInputs", true);
-    togglePaymentInputs("showPayment", true);
-    togglePaymentInputs("showPaymentInfo", false);
-    togglePaymentInputs("showPaymentInfo", true);
+    // todo - validate first with handleSubmit
+    const updatedPaymentStatus: PaymentStateProps = {
+      ...paymentStatus,
+      showPaymentInputs: true,
+      showPayment: true,
+      showPaymentInfo: true,
+    };
+
+    dispatch(setPaymentState(updatedPaymentStatus));
   };
 
   return (
@@ -34,20 +36,13 @@ export const PaymentCustomerDetails: React.FC<Props> = ({
         className="p-12 rounded-lg border-gray-200"
         style={{ boxShadow: "0 10px 28px rgba(0,0,0,.08)" }}
       >
-        <PaymentNav
-          paymentState={paymentState}
-          togglePaymentInputs={togglePaymentInputs}
-          handlePaymentInfoEdit={handlePaymentInfoEdit}
-        />
+        <PaymentNav handlePaymentInfoEdit={handlePaymentInfoEdit} />
 
-        <PaymentSelection
-          paymentState={paymentState}
-          togglePaymentInputs={togglePaymentInputs}
-        />
+        <PaymentSelection />
 
-        {paymentState.showCreditCard && (
+        {paymentStatus.showCreditCard && (
           <>
-            {paymentState.showPaymentInputs === false ? (
+            {paymentStatus.showPaymentInputs === false ? (
               <>
                 <p className="text-xl font-semibold">Customer Details</p>
                 <div className="text-left mt-5">
@@ -73,20 +68,17 @@ export const PaymentCustomerDetails: React.FC<Props> = ({
               </>
             ) : (
               <>
-                {paymentState.showPaymentSelection === false && (
+                {paymentStatus.showPaymentSelection === false && (
                   <p className="text-xl font-semibold">Provide Payment Info</p>
                 )}
               </>
             )}
 
             <div className="text-left mt-3">
-              {paymentState.showPaymentSelection === false && (
-                <CreditCardForm
-                  togglePaymentInputs={togglePaymentInputs}
-                  showPaymentInputs={paymentState.showPaymentInputs}
-                />
+              {paymentStatus.showPaymentSelection === false && (
+                <CreditCardForm />
               )}
-              {paymentState.showPaymentInputs === false && (
+              {paymentStatus.showPaymentInputs === false && (
                 <div className="w-full items-left ">
                   <button
                     onClick={() => handlePaymentInfoEdit()}

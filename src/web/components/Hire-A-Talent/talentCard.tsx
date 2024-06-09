@@ -1,4 +1,9 @@
 import { useNavigate } from "react-router";
+import { Link } from "react-router-dom";
+import { useDispatch, useSelector } from "react-redux";
+import { useEffect, useState } from "react";
+import { setCustomerOrder } from "../../../store/customerContractorSlice";
+import { RootState } from "../../../store";
 import { addTalentSVG, removeTalentSVG } from "../../assets/svg/svgs";
 import { isFixPriceValid, priceWithComma } from "../../lib";
 import {
@@ -7,10 +12,6 @@ import {
   TalentInformation,
 } from "../../lib/types/orderTypes";
 import { SocialIcon } from "./socialIcon";
-import { useDispatch, useSelector } from "react-redux";
-import { setCustomerOrder } from "../../../store/customerContractorSlice";
-import { RootState } from "../../../store";
-import { useEffect, useState } from "react";
 
 type Props = {
   talentInformationCard: TalentInformation[];
@@ -55,7 +56,7 @@ export const TalentCard: React.FC<Props> = ({
     jobDetailsObject: JobTitlePricing[],
     talentID: number
   ) => {
-    if (selectedJob !== "Select Jpb") {
+    if (selectedJob !== "Select Job") {
       const updatedJobTitlePricing = jobDetailsObject.map((job) => ({
         ...job,
         selectedStatus: job.title === selectedJob,
@@ -89,7 +90,7 @@ export const TalentCard: React.FC<Props> = ({
       (data) => data.selectedStatus
     );
 
-    const newdOrder: CustomerFormData = {
+    const newOrder: CustomerFormData = {
       ...customerState.formData.customerOrder,
       talentID: foundHire?.talentID || 0,
       talentFirstName: foundHire?.firstName || "",
@@ -103,8 +104,7 @@ export const TalentCard: React.FC<Props> = ({
       orderStatus: false,
     };
 
-    dispatch(setCustomerOrder(newdOrder));
-    // navigate(`/talent-detail-page/?talentID=${talentID}`);
+    dispatch(setCustomerOrder(newOrder));
   }, [talentInformationCard]);
 
   return (
@@ -115,25 +115,21 @@ export const TalentCard: React.FC<Props> = ({
           key={`talent-card-${index}`}
         >
           <div className="w-full md:w-2/5 h-100 group">
-            <button
-              className=" object-center object-cover w-full h-full group relative "
-              onClick={() =>
-                navigate(`/talent-detail-page/?talentID=${talentData.talentID}`)
-              }
+            <Link
+              className="object-center object-cover w-full h-full group relative"
+              to={`/talent-detail-page?talentID=${talentData.talentID}`}
             >
-              {/* Start hidden content */}
               <div className="transition-all transform z-40 translate-y-8 opacity-0 group-hover:opacity-100 group-hover:translate-y-0 text-center absolute justify-center">
                 <button className="px-4 py-2 text-sm text-white bg-purple-600">
                   {isFavoriteValid ? "Re-Hire" : "Hire"}
                 </button>
               </div>
-              {/* End of hidden content */}
               <img
-                className="object-center object-cover w-full h-full group-hover:opacity-50 object-cover inset-0 "
+                className="object-center object-cover w-full h-full group-hover:opacity-50 object-cover inset-0"
                 src={talentData.imageSource}
                 alt={`user-${index}`}
               />
-            </button>
+            </Link>
           </div>
 
           <div className="w-full md:w-3/5 text-left p-4 md:p-4 space-y-2">
@@ -157,8 +153,7 @@ export const TalentCard: React.FC<Props> = ({
                     strokeLinecap="round"
                     strokeLinejoin="round"
                   >
-                    {" "}
-                    <path stroke="none" d="M0 0h24v24H0z" />{" "}
+                    <path stroke="none" d="M0 0h24v24H0z" />
                     <path d="M5 12l5 5l10 -10" />
                   </svg>
                 </div>
@@ -173,7 +168,7 @@ export const TalentCard: React.FC<Props> = ({
                 Select Talent
               </label>
 
-              <div className="relative " key={`update-card-${index}`}>
+              <div className="relative" key={`update-card-${index}`}>
                 <select
                   className="w-full border-none text-white bg-sky-950"
                   id="grid-state"
@@ -183,15 +178,12 @@ export const TalentCard: React.FC<Props> = ({
                       talentData.jobTitlesPrice,
                       talentData.talentID
                     );
-                    // updateStore(talentData.talentID);
                   }}
                   value={getValue(talentData.jobTitlesPrice)}
                 >
-                  <option defaultValue="Select Jpb">Select Job</option>
+                  <option defaultValue="Select Job">Select Job</option>
                   {talentData.jobTitlesPrice.map((details, jobIndex) => (
-                    <>
-                      <option key={details.title}>{details.title}</option>
-                    </>
+                    <option key={details.title}>{details.title}</option>
                   ))}
                 </select>
                 <div className="pointer-events-none absolute inset-y-0 right-0 flex items-center px-2 text-white">
@@ -212,7 +204,7 @@ export const TalentCard: React.FC<Props> = ({
                 <span className="text-white">
                   $
                   {priceWithComma(
-                    getJobAndPrice(talentData?.jobTitlesPrice, "fixPrice") || ""
+                    getJobAndPrice(talentData.jobTitlesPrice, "fixPrice") || ""
                   )}
                 </span>
               </p>
@@ -222,7 +214,7 @@ export const TalentCard: React.FC<Props> = ({
                 <span className="text-white">
                   $
                   {priceWithComma(
-                    getJobAndPrice(talentData?.jobTitlesPrice, "ratePerHour") ||
+                    getJobAndPrice(talentData.jobTitlesPrice, "ratePerHour") ||
                       ""
                   )}
                 </span>
@@ -244,20 +236,14 @@ export const TalentCard: React.FC<Props> = ({
 
             <div className="grid grid-cols-4 gap-4 mb-0">
               <div className="col-span-3">
-                <button
+                <Link
                   className="px-4 py-2 text-sm text-white bg-purple-600"
-                  onClick={() =>
-                    navigate(
-                      `/talent-detail-page/?talentID=${talentData.talentID}`
-                    )
-                  }
+                  to={`/talent-detail-page?talentID=${talentData.talentID}`}
                 >
                   Hire
-                </button>
+                </Link>
 
-                <p className="text-xl text-white font-bold">
-                  {/* {talentData.vacationStatus ? "On Vacation" : "Available"} */}
-                </p>
+                <p className="text-xl text-white font-bold"></p>
               </div>
 
               <button className="w-full text-end group flex justify-center text-white font-semibold hover:translate-y-0 transition-all duration-500 hover:from-[#331029] hover:to-[#310413]">

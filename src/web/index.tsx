@@ -14,7 +14,7 @@ export const products = [
     routeName: "hire-a-talent",
   },
   {
-    name: "Hire for Someone",
+    name: "Gift a Solution",
     description: "Speak directly to your customers",
     href: "#",
     icon: SquaresPlusIcon,

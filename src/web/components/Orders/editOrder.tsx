@@ -1,55 +1,17 @@
-import { SetStateAction, useEffect, useState } from "react";
-import {
-  breakUpDate,
-  compareDates,
-  talentInformation,
-  customerOderHistory,
-} from "../../lib";
-import { useNavigate } from "react-router-dom";
+import { useEffect } from "react";
+import { breakUpDate, compareDates, customerOderHistory } from "../../lib";
 import { useCalenderStates } from "../../lib/useCalenderStates";
-import { CalenderForm } from "../common-sections/calenderForm";
-import { useCustomerPersonalInfoForm } from "../../lib/useCustomerPersonalInfoForm";
 import { CustomerOrder } from "../../lib/types/orderTypes";
 import { DateTimeSelection } from "../Hire-A-Talent/DateTimeSelection";
 
-type Props = {
-  orderNumber: number;
-};
-
-export const EditOrder: React.FC<Props> = ({ orderNumber }) => {
+export const EditOrder: React.FC = () => {
   const today = new Date();
 
-  const navigate = useNavigate();
-
-  const {
-    userSelectedDate,
-    formattedDate,
-    setUserSelectedDate,
-    setUserSelectedTime,
-  } = useCalenderStates();
+  const { setUserSelectedDate, setUserSelectedTime } = useCalenderStates();
 
   const order = customerOderHistory.find(
-    (data) => data.orderID === orderNumber
+    (data) => data.orderID === 0
   ) as CustomerOrder; // Todo: use this to get customer previous order to edit
-
-  const talent = talentInformation.find(
-    (talent) => talent.talentID === order?.talentID
-  );
-
-  const jobDetails = talent?.jobTitlesPrice.find(
-    (price) => price.selectedStatus
-  );
-
-  const jobTitle =
-    order !== undefined ? order?.solutionJob : talent?.jobTitlesPrice[0].title;
-  const [selectedTalent, setSelectedTalent] = useState(jobTitle || "");
-
-  const handleSubmit = () => {
-    // submit to database and navig
-    console.log("/view-order-history");
-    console.log("customerOderHistory ", customerOderHistory);
-    navigate("/view-order-history");
-  };
 
   const oldDate = breakUpDate(order?.orderDate);
   const oldDateString = `${oldDate?.month}/${oldDate?.day}/${oldDate?.year}`;
@@ -58,15 +20,6 @@ export const EditOrder: React.FC<Props> = ({ orderNumber }) => {
   }/${today.getDate()}/${today.getFullYear()}`;
 
   const isDateChangeAllow = compareDates(oldDateString, currentDateString);
-
-  const { formData } = useCustomerPersonalInfoForm(
-    talent,
-    jobDetails,
-    order?.solutionJob,
-    setSelectedTalent,
-    order?.solutionStartTime,
-    formattedDate
-  );
 
   useEffect(() => {
     if (oldDate) {
@@ -80,18 +33,11 @@ export const EditOrder: React.FC<Props> = ({ orderNumber }) => {
   }, []);
 
   return (
-    <>
-      <div className="flex flex-col lg:flex justify-center">
-        <DateTimeSelection
-          isDateChangeAllow={isDateChangeAllow}
-          isTimeChangeAllow={isDateChangeAllow}
-          formData={formData}
-        />
-      </div>
-
-      <form className="md:p-8 p-5 dark:bg-gray-800 bg-white rounded-t auto-cols-max">
-        <CalenderForm />
-      </form>
-    </>
+    <div className="flex flex-col lg:flex-row justify-center">
+      <DateTimeSelection
+        isDateChangeAllow={isDateChangeAllow}
+        isTimeChangeAllow={isDateChangeAllow}
+      />
+    </div>
   );
 };

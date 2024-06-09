@@ -17,6 +17,7 @@ type Props = {
   userSelectedDate: DateSelection | undefined;
   setShowNextMonth: React.Dispatch<React.SetStateAction<boolean>>;
   updateDateSelection: (day: number, month: string, year: number) => void;
+  formattedDate: string;
 };
 
 export const Calender: React.FC<Props> = ({
@@ -28,6 +29,7 @@ export const Calender: React.FC<Props> = ({
   isDateChangeAllow,
   setShowNextMonth,
   updateDateSelection,
+  formattedDate,
 }) => {
   const dispatch = useDispatch();
   const customerOrder = useSelector(
@@ -87,6 +89,7 @@ export const Calender: React.FC<Props> = ({
     const updatedOrder: CustomerFormData = {
       ...customerOrder,
       solutionDate: `${userSelectedDate?.month}/${userSelectedDate?.day}/${userSelectedDate?.year}`,
+      solutionFormattedDate: formattedDate,
     };
 
     dispatch(setCustomerOrder(updatedOrder));
