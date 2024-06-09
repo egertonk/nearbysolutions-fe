@@ -4,6 +4,7 @@ import { Search } from "../common-sections/Search";
 import { TalentCard } from "./talentCard";
 import { useState } from "react";
 import { TalentInformation } from "../../lib/types/orderTypes";
+import { MainTitle } from "../common-sections/MainTitle";
 
 export const Talent: React.FC = () => {
   const MAX_TALENT = 1;
@@ -22,13 +23,14 @@ export const Talent: React.FC = () => {
       />
       <div className="w-full ">
         <section className="max-w-7x2 mx-auto px-4 sm:px-6 lg:px-4 py-12">
-          <div className="text-center pb-12">
-            <h1 className="font-bold text-3xl md:text-4xl lg:text-5xl font-heading text-purple-800">
-              {isSearchResults
+          <MainTitle
+            title={
+              isSearchResults
                 ? "Solutionist is Unavailable"
-                : "Select a Solutionist"}
-            </h1>
-          </div>
+                : "Select a Solutionist"
+            }
+          />
+
           <div className="grid grid-cols-1 lg:grid-cols-4 gap-4">
             <TalentCard
               talentInformationCard={talentInformationCard}

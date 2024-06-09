@@ -2,6 +2,7 @@ import { WorkOrderList } from "../common-sections/workOrderList";
 import { useState } from "react";
 import { SideMenuList } from "../Header/SideMenuList";
 import { SortBy } from "../common-sections/SortBy";
+import { MainTitle } from "../common-sections/MainTitle";
 
 type Props = {
   isOrderHistory?: boolean;
@@ -28,11 +29,7 @@ export const Orders: React.FC<Props> = ({
   return (
     <>
       <div className="py-3 px-4 justify-center dark:bg-gray-700 rounded-b">
-        <div className="text-center pb-1 mb-3">
-          <h1 className="font-bold text-3xl md:text-4xl lg:text-5xl font-heading text-purple-800">
-            {pageTile}
-          </h1>
-        </div>
+        <MainTitle title={pageTile} />
 
         {isOrderHistory && setSortType && <SortBy setSortType={setSortType} />}
 

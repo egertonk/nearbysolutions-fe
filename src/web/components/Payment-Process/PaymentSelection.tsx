@@ -34,7 +34,7 @@ export const PaymentSelection: React.FC = () => {
       handlePaymentInfoEdit(updatedPaymentStatus);
     }
   };
-  console.log(paymentStatus);
+
   return (
     <>
       {paymentStatus.showPaymentSelection && (

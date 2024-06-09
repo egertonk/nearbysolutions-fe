@@ -18,6 +18,10 @@ export const PaymentCustomerDetails: React.FC = () => {
     (state: RootState) => state.formData.customerOrder
   );
 
+  const isEditOrder = useSelector(
+    (state: RootState) => state.formData.isEditOrder
+  );
+
   const handlePaymentInfoEdit = () => {
     // todo - validate first with handleSubmit
     const updatedPaymentStatus: PaymentStateProps = {
@@ -36,13 +40,17 @@ export const PaymentCustomerDetails: React.FC = () => {
         className="p-12 rounded-lg border-gray-200"
         style={{ boxShadow: "0 10px 28px rgba(0,0,0,.08)" }}
       >
-        <PaymentNav handlePaymentInfoEdit={handlePaymentInfoEdit} />
-
-        <PaymentSelection />
-
-        {paymentStatus.showCreditCard && (
+        {isEditOrder === false && (
           <>
-            {paymentStatus.showPaymentInputs === false ? (
+            <PaymentNav handlePaymentInfoEdit={handlePaymentInfoEdit} />
+
+            <PaymentSelection />
+          </>
+        )}
+
+        {(isEditOrder || paymentStatus.showCreditCard) && (
+          <>
+            {isEditOrder || paymentStatus.showPaymentInputs === false ? (
               <>
                 <p className="text-xl font-semibold">Customer Details</p>
                 <div className="text-left mt-5">

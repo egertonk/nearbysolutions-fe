@@ -1,20 +1,13 @@
 import { createSlice, PayloadAction } from "@reduxjs/toolkit";
 import { PaymentStateProps } from "../web/lib/types/paymentTyoes";
+import { paymentStatusStates } from "./defualtStates";
 
 interface PaymentCheckoutState {
   paymentCheckoutState: PaymentStateProps;
 }
 
-const initialState: PaymentCheckoutState = {
-  paymentCheckoutState: {
-    showPaymentInputs: true,
-    showCreditCard: false,
-    showPaypal: false,
-    showPaymentSelection: true,
-    showPaymentInfo: false,
-    showPayment: true,
-    showSelectPayment: true,
-  },
+export const initialState: PaymentCheckoutState = {
+  paymentCheckoutState: paymentStatusStates,
 };
 
 const paymentSlice = createSlice({

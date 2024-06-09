@@ -1,5 +1,6 @@
 import { createSlice, PayloadAction } from "@reduxjs/toolkit";
 import { CustomerFormData, CustomerOrder } from "../web/lib/types/orderTypes";
+import { customerOrderStatess, orderStates } from "./defualtStates";
 
 interface CustomerContractorState {
   customerOrder: CustomerFormData;
@@ -9,60 +10,10 @@ interface CustomerContractorState {
 }
 
 const initialState: CustomerContractorState = {
-  customerOrder: {
-    orderID: 0,
-    customerID: 0,
-    firstName: "",
-    lastName: "",
-    country: "",
-    address: "",
-    city: "",
-    state: "",
-    zip: "",
-    phoneNumber: "",
-    solutionFormattedDate: "",
-    solutionDate: "",
-    solutionTask: "",
-    solutionJob: "",
-    solutionStartTime: "",
-    selectedTalent: "",
-    talentID: 0,
-    talentFirstName: "",
-    talentLastName: "",
-    solutionPrice: 0,
-    solutionPricePerHourStatus: false,
-    solutionPriceDiscountPercentage: 0,
-    orderDate: "",
-    orderStatus: false,
-  },
+  customerOrder: customerOrderStatess,
   isEditOrder: false,
   isError: false,
-  order: {
-    orderID: 0,
-    customerID: 0,
-    firstName: "",
-    lastName: "",
-    country: "",
-    address: "",
-    city: "",
-    state: "",
-    zip: "",
-    phoneNumber: "",
-    solutionFormattedDate: "",
-    solutionDate: "",
-    solutionTask: "",
-    solutionJob: "",
-    solutionStartTime: "",
-    selectedTalent: "",
-    talentID: 0,
-    talentFirstName: "",
-    talentLastName: "",
-    solutionPrice: 0,
-    solutionPricePerHourStatus: false,
-    solutionPriceDiscountPercentage: 0,
-    orderDate: "",
-    orderStatus: false,
-  },
+  order: orderStates,
 };
 
 const customerContractorSlice = createSlice({

@@ -7,11 +7,15 @@ import {
 } from "../../../store/customerContractorSlice";
 import { CustomerFormData } from "../../lib/types/orderTypes";
 import { useNavigate } from "react-router";
+import { MainTitle } from "./MainTitle";
 
 export const CalenderForm: React.FC = () => {
   const dispatch = useDispatch();
   const navigate = useNavigate();
   const customerOrder = useSelector((state: RootState) => state.formData);
+  const isEditOrder = useSelector(
+    (state: RootState) => state.formData.isEditOrder
+  );
 
   const validateForm = () => {
     return Object.values(customerOrder.customerOrder).every((field) => {
@@ -41,16 +45,12 @@ export const CalenderForm: React.FC = () => {
 
   return (
     <>
-      <div className="text-center pb-4">
-        <h1 className="font-bold text-3xl md:text-4xl lg:text-5xl font-heading text-purple-800">
-          Customer Infomation Form
-        </h1>
-      </div>
+      <MainTitle title="Customer Infomation Form" />
 
       <div className="justify-center -mx-3 mb-1">
         <p className="text-gray-900 dark:text-white text-base font-medium mb-3 text-center font-heading text-purple-800">
           {`Talent Name: ${
-            customerOrder.isEditOrder
+            isEditOrder
               ? `${customerOrder.order.firstName} ${customerOrder.order.lastName}`
               : `${customerOrder.customerOrder.talentFirstName} ${customerOrder.customerOrder.talentLastName}`
           }`}
@@ -61,7 +61,7 @@ export const CalenderForm: React.FC = () => {
         <p className="text-gray-900 dark:text-white text-base font-medium mb-3 text-center">
           <span className="font-heading text-purple-800">Job:</span>{" "}
           {customerOrder.customerOrder.solutionJob}{" "}
-          {customerOrder.isEditOrder ? (
+          {isEditOrder ? (
             <>
               {customerOrder.customerOrder.solutionPricePerHourStatus ===
               false ? (
@@ -128,11 +128,11 @@ export const CalenderForm: React.FC = () => {
               type="button"
               onClick={() => handleSubmit()}
             >
-              {customerOrder.isEditOrder ? "Update" : "Submit"}
+              {isEditOrder ? "Update" : "Submit"}
             </button>
           </div>
 
-          {customerOrder.isEditOrder && (
+          {isEditOrder && (
             <div className="w-full px-3 pt-4">
               <button
                 className="mt-5 align-middle select-none font-sans font-bold text-center uppercase transition-all disabled:opacity-50 disabled:shadow-none disabled:pointer-events-none text-xs py-3 px-6 rounded-lg bg-red-900 text-white shadow-md shadow-gray-900/10 hover:shadow-lg hover:shadow-gray-900/20 focus:opacity-[0.85] focus:shadow-none active:opacity-[0.85] active:shadow-none block w-full"

@@ -1,6 +1,6 @@
 import { priceWithComma, customerOderHistory } from "../../lib";
 import { editIconSVG } from "../../assets/svg/svgs";
-import { setCustomerOrder } from "../../../store/customerContractorSlice";
+import { setCustomerOrder, setIsEditOrder } from "../../../store/customerContractorSlice";
 import { useDispatch } from "react-redux";
 import { useNavigate } from "react-router";
 
@@ -21,7 +21,10 @@ export const WorkOrderList: React.FC<Props> = ({ showEdits }) => {
       return oldOrder?.orderID?.toString() === orderNumber?.toString();
     });
 
-    if (foundOrder !== undefined) dispatch(setCustomerOrder(foundOrder));
+    if (foundOrder !== undefined) {
+      dispatch(setIsEditOrder(true));
+      dispatch(setCustomerOrder(foundOrder));
+    }
     navigate("/edit-order");
   };
 

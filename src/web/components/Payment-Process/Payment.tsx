@@ -2,20 +2,50 @@ import { PaymentCustomerDetails } from "./PaymentCustomerDetails";
 import { PaymentJobDetails } from "./PaymentJobDetails";
 import { PaymentSumary } from "./PaymentSumary";
 import { useNavigate } from "react-router";
-import { useSelector } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import { RootState } from "../../../store";
+import { setPaymentState } from "../../../store/paymentSlice";
+import {
+  setCustomerOrder,
+  setIsEditOrder,
+} from "../../../store/customerContractorSlice";
+import {
+  customerOrderStatess,
+  paymentStatusStates,
+} from "../../../store/defualtStates";
 
 export const Payment: React.FC = () => {
   const navigate = useNavigate();
+  const dispatch = useDispatch();
   const paymentStatus = useSelector(
     (state: RootState) => state.paymentCheckoutState.paymentCheckoutState
   );
+  const isEditOrder = useSelector(
+    (state: RootState) => state.formData.isEditOrder
+  );
+
+  const handleSubmit = (action: string) => {
+    // todo - submit to the database
+
+    if (action === "Submit") {
+      navigate("/order-summary");
+
+      // Reset States to default
+      dispatch(setIsEditOrder(false));
+      dispatch(setPaymentState(paymentStatusStates));
+      dispatch(setCustomerOrder(customerOrderStatess));
+    }
+  };
 
   return (
     <>
       <div className="text-center ">
         <h1 className="font-bold text-3xl md:text-4xl lg:text-5xl font-heading text-purple-800 mb-4">
-          {paymentStatus.showPaymentInputs ? "Payment" : "Review Order"}
+          {isEditOrder
+            ? "Review Information"
+            : paymentStatus.showPaymentInputs
+            ? "Payment"
+            : "Review Order"}
         </h1>
 
         <div
@@ -34,16 +64,13 @@ export const Payment: React.FC = () => {
       </div>
 
       <section id="testimonials" className="py-10">
-        {paymentStatus.showPaymentInputs === false && (
+        {(isEditOrder || paymentStatus.showPaymentInputs === false) && (
           <button
             className="bg-purple-500 w-50 hover:bg-purple-700 text-white font-bold py-2 px-4 rounded focus:outline-none mb-3"
             type="button"
-            onClick={() => {
-              // todo - submit to the database
-              navigate("/order-summary");
-            }}
+            onClick={() => handleSubmit(isEditOrder ? "Submit" : "Place Order")}
           >
-            Place Order
+            {isEditOrder ? "Submit" : "Place Order"}
           </button>
         )}
 
@@ -53,7 +80,7 @@ export const Payment: React.FC = () => {
 
             <PaymentJobDetails />
 
-            <PaymentSumary />
+            {isEditOrder === false && <PaymentSumary />}
           </div>
         </div>
       </section>

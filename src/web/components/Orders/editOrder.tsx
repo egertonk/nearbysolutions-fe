@@ -3,6 +3,7 @@ import { breakUpDate, compareDates, customerOderHistory } from "../../lib";
 import { useCalenderStates } from "../../lib/useCalenderStates";
 import { CustomerOrder } from "../../lib/types/orderTypes";
 import { DateTimeSelection } from "../Hire-A-Talent/DateTimeSelection";
+import { MainTitle } from "../common-sections/MainTitle";
 
 export const EditOrder: React.FC = () => {
   const today = new Date();
@@ -33,11 +34,15 @@ export const EditOrder: React.FC = () => {
   }, []);
 
   return (
-    <div className="flex flex-col lg:flex-row justify-center">
-      <DateTimeSelection
-        isDateChangeAllow={isDateChangeAllow}
-        isTimeChangeAllow={isDateChangeAllow}
-      />
-    </div>
+    <>
+      <MainTitle title="Editing Order" />
+
+      <div className="flex flex-col lg:flex-row justify-center">
+        <DateTimeSelection
+          isDateChangeAllow={isDateChangeAllow}
+          isTimeChangeAllow={isDateChangeAllow}
+        />
+      </div>
+    </>
   );
 };
