@@ -51,6 +51,7 @@ export const useCustomerPersonalInfoForm = (
     state: customerOrder.state || "",
     zip: customerOrder.zip || "",
     phoneNumber: customerOrder.phoneNumber || "5713301230",
+    email: customerOrder.email || "",
     solutionFormattedDate:
       customerOrder.solutionFormattedDate || formattedDate || "",
     solutionDate:
@@ -73,6 +74,8 @@ export const useCustomerPersonalInfoForm = (
       customerOrder.solutionPriceDiscountPercentage || discountGiven,
     orderDate: `${today}`,
     orderStatus: customerOrder.orderStatus || false,
+    giftStatus: customerOrder.giftStatus || false,
+    giftFor_fullName: customerOrder.giftFor_fullName || "",
   });
 
   const handleChange = (

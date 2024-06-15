@@ -53,6 +53,13 @@ export const SideMenuList: React.FC<Props> = ({
           >
             <p>Reviews</p>
           </Link>
+          <Link
+            type="button"
+            className="mb-1 bg-sky-950 py-2 px-4 inline-flex gap-x-2 text-lg rounded-lg font-medium text-gray-600 shadow-sm text-white hover:bg-purple-800 disabled:opacity-50 disabled:pointer-events-none"
+            to={`/post-a-job`}
+          >
+            <p>Post a Job</p>
+          </Link>
         </div>
       )}
     </>

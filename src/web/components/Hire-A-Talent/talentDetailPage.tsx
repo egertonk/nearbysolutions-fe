@@ -7,6 +7,8 @@ import { useCustomerPersonalInfoForm } from "../../lib/useCustomerPersonalInfoFo
 import { useState } from "react";
 import { talentInformation } from "../../lib";
 import { DateTimeSelection } from "./DateTimeSelection";
+import { StepperProgress } from "../common-sections/StepperProgress";
+import { MainTitle } from "../common-sections/MainTitle";
 
 export const TalentDetailPage: React.FC = () => {
   const location = useLocation();
@@ -39,6 +41,9 @@ export const TalentDetailPage: React.FC = () => {
 
   return (
     <>
+      {/* <StepperProgress /> */}
+      <MainTitle title="Select Date and Time" />
+
       <div className="flex flex-col lg:flex-row justify-center">
         <DateTimeSelection />
       </div>

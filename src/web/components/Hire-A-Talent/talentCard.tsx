@@ -1,4 +1,3 @@
-import { useNavigate } from "react-router";
 import { Link } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
 import { useEffect, useState } from "react";
@@ -14,20 +13,15 @@ import {
 import { SocialIcon } from "./socialIcon";
 
 type Props = {
-  talentInformationCard: TalentInformation[];
-  setTalentInformationCard: React.Dispatch<
-    React.SetStateAction<TalentInformation[]>
-  >;
+  searchResults: TalentInformation[];
   isFavoriteValid?: boolean;
 };
 
 export const TalentCard: React.FC<Props> = ({
-  talentInformationCard,
-  setTalentInformationCard,
+  searchResults,
   isFavoriteValid,
 }) => {
   const dispatch = useDispatch();
-  const navigate = useNavigate();
   const customerState = useSelector((state: RootState) => state);
   const [id, setId] = useState(0);
 
@@ -35,7 +29,7 @@ export const TalentCard: React.FC<Props> = ({
     talentID: number,
     updatedJobTitlePricing: JobTitlePricing[]
   ) => {
-    const updatedTalentInformation = talentInformationCard.map((talent) => {
+    const updatedTalentInformation = searchResults.map((talent) => {
       if (talentID === talent.talentID) {
         return {
           ...talent,
@@ -46,7 +40,6 @@ export const TalentCard: React.FC<Props> = ({
     });
 
     if (updatedTalentInformation) {
-      setTalentInformationCard(updatedTalentInformation);
       setId(talentID);
     }
   };
@@ -82,9 +75,7 @@ export const TalentCard: React.FC<Props> = ({
   };
 
   useEffect(() => {
-    const foundHire = talentInformationCard.find(
-      (talent) => talent.talentID === id
-    );
+    const foundHire = searchResults.find((talent) => talent.talentID === id);
 
     const foundPrice = foundHire?.jobTitlesPrice.find(
       (data) => data.selectedStatus
@@ -105,11 +96,11 @@ export const TalentCard: React.FC<Props> = ({
     };
 
     dispatch(setCustomerOrder(newOrder));
-  }, [talentInformationCard]);
+  }, [searchResults]);
 
   return (
     <>
-      {talentInformationCard.map((talentData, index) => (
+      {searchResults.map((talentData, index) => (
         <div
           className="w-full bg-sky-950 rounded-lg shadow-lg overflow-hidden flex flex-col md:flex-row"
           key={`talent-card-${index}`}

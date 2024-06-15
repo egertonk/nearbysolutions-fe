@@ -13,7 +13,7 @@ function classNames(...classes: string[]) {
 }
 
 export const NearBySolutionsHeader: React.FC = () => {
-   const navigate = useNavigate();
+  const navigate = useNavigate();
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
 
   return (

@@ -2,40 +2,57 @@ import { talentInformation } from "../../lib";
 import { ChevronLeftIcon, ChevronRightIcon } from "@heroicons/react/20/solid";
 import { Search } from "../common-sections/Search";
 import { TalentCard } from "./talentCard";
-import { useState } from "react";
-import { TalentInformation } from "../../lib/types/orderTypes";
+import { useEffect, useState } from "react";
 import { MainTitle } from "../common-sections/MainTitle";
+import { useLocation } from "react-router";
+import { useDispatch } from "react-redux";
+import { setApplicationMode } from "../../../store/applicationModeSlice";
+import { setCustomerOrder } from "../../../store/customerContractorSlice";
+import {
+  customerOrderStatess,
+  paymentStatusStates,
+} from "../../../store/defualtStates";
+import { setPaymentState } from "../../../store/paymentSlice";
 
 export const Talent: React.FC = () => {
+  const dispatch = useDispatch();
+  const location = useLocation();
   const MAX_TALENT = 1;
   const [searchResults, setSearchResults] = useState(talentInformation);
   const isSearchResults = searchResults.length === 0;
 
-  const [talentInformationCard, setTalentInformationCard] =
-    useState<TalentInformation[]>(searchResults);
+  const isGiftASolution = location.pathname.includes("gift-a-solution");
+
+  useEffect(() => {
+    const giftStatus = location.pathname.includes("gift-a-solution");
+    if (giftStatus) dispatch(setApplicationMode(true));
+    if (giftStatus === false) dispatch(setApplicationMode(false));
+    dispatch(setCustomerOrder(customerOrderStatess));
+    dispatch(setPaymentState(paymentStatusStates));
+  }, []);
 
   return (
     <>
-      <Search
-        setSearchResults={setSearchResults}
-        searchResults={searchResults}
-        fallBackData={talentInformation}
-      />
       <div className="w-full ">
-        <section className="max-w-7x2 mx-auto px-4 sm:px-6 lg:px-4 py-12">
+        <section className="max-w-7x2 mx-auto px-4 sm:px-6 lg:px-4 py-4">
           <MainTitle
             title={
-              isSearchResults
+              isGiftASolution
+                ? "Gift a Solution"
+                : isSearchResults
                 ? "Solutionist is Unavailable"
                 : "Select a Solutionist"
             }
           />
 
+          <Search
+            setSearchResults={setSearchResults}
+            searchResults={searchResults}
+            fallBackData={talentInformation}
+          />
+
           <div className="grid grid-cols-1 lg:grid-cols-4 gap-4">
-            <TalentCard
-              talentInformationCard={talentInformationCard}
-              setTalentInformationCard={setTalentInformationCard}
-            />
+            <TalentCard searchResults={searchResults} />
           </div>
           {!isSearchResults && searchResults.length > MAX_TALENT && (
             <div className="flex items-center justify-between border-t border-gray-200 bg-white px-4 py-3 sm:px-6">

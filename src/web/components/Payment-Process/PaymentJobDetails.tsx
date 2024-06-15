@@ -25,7 +25,7 @@ export const PaymentJobDetails: React.FC = () => {
   return (
     <div className="flex-1 px-3">
       <div
-        className="p-12 rounded-lg border-gray-200 mb-8"
+        className="p-12 rounded-lg border-gray-200 mb-8 justtify-center"
         style={{ boxShadow: "0 10px 28px rgba(0,0,0,.08)" }}
       >
         <p className="text-xl font-semibold">Job Details</p>
@@ -66,7 +66,9 @@ export const PaymentJobDetails: React.FC = () => {
             </p>
           </div>
         </div>
-        {imageUrl && <img src={imageUrl} alt="Static Map" />}
+        <div className="flex justify-center items-center m-5">
+          {imageUrl && <img src={imageUrl} alt="Static Map" />}
+        </div>
       </div>
     </div>
   );

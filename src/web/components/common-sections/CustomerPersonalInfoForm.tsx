@@ -3,12 +3,19 @@ import { useDispatch, useSelector } from "react-redux";
 import { RootState } from "../../../store";
 import { CustomerFormData } from "../../lib/types/orderTypes";
 import { setCustomerOrder } from "../../../store/customerContractorSlice";
+import {
+  envelopIconSVG,
+  locationDropSVG,
+  personIconSVG,
+  phoneIconSVG,
+} from "../../assets/svg/svgs";
+import { errorCss } from "../../assets/common-css/css";
 
 export const CustomerPersonalInfoForm: React.FC = () => {
   const dispatch = useDispatch();
-  const customerOrder = useSelector(
-    (state: RootState) => state.formData.customerOrder
-  );
+  const states = useSelector((state: RootState) => state);
+  const customerOrder = states.formData.customerOrder;
+  const isGiftASolution = states.applicationModeState.isGiftASolution;
 
   const updateStore = (
     e: React.ChangeEvent<HTMLInputElement | HTMLSelectElement>
@@ -25,128 +32,102 @@ export const CustomerPersonalInfoForm: React.FC = () => {
   const inputCSS =
     "appearance-none block w-full text-gray-700 border border-gray-200 rounded py-3 px-4 leading-tight focus:outline-none focus:bg-white focus:border-gray-500";
 
+  // inside useQuery Mutate
+  // Navigate(`/mmmmmm?ordernumber=${res.orderNumber}`, {state: {orderDetails: res}});
   return (
     <>
-      <div className="w-full md:w-1/2 px-3 mb-6 md:mb-0">
-        <label
-          className="block uppercase tracking-wide text-gray-700 text-xs font-bold mb-2"
-          htmlFor="firstName"
-        >
-          First Name
-        </label>
-        <input
-          className="appearance-none block w-full text-gray-700 border rounded py-3 px-4 mb-3 leading-tight focus:outline-none focus:bg-white"
-          id="firstName"
-          name="firstName"
-          type="text"
-          value={customerOrder.firstName}
-          onChange={updateStore}
-        />
-        {customerOrder.firstName.length === 0 && (
-          <p className="text-red-500 text-xs italic">
-            Please fill out First Name.
-          </p>
-        )}
-      </div>
+      <div className="grid lg:grid-cols-3 items-center gap-4 p-2 shadow-[0_2px_10px_-3px_rgba(6,81,237,0.3)] rounded-lg mt-8 w-full">
+        <div className="relative flex items-center m-1">
+          <input
+            className={`${inputCSS} ${
+              customerOrder.firstName.length === 0 && errorCss
+            }`}
+            id="firstName"
+            name="firstName"
+            type="text"
+            placeholder="Enter your First Name"
+            value={customerOrder.firstName}
+            onChange={updateStore}
+          />
+          {personIconSVG}
+        </div>
 
-      <div className="w-full md:w-1/2 px-3">
-        <label
-          className="block uppercase tracking-wide text-gray-700 text-xs font-bold mb-2"
-          htmlFor="lastName"
-        >
-          Last Name
-        </label>
-        <input
-          className={inputCSS}
-          id="lastName"
-          name="lastName"
-          type="text"
-          value={customerOrder.lastName}
-          onChange={updateStore}
-        />
-        {customerOrder.lastName.length === 0 && (
-          <p className="text-red-500 text-xs italic">
-            Please fill out Last Name.
-          </p>
-        )}
-      </div>
+        <div className="relative flex items-center m-1">
+          <input
+            className={`${inputCSS} ${
+              customerOrder.lastName.length === 0 && errorCss
+            }`}
+            id="lastName"
+            name="lastName"
+            type="text"
+            placeholder="Enter your Last Name"
+            value={customerOrder.lastName}
+            onChange={updateStore}
+          />
+          {personIconSVG}
+        </div>
 
-      <div className="w-full md:w-1/3 px-3 mb-6 md:mb-0 pt-4">
-        <label
-          htmlFor="select-country-input-3"
-          className="block text-sm font-medium text-gray-900 dark:text-white"
-        >
-          Country
-        </label>
-        <select
-          className={inputCSS}
-          id="country"
-          name="country"
-          value={customerOrder.country}
-          onChange={updateStore}
-        >
-          <option value="">Select Country</option>
-          <option value="United States">United States</option>
-          <option value="Canada">Canada</option>
-          <option value="Philippines">Philippines</option>
-        </select>
-        {customerOrder.country.length === 0 && (
-          <p className="text-red-500 text-xs italic">
-            Please fill out Country.
-          </p>
-        )}
-      </div>
+        <div className="relative flex items-center m-1">
+          <input
+            className={`${inputCSS} ${
+              customerOrder.email.length === 0 && errorCss
+            }`}
+            id="email"
+            name="email"
+            type="text"
+            placeholder="Email"
+            value={customerOrder.email}
+            onChange={updateStore}
+          />
+          {envelopIconSVG}
+        </div>
 
-      <div className="w-full md:w-1/3 px-3 mb-6 md:mb-0 pt-4">
-        <label
-          className="block uppercase tracking-wide text-gray-700 text-xs font-bold mb-2"
-          htmlFor="address"
-        >
-          Address
-        </label>
-        <input
-          className={inputCSS}
-          id="address"
-          name="address"
-          type="text"
-          value={customerOrder.address}
-          onChange={updateStore}
-        />
-        {customerOrder.address.length === 0 && (
-          <p className="text-red-500 text-xs italic">
-            Please fill out Address.
-          </p>
-        )}
-      </div>
+        <div className="relative flex items-center m-1">
+          <input
+            className={`${inputCSS} ${
+              customerOrder.phoneNumber.length === 0 && errorCss
+            }`}
+            id="phoneNumber"
+            name="phoneNumber"
+            type="text"
+            placeholder="Phone Number"
+            value={customerOrder.phoneNumber}
+            onChange={updateStore}
+          />
+          {phoneIconSVG}
+        </div>
 
-      <div className="w-full md:w-1/3 px-3 mb-6 md:mb-0 pt-4">
-        <label
-          className="block uppercase tracking-wide text-gray-700 text-xs font-bold mb-2"
-          htmlFor="city"
-        >
-          City
-        </label>
-        <input
-          className={inputCSS}
-          id="city"
-          name="city"
-          type="text"
-          value={customerOrder.city}
-          onChange={updateStore}
-        />
-        {customerOrder.city.length === 0 && (
-          <p className="text-red-500 text-xs italic">Please fill out City.</p>
-        )}
-      </div>
+        <div className="relative flex items-center m-1">
+          <input
+            className={`${inputCSS} ${
+              customerOrder.address.length === 0 && errorCss
+            }`}
+            id="address"
+            name="address"
+            type="text"
+            placeholder="Home Address"
+            value={customerOrder.address}
+            onChange={updateStore}
+          />
+          {locationDropSVG}
+        </div>
 
-      <div className="w-full md:w-1/3 px-3 mb-6 md:mb-0 pt-4">
-        <label
-          className="block uppercase tracking-wide text-gray-700 text-xs font-bold mb-2"
-          htmlFor="state"
-        >
-          State
-        </label>
-        <div className="relative">
+        <div className="relative flex items-center m-1">
+          <input
+            className={`${inputCSS} ${
+              customerOrder.city.length === 0 && errorCss
+            }`}
+            id="city"
+            name="city"
+            type="text"
+            placeholder="City"
+            value={customerOrder.city}
+            onChange={updateStore}
+          />
+          {phoneIconSVG}
+        </div>
+
+        <div className="relative flex items-center m-1">
           <select
             className={inputCSS}
             id="state"
@@ -159,31 +140,55 @@ export const CustomerPersonalInfoForm: React.FC = () => {
             <option value="Virginia">Virginia</option>
             <option value="Texas">Texas</option>
           </select>
-          {customerOrder.state.length === 0 && (
-            <p className="text-red-500 text-xs italic">
-              Please fill out State.
-            </p>
-          )}
         </div>
-      </div>
 
-      <div className="w-full md:w-1/3 px-3 mb-6 md:mb-0 pt-4">
-        <label
-          className="block uppercase tracking-wide text-gray-700 text-xs font-bold mb-2"
-          htmlFor="zip"
-        >
-          Zip
-        </label>
-        <input
-          className={inputCSS}
-          id="zip"
-          name="zip"
-          type="text"
-          value={customerOrder.zip}
-          onChange={updateStore}
-        />
-        {customerOrder.zip.length === 0 && (
-          <p className="text-red-500 text-xs italic">Please fill out Zip.</p>
+        <div className="relative flex items-center m-1">
+          <input
+            className={`${inputCSS} ${
+              customerOrder.zip.length === 0 && errorCss
+            }`}
+            id="zip"
+            name="zip"
+            type="text"
+            placeholder="Zip Code"
+            value={customerOrder.zip}
+            onChange={updateStore}
+          />
+          {phoneIconSVG}
+        </div>
+
+        <div className="relative flex items-center m-1">
+          <select
+            className={`${inputCSS} ${
+              customerOrder.country.length === 0 && errorCss
+            }`}
+            id="country"
+            name="country"
+            value={customerOrder.country}
+            onChange={updateStore}
+          >
+            <option value="">Select your Country</option>
+            <option value="United States">United States</option>
+            <option value="Canada">Canada</option>
+            <option value="Philippines">Philippines</option>
+          </select>
+        </div>
+
+        {isGiftASolution && (
+          <div className="relative flex items-center m-1">
+            <input
+              className={`${inputCSS} ${
+                customerOrder.giftFor_fullName.length === 0 && errorCss
+              }`}
+              id="giftFor_fullName"
+              name="giftFor_fullName"
+              type="text"
+              placeholder="Gift For - Full Name"
+              value={customerOrder.giftFor_fullName}
+              onChange={updateStore}
+            />
+            {personIconSVG}
+          </div>
         )}
       </div>
     </>

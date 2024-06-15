@@ -2,15 +2,10 @@ import { addressSVG, emailSVG, phoneNumberSVG } from "../../assets/svg/svgs";
 import nearbySolutionsLogo from "../../assets/company-logos-icons/fulllogo_transparent.png";
 import { getSocialMedia } from "../../lib";
 import { FooterTitles } from "./footerTitles";
+import { Link } from "react-router-dom";
+import { companyProfile, companySocialData } from "../..";
 
 export const Footer: React.FC = () => {
-  const socialData = [
-    { name: "Facebook", link: "#" },
-    { name: "X", link: "#" },
-    { name: "Youtube", link: "#" },
-    { name: "Linkedin", link: "#" },
-  ];
-
   const ourServices = [
     { name: "Hire a Talent", link: "#" },
     { name: "Bulk Hire", link: "#" },
@@ -21,16 +16,6 @@ export const Footer: React.FC = () => {
     { name: "FAQs", link: "#" },
     { name: "Support", link: "#" },
   ];
-
-  const companyProfile = {
-    companyName: "FAQs",
-    companyEmail: "john@doe.com",
-    companyPhoneNumber: "0123456789",
-    companyStreetAddress: "213 Lane",
-    companyCity: "London",
-    companyState: "",
-    companyCountry: "United Kingdom",
-  };
 
   return (
     <footer className="bg-white">
@@ -54,14 +39,17 @@ export const Footer: React.FC = () => {
               reliable, and personalized solutions
             </p>
 
-            <ul className="mt-8 flex justify-center gap-6 sm:justify-start md:gap-8">
-              {socialData.map((socialData) => (
+            <ul
+              className="mt-8 flex justify-center gap-6 sm:justify-start md:gap-8"
+              style={{ color: "cyan" }}
+            >
+              {companySocialData.map((socialData) => (
                 <li key={`social-media-${socialData.name}`}>
                   <a
                     href={`${socialData.link}`}
                     rel="noreferrer"
                     target="_blank"
-                    className="text-teal-700 transition hover:text-teal-700/75"
+                    className="text-purple-700 transition hover:text-purple-700/75"
                   >
                     <span className="sr-only">
                       {socialData.name.toLocaleUpperCase()}
@@ -113,37 +101,36 @@ export const Footer: React.FC = () => {
             </div>
 
             <div className="text-center sm:text-left">
-              <p className="text-lg font-medium text-gray-900">Contact Us</p>
+              <Link
+                type="button"
+                className="text-lg font-medium text-gray-900"
+                to={`/contact-us`}
+              >
+                Contact Us
+              </Link>
 
               <ul className="mt-8 space-y-4 text-sm">
                 <li>
-                  <a
-                    className="flex items-center justify-center gap-1.5 ltr:sm:justify-start rtl:sm:justify-end"
-                    href="#"
-                  >
+                  <p className="flex items-center justify-center gap-1.5 ltr:sm:justify-start rtl:sm:justify-end">
                     {emailSVG}
                     <span className="flex-1 text-gray-700">
                       {companyProfile.companyEmail}
                     </span>
-                  </a>
+                  </p>
                 </li>
 
                 <li>
-                  <a
-                    className="flex items-center justify-center gap-1.5 ltr:sm:justify-start rtl:sm:justify-end"
-                    href="#"
-                  >
+                  <p className="flex items-center justify-center gap-1.5 ltr:sm:justify-start rtl:sm:justify-end">
                     {phoneNumberSVG}
                     <span className="flex-1 text-gray-700">
                       {companyProfile.companyPhoneNumber}
                     </span>
-                  </a>
+                  </p>
                 </li>
 
                 <li className="flex items-start justify-center gap-1.5 ltr:sm:justify-start rtl:sm:justify-end">
                   {addressSVG}
                   <address className="-mt-0.5 flex-1 not-italic text-gray-700">
-                    {/* todo maka method to do full address */}
                     {companyProfile.companyStreetAddress}
                     {", "}
                     {companyProfile.companyCity}

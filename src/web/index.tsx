@@ -5,34 +5,59 @@ import {
 } from "@heroicons/react/24/outline";
 import { PhoneIcon, PlayCircleIcon } from "@heroicons/react/20/solid";
 
+export const companyProfile = {
+  companyName: "FAQs",
+  companyEmail: "john@doe.com",
+  companyPhoneNumber: "0123456789",
+  companyStreetAddress: "213 Lane",
+  companyCity: "London",
+  companyState: "",
+  companyCountry: "United Kingdom",
+};
+
+export const companySocialData = [
+  { name: "Facebook", link: "#" },
+  { name: "X", link: "#" },
+  { name: "Youtube", link: "#" },
+  { name: "Linkedin", link: "#" },
+];
+
 export const products = [
   {
     name: "Hire a Talent",
     description: "Get a better understanding of your traffic",
-    href: "#",
+    href: "hire-a-talent",
     icon: ViewfinderCircleIcon,
     routeName: "hire-a-talent",
   },
   {
     name: "Gift a Solution",
     description: "Speak directly to your customers",
-    href: "#",
+    href: "gift-a-solution",
     icon: SquaresPlusIcon,
-    routeName: "bulk-hire",
+    routeName: "gift-a-solution",
   },
-  {
-    name: "BulK Hire",
-    description: "Speak directly to your customers",
-    href: "#",
-    icon: SquaresPlusIcon,
-    routeName: "bulk-hire",
-  },
+  //Todo later
+  // {
+  //   name: "BulK Hire",
+  //   description: "Speak directly to your customers",
+  //   href: "#",
+  //   icon: SquaresPlusIcon,
+  //   routeName: "bulk-hire",
+  // },
   {
     name: "Find Work / Post a Job",
     description: "Your customers’ data will be safe and secure",
-    href: "#",
+    href: "find-work-post-a-job",
     icon: CursorArrowRaysIcon,
-    routeName: "find-work",
+    routeName: "find-work-post-a-job",
+  },
+  {
+    name: "Rent Tools",
+    description: "Your customers’ data will be safe and secure",
+    href: "rent-tools",
+    icon: CursorArrowRaysIcon,
+    routeName: "rent-tools",
   },
 ];
 

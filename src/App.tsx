@@ -19,6 +19,10 @@ import { Provider } from "react-redux";
 import store from "./store";
 import { Payment } from "./web/components/Payment-Process/Payment";
 import { EditOrder } from "./web/components/Orders/EditOrder";
+import { ContactUs } from "./web/components/contact-us/ContactUs";
+import { FindWorkPostAJob } from "./web/components/Find-Work-Post-A-Job/FindWorkPostAJob";
+import { PostAJobForm } from "./web/components/Find-Work-Post-A-Job/PostAJobForm";
+import { HomeIndex } from "./web/components/Home/HomeIndex";
 
 function App() {
   return (
@@ -28,6 +32,8 @@ function App() {
           <NearBySolutionsHeader />
         </header>
         <Routes>
+          <Route path="/home" element={<HomeIndex />} />
+
           <Route path="/login" element={<Login />} />
           <Route path="/favorite" element={<Favorite />} />
           <Route path="/reviews" element={<Reviews />} />
@@ -40,6 +46,13 @@ function App() {
           <Route path="/customer-form" element={<CalenderForm />} />
           <Route path="/order-summary" element={<OrderSumary />} />
 
+          {/* Hire A Talent */}
+          <Route path="/gift-a-solution" element={<Talent />} />
+
+          {/*Find Work / Post a Job */}
+          <Route path="/find-work-post-a-job" element={<FindWorkPostAJob />} />
+          <Route path="/post-a-job" element={<PostAJobForm />} />
+
           {/* Payment */}
           <Route path="/payment" element={<Payment />} />
 
@@ -48,6 +61,9 @@ function App() {
 
           {/* Edit Order */}
           <Route path="/edit-order" element={<EditOrder />} />
+
+          {/*Contact US */}
+          <Route path="/contact-us" element={<ContactUs />} />
         </Routes>
         <Footer />
       </div>

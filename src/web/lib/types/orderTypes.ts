@@ -66,6 +66,7 @@ export type CustomerFormData = {
   state: string;
   zip: string;
   phoneNumber: string;
+  email: string;
   solutionFormattedDate: string;
   solutionDate: string;
   solutionTask: string;
@@ -80,6 +81,8 @@ export type CustomerFormData = {
   solutionPriceDiscountPercentage: number;
   orderDate: string;
   orderStatus: boolean;
+  giftStatus: boolean;
+  giftFor_fullName: string;
 };
 
 export type CustomerOrder = {

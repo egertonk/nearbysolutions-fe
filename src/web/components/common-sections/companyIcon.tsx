@@ -2,7 +2,7 @@ import nearbySolutionsIcon from "../../assets/company-logos-icons/icononly_trans
 
 export const CompanyIcon: React.FC = () => {
   return (
-    <a href="/" className="-m-1.5 p-1.5">
+    <a href="/home" className="-m-1.5 p-1.5">
       <span className="sr-only">Nearby Solutions</span>
       <img className="h-10 w-auto" src={`${nearbySolutionsIcon}`} alt="" />
     </a>

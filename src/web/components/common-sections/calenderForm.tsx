@@ -12,15 +12,18 @@ import { MainTitle } from "./MainTitle";
 export const CalenderForm: React.FC = () => {
   const dispatch = useDispatch();
   const navigate = useNavigate();
-  const customerOrder = useSelector((state: RootState) => state.formData);
-  const isEditOrder = useSelector(
-    (state: RootState) => state.formData.isEditOrder
-  );
+  const states = useSelector((state: RootState) => state);
+  const customerOrder = states.formData;
+  const isEditOrder = states.formData.isEditOrder;
+  const isGiftASolution = states.applicationModeState.isGiftASolution;
 
   const validateForm = () => {
-    return Object.values(customerOrder.customerOrder).every((field) => {
-      // console.log(field, "    formData 1111 ", field.toString().length > 0);
-      return field.toString().length > 0;
+    const excludedFields = ["giftFor_fullName", "giftStatus"];
+    return Object.entries(customerOrder.customerOrder).every(([key, value]) => {
+      if (!excludedFields.includes(key)) {
+        return value?.toString()?.length > 0;
+      }
+      return true;
     });
   };
 
@@ -45,7 +48,11 @@ export const CalenderForm: React.FC = () => {
 
   return (
     <>
-      <MainTitle title="Customer Infomation Form" />
+      <MainTitle
+        title={`${
+          isGiftASolution ? "Infomation Gift Form" : "Customer Infomation Form"
+        }`}
+      />
 
       <div className="justify-center -mx-3 mb-1">
         <p className="text-gray-900 dark:text-white text-base font-medium mb-3 text-center font-heading text-purple-800">
@@ -93,8 +100,8 @@ export const CalenderForm: React.FC = () => {
         </p>
       </div>
 
-      <div className="flex flex-wrap -mx-3 mb-6 border border-purple-800 p-4 w-70">
-        <div className="flex flex-wrap -mx-3 mb-6 pt-4">
+      <div className="flex flex-wrap w-50 justify-center">
+        <div className="flex flex-wrap mb-6">
           <CustomerPersonalInfoForm />
 
           <div className="w-full px-3 pt-4">

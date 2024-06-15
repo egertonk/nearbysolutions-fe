@@ -19,6 +19,7 @@ export const customerOrderStatess = {
   state: "",
   zip: "",
   phoneNumber: "",
+  email: "",
   solutionFormattedDate: "",
   solutionDate: "",
   solutionTask: "",
@@ -33,6 +34,8 @@ export const customerOrderStatess = {
   solutionPriceDiscountPercentage: 0,
   orderDate: "",
   orderStatus: false,
+  giftStatus: false,
+  giftFor_fullName: "",
 };
 
 export const orderStates = {

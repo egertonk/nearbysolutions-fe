@@ -6,7 +6,7 @@ import { useCalender } from "../../lib/useCalender";
 import { RootState } from "../../../store";
 import { CustomerFormData } from "../../lib/types/orderTypes";
 import { setCustomerOrder } from "../../../store/customerContractorSlice";
-import { useEffect } from "react";
+import { useEffect, useState } from "react";
 
 type Props = {
   fullDate: string;
@@ -31,10 +31,13 @@ export const Calender: React.FC<Props> = ({
   updateDateSelection,
   formattedDate,
 }) => {
+  const [isUpdateValid, setIsUpdateValid] = useState(false);
   const dispatch = useDispatch();
-  const customerOrder = useSelector(
-    (state: RootState) => state.formData.customerOrder
-  );
+  const states = useSelector((state: RootState) => state.formData);
+  const customerOrder = states.customerOrder;
+  const isEditOrder = states.isEditOrder;
+
+  const solutionDate = new Date(customerOrder.solutionDate);
 
   const {
     date,
@@ -95,9 +98,75 @@ export const Calender: React.FC<Props> = ({
     dispatch(setCustomerOrder(updatedOrder));
   };
 
+  const updateDaySelection = (
+    day: number,
+    month: string,
+    year: number | undefined
+  ) => {
+    updateDateSelection(day, month, year || 0);
+    setIsUpdateValid(true);
+  };
+
   useEffect(() => {
-    updateStore();
+    if (isUpdateValid) updateStore();
   }, [userSelectedDate]);
+
+  // todo - remove
+  const compareDates = () => {
+    const parsedDate1 = new Date(
+      `${userSelectedDate?.month}/${userSelectedDate?.day}/${userSelectedDate?.year}`
+    );
+    const parsedDate2 = new Date(customerOrder.solutionDate);
+
+    // Check if the dates are the same
+    if (
+      parsedDate1.getFullYear() === parsedDate2.getFullYear() &&
+      parsedDate1.getMonth() === parsedDate2.getMonth() &&
+      parsedDate1.getDate() === parsedDate2.getDate()
+    ) {
+      return true;
+    } else {
+      return false;
+    }
+  };
+
+  const getDateStyle = (days: { day: number; dayTitle: string }) => {
+    if (
+      isEditOrder &&
+      solutionDate.getDate() === days.day &&
+      customerOrder.solutionFormattedDate
+        .toLowerCase()
+        .includes(currentMonthSelection.toLowerCase()) &&
+      solutionDate.getFullYear() === currentYearSelection
+    ) {
+      return selectedCSS;
+    } else if (isVacationValid(days.day)) {
+      return "text-white cursor-none pointer-events-none";
+    } else if (days.day >= date) {
+      return `text-base cursor-pointer font-medium  ${
+        isDateChangeAllow && days.day === userSelectedDate?.day
+          ? selectedCSS
+          : "text-gray-500 dark:text-gray-100"
+      }`;
+    } else if (showNextMonth) {
+      return "text-base cursor-pointer text-gray-500 dark:text-gray-100 font-medium";
+    } else {
+      return disablePastDatesTime;
+    }
+  };
+
+  const getDateStyleTwo = (days: { day: number; dayTitle: string }) => {
+    if (
+      userSelectedDate?.day === days.day &&
+      userSelectedDate?.month === currentMonthSelection
+    ) {
+      if (days.day >= date) {
+        return selectedCSS;
+      } else if (showNextMonth) {
+        return selectedCSS;
+      } else return disablePastDatesTime;
+    }
+  };
 
   return (
     <div className="md:p-8 p-5 dark:bg-gray-800 bg-white rounded-t auto-cols-max">
@@ -167,13 +236,13 @@ export const Calender: React.FC<Props> = ({
                           } flex items-center justify-center w-full rounded-full cursor-pointer`}
                         >
                           <button
-                            onClick={() => {
-                              updateDateSelection(
+                            onClick={() =>
+                              updateDaySelection(
                                 days.day,
                                 currentMonthSelection,
                                 currentYearSelection
-                              );
-                            }}
+                              )
+                            }
                             tabIndex={0}
                             className="focus:outline-none  focus:ring-2 focus:ring-offset-2 focus:ring-indigo-700 focus:bg-indigo-500 hover:bg-indigo-500 text-base w-8 h-8 flex items-center justify-center font-medium text-white bg-indigo-700 rounded-full"
                           >
@@ -189,44 +258,18 @@ export const Calender: React.FC<Props> = ({
                           isVacationValid(days.day) && "bg-black"
                         } px-4 flex w-full justify-center`}
                       >
-                        <p
-                          className={`${
-                            isVacationValid(days.day)
-                              ? "text-white cursor-none pointer-events-none"
-                              : days.day >= date
-                              ? `text-base cursor-pointer font-medium  ${
-                                  isDateChangeAllow &&
-                                  days.day === userSelectedDate?.day
-                                    ? selectedCSS
-                                    : "text-gray-500 dark:text-gray-100"
-                                }`
-                              : showNextMonth
-                              ? "text-base cursor-pointer text-gray-500 dark:text-gray-100 font-medium"
-                              : disablePastDatesTime
-                          }`}
-                        >
+                        <p className={`${getDateStyle(days)}`}>
                           <button
-                            onClick={() => {
-                              updateDateSelection(
+                            onClick={() =>
+                              updateDaySelection(
                                 days.day,
                                 currentMonthSelection,
                                 currentYearSelection
-                              );
-                            }}
-                            className={`
-                                  ${
-                                    userSelectedDate?.day === days.day &&
-                                    userSelectedDate?.month ===
-                                      currentMonthSelection &&
-                                    `${
-                                      days.day >= date
-                                        ? selectedCSS
-                                        : showNextMonth
-                                        ? selectedCSS
-                                        : disablePastDatesTime
-                                    }`
-                                  }
-                                  `}
+                              )
+                            }
+                            className={`${getDateStyleTwo(
+                              days
+                            )}                                  `}
                           >
                             {isVacationValid(days.day) ? "Out" : days.day}
                           </button>

@@ -1,5 +1,5 @@
 import { useEffect } from "react";
-import { breakUpDate, compareDates, customerOderHistory } from "../../lib";
+import { breakUpDate, compareDates, customerOrderHistory } from "../../lib";
 import { useCalenderStates } from "../../lib/useCalenderStates";
 import { CustomerOrder } from "../../lib/types/orderTypes";
 import { DateTimeSelection } from "../Hire-A-Talent/DateTimeSelection";
@@ -10,7 +10,7 @@ export const EditOrder: React.FC = () => {
 
   const { setUserSelectedDate, setUserSelectedTime } = useCalenderStates();
 
-  const order = customerOderHistory.find(
+  const order = customerOrderHistory.find(
     (data) => data.orderID === 0
   ) as CustomerOrder; // Todo: use this to get customer previous order to edit
 
@@ -22,16 +22,16 @@ export const EditOrder: React.FC = () => {
 
   const isDateChangeAllow = compareDates(oldDateString, currentDateString);
 
-  useEffect(() => {
-    if (oldDate) {
-      setUserSelectedDate({
-        day: Number(oldDate?.day),
-        month: oldDate?.month?.toString(),
-        year: Number(oldDate?.year),
-      });
-      if (order !== undefined) setUserSelectedTime(order?.solutionStartTime);
-    }
-  }, []);
+  // useEffect(() => {
+  //   if (oldDate) {
+  //     setUserSelectedDate({
+  //       day: Number(oldDate?.day),
+  //       month: oldDate?.month?.toString(),
+  //       year: Number(oldDate?.year),
+  //     });
+  //     if (order !== undefined) setUserSelectedTime(order?.solutionStartTime);
+  //   }
+  // }, []);
 
   return (
     <>

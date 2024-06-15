@@ -82,21 +82,23 @@ export const PaymentCustomerDetails: React.FC = () => {
               </>
             )}
 
-            <div className="text-left mt-3">
-              {paymentStatus.showPaymentSelection === false && (
-                <CreditCardForm />
-              )}
-              {paymentStatus.showPaymentInputs === false && (
-                <div className="w-full items-left ">
-                  <button
-                    onClick={() => handlePaymentInfoEdit()}
-                    className="hover:text-purple-500 text-base w-5 rounded-full ml-4"
-                  >
-                    {editIconSVG}
-                  </button>
-                </div>
-              )}
-            </div>
+            {isEditOrder === false && (
+              <div className="text-left mt-3">
+                {paymentStatus.showPaymentSelection === false && (
+                  <CreditCardForm />
+                )}
+                {paymentStatus.showPaymentInputs === false && (
+                  <div className="w-full items-left ">
+                    <button
+                      onClick={() => handlePaymentInfoEdit()}
+                      className="hover:text-purple-500 text-base w-5 rounded-full ml-4"
+                    >
+                      {editIconSVG}
+                    </button>
+                  </div>
+                )}
+              </div>
+            )}
           </>
         )}
       </div>
