@@ -6,7 +6,7 @@ import { PaymentSelection } from "./PaymentSelection";
 import { useDispatch, useSelector } from "react-redux";
 import { RootState } from "../../../store";
 import { setPaymentState } from "../../../store/paymentSlice";
-import { PaymentStateProps } from "../../lib/types/paymentTyoes";
+import { PaymentStateProps } from "../../lib/types/PaymentTyoes";
 
 export const PaymentCustomerDetails: React.FC = () => {
   const dispatch = useDispatch();

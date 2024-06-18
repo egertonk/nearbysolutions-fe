@@ -1,7 +1,7 @@
 import { useNavigate } from "react-router";
 import { companyProfile } from "../..";
 import icononly from "../../assets/company-logos-icons/icononly.png";
-import { ContactFormData } from "../../lib/types/contactUsTypes";
+import { ContactFormData } from "../../lib/types/ContactUsTypes";
 
 type Props = { formData: ContactFormData };
 

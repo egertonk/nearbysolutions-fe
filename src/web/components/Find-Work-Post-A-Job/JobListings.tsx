@@ -1,4 +1,4 @@
-import { CustomerJobs } from "../../lib/types/findWorkPostAJobtypes";
+import { CustomerJobs } from "../../lib/types/FindWorkPostAJobtypesData";
 
 type Props = {
   customerJobsArray: CustomerJobs[];

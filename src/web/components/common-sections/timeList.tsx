@@ -1,7 +1,7 @@
 import { useNavigate } from "react-router";
 import { cSettings, isTimeValid } from "../../lib";
-import { DateSelection } from "../../lib/types/calenderTypes";
-import { CustomerFormData } from "../../lib/types/orderTypes";
+import { DateSelection } from "../../lib/types/CalenderTypes";
+import { CustomerFormData } from "../../lib/types/OrderSolutionTypes";
 import { useTimeIntervals } from "../../lib/useTimeIntervals";
 import { useDispatch, useSelector } from "react-redux";
 import { RootState } from "../../../store";
@@ -63,7 +63,7 @@ export const TimeList: React.FC<Props> = ({
 
   const timeSelectionCSS =
     "cursor-pointer bg-white inline-flex items-center justify-center w-full p-2 text-sm font-medium text-center  border rounded-lg text-blue-600 border-blue-600 dark:hover:text-white dark:border-blue-500 dark:peer-checked:border-blue-500 peer-checked:border-blue-600 hover:bg-blue-500 dark:text-blue-500 dark:bg-gray-900 dark:hover:bg-purple-600 dark:hover:border-blue-600 dark:peer-checked:bg-purple-500 peer-checked:bg-purple-600 hover:text-white peer-checked:text-white";
-  
+
   return (
     <ul id="timetable" className="grid w-full grid-cols-4 gap-2 mt-5">
       {contractorSettings.twelveHoursStatus

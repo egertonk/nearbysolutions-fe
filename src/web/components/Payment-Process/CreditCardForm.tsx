@@ -4,7 +4,7 @@ import "../Payment-Process/Styles.css";
 import { useDispatch, useSelector } from "react-redux";
 import { RootState } from "../../../store";
 import { setPaymentState } from "../../../store/paymentSlice";
-import { PaymentStateProps } from "../../lib/types/paymentTyoes";
+import { PaymentStateProps } from "../../lib/types/PaymentTyoes";
 
 export const CreditCardForm: React.FC = () => {
   const dispatch = useDispatch();

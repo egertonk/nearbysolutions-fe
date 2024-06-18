@@ -1,9 +1,12 @@
 import { useEffect, useState } from "react";
-import { CustomerFormData, TalentInformation } from "./types/orderTypes";
+import {
+  CustomerFormData,
+  TalentInformation,
+} from "./types/OrderSolutionTypes";
 import { useDispatch, useSelector } from "react-redux";
 import { setCustomerOrder } from "../../store/customerContractorSlice";
 import { RootState } from "../../store";
-import { DateSelection } from "./types/calenderTypes";
+import { DateSelection } from "./types/CalenderTypes";
 import { useCalender } from "./useCalender";
 
 export const useCustomerPersonalInfoForm = (

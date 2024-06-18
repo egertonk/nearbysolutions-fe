@@ -1,5 +1,5 @@
 import { useSelector } from "react-redux";
-import { DateSelection } from "../../lib/types/calenderTypes";
+import { DateSelection } from "../../lib/types/CalenderTypes";
 import { TimeList } from "../common-sections/timeList";
 import { RootState } from "../../../store";
 
@@ -18,9 +18,9 @@ export const DatePicker: React.FC<Props> = ({
   userSelectedDate,
   isTimeChangeAllow,
 }) => {
-   const customerOrder = useSelector(
-     (state: RootState) => state.formData.customerOrder
-   );
+  const customerOrder = useSelector(
+    (state: RootState) => state.formData.customerOrder
+  );
   return (
     <>
       <div className="pt-5 sm:space-x-5 rtl:space-x-reverse auto-cols-max w-full">

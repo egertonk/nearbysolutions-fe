@@ -218,7 +218,7 @@ export const twitch = (
 export const emailSVG = (
   <svg
     xmlns="http://www.w3.org/2000/svg"
-    className="size-5 shrink-0 text-gray-900"
+    className="size-5 shrink-0 text-white"
     fill="none"
     viewBox="0 0 24 24"
     stroke="currentColor"
@@ -235,7 +235,7 @@ export const emailSVG = (
 export const phoneNumberSVG = (
   <svg
     xmlns="http://www.w3.org/2000/svg"
-    className="size-5 shrink-0 text-gray-900"
+    className="size-5 shrink-0 text-white"
     fill="none"
     viewBox="0 0 24 24"
     stroke="currentColor"
@@ -252,7 +252,7 @@ export const phoneNumberSVG = (
 export const addressSVG = (
   <svg
     xmlns="http://www.w3.org/2000/svg"
-    className="size-5 shrink-0 text-gray-900"
+    className="size-5 shrink-0 text-white"
     fill="none"
     viewBox="0 0 24 24"
     stroke="currentColor"

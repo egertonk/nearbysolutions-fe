@@ -6,7 +6,7 @@ import {
   personIconSVG,
   phoneIconSVG,
 } from "../../assets/svg/svgs";
-import { ContactFormData, FormErrorS } from "../../lib/types/contactUsTypes";
+import { ContactFormData, FormErrorS } from "../../lib/types/ContactUsTypes";
 import { CompanyProfileCard } from "./CompanyProfileCard";
 import { ConfirmationPage } from "./ConfirmationPage";
 import { errorCss, inputCSS } from "../../assets/common-css/css";

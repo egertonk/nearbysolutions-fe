@@ -6,7 +6,7 @@ import {
 } from "../../../store/customerContractorSlice";
 import { useDispatch } from "react-redux";
 import { useNavigate } from "react-router";
-import { CustomerFormData } from "../../lib/types/orderTypes";
+import { CustomerFormData } from "../../lib/types/OrderSolutionTypes";
 
 type Props = {
   showEdits?: boolean;
@@ -35,8 +35,8 @@ export const WorkOrderList: React.FC<Props> = ({
 
   return (
     <>
-      <div className="md:py-8 py-5 px-5 justify-center rounded-b">
-        <div className="px-4">
+      <div className="md:py-8 py-5 px-2 rounded-b">
+        <div className="justify-center ">
           {(filteredOrders || customerOrderHistory).map((order) => (
             <>
               <div

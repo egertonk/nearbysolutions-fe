@@ -1,5 +1,3 @@
-import React from "react";
-
 import {
   discord,
   facebook,
@@ -19,8 +17,9 @@ import {
   youtube,
   whatsapp,
 } from "../assets/svg/svgs";
-import { JobTitlePricing } from "./types/orderTypes";
-import { CustomerJobs } from "./types/findWorkPostAJobtypes";
+import { JobTitlePricing } from "./types/OrderSolutionTypes";
+import { CustomerJobs } from "./types/FindWorkPostAJobtypesData";
+import { DIYToolListing } from "./types/DIYToolsListings";
 
 export const priceWithComma = (price: string | number) => {
   const formattedPrice = price?.toLocaleString();
@@ -302,7 +301,7 @@ export const customerOrderHistory = [
     phoneNumber: "5713301230",
     email: "jessaduring@yahoo.com",
     solutionFormattedDate: "Saturday 8 June 2024",
-    solutionDate: "6/18/2024",
+    solutionDate: "6/27/2024",
     solutionTask: "Take my blood pressure",
     solutionJob: "Nurse",
     solutionStartTime: "11:00 AM",
@@ -331,7 +330,7 @@ export const customerOrderHistory = [
     phoneNumber: "5713301230",
     email: "jessaduring@yahoo.com",
     solutionFormattedDate: "Thursday 6 June 2024",
-    solutionDate: "6/16/2024",
+    solutionDate: "6/27/2024",
     solutionTask: "Take my blood pressure",
     solutionJob: "Nurse",
     solutionStartTime: "08:00 AM",
@@ -360,7 +359,7 @@ export const customerOrderHistory = [
     phoneNumber: "5551234567",
     email: "samuel.jackson@example.com",
     solutionFormattedDate: "Monday 10 June 2024",
-    solutionDate: "6/10/2024",
+    solutionDate: "6/18/2024",
     solutionTask: "Physical Therapy",
     solutionJob: "Therapist",
     solutionStartTime: "09:00 AM",
@@ -389,7 +388,7 @@ export const customerOrderHistory = [
     phoneNumber: "2024567890",
     email: "emily.blunt@example.com",
     solutionFormattedDate: "Friday 14 June 2024",
-    solutionDate: "6/14/2024",
+    solutionDate: "6/17/2024",
     solutionTask: "Massage Therapy",
     solutionJob: "Masseuse",
     solutionStartTime: "02:00 PM",
@@ -418,7 +417,7 @@ export const customerOrderHistory = [
     phoneNumber: "2127363100",
     email: "robert.downey@example.com",
     solutionFormattedDate: "Sunday 9 June 2024",
-    solutionDate: "6/09/2024",
+    solutionDate: "6/18/2024",
     solutionTask: "Personal Training",
     solutionJob: "Trainer",
     solutionStartTime: "06:00 AM",
@@ -473,6 +472,7 @@ export const customerJobsArray: CustomerJobs[] = [
     date: "2024-06-14",
     time: "10:00 AM",
     email: "customer1@example.com",
+    jobStatus: false,
   },
   {
     jobName: "Garden Maintenance",
@@ -483,6 +483,7 @@ export const customerJobsArray: CustomerJobs[] = [
     date: "2024-06-15",
     time: "08:00 AM",
     email: "customer2@example.com",
+    jobStatus: true,
   },
   {
     jobName: "House Cleaning",
@@ -493,6 +494,7 @@ export const customerJobsArray: CustomerJobs[] = [
     date: "2024-06-16",
     time: "12:00 PM",
     email: "customer3@example.com",
+    jobStatus: false,
   },
   {
     jobName: "Electrical Repair",
@@ -503,6 +505,7 @@ export const customerJobsArray: CustomerJobs[] = [
     date: "2024-06-17",
     time: "09:00 AM",
     email: "customer4@example.com",
+    jobStatus: true,
   },
   {
     jobName: "Painting",
@@ -513,5 +516,258 @@ export const customerJobsArray: CustomerJobs[] = [
     date: "2024-06-18",
     time: "11:00 AM",
     email: "customer5@example.com",
+    jobStatus: false,
+  },
+];
+
+export const diyToolListings: DIYToolListing[] = [
+  {
+    toolId: "12345",
+    toolName: "Cordless Drill",
+    description: "A powerful cordless drill with a 20V battery.",
+    category: "Power Tools",
+    brand: "ToolBrand",
+    modelNumber: "TB-DRL-2024",
+    pricePerday: .99,
+    availability: true,
+    rating: 4.5,
+    numberOfReviews: 150,
+    specifications: {
+      dimensions: "10 x 8 x 6 inches",
+      weight: "4.5 lbs",
+      material: "Metal and Plastic",
+      powerSource: "Battery",
+    },
+    imageUrls: [
+      "https://media.istockphoto.com/id/1300993562/photo/screwdriver-on-white-background-isolated.jpg?s=2048x2048&w=is&k=20&c=XkfjsPTqe1eQi85bmD73eZsESNkB55tiMSBfSNULgMo=",
+    ],
+    features: [
+      "20V lithium-ion battery",
+      "Variable speed control",
+      "LED light",
+      "Ergonomic handle",
+    ],
+    warrantyInformation: "2-year limited warranty",
+    sellerInformation: {
+      sellerName: "ToolSeller Inc.",
+      contactInfo: "contact@toolseller.com",
+    },
+    shippingInformation: {
+      shippingCost: 5.99,
+      estimatedDelivery: "3-5 business days",
+    },
+    returnDate: "",
+    rentalTotalDays: 5,
+    usageInstructions: "Refer to the manual for usage instructions.",
+    safetyInformation: "Always wear safety goggles when using the drill.",
+    discountsOffers: "10% off on your first purchase",
+  },
+  {
+    toolId: "67890",
+    toolName: "Electric Sander",
+    description: "An efficient electric sander for smooth finishing.",
+    category: "Power Tools",
+    brand: "SandMaster",
+    modelNumber: "SM-SND-2024",
+    pricePerday: 7.99,
+    availability: false,
+    rating: 4.3,
+    numberOfReviews: 200,
+    specifications: {
+      dimensions: "12 x 7 x 5 inches",
+      weight: "3.2 lbs",
+      material: "Metal and Plastic",
+      powerSource: "Corded Electric",
+    },
+    imageUrls: [
+      "https://media.istockphoto.com/id/1180236492/photo/a-professional-master-cleans-the-floor-with-a-polishing-machine.jpg?s=2048x2048&w=is&k=20&c=fPexIqTq9n_HFh9QdAQ2Xg_Tohwile5x4CTf46Js-SY=",
+    ],
+    features: [
+      "High-speed motor",
+      "Dust collection bag",
+      "Ergonomic design",
+      "Variable speed control",
+    ],
+    warrantyInformation: "1-year limited warranty",
+    sellerInformation: {
+      sellerName: "SanderStore LLC",
+      contactInfo: "info@sanderstore.com",
+    },
+    shippingInformation: {
+      shippingCost: 7.99,
+      estimatedDelivery: "4-6 business days",
+    },
+    returnDate: "",
+    rentalTotalDays: 0,
+    usageInstructions: "Refer to the manual for usage instructions.",
+    safetyInformation: "Always wear a dust mask when using the sander.",
+    discountsOffers: "15% off on orders over $100",
+  },
+  {
+    toolId: "54321",
+    toolName: "Circular Saw",
+    description: "A heavy-duty circular saw with a laser guide.",
+    category: "Power Tools",
+    brand: "CutMaster",
+    modelNumber: "CM-CS-2024",
+    pricePerday: 5.99,
+    availability: true,
+    rating: 4.7,
+    numberOfReviews: 180,
+    specifications: {
+      dimensions: "15 x 10 x 8 inches",
+      weight: "7 lbs",
+      material: "Metal and Plastic",
+      powerSource: "Corded Electric",
+    },
+    imageUrls: [
+      "https://media.istockphoto.com/id/470862472/photo/circular-saw.jpg?s=2048x2048&w=is&k=20&c=4H6rUZH8WZ5bvWBGv7N-oyH5jwfq0BIPLj_8jY5D-2s=",
+    ],
+    features: [
+      "Laser guide for precision cutting",
+      "Powerful 15-amp motor",
+      "Ergonomic handle",
+      "Dust blower",
+    ],
+    warrantyInformation: "3-year limited warranty",
+    sellerInformation: {
+      sellerName: "CuttingEdge Tools",
+      contactInfo: "support@cuttingedge.com",
+    },
+    shippingInformation: {
+      shippingCost: 9.99,
+      estimatedDelivery: "2-4 business days",
+    },
+    returnDate: "11/15/2024",
+    rentalTotalDays: 5,
+    usageInstructions: "Refer to the manual for usage instructions.",
+    safetyInformation:
+      "Always wear safety goggles and gloves when using the saw.",
+    discountsOffers: "20% off on your first purchase",
+  },
+  {
+    toolId: "98765",
+    toolName: "Hammer Drill",
+    description: "A versatile hammer drill with multiple speed settings.",
+    category: "Power Tools",
+    brand: "DrillPro",
+    modelNumber: "DP-HD-2024",
+    pricePerday: 1,
+    availability: false,
+    rating: 4.6,
+    numberOfReviews: 120,
+    specifications: {
+      dimensions: "14 x 9 x 7 inches",
+      weight: "5.5 lbs",
+      material: "Metal and Plastic",
+      powerSource: "Corded Electric",
+    },
+    imageUrls: [
+      "https://media.istockphoto.com/id/186870823/photo/powertools-hammer-drill.jpg?s=2048x2048&w=is&k=20&c=RKLGzcX4uaFviNBy7-h-JIN3GBMk-wEwUqTR27vKxns=",
+    ],
+    features: [
+      "Multiple speed settings",
+      "Impact mechanism",
+      "Ergonomic handle",
+      "LED light",
+    ],
+    warrantyInformation: "2-year limited warranty",
+    sellerInformation: {
+      sellerName: "ProTools Ltd.",
+      contactInfo: "info@protools.com",
+    },
+    shippingInformation: {
+      shippingCost: 6.99,
+      estimatedDelivery: "3-5 business days",
+    },
+    returnDate: "",
+    rentalTotalDays: 0,
+    usageInstructions: "Refer to the manual for usage instructions.",
+    safetyInformation:
+      "Always wear safety goggles when using the hammer drill.",
+    discountsOffers: "15% off on your first purchase",
+  },
+  {
+    toolId: "13579",
+    toolName: "Jigsaw",
+    description: "A compact jigsaw for precision cutting.",
+    category: "Power Tools",
+    brand: "CutMaster",
+    modelNumber: "CM-JS-2024",
+    pricePerday: 49.99,
+    availability: false,
+    rating: 4.2,
+    numberOfReviews: 90,
+    specifications: {
+      dimensions: "11 x 8 x 5 inches",
+      weight: "3 lbs",
+      material: "Metal and Plastic",
+      powerSource: "Corded Electric",
+    },
+    imageUrls: [
+      "https://media.istockphoto.com/id/1372970821/photo/female-carpenter-sawing-wood-with-an-electric-jigsaw-woman-in-apron-doing-some-carpentry-work.jpg?s=2048x2048&w=is&k=20&c=YF8k7pm-Fs-CbrFKaKZAtSn4n28kMQYZunZ5B_vK1oM=",
+    ],
+    features: [
+      "Precision cutting",
+      "Variable speed control",
+      "Ergonomic design",
+      "Dust blower",
+    ],
+    warrantyInformation: "1-year limited warranty",
+    sellerInformation: {
+      sellerName: "ToolExperts",
+      contactInfo: "support@toolexperts.com",
+    },
+    shippingInformation: {
+      shippingCost: 4.99,
+      estimatedDelivery: "3-5 business days",
+    },
+    returnDate: "",
+    rentalTotalDays: 5,
+    usageInstructions: "Refer to the manual for usage instructions.",
+    safetyInformation: "Always wear safety goggles when using the jigsaw.",
+    discountsOffers: "10% off on your first purchase",
+  },
+  {
+    toolId: "24680",
+    toolName: "Angle Grinder",
+    description: "A powerful angle grinder for heavy-duty grinding.",
+    category: "Power Tools",
+    brand: "GrindMaster",
+    modelNumber: "GM-AG-2024",
+    pricePerday: 0.99,
+    availability: true,
+    rating: 4.4,
+    numberOfReviews: 110,
+    specifications: {
+      dimensions: "16 x 7 x 5 inches",
+      weight: "6 lbs",
+      material: "Metal and Plastic",
+      powerSource: "Corded Electric",
+    },
+    imageUrls: [
+      "https://media.istockphoto.com/id/1037604530/photo/heavy-industry-worker-cutting-steel-with-an-angle-grinder.jpg?s=2048x2048&w=is&k=20&c=iz5CbtSIeR8GfaLcJeegPjMm33JMMO4wTeb8g4RUfRI=",
+    ],
+    features: [
+      "High power motor",
+      "Adjustable guard",
+      "Ergonomic handle",
+      "Variable speed control",
+    ],
+    warrantyInformation: "2-year limited warranty",
+    sellerInformation: {
+      sellerName: "GrinderPro",
+      contactInfo: "info@grinderpro.com",
+    },
+    shippingInformation: {
+      shippingCost: 8.99,
+      estimatedDelivery: "3-5 business days",
+    },
+    returnDate: "12/15/2024",
+    rentalTotalDays: 30,
+    usageInstructions: "Refer to the manual for usage instructions.",
+    safetyInformation:
+      "Always wear safety goggles and gloves when using the grinder.",
+    discountsOffers: "20% off on your first purchase",
   },
 ];

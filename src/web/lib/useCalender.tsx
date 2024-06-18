@@ -58,6 +58,36 @@ export const useCalender = () => {
   const nextMonthIs = (month + 1) % 12;
   const nextMonthName = monthNames[nextMonthIs];
 
+  // Function to get all days of a given month and year
+  const getDaysInMonth = (month: number, year: number) => {
+    const daysInMonth = new Date(year, month + 1, 0).getDate();
+    const days: MonthDays = [];
+
+    for (let i = 1; i <= daysInMonth; i++) {
+      const date = new Date(year, month, i);
+      days.push({ day: i, dayTitle: dayNames[date.getDay()] });
+    }
+
+    return days;
+  };
+
+  // Function to get days for the next 12 months
+  const getNextTwelveMonthsDays = () => {
+    const months = [];
+    for (let i = 0; i < 12; i++) {
+      const newMonth = (month + i) % 12;
+      const newYear = month + i >= 12 ? year + 1 : year;
+      const daysInMonth = getDaysInMonth(newMonth, newYear);
+      months.push({
+        month: monthNames[newMonth],
+        year: newYear,
+        days: daysInMonth,
+      });
+    }
+    return months;
+  };
+  // console.log("getNextTwelveMonthsFirstDays   ", getNextTwelveMonthsDays());
+
   // Function to get mapped days for a given month and year
   const getMappedDays = (month: number, year: number) => {
     // Get the number of days in the month

@@ -79,9 +79,9 @@ export const Menulist: React.FC = () => {
       <Link
         type="button"
         className="text-sm font-semibold leading-6 text-gray-900"
-        to={`/view-order-history`}
+        to={`/user-history`}
       >
-        Order History
+        History
       </Link>
 
       <Link
@@ -92,10 +92,10 @@ export const Menulist: React.FC = () => {
       </Link>
 
       <Link
-        to={`/Company`}
+        to={`/account`}
         className="text-sm font-semibold leading-6 text-gray-900"
       >
-        Company
+        Account
       </Link>
     </Popover.Group>
   );

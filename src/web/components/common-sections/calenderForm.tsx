@@ -5,7 +5,7 @@ import {
   setCustomerOrder,
   setIsError,
 } from "../../../store/customerContractorSlice";
-import { CustomerFormData } from "../../lib/types/orderTypes";
+import { CustomerFormData } from "../../lib/types/OrderSolutionTypes";
 import { useNavigate } from "react-router";
 import { MainTitle } from "./MainTitle";
 

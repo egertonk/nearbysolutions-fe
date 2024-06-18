@@ -1,7 +1,7 @@
 import { useEffect } from "react";
 import { breakUpDate, compareDates, customerOrderHistory } from "../../lib";
 import { useCalenderStates } from "../../lib/useCalenderStates";
-import { CustomerOrder } from "../../lib/types/orderTypes";
+import { CustomerOrder } from "../../lib/types/OrderSolutionTypes";
 import { DateTimeSelection } from "../Hire-A-Talent/DateTimeSelection";
 import { MainTitle } from "../common-sections/MainTitle";
 

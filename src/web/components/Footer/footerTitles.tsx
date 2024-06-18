@@ -1,12 +1,12 @@
 export const FooterTitles: React.FC = () => {
   return (
     <div className="text-center sm:text-left">
-      <p className="text-lg font-medium text-gray-900">About Us</p>
+      <p className="text-lg font-medium text-white">About Us</p>
 
       <ul className="mt-8 space-y-4 text-sm">
         <li>
           <a
-            className="text-gray-700 transition hover:text-gray-700/75"
+            className="text-gray-300 hover:text-white text-sm transition"
             href="#"
           >
             Company History
@@ -15,7 +15,7 @@ export const FooterTitles: React.FC = () => {
 
         <li>
           <a
-            className="text-gray-700 transition hover:text-gray-700/75"
+            className="text-gray-300 hover:text-white text-sm transition"
             href="#"
           >
             Meet the Team
@@ -24,7 +24,7 @@ export const FooterTitles: React.FC = () => {
 
         <li>
           <a
-            className="text-gray-700 transition hover:text-gray-700/75"
+            className="text-gray-300 hover:text-white text-sm transition"
             href="#"
           >
             Employee Handbook
@@ -33,7 +33,7 @@ export const FooterTitles: React.FC = () => {
 
         <li>
           <a
-            className="text-gray-700 transition hover:text-gray-700/75"
+            className="text-gray-300 hover:text-white text-sm transition"
             href="#"
           >
             {" "}

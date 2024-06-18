@@ -1,5 +1,5 @@
 import { useState } from "react";
-import { DateSelection } from "./types/calenderTypes";
+import { DateSelection } from "./types/CalenderTypes";
 import { useCalender } from "./useCalender";
 
 export const useCalenderStates = () => {

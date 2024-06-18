@@ -1,5 +1,8 @@
 import { createSlice, PayloadAction } from "@reduxjs/toolkit";
-import { CustomerFormData, CustomerOrder } from "../web/lib/types/orderTypes";
+import {
+  CustomerFormData,
+  CustomerOrder,
+} from "../web/lib/types/OrderSolutionTypes";
 import { customerOrderStatess, orderStates } from "./defualtStates";
 
 interface CustomerContractorState {

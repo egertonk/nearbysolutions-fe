@@ -11,7 +11,6 @@ import { Footer } from "./web/components/Footer/footer";
 import { Reviews } from "./web/components/Reviews/reviews";
 import { Favorite } from "./web/components/Favorite/Favorite";
 import { OrderSumary } from "./web/components/Orders/OrderSumary";
-import { ViewOrderHistory } from "./web/components/Orders/ViewOrderHistory";
 import { TalentDetailPage } from "./web/components/Hire-A-Talent/talentDetailPage";
 import { DateTimeSelection } from "./web/components/Hire-A-Talent/DateTimeSelection";
 import { CalenderForm } from "./web/components/common-sections/calenderForm";
@@ -23,6 +22,9 @@ import { ContactUs } from "./web/components/contact-us/ContactUs";
 import { FindWorkPostAJob } from "./web/components/Find-Work-Post-A-Job/FindWorkPostAJob";
 import { PostAJobForm } from "./web/components/Find-Work-Post-A-Job/PostAJobForm";
 import { HomeIndex } from "./web/components/Home/HomeIndex";
+import { CustomerJobListings } from "./web/components/Find-Work-Post-A-Job/CustomerJobListings";
+import { CustomerToolListings } from "./web/components/DIY-Tool-Rentals/CustomerToolListings";
+import { UserHistory } from "./web/components/Orders/UserHistory";
 
 function App() {
   return (
@@ -56,8 +58,10 @@ function App() {
           {/* Payment */}
           <Route path="/payment" element={<Payment />} />
 
-          {/* Cutomer History */}
-          <Route path="/view-order-history" element={<ViewOrderHistory />} />
+          {/* Customer History */}
+          <Route path="/user-history" element={<UserHistory />} />
+          <Route path="/job-listings" element={<CustomerJobListings />} />
+          <Route path="/tool-listings" element={<CustomerToolListings />} />
 
           {/* Edit Order */}
           <Route path="/edit-order" element={<EditOrder />} />

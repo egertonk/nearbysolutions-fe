@@ -1,12 +1,16 @@
 import React from "react";
 import { MagnifyingGlassIcon } from "@heroicons/react/24/outline";
-import { CustomerJobs } from "../../lib/types/findWorkPostAJobtypes";
+import { CustomerJobs } from "../../lib/types/FindWorkPostAJobtypesData";
+import { DIYToolListing } from "../../lib/types/DIYToolsListings";
+import { CustomerFormData } from "../../lib/types/OrderSolutionTypes";
 
 type Props = {
   handleOnChange: (e: React.ChangeEvent<HTMLInputElement>) => void;
   handleSubmit: () => void;
   jobTitlesArray?: string[];
   filteredJobs?: CustomerJobs[];
+  filteredTools?: DIYToolListing[];
+  filteredOrders?: CustomerFormData[];
 };
 
 export const SearchUI: React.FC<Props> = ({
@@ -14,10 +18,12 @@ export const SearchUI: React.FC<Props> = ({
   handleSubmit,
   jobTitlesArray,
   filteredJobs,
+  filteredTools,
+  filteredOrders,
 }) => {
   return (
     <>
-      <div className="flex justify-center rounded py-4 mb-4">
+      <div className="flex justify-center rounded py-4">
         <input
           type="text"
           className="block w-80 px-4 py-2 text-purple-700 bg-white border rounded-md focus:border-purple-400 focus:ring-purple-300 focus:outline-none focus:ring focus:ring-opacity-40"
@@ -37,6 +43,34 @@ export const SearchUI: React.FC<Props> = ({
                 key={job.jobName}
                 className="cursor-pointer border-2 border-[#011c2b] w-50"
                 value={job.jobName}
+              ></option>
+            ))}
+
+          {filteredTools !== undefined &&
+            filteredTools.map((tool) => (
+              <option key={tool.toolName} value={tool.toolName}></option>
+            ))}
+
+          {filteredTools !== undefined &&
+            filteredTools.map((tool) => (
+              <option
+                key={tool.toolName}
+                className="cursor-pointer border-2 border-[#011c2b] w-50"
+                value={tool.toolName}
+              ></option>
+            ))}
+
+          {filteredOrders !== undefined &&
+            filteredOrders.map((order) => (
+              <option key={order.orderID} value={order.orderID}></option>
+            ))}
+
+          {filteredOrders !== undefined &&
+            filteredOrders.map((order) => (
+              <option
+                key={order.orderID}
+                className="cursor-pointer border-2 border-[#011c2b] w-50"
+                value={order.orderID}
               ></option>
             ))}
         </datalist>

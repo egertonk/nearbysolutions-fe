@@ -158,9 +158,6 @@ export const TalentDetailPage: React.FC = () => {
             </span>
           </button>
         </div>
-
-        {/* {show contractor order list to user} */}
-        <WorkOrderList />
       </div>
     </>
   );

@@ -16,13 +16,13 @@ export const SortData: React.FC<Props> = ({ handleSort, sortList }) => {
 
   return (
     <>
-      <div className="relative flex justify-center items-center">
-        <div className="relative w-64">
+      <div className="relative flex justify-end mb-2 -mt-4">
+        <div className="relative w-35 text-end">
           <button
-            className="bg-[#371f1f] text-gray-300 px-6 py-3 rounded-xl mt-4 flex items-center justify-between w-full"
+            className="text-black-300 px-6 py-1 flex items-center justify-between space-x-4"
             onClick={toggleDropdown}
           >
-            {sortName.length > 0 ? sortName : "Sort"}
+            {sortName.length > 0 ? sortName : "Sort by"}
             {sortUpDownSVG}
           </button>
           <ul

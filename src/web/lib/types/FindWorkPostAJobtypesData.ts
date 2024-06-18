@@ -7,4 +7,5 @@ export type CustomerJobs = {
   date: string;
   time: string;
   email: string;
+  jobStatus: boolean;
 };

@@ -53,7 +53,7 @@ export const products = [
     routeName: "find-work-post-a-job",
   },
   {
-    name: "Rent Tools",
+    name: "DIY Tools Rental",
     description: "Your customers’ data will be safe and secure",
     href: "rent-tools",
     icon: CursorArrowRaysIcon,

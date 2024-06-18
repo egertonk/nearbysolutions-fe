@@ -82,7 +82,7 @@ export const PostAJobForm: React.FC = () => {
         <div className="grid sm:grid-cols-2 gap-10">
           <div className="relative flex items-center">
             <label className="text-[13px] bg-white text-black absolute px-2 top-[-10px] left-[18px]">
-              Job Name
+              Name
             </label>
             <input
               type="text"

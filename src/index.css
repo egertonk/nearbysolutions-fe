@@ -15,6 +15,9 @@ code {
   font-family: source-code-pro, Menlo, Monaco, Consolas, "Courier New",
     monospace;
 }
+.img{
+  display: unset;
+}
 
 .formDiv {
   width: 400px;
@@ -30,6 +33,6 @@ code {
   margin-top: 20px;
 }
 
-.creditCard{
-    margin-bottom: 10%;
+.creditCard {
+  margin-bottom: 10%;
 }

@@ -9,7 +9,7 @@ import {
   CustomerFormData,
   JobTitlePricing,
   TalentInformation,
-} from "../../lib/types/orderTypes";
+} from "../../lib/types/OrderSolutionTypes";
 import { SocialIcon } from "./socialIcon";
 
 type Props = {

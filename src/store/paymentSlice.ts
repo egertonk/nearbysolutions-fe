@@ -1,5 +1,5 @@
 import { createSlice, PayloadAction } from "@reduxjs/toolkit";
-import { PaymentStateProps } from "../web/lib/types/paymentTyoes";
+import { PaymentStateProps } from "../web/lib/types/PaymentTyoes";
 import { paymentStatusStates } from "./defualtStates";
 
 interface PaymentCheckoutState {

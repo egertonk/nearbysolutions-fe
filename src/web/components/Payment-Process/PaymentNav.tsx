@@ -5,7 +5,7 @@ import {
   forwardArrowSVG,
 } from "../../assets/svg/svgs";
 import { setPaymentState } from "../../../store/paymentSlice";
-import { PaymentStateProps } from "../../lib/types/paymentTyoes";
+import { PaymentStateProps } from "../../lib/types/PaymentTyoes";
 
 type Props = {
   handlePaymentInfoEdit: () => void;

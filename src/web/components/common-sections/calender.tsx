@@ -1,10 +1,10 @@
 import { useDispatch, useSelector } from "react-redux";
 import { greaterThanArrowSVG, lessThanArrowSVG } from "../../assets/svg/svgs";
 import { cSettings } from "../../lib";
-import { DateSelection } from "../../lib/types/calenderTypes";
+import { DateSelection } from "../../lib/types/CalenderTypes";
 import { useCalender } from "../../lib/useCalender";
 import { RootState } from "../../../store";
-import { CustomerFormData } from "../../lib/types/orderTypes";
+import { CustomerFormData } from "../../lib/types/OrderSolutionTypes";
 import { setCustomerOrder } from "../../../store/customerContractorSlice";
 import { useEffect, useState } from "react";
 

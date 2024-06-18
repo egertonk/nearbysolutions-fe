@@ -1,6 +1,5 @@
 import React, { useState } from "react";
-import { MagnifyingGlassIcon } from "@heroicons/react/24/outline";
-import { TalentInformation } from "../../lib/types/orderTypes";
+import { TalentInformation } from "../../lib/types/OrderSolutionTypes";
 import { SearchUI } from "./SearchUI";
 
 type Props = {
