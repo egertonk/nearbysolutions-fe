@@ -8,16 +8,17 @@ import { RootState } from "../../../store";
 import { setCustomerOrder } from "../../../store/customerContractorSlice";
 
 type Props = {
-  isCurrentMonth: boolean;
-  date: number;
+  requiredData: {
+    date: number;
+    userSelectedDate: DateSelection;
+    isCurrentMonth: boolean;
+    solutionStartTimes: string[];
+  };
   isTimeChangeAllow?: any;
-  userSelectedDate: DateSelection | undefined;
 };
 
 export const TimeList: React.FC<Props> = ({
-  isCurrentMonth,
-  date,
-  userSelectedDate,
+  requiredData,
   isTimeChangeAllow,
 }) => {
   const dispatch = useDispatch();
@@ -49,8 +50,8 @@ export const TimeList: React.FC<Props> = ({
 
   const getDateStyle = (twelveHour: string) => {
     if (twelveHour.toString() === customerOrder.solutionStartTime.toString()) {
-      return "bg-red-500 inline-flex items-center justify-center w-full p-2 text-sm font-medium text-center  border rounded-lg text-white border-blue-600 dark:hover:text-white ";
-    } else if (isCurrentMonth) {
+      return timeSelected;
+    } else if (requiredData.isCurrentMonth) {
       if (isTimeValid(twelveHour)) {
         return timeSelectionCSS;
       } else {
@@ -64,13 +65,27 @@ export const TimeList: React.FC<Props> = ({
   const timeSelectionCSS =
     "cursor-pointer bg-white inline-flex items-center justify-center w-full p-2 text-sm font-medium text-center  border rounded-lg text-blue-600 border-blue-600 dark:hover:text-white dark:border-blue-500 dark:peer-checked:border-blue-500 peer-checked:border-blue-600 hover:bg-blue-500 dark:text-blue-500 dark:bg-gray-900 dark:hover:bg-purple-600 dark:hover:border-blue-600 dark:peer-checked:bg-purple-500 peer-checked:bg-purple-600 hover:text-white peer-checked:text-white";
 
+  const timeSelected =
+    "bg-red-500 inline-flex items-center justify-center w-full p-2 text-sm font-medium text-center  border rounded-lg text-white border-blue-600 dark:hover:text-white ";
+
+  const scheduleTimeSelected =
+    "bg-purple-500 inline-flex items-center justify-center w-full p-2 text-sm font-medium text-center  border rounded-lg text-white border-blue-600 dark:hover:text-white ";
+
+  const checkSchedule = (time: string) => {
+    const foundTime = requiredData.solutionStartTimes.find(
+      (timeData) => timeData === time
+    );
+    if (foundTime) return true;
+    return false;
+  };
+
   return (
     <ul id="timetable" className="grid w-full grid-cols-4 gap-2 mt-5">
       {contractorSettings.twelveHoursStatus
         ? timeIntervals.map((time) => (
             <>
-              {userSelectedDate?.day !== undefined &&
-              userSelectedDate?.day !== date ? (
+              {requiredData.userSelectedDate?.day !== undefined &&
+              requiredData.userSelectedDate?.day !== requiredData.date ? (
                 <li
                   className={`${
                     isTimeChangeAllow &&
@@ -85,17 +100,20 @@ export const TimeList: React.FC<Props> = ({
                     className="hidden peer"
                     name="timetable"
                     onChange={(e) => updateStore(e)}
+                    disabled={checkSchedule(time.twelveHour)}
                   />
                   <label
                     htmlFor={`${time.twelveHour}`}
                     className={`${
-                      isTimeChangeAllow &&
-                      customerOrder.solutionStartTime === time.twelveHour
+                      checkSchedule(time.twelveHour)
+                        ? scheduleTimeSelected
+                        : isTimeChangeAllow &&
+                          customerOrder.solutionStartTime === time.twelveHour
                         ? ""
                         : timeSelectionCSS
                     }`}
                   >
-                    {time.twelveHour}
+                    {time.twelveHour}-----
                   </label>
                 </li>
               ) : (
@@ -108,7 +126,9 @@ export const TimeList: React.FC<Props> = ({
                     name="timetable"
                     onChange={(e) => updateStore(e)}
                     disabled={
-                      isCurrentMonth ? !isTimeValid(time.twelveHour) : false
+                      requiredData.isCurrentMonth
+                        ? !isTimeValid(time.twelveHour)
+                        : false
                     }
                   />
                   <label

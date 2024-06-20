@@ -1,3 +1,4 @@
+import { useSelector } from "react-redux";
 import { priceWithComma } from "../../lib";
 import { useCalenderStates } from "../../lib/useCalenderStates";
 import { orderSortList, useOrders } from "../../lib/useOrders";
@@ -5,6 +6,7 @@ import { SortData } from "../common-sections/SortData";
 import { TableHeader } from "../common-sections/TableHeader";
 import { Calender } from "../common-sections/calender";
 import { DatePicker } from "../common-sections/datePicker";
+import { RootState } from "../../../store";
 
 type Props = {
   isTimeChangeAllow?: boolean;
@@ -13,6 +15,10 @@ type Props = {
 
 export const DateTimeSelection: React.FC<Props> = ({ isDateChangeAllow }) => {
   const customerID = 78901; // From api profile
+
+  const customerOrder = useSelector(
+    (state: RootState) => state.formData.customerOrder
+  );
   const {
     showNextMonth,
     setShowNextMonth,
@@ -23,11 +29,15 @@ export const DateTimeSelection: React.FC<Props> = ({ isDateChangeAllow }) => {
     formattedDate,
     date,
     isCurrentMonth,
-  } = useCalenderStates();
+  } = useCalenderStates(customerOrder);
 
   const { handleSort, filteredOrders, handleEdit } = useOrders(
     userSelectedDate,
     "dateSearch"
+  );
+
+  const solutionStartTimes = filteredOrders.map(
+    (order) => order.solutionStartTime
   );
 
   return (
@@ -45,16 +55,18 @@ export const DateTimeSelection: React.FC<Props> = ({ isDateChangeAllow }) => {
       />
 
       <DatePicker
-        formattedDate={formattedDate}
-        date={date}
-        isCurrentMonth={isCurrentMonth}
-        userSelectedDate={userSelectedDate}
+        requiredData={{
+          date,
+          userSelectedDate,
+          isCurrentMonth,
+          solutionStartTimes,
+        }}
       />
 
       {filteredOrders.length > 0 && (
-        <div className="px-2 rounded-b">
+        <div className="px-4 mt-5 rounded-b">
           <SortData sortList={orderSortList} handleSort={handleSort} />
-          <div className="justify-center ">
+          <div className="justify-center mt-4">
             {filteredOrders.map((order, index) => (
               <>
                 <div

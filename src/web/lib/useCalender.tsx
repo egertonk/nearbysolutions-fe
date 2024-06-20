@@ -1,3 +1,5 @@
+import { monthNames } from ".";
+
 type MonthDays = {
   day: number;
   dayTitle: string;
@@ -11,20 +13,6 @@ export const useCalender = () => {
   const date = today.getDate();
   const day = today.getDay();
 
-  const monthNames = [
-    "January",
-    "February",
-    "March",
-    "April",
-    "May",
-    "June",
-    "July",
-    "August",
-    "September",
-    "October",
-    "November",
-    "December",
-  ];
   const dayTitles = ["Mo", "Tu", "We", "Th", "Fr", "Sa", "Su"];
   const dayNames = [
     "Sunday",

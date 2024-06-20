@@ -1,6 +1,6 @@
 import { useDispatch, useSelector } from "react-redux";
 import { greaterThanArrowSVG, lessThanArrowSVG } from "../../assets/svg/svgs";
-import { cSettings } from "../../lib";
+import { cSettings, monthNames } from "../../lib";
 import { DateSelection } from "../../lib/types/CalenderTypes";
 import { useCalender } from "../../lib/useCalender";
 import { RootState } from "../../../store";
@@ -131,7 +131,9 @@ export const Calender: React.FC<Props> = ({
   };
 
   const getDateStyle = (days: { day: number; dayTitle: string }) => {
-    if (
+    if (days.day === dateUpdate.day && isPreviousCurrentDatesMonthYear)
+      return selectedCSS;
+    else if (
       isEditOrder &&
       solutionDate.getDate() === days.day &&
       customerOrder.solutionFormattedDate
@@ -167,6 +169,19 @@ export const Calender: React.FC<Props> = ({
       } else return disablePastDatesTime;
     }
   };
+
+  const previousDate = new Date(customerOrder.solutionDate);
+  const dateUpdate = {
+    day: Number(previousDate.getDate()),
+    month:
+      monthNames[
+        previousDate.getMonth() + 1 === 13 ? 12 : previousDate.getMonth()
+      ],
+    year: Number(previousDate.getFullYear()),
+  };
+  const isPreviousCurrentDatesMonthYear =
+    dateUpdate.month === currentMonthSelection &&
+    dateUpdate.year === currentYearSelection;
 
   return (
     <div className="md:p-8 p-5 dark:bg-gray-800 bg-white rounded-t auto-cols-max">

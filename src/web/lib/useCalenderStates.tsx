@@ -1,8 +1,9 @@
 import { useState } from "react";
 import { DateSelection } from "./types/CalenderTypes";
 import { useCalender } from "./useCalender";
+import { CustomerFormData } from "./types/OrderSolutionTypes";
 
-export const useCalenderStates = () => {
+export const useCalenderStates = (order?: CustomerFormData) => {
   const [showNextMonth, setShowNextMonth] = useState(false);
   const [userSelectedTime, setUserSelectedTime] = useState("");
 

@@ -21,6 +21,21 @@ import { JobTitlePricing } from "./types/OrderSolutionTypes";
 import { CustomerJobs } from "./types/FindWorkPostAJobtypesData";
 import { DIYToolListing } from "./types/DIYToolsListings";
 
+export const monthNames = [
+  "January",
+  "February",
+  "March",
+  "April",
+  "May",
+  "June",
+  "July",
+  "August",
+  "September",
+  "October",
+  "November",
+  "December",
+];
+
 export const priceWithComma = (price: string | number) => {
   const formattedPrice = price?.toLocaleString();
 
@@ -359,7 +374,7 @@ export const customerOrderHistory = [
     phoneNumber: "5551234567",
     email: "samuel.jackson@example.com",
     solutionFormattedDate: "Monday 10 June 2024",
-    solutionDate: "6/18/2024",
+    solutionDate: "6/28/2024",
     solutionTask: "Physical Therapy",
     solutionJob: "Therapist",
     solutionStartTime: "09:00 AM",
@@ -388,7 +403,7 @@ export const customerOrderHistory = [
     phoneNumber: "2024567890",
     email: "emily.blunt@example.com",
     solutionFormattedDate: "Friday 14 June 2024",
-    solutionDate: "6/17/2024",
+    solutionDate: "6/29/2024",
     solutionTask: "Massage Therapy",
     solutionJob: "Masseuse",
     solutionStartTime: "02:00 PM",
@@ -417,7 +432,7 @@ export const customerOrderHistory = [
     phoneNumber: "2127363100",
     email: "robert.downey@example.com",
     solutionFormattedDate: "Sunday 9 June 2024",
-    solutionDate: "6/18/2024",
+    solutionDate: "6/30/2024",
     solutionTask: "Personal Training",
     solutionJob: "Trainer",
     solutionStartTime: "06:00 AM",

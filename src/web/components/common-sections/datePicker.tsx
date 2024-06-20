@@ -4,23 +4,23 @@ import { TimeList } from "../common-sections/timeList";
 import { RootState } from "../../../store";
 
 type Props = {
-  formattedDate: string;
-  date: number;
-  isCurrentMonth: boolean;
-  userSelectedDate: DateSelection | undefined;
-  isTimeChangeAllow?: boolean;
+  requiredData: {
+    date: number;
+    userSelectedDate: DateSelection;
+    isCurrentMonth: boolean;
+    solutionStartTimes: string[];
+  };
+  isTimeChangeAllow?: any;
 };
 
 export const DatePicker: React.FC<Props> = ({
-  formattedDate,
-  date,
-  isCurrentMonth,
-  userSelectedDate,
+  requiredData,
   isTimeChangeAllow,
 }) => {
   const customerOrder = useSelector(
     (state: RootState) => state.formData.customerOrder
   );
+
   return (
     <>
       <div className="pt-5 sm:space-x-5 rtl:space-x-reverse auto-cols-max w-full">
@@ -32,12 +32,12 @@ export const DatePicker: React.FC<Props> = ({
         />
         <div>
           <h3 className="text-gray-900 dark:text-white text-base font-medium mb-3 text-center">
-            {formattedDate}
+            {customerOrder?.solutionFormattedDate}
           </h3>
           <button
             type="button"
             data-collapse-toggle="timetable"
-            className="inline-flex items-center w-full py-2 px-5 me-2 justify-center text-sm font-medium text-gray-900 focus:outline-none bg-white rounded-lg border border-gray-200 hover:bg-gray-100 hover:text-blue-700 focus:z-10 focus:ring-4 focus:ring-gray-100 dark:focus:ring-gray-700 dark:bg-gray-800 dark:text-gray-400 dark:border-gray-600 dark:hover:text-white dark:hover:bg-gray-700"
+            className="inline-flex items-center w-full py-2 px-5 me-2 justify-center text-sm font-medium text-gray-900 focus:outline-none bg-white rounded-lg border border-purple-200 hover:bg-gray-100 hover:text-blue-700 focus:z-10 focus:ring-4 focus:ring-gray-100 dark:focus:ring-gray-700 dark:bg-gray-800 dark:text-gray-400 dark:border-gray-600 dark:hover:text-white dark:hover:bg-gray-700"
           >
             <svg
               className="w-4 h-4 text-gray-800 dark:text-white me-2"
@@ -60,9 +60,7 @@ export const DatePicker: React.FC<Props> = ({
           </button>
           <label className="sr-only">Pick a time</label>
           <TimeList
-            isCurrentMonth={isCurrentMonth}
-            date={date}
-            userSelectedDate={userSelectedDate}
+            requiredData={requiredData}
             isTimeChangeAllow={isTimeChangeAllow}
           />
         </div>
