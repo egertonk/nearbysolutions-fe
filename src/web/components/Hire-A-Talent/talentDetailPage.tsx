@@ -1,15 +1,11 @@
 import React from "react";
 import { useLocation } from "react-router-dom";
-
 import { useCalenderStates } from "../../lib/useCalenderStates";
 import { useCustomerPersonalInfoForm } from "../../lib/useCustomerPersonalInfoForm";
 import { useState } from "react";
 import { talentInformation } from "../../lib";
 import { DateTimeSelection } from "./DateTimeSelection";
-import { StepperProgress } from "../common-sections/StepperProgress";
 import { MainTitle } from "../common-sections/MainTitle";
-import { RootState } from "../../../store";
-import { useSelector } from "react-redux";
 
 export const TalentDetailPage: React.FC = () => {
   const location = useLocation();

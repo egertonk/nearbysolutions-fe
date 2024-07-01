@@ -67,8 +67,13 @@ export type CustomerFormData = {
   zip: string;
   phoneNumber: string;
   email: string;
-  solutionFormattedDate: string;
-  solutionDate: string;
+  solutionDateContract: {
+    solutionDate: string;
+    longTermContract?: string;
+    longTermstartDate?: string;
+    longTermEndDate?: string;
+    solutionFormattedDate: string;
+  };
   solutionTask: string;
   solutionJob: string;
   solutionStartTime: string;
@@ -96,8 +101,13 @@ export type CustomerOrder = {
   state: string;
   zip: string;
   phoneNumber: string;
-  solutionFormattedDate: string;
-  solutionDate: string;
+  solutionDateContract: {
+    solutionDate: string;
+    longTermContract: string;
+    longTermstartDate: string;
+    longTermEndDate: string;
+    solutionFormattedDate: string;
+  };
   solutionTask: string;
   solutionJob: string;
   solutionStartTime: string;

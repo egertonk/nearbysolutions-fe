@@ -1,22 +1,18 @@
 import { useState } from "react";
 import { DateSelection } from "./types/CalenderTypes";
 import { useCalender } from "./useCalender";
-import { CustomerFormData } from "./types/OrderSolutionTypes";
+import { monthNames } from ".";
+import { useSelector } from "react-redux";
+import { RootState } from "../../store";
 
-export const useCalenderStates = (order?: CustomerFormData) => {
+export const useCalenderStates = () => {
   const [showNextMonth, setShowNextMonth] = useState(false);
+  const [showPrevMonth, setShowPrevMonth] = useState(false);
   const [userSelectedTime, setUserSelectedTime] = useState("");
+  const [formattedDate, setFormattedDate] = useState("");
 
-  const {
-    year,
-    dayNames,
-    today,
-    nextMonthName,
-    currentMonthName,
-    date,
-    day,
-    month,
-  } = useCalender();
+  const { year, dayNames, nextMonthName, currentMonthName, date, day, month } =
+    useCalender();
 
   const currentMonthSelection = showNextMonth
     ? nextMonthName
@@ -25,10 +21,17 @@ export const useCalenderStates = (order?: CustomerFormData) => {
     currentMonthName === "December" ? year + 1 : year;
   const isCurrentMonth = currentMonthName === currentMonthSelection;
 
+  const customerOrder = useSelector(
+    (state: RootState) => state.formData.customerOrder
+  );
+  const solutionDate = new Date(
+    customerOrder?.solutionDateContract?.solutionDate
+  );
+
   const [userSelectedDate, setUserSelectedDate] = useState<DateSelection>({
-    day: date,
-    month: currentMonthSelection,
-    year: currentYearSelection,
+    day: solutionDate.getDate() || date,
+    month: monthNames[solutionDate.getMonth()] || currentMonthSelection,
+    year: solutionDate.getFullYear() || currentYearSelection,
   });
 
   //Find user day selection
@@ -38,12 +41,6 @@ export const useCalenderStates = (order?: CustomerFormData) => {
 
   // Get the full names for the day and month
   const dayName = dayNames[!Number.isNaN(specificDate) ? specificDate : day];
-  const dayOfMonth = today.getDate();
-
-  // Format the date string
-  const formattedDate = `${dayName} ${userSelectedDate?.day || dayOfMonth} ${
-    userSelectedDate?.month || currentMonthName
-  } ${currentYearSelection}`;
 
   const updateDateSelection = (day: number, month: string, year: number) => {
     setUserSelectedDate({
@@ -51,13 +48,14 @@ export const useCalenderStates = (order?: CustomerFormData) => {
       month,
       year,
     });
+    setFormattedDate(`${dayName} ${day} ${month} ${year}`);
   };
 
   return {
     showNextMonth,
     setShowNextMonth,
-    userSelectedDate,
     setUserSelectedDate,
+    userSelectedDate,
     userSelectedTime,
     setUserSelectedTime,
     updateDateSelection,
@@ -69,5 +67,7 @@ export const useCalenderStates = (order?: CustomerFormData) => {
     year,
     month,
     isCurrentMonth,
+    showPrevMonth,
+    setShowPrevMonth,
   };
 };

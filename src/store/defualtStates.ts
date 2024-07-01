@@ -8,9 +8,9 @@ export const paymentStatusStates = {
   showSelectPayment: true,
 };
 
-export const customerOrderStatess = {
+export const orderStates = {
   orderID: 0,
-  customerID: 0,
+  customerID: 0, // we can generated it later and it should never be null
   firstName: "",
   lastName: "",
   country: "",
@@ -20,13 +20,18 @@ export const customerOrderStatess = {
   zip: "",
   phoneNumber: "",
   email: "",
-  solutionFormattedDate: "",
-  solutionDate: "",
+  solutionDateContract: {
+    solutionDate: "",
+    longTermContract: "",
+    longTermstartDate: "",
+    longTermEndDate: "",
+    solutionFormattedDate: "",
+  },
   solutionTask: "",
   solutionJob: "",
   solutionStartTime: "",
   selectedTalent: "",
-  talentID: 0,
+  talentID: 0, // it should never be null
   talentFirstName: "",
   talentLastName: "",
   solutionPrice: 0,
@@ -36,31 +41,4 @@ export const customerOrderStatess = {
   orderStatus: false,
   giftStatus: false,
   giftFor_fullName: "",
-};
-
-export const orderStates = {
-  orderID: 0,
-  customerID: 0,
-  firstName: "",
-  lastName: "",
-  country: "",
-  address: "",
-  city: "",
-  state: "",
-  zip: "",
-  phoneNumber: "",
-  solutionFormattedDate: "",
-  solutionDate: "",
-  solutionTask: "",
-  solutionJob: "",
-  solutionStartTime: "",
-  selectedTalent: "",
-  talentID: 0,
-  talentFirstName: "",
-  talentLastName: "",
-  solutionPrice: 0,
-  solutionPricePerHourStatus: false,
-  solutionPriceDiscountPercentage: 0,
-  orderDate: "",
-  orderStatus: false,
 };

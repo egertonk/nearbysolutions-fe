@@ -116,7 +116,7 @@ export const Footer: React.FC = () => {
               <Link
                 type="button"
                 className="text-lg font-medium text-white"
-                to={`/contact-us`}
+                to={`home/contact-us`}
               >
                 Contact Us
               </Link>

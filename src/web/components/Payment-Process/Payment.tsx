@@ -9,10 +9,7 @@ import {
   setCustomerOrder,
   setIsEditOrder,
 } from "../../../store/customerContractorSlice";
-import {
-  customerOrderStatess,
-  paymentStatusStates,
-} from "../../../store/defualtStates";
+import { orderStates, paymentStatusStates } from "../../../store/defualtStates";
 
 export const Payment: React.FC = () => {
   const navigate = useNavigate();
@@ -33,7 +30,7 @@ export const Payment: React.FC = () => {
       // Reset States to default
       dispatch(setIsEditOrder(false));
       dispatch(setPaymentState(paymentStatusStates));
-      dispatch(setCustomerOrder(customerOrderStatess));
+      dispatch(setCustomerOrder(orderStates));
     }
   };
 

@@ -1,12 +1,15 @@
-import { useSelector } from "react-redux";
-import { priceWithComma } from "../../lib";
+import { useDispatch, useSelector } from "react-redux";
+import { customerOrderHistory, monthNames, priceWithComma } from "../../lib";
 import { useCalenderStates } from "../../lib/useCalenderStates";
 import { orderSortList, useOrders } from "../../lib/useOrders";
 import { SortData } from "../common-sections/SortData";
 import { TableHeader } from "../common-sections/TableHeader";
-import { Calender } from "../common-sections/calender";
+import { Calender, extractDateParts } from "../common-sections/calender";
 import { DatePicker } from "../common-sections/datePicker";
 import { RootState } from "../../../store";
+import { CustomerFormData } from "../../lib/types/OrderSolutionTypes";
+import { setCustomerOrder } from "../../../store/customerContractorSlice";
+import { DateSelection } from "../../lib/types/CalenderTypes";
 
 type Props = {
   isTimeChangeAllow?: boolean;
@@ -14,53 +17,136 @@ type Props = {
 };
 
 export const DateTimeSelection: React.FC<Props> = ({ isDateChangeAllow }) => {
-  const customerID = 78901; // From api profile
-
+  const dispatch = useDispatch();
   const customerOrder = useSelector(
     (state: RootState) => state.formData.customerOrder
   );
+
+  const customerID = 78901; // From api profile
+  const defaultDateSelected = {
+    month: "",
+    day: 0,
+    year: 0,
+  };
+
   const {
     showNextMonth,
-    setShowNextMonth,
-    userSelectedDate,
     updateDateSelection,
     currentMonthSelection,
     currentYearSelection,
-    formattedDate,
     date,
     isCurrentMonth,
-  } = useCalenderStates(customerOrder);
+  } = useCalenderStates();
 
-  const { handleSort, filteredOrders, handleEdit } = useOrders(
-    userSelectedDate,
-    "dateSearch"
+  const dateSelectedByUser = extractDateParts(
+    customerOrder.solutionDateContract.solutionDate
   );
+
+  const { handleSort, filteredOrders, handleEdit, filterAndSortOrders } =
+    useOrders(
+      dateSelectedByUser !== null
+        ? dateSelectedByUser
+        : {
+            day: date,
+            month: currentMonthSelection,
+            year: currentYearSelection,
+          },
+      "dateSearch"
+    );
 
   const solutionStartTimes = filteredOrders.map(
     (order) => order.solutionStartTime
   );
+  const previousDate = new Date(
+    customerOrder.solutionDateContract.solutionDate
+  );
+
+  const dateUpdate = {
+    day: Number(previousDate.getDate()),
+    month:
+      monthNames[
+        previousDate.getMonth() + 1 === 13 ? 12 : previousDate.getMonth()
+      ],
+    year: Number(previousDate.getFullYear()),
+  };
+
+  const isPreviousCurrentDatesMonthYear =
+    dateUpdate.month === currentMonthSelection &&
+    dateUpdate.year === currentYearSelection; //
+
+  const getDayName = (dateStr: string): string => {
+    const parts = dateStr.split("/");
+    if (parts.length === 3) {
+      const [month, day, year] = parts;
+      const date = new Date(`${month} ${day}, ${year}`);
+      const options: Intl.DateTimeFormatOptions = { weekday: "long" };
+      return date.toLocaleDateString("en-US", options);
+    }
+    return "";
+  };
+
+  const updateStore = (defaultValueDate?: DateSelection) => {
+    const extraZero =
+      defaultValueDate?.day.toLocaleString().length === 1
+        ? `0${defaultValueDate?.day}`
+        : defaultValueDate?.day;
+
+    const solutionDate = `${defaultValueDate?.month}/${extraZero}/${defaultValueDate?.year}`;
+    const dateSelectedByUser = extractDateParts(solutionDate || "");
+    console.log("defaultValueDate ", defaultValueDate);
+    const userDate = new Date(
+      `${dateSelectedByUser?.month} ${dateSelectedByUser?.day}, ${dateSelectedByUser?.year}`
+    );
+
+    const dayName = getDayName(
+      `${dateSelectedByUser?.day}/${dateSelectedByUser?.month}/${dateSelectedByUser?.year}`
+    );
+
+    const formattedDate = `${dayName} ${dateSelectedByUser?.day} ${dateSelectedByUser?.month} ${dateSelectedByUser?.year}`;
+    const newSolutionDateContract = {
+      solutionDate: solutionDate || "",
+      solutionFormattedDate: formattedDate,
+    };
+
+    const updatedOrder: CustomerFormData = {
+      ...customerOrder,
+      solutionDateContract: {
+        ...newSolutionDateContract,
+      },
+    };
+
+    dispatch(setCustomerOrder(updatedOrder));
+
+    filterAndSortOrders(customerOrderHistory, solutionDate);
+  };
 
   return (
     <>
       <Calender
-        fullDate={`${currentMonthSelection} ${currentYearSelection}`}
-        setShowNextMonth={setShowNextMonth}
+        currentMonthYear={{
+          showMonth: currentMonthSelection,
+          showYear: currentYearSelection,
+        }}
         showNextMonth={showNextMonth}
         updateDateSelection={updateDateSelection}
-        currentMonthSelection={currentMonthSelection}
-        currentYearSelection={currentYearSelection}
-        userSelectedDate={userSelectedDate}
-        isDateChangeAllow={isDateChangeAllow}
-        formattedDate={formattedDate}
+        userSelectedDate={
+          dateSelectedByUser !== null ? dateSelectedByUser : defaultDateSelected
+        }
+        updateStore={updateStore}
       />
 
       <DatePicker
         requiredData={{
           date,
-          userSelectedDate,
+          userSelectedDate:
+            dateSelectedByUser !== null
+              ? dateSelectedByUser
+              : defaultDateSelected,
           isCurrentMonth,
           solutionStartTimes,
         }}
+        previousDateCheck={{ isPreviousCurrentDatesMonthYear, dateUpdate }}
+        filteredOrders={filteredOrders}
       />
 
       {filteredOrders.length > 0 && (

@@ -43,7 +43,7 @@ export const NearBySolutionsHeader: React.FC = () => {
           <div className="hidden lg:flex lg:flex-1 lg:justify-end">
             <Link
               className="text-sm font-semibold leading-6 text-gray-900"
-              to={`/login`}
+              to={`home/login`}
             >
               Log in <span aria-hidden="true">&rarr;</span>
             </Link>

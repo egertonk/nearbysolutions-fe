@@ -8,10 +8,7 @@ import { useLocation } from "react-router";
 import { useDispatch } from "react-redux";
 import { setApplicationMode } from "../../../store/applicationModeSlice";
 import { setCustomerOrder } from "../../../store/customerContractorSlice";
-import {
-  customerOrderStatess,
-  paymentStatusStates,
-} from "../../../store/defualtStates";
+import { orderStates, paymentStatusStates } from "../../../store/defualtStates";
 import { setPaymentState } from "../../../store/paymentSlice";
 
 export const Talent: React.FC = () => {
@@ -27,7 +24,7 @@ export const Talent: React.FC = () => {
     const giftStatus = location.pathname.includes("gift-a-solution");
     if (giftStatus) dispatch(setApplicationMode(true));
     if (giftStatus === false) dispatch(setApplicationMode(false));
-    dispatch(setCustomerOrder(customerOrderStatess));
+    dispatch(setCustomerOrder(orderStates));
     dispatch(setPaymentState(paymentStatusStates));
   }, []);
 

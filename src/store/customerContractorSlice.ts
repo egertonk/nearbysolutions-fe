@@ -3,7 +3,7 @@ import {
   CustomerFormData,
   CustomerOrder,
 } from "../web/lib/types/OrderSolutionTypes";
-import { customerOrderStatess, orderStates } from "./defualtStates";
+import { orderStates } from "./defualtStates";
 
 interface CustomerContractorState {
   customerOrder: CustomerFormData;
@@ -13,7 +13,7 @@ interface CustomerContractorState {
 }
 
 const initialState: CustomerContractorState = {
-  customerOrder: customerOrderStatess,
+  customerOrder: orderStates,
   isEditOrder: false,
   isError: false,
   order: orderStates,

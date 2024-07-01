@@ -1,187 +1,209 @@
-import { useDispatch, useSelector } from "react-redux";
+import { useSelector } from "react-redux";
 import { greaterThanArrowSVG, lessThanArrowSVG } from "../../assets/svg/svgs";
-import { cSettings, monthNames } from "../../lib";
 import { DateSelection } from "../../lib/types/CalenderTypes";
 import { useCalender } from "../../lib/useCalender";
 import { RootState } from "../../../store";
-import { CustomerFormData } from "../../lib/types/OrderSolutionTypes";
-import { setCustomerOrder } from "../../../store/customerContractorSlice";
 import { useEffect, useState } from "react";
+import { isVacationValid } from "../../lib/useVacationCheck";
+import { useCalenderStates } from "../../lib/useCalenderStates";
+import {
+  monthNameToNumber,
+  monthNameToNumberMarch,
+  monthNames,
+} from "../../lib";
+import {
+  disablePastDatesTime,
+  selectedCSS,
+  vacationCSS,
+} from "../../assets/common-css/css";
+
+export type DateParts = {
+  month: string;
+  day: number;
+  year: number;
+};
+
+export const extractDateParts = (dateStr: string): DateParts | null => {
+  const parts = dateStr.split("/");
+  if (parts.length === 3) {
+    return {
+      month: parts[0] || "",
+      day: Number(parts[1]) || 0,
+      year: Number(parts[2]) || 0,
+    };
+  }
+  return null;
+};
 
 type Props = {
-  fullDate: string;
-  currentMonthSelection: string;
-  currentYearSelection: number;
+  currentMonthYear: {
+    showMonth: string;
+    showYear: number;
+  };
   showNextMonth: boolean;
-  isDateChangeAllow?: boolean;
-  userSelectedDate: DateSelection | undefined;
-  setShowNextMonth: React.Dispatch<React.SetStateAction<boolean>>;
+  userSelectedDate: DateSelection;
   updateDateSelection: (day: number, month: string, year: number) => void;
-  formattedDate: string;
+  updateStore: (defaultValueDate?: {
+    month: string;
+    day: number;
+    year: number;
+  }) => void;
+};
+
+type WeeksData = {
+  weeksArray: {
+    day: number;
+    dayTitle: string;
+  }[][];
+  month: string | "";
+  year: number | 0;
+};
+
+export const defaultWeeksData: WeeksData = {
+  weeksArray: Array(4).fill(Array(7).fill({ day: 0, dayTitle: "" })),
+  month: "",
+  year: 0,
 };
 
 export const Calender: React.FC<Props> = ({
-  fullDate,
-  currentMonthSelection,
-  currentYearSelection,
-  showNextMonth,
-  userSelectedDate,
-  isDateChangeAllow,
-  setShowNextMonth,
-  updateDateSelection,
-  formattedDate,
+  currentMonthYear,
+  updateStore,
 }) => {
+  const { showNextMonth, userSelectedDate, updateDateSelection } =
+    useCalenderStates();
+
+  const { showMonth, showYear } = currentMonthYear;
+  const { month, year, day } = userSelectedDate;
+
   const [isUpdateValid, setIsUpdateValid] = useState(false);
-  const dispatch = useDispatch();
+  const [weeksArray, setWeeksArray] = useState<WeeksData>(defaultWeeksData);
+
   const states = useSelector((state: RootState) => state.formData);
   const customerOrder = states.customerOrder;
   const isEditOrder = states.isEditOrder;
 
-  const solutionDate = new Date(customerOrder.solutionDate);
+  const solutionDate = new Date(
+    customerOrder.solutionDateContract.solutionDate
+  );
 
-  const {
-    date,
-    dayTitles,
-    nextWeeksArray,
-    currentWeeksArray,
-    monthNameToNumber,
-  } = useCalender();
+  const { date, dayTitles, getMappedDays } = useCalender();
 
-  const weeksArray = showNextMonth ? nextWeeksArray : currentWeeksArray;
-  const disablePastDatesTime =
-    "cursor-none pointer-events-none bg-gray-200 rounded-full w-5 h-6";
-  const selectedCSS =
-    "focus:outline-none focus:ring-indigo-700 focus:bg-red-500 hover:bg-red-500 text-base w-5 flex items-center justify-center font-medium text-white bg-red-700 rounded-full";
-
-  const calculateDaysBetweenDates = (startDate: string, endDate: string) => {
-    const start = new Date(startDate);
-    const end = new Date(endDate);
-    const dates = [];
-
-    for (let d = start; d <= end; d.setDate(d.getDate() + 1)) {
-      dates.push([d.getDate(), d.getMonth() + 1, d.getFullYear()]); // getMonth() returns month index starting from 0
-    }
-
-    return dates;
-  };
-
-  const startDate = cSettings.vacationStartDate;
-  const endDate = cSettings.vacationEndDate;
-  const daysBetweenArray = calculateDaysBetweenDates(startDate, endDate);
-
-  const isVacationValid = (calendarDay: number) => {
-    const calenderDate = `${calendarDay}/${currentMonthSelection}/${currentYearSelection}`;
-    const [splitDay, splitMonth, splitear] = calenderDate.split("/");
-    const monthNumber = monthNameToNumber[splitMonth.substring(0, 3)];
-    const parseDate = [
-      parseInt(splitDay, 10),
-      monthNumber,
-      parseInt(splitear, 10),
-    ];
-
-    const [day, month, year] = parseDate;
-
-    const dayStatus = daysBetweenArray.some(
-      (date) => date[0] === day && date[1] === month && date[2] === year
-    );
-
-    return dayStatus;
-  };
-
-  const updateStore = () => {
-    const updatedOrder: CustomerFormData = {
-      ...customerOrder,
-      solutionDate: `${userSelectedDate?.month}/${userSelectedDate?.day}/${userSelectedDate?.year}`,
-      solutionFormattedDate: formattedDate,
-    };
-
-    dispatch(setCustomerOrder(updatedOrder));
-  };
-
-  const updateDaySelection = (
-    day: number,
-    month: string,
-    year: number | undefined
-  ) => {
-    updateDateSelection(day, month, year || 0);
+  const updateDaySelection = (day: number) => {
+    updateDateSelection(day, weeksArray?.month || "", weeksArray?.year || 0);
+    updateStore({
+      month,
+      day,
+      year,
+    });
     setIsUpdateValid(true);
   };
 
-  useEffect(() => {
-    if (isUpdateValid) updateStore();
-  }, [userSelectedDate]);
-
-  // todo - remove
-  const compareDates = () => {
-    const parsedDate1 = new Date(
-      `${userSelectedDate?.month}/${userSelectedDate?.day}/${userSelectedDate?.year}`
+  const getVacationStatus = (day: number) => {
+    return isVacationValid(
+      {
+        day: day,
+        month: month,
+        year: year,
+      },
+      weeksArray
     );
-    const parsedDate2 = new Date(customerOrder.solutionDate);
-
-    // Check if the dates are the same
-    if (
-      parsedDate1.getFullYear() === parsedDate2.getFullYear() &&
-      parsedDate1.getMonth() === parsedDate2.getMonth() &&
-      parsedDate1.getDate() === parsedDate2.getDate()
-    ) {
-      return true;
-    } else {
-      return false;
-    }
   };
 
+  useEffect(() => {
+    if (month) {
+      setWeeksArray({
+        weeksArray: getMappedDays(
+          monthNameToNumber[month.substring(0, 3)],
+          year
+        ),
+        month: month,
+        year: year,
+      });
+    }
+  }, []);
+
+  const systemDate = new Date();
+
+  const sameMonth = month === weeksArray?.month && year === weeksArray?.year;
+
   const getDateStyle = (days: { day: number; dayTitle: string }) => {
-    if (days.day === dateUpdate.day && isPreviousCurrentDatesMonthYear)
+    const systemMonthNumber =
+      monthNameToNumberMarch[
+        monthNames[systemDate.getMonth()]?.substring(0, 3)
+      ];
+    const currentMonthNumber =
+      monthNameToNumberMarch[weeksArray?.month?.substring(0, 3)];
+
+    const currentCalendarVacationCheck = {
+      day: days.day,
+      month: showMonth,
+      year: showYear,
+    };
+
+    if (isVacationValid(currentCalendarVacationCheck, weeksArray)) {
+      console.log("1--");
+      return vacationCSS;
+    } else if (day === days.day && sameMonth) {
+      console.log("2--");
       return selectedCSS;
-    else if (
-      isEditOrder &&
-      solutionDate.getDate() === days.day &&
-      customerOrder.solutionFormattedDate
-        .toLowerCase()
-        .includes(currentMonthSelection.toLowerCase()) &&
-      solutionDate.getFullYear() === currentYearSelection
+    } else if (solutionDate.getDate() === days.day && sameMonth) {
+      console.log("3--");
+      return selectedCSS;
+    } else if (
+      weeksArray?.year === year &&
+      systemMonthNumber < currentMonthNumber
     ) {
-      return selectedCSS;
-    } else if (isVacationValid(days.day)) {
-      return "text-white cursor-none pointer-events-none";
-    } else if (days.day >= date) {
-      return `text-base cursor-pointer font-medium  ${
-        isDateChangeAllow && days.day === userSelectedDate?.day
-          ? selectedCSS
-          : "text-gray-500 dark:text-gray-100"
-      }`;
-    } else if (showNextMonth) {
-      return "text-base cursor-pointer text-gray-500 dark:text-gray-100 font-medium";
-    } else {
+      console.log("4--");
+      return "";
+    } else if (
+      systemMonthNumber === currentMonthNumber &&
+      systemDate.getDate() > days.day
+    ) {
+      console.log("5--");
+      return disablePastDatesTime;
+    } else if (
+      weeksArray?.year === year &&
+      systemMonthNumber > currentMonthNumber
+    ) {
+      console.log("6--");
       return disablePastDatesTime;
     }
   };
 
-  const getDateStyleTwo = (days: { day: number; dayTitle: string }) => {
-    if (
-      userSelectedDate?.day === days.day &&
-      userSelectedDate?.month === currentMonthSelection
-    ) {
-      if (days.day >= date) {
-        return selectedCSS;
-      } else if (showNextMonth) {
-        return selectedCSS;
-      } else return disablePastDatesTime;
+  const handleCalenderArrows = (attowAction?: string) => {
+    if (attowAction === "previous") {
+      const previousMonthNumber =
+        monthNameToNumber[weeksArray?.month.substring(0, 3) || ""] - 1;
+
+      setWeeksArray({
+        weeksArray: getMappedDays(previousMonthNumber, year),
+        month:
+          monthNames[previousMonthNumber > 0 ? previousMonthNumber - 1 : 11],
+        year:
+          previousMonthNumber === 0
+            ? weeksArray?.year - 1
+            : weeksArray?.year || 0,
+      });
+    } else {
+      const MonthNumber =
+        monthNameToNumber[weeksArray?.month.substring(0, 3) || ""] + 1;
+
+      const mName =
+        monthNames[
+          MonthNumber <= 12 && MonthNumber >= 1
+            ? MonthNumber - 1
+            : MonthNumber > 12
+            ? 0
+            : 11
+        ];
+
+      setWeeksArray({
+        weeksArray: getMappedDays(MonthNumber, year),
+        month: mName,
+        year: MonthNumber > 12 ? weeksArray?.year + 1 || 0 : weeksArray?.year,
+      });
     }
   };
-
-  const previousDate = new Date(customerOrder.solutionDate);
-  const dateUpdate = {
-    day: Number(previousDate.getDate()),
-    month:
-      monthNames[
-        previousDate.getMonth() + 1 === 13 ? 12 : previousDate.getMonth()
-      ],
-    year: Number(previousDate.getFullYear()),
-  };
-  const isPreviousCurrentDatesMonthYear =
-    dateUpdate.month === currentMonthSelection &&
-    dateUpdate.year === currentYearSelection;
 
   return (
     <div className="md:p-8 p-5 dark:bg-gray-800 bg-white rounded-t auto-cols-max">
@@ -190,19 +212,19 @@ export const Calender: React.FC<Props> = ({
           tabIndex={0}
           className="focus:outline-none  text-base font-bold dark:text-gray-100 text-gray-800"
         >
-          {fullDate}
+          {`${weeksArray?.month} ${weeksArray?.year}`}
         </span>
         <div className="flex items-center">
           <button
             aria-label="calendar backward"
             className="focus:text-gray-400 hover:text-gray-400 text-gray-800 dark:text-gray-100"
-            onClick={() => setShowNextMonth(false)}
+            onClick={() => handleCalenderArrows("previous")}
           >
             {lessThanArrowSVG}
           </button>
           <button
             aria-label="calendar forward"
-            onClick={() => setShowNextMonth(true)}
+            onClick={() => handleCalenderArrows()}
             className="focus:text-gray-400 hover:text-gray-400 ml-3 text-gray-800 dark:text-gray-100"
           >
             {greaterThanArrowSVG}
@@ -226,7 +248,7 @@ export const Calender: React.FC<Props> = ({
             </tr>
           </thead>
           <tbody>
-            {weeksArray.map((weeks, index) => (
+            {weeksArray?.weeksArray.map((weeks, index) => (
               <tr key={`week-${index}`}>
                 {weeks.map((days) =>
                   days.day === null ? (
@@ -234,7 +256,7 @@ export const Calender: React.FC<Props> = ({
                       className="pt-6"
                       key={`previous-month-${days.dayTitle}`}
                     >
-                      <div className="px-2 py-2 cursor-pointer flex w-full justify-center" />
+                      <div className="px-2 py-2 flex w-full justify-center" />
                     </td>
                   ) : days.day === date && showNextMonth === false ? (
                     <td
@@ -242,51 +264,39 @@ export const Calender: React.FC<Props> = ({
                       key={`previous-month-${days.dayTitle}`}
                     >
                       <div
-                        className="w-full h-full"
+                        className="px-4 flex w-full justify-center"
                         key={`current-day-${days.dayTitle}`}
                       >
-                        <div
-                          className={`${
-                            isVacationValid(days.day) && "bg-black"
-                          } flex items-center justify-center w-full rounded-full cursor-pointer`}
+                        <button
+                          onClick={() => updateDaySelection(days.day)}
+                          tabIndex={0}
+                          className={getDateStyle(days)}
+                          disabled={getVacationStatus(days.day)}
                         >
-                          <button
-                            onClick={() =>
-                              updateDaySelection(
-                                days.day,
-                                currentMonthSelection,
-                                currentYearSelection
-                              )
-                            }
-                            tabIndex={0}
-                            className="focus:outline-none  focus:ring-2 focus:ring-offset-2 focus:ring-indigo-700 focus:bg-indigo-500 hover:bg-indigo-500 text-base w-8 h-8 flex items-center justify-center font-medium text-white bg-indigo-700 rounded-full"
-                          >
-                            {days.day}
-                          </button>
-                        </div>
+                          {days.day}
+                        </button>
                       </div>
                     </td>
                   ) : (
                     <td className="pt-6">
                       <div
                         className={`${
-                          isVacationValid(days.day) && "bg-black"
+                          isVacationValid(
+                            {
+                              day: days.day,
+                              month: month || "",
+                              year: year || 0,
+                            },
+                            weeksArray
+                          ) && "bg-black"
                         } px-4 flex w-full justify-center`}
                       >
-                        <p className={`${getDateStyle(days)}`}>
+                        <p>
                           <button
-                            onClick={() =>
-                              updateDaySelection(
-                                days.day,
-                                currentMonthSelection,
-                                currentYearSelection
-                              )
-                            }
-                            className={`${getDateStyleTwo(
-                              days
-                            )}                                  `}
+                            onClick={() => updateDaySelection(days.day)}
+                            className={`${getDateStyle(days)}`}
                           >
-                            {isVacationValid(days.day) ? "Out" : days.day}
+                            {getVacationStatus(days.day) ? "Out" : days.day}
                           </button>
                         </p>
                       </div>

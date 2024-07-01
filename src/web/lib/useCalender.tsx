@@ -1,4 +1,11 @@
-import { monthNames } from ".";
+import { useState } from "react";
+import {
+  dayNames,
+  dayTitles,
+  monthNameToNumber,
+  monthNameToNumberMarch,
+  monthNames,
+} from ".";
 
 type MonthDays = {
   day: number;
@@ -6,6 +13,9 @@ type MonthDays = {
 }[];
 
 export const useCalender = () => {
+  const [nextMonthName, setNextMonthName] = useState("");
+  const [nextYearName, setNextYearName] = useState(0);
+
   // Get the current date
   const today = new Date();
   const month = today.getMonth();
@@ -13,38 +23,8 @@ export const useCalender = () => {
   const date = today.getDate();
   const day = today.getDay();
 
-  const dayTitles = ["Mo", "Tu", "We", "Th", "Fr", "Sa", "Su"];
-  const dayNames = [
-    "Sunday",
-    "Monday",
-    "Tuesday",
-    "Wednesday",
-    "Thursday",
-    "Friday",
-    "Saturday",
-  ];
-
-  const monthNameToNumber: { [key: string]: number } = {
-    Jan: 1,
-    Feb: 2,
-    Mar: 3,
-    Apr: 4,
-    May: 5,
-    Jun: 6,
-    Jul: 7,
-    Aug: 8,
-    Sep: 9,
-    Oct: 10,
-    Nov: 11,
-    Dec: 12,
-  };
-
   // Get the current month name
   const currentMonthName = monthNames[month];
-
-  // Get the next month index and name
-  const nextMonthIs = (month + 1) % 12;
-  const nextMonthName = monthNames[nextMonthIs];
 
   // Function to get all days of a given month and year
   const getDaysInMonth = (month: number, year: number) => {
@@ -74,18 +54,26 @@ export const useCalender = () => {
     }
     return months;
   };
-  // console.log("getNextTwelveMonthsFirstDays   ", getNextTwelveMonthsDays());
+
+  // Function to chunk array into weeks
+  const chunkIntoWeeks = (array: MonthDays) => {
+    const weeks = [];
+    for (let i = 0; i < array.length; i += 7) {
+      weeks.push(array.slice(i, i + 7));
+    }
+    return weeks;
+  };
 
   // Function to get mapped days for a given month and year
   const getMappedDays = (month: number, year: number) => {
     // Get the number of days in the month
-    const daysInMonth = new Date(year, month + 1, 0).getDate();
-
+    const daysInMonth = new Date(year, month, 0).getDate();
+    console.log(month, " month ", new Date(year, month, 0));
     // Generate an array of day numbers
     const daysArray = Array.from({ length: daysInMonth }, (_, i) => i + 1);
 
     // Get the first day of the month
-    const firstDay = new Date(year, month, 1);
+    const firstDay = new Date(year, month - 1, 1); // Adjust month index
     const firstDayName = dayNames[firstDay.getDay()];
 
     // Find the index of the first day of the month in the dayTitles array
@@ -107,42 +95,61 @@ export const useCalender = () => {
       }),
     ];
 
-    return mappedDays;
+    const currentWeeksArray = chunkIntoWeeks(mappedDays as MonthDays);
+
+    return currentWeeksArray;
   };
 
-  // Function to chunk array into weeks
-  const chunkIntoWeeks = (array: MonthDays) => {
-    const weeks = [];
-    for (let i = 0; i < array.length; i += 7) {
-      weeks.push(array.slice(i, i + 7));
-    }
-    return weeks;
+  const getNextMonth = () => {
+    const userNextMonth = monthNameToNumber[nextMonthName?.substring(0, 3)];
+    // Get the next month index and name
+    const nextYear = userNextMonth === 11 ? nextYearName + 1 : nextYearName;
+    const nextMonthIs = userNextMonth % 12;
+    const nextMonth = monthNames[nextMonthIs];
+    const mappedDays = getMappedDays(nextMonthIs, nextYearName);
+    const nextWeeksArray = [] as MonthDays;
+
+    return {
+      weeksArray: nextWeeksArray,
+      month: nextMonth,
+      year: nextYear,
+    };
   };
 
-  // Get the mapped days and weeks for the current month
-  const currentMappedDays = getMappedDays(month, year);
-  const currentWeeksArray = chunkIntoWeeks(currentMappedDays as MonthDays);
+  const getPrevMonth = () => {
+    const userNextMonth =
+      monthNameToNumberMarch[nextMonthName?.substring(0, 3)];
+    // Get the next month index and name
+    const prevtYear = userNextMonth === 0 ? nextYearName - 1 : nextYearName;
+    // const nextMonthIs = userNextMonth % 12;
+    const previousMonthNumber = userNextMonth === 0 ? 11 : userNextMonth - 1;
+    const prevMonth = monthNames[previousMonthNumber];
+    const mappedDays = getMappedDays(previousMonthNumber, nextYearName);
+    const prevWeeksArray = [] as MonthDays;
 
-  // Get the next month and year
-  const nextMonth = (month + 1) % 12;
-  const nextYear = month === 11 ? year + 1 : year;
-
-  // Get the mapped days and weeks for the next month
-  const nextMappedDays = getMappedDays(nextMonth, nextYear);
-  const nextWeeksArray = chunkIntoWeeks(nextMappedDays as MonthDays);
+    return {
+      weeksArray: prevWeeksArray,
+      month: prevMonth,
+      year: prevtYear,
+    };
+  };
 
   return {
-    currentWeeksArray,
-    nextWeeksArray,
     year,
     dayNames,
     today,
     nextMonthName,
+    setNextMonthName,
+    setNextYearName,
+    nextYearName,
     currentMonthName,
     date,
     dayTitles,
     day,
     month,
     monthNameToNumber,
+    getNextMonth,
+    getPrevMonth,
+    getMappedDays,
   };
 };

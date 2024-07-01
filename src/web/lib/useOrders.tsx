@@ -5,7 +5,6 @@ import { setCustomerOrder } from "../../store/customerContractorSlice";
 import { useNavigate } from "react-router";
 import { useDispatch } from "react-redux";
 import { DateSelection } from "./types/CalenderTypes";
-import { useCalender } from "./useCalender";
 
 export const orderSortList = [
   "Order ID",
@@ -24,7 +23,6 @@ export const useOrders = (
 ) => {
   const navigate = useNavigate();
   const dispatch = useDispatch();
-  const { monthNameToNumber } = useCalender();
 
   const [searchId, setSearchId] = useState<number>();
   const [filteredOrders, setFilteredOrders] =
@@ -127,11 +125,22 @@ export const useOrders = (
     navigate("/edit-order");
   };
 
-  const filterAndSortOrders = (orders: any[], targetDate: string) => {
+  const normalizeDateString = (dateStr: string): string => {
+    return dateStr.trim().toLowerCase();
+  };
+
+  const areDatesEqual = (dateStr1: string, dateStr2: string): boolean => {
+    return normalizeDateString(dateStr1) === normalizeDateString(dateStr2);
+  };
+
+  const filterAndSortOrders = (
+    orders: CustomerFormData[],
+    targetDate: string
+  ) => {
     // Filter orders by the target solutionDate
-    const filteredOrders = orders.filter(
-      (order) => order.solutionDate === targetDate
-    );
+    const filteredOrders = orders.filter((order) => {
+      return areDatesEqual(order.solutionDateContract.solutionDate, targetDate);
+    });
 
     // Sort orders by solutionStartTime in AM to PM order
     const sortedOrders = filteredOrders.sort((a, b) => {
@@ -148,28 +157,27 @@ export const useOrders = (
       return parseTime(a.solutionStartTime) - parseTime(b.solutionStartTime);
     });
 
-    return sortedOrders;
+    setFilteredOrders(sortedOrders);
   };
 
   useEffect(() => {
-    if (userSelectedDate !== undefined && appSection === "dateSearch") {
-      const targetDate = `${
-        monthNameToNumber[userSelectedDate.month.substring(0, 3)]
-      }/${userSelectedDate.day}/${userSelectedDate.year}`;
+    const extraZero =
+      userSelectedDate?.day.toLocaleString().length === 1
+        ? `0${userSelectedDate?.day}`
+        : userSelectedDate?.day;
 
-      const sortedOrders = filterAndSortOrders(
-        customerOrderHistory,
-        targetDate
-      );
-      setFilteredOrders(sortedOrders);
-    }
-  }, [userSelectedDate]);
+    filterAndSortOrders(
+      customerOrderHistory,
+      `${userSelectedDate?.month}/${extraZero}/${userSelectedDate?.year}`
+    );
+  }, []);
 
   return {
     handleSearch,
     handleSubmit,
     handleSort,
     customerOrderHistory,
+    filterAndSortOrders,
     filteredOrders,
     setFilteredOrders,
     searchId,

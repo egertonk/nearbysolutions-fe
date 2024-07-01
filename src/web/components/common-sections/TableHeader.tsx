@@ -26,7 +26,10 @@ export const TableHeader: React.FC<Props> = ({
   if (isOrder || isJobListtings) status = itemStatus ? "Active" : "Completed";
 
   return (
-    <div className="columns-3 flex justify-between">
+    <div
+      className="columns-3 flex justify-between"
+      key={`header-${Math.random()}`}
+    >
       <div className="text-purple-600 w-15 font-bold">
         {itemindex + 1} of {itemsTotal}
       </div>
@@ -47,11 +50,15 @@ export const TableHeader: React.FC<Props> = ({
             <button
               onClick={() => handleEdit(5353)}
               className="hover:text-purple-500 text-base w-5 flex font-medium text-gray rounded-full ml-4"
+              key={`edit-icon-${Math.random()}`}
             >
               {editIconSVG}
             </button>
           ) : (
-            <button className="text-base w-5 flex font-medium text-gray rounded-full ml-4 cursor-default"></button>
+            <button
+              className="text-base w-5 flex font-medium text-gray rounded-full ml-4 cursor-default"
+              key={`empty-icon-${Math.random()}`}
+            ></button>
           )}
         </div>
       )}

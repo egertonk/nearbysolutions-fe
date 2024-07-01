@@ -1,21 +1,13 @@
 import { useSelector } from "react-redux";
-import { DateSelection } from "../../lib/types/CalenderTypes";
+import { TimeProps } from "../../lib/types/CalenderTypes";
 import { TimeList } from "../common-sections/timeList";
 import { RootState } from "../../../store";
 
-type Props = {
-  requiredData: {
-    date: number;
-    userSelectedDate: DateSelection;
-    isCurrentMonth: boolean;
-    solutionStartTimes: string[];
-  };
-  isTimeChangeAllow?: any;
-};
-
-export const DatePicker: React.FC<Props> = ({
+export const DatePicker: React.FC<TimeProps> = ({
   requiredData,
+  previousDateCheck,
   isTimeChangeAllow,
+  filteredOrders,
 }) => {
   const customerOrder = useSelector(
     (state: RootState) => state.formData.customerOrder
@@ -24,15 +16,9 @@ export const DatePicker: React.FC<Props> = ({
   return (
     <>
       <div className="pt-5 sm:space-x-5 rtl:space-x-reverse auto-cols-max w-full">
-        <div
-          inline-datepicker
-          datepicker-buttons
-          datepicker-autoselect-today
-          className="mx-auto sm:mx-0"
-        />
         <div>
           <h3 className="text-gray-900 dark:text-white text-base font-medium mb-3 text-center">
-            {customerOrder?.solutionFormattedDate}
+            {customerOrder?.solutionDateContract.solutionFormattedDate}
           </h3>
           <button
             type="button"
@@ -61,7 +47,9 @@ export const DatePicker: React.FC<Props> = ({
           <label className="sr-only">Pick a time</label>
           <TimeList
             requiredData={requiredData}
+            previousDateCheck={previousDateCheck}
             isTimeChangeAllow={isTimeChangeAllow}
+            filteredOrders={filteredOrders}
           />
         </div>
       </div>

@@ -36,10 +36,68 @@ export const monthNames = [
   "December",
 ];
 
+export const monthNameToNumberMarch: { [key: string]: number } = {
+  Jan: 0,
+  Feb: 1,
+  Mar: 2,
+  Apr: 3,
+  May: 4,
+  Jun: 5,
+  Jul: 6,
+  Aug: 7,
+  Sep: 8,
+  Oct: 9,
+  Nov: 10,
+  Dec: 11,
+};
+
+export const dayNames = [
+  "Sunday",
+  "Monday",
+  "Tuesday",
+  "Wednesday",
+  "Thursday",
+  "Friday",
+  "Saturday",
+];
+
+export const dayTitles = ["Mo", "Tu", "We", "Th", "Fr", "Sa", "Su"];
+
+export const monthNameToNumber: { [key: string]: number } = {
+  Jan: 1,
+  Feb: 2,
+  Mar: 3,
+  Apr: 4,
+  May: 5,
+  Jun: 6,
+  Jul: 7,
+  Aug: 8,
+  Sep: 9,
+  Oct: 10,
+  Nov: 11,
+  Dec: 12,
+};
+
 export const priceWithComma = (price: string | number) => {
   const formattedPrice = price?.toLocaleString();
 
   return <span>{formattedPrice}</span>;
+};
+
+export const compareDatesAreEqual = (previousDate: string) => {
+  const nowDate = new Date();
+  const pastDate = new Date(previousDate);
+
+  // Check if the dates are the same
+  if (
+    nowDate.getFullYear() === pastDate.getFullYear() &&
+    nowDate.getMonth() === pastDate.getMonth() &&
+    nowDate.getDate() === pastDate.getDate()
+  ) {
+    return true;
+  } else {
+    return false;
+  }
 };
 
 export const getCurrentTime = () => {
@@ -315,8 +373,13 @@ export const customerOrderHistory = [
     zip: "22193",
     phoneNumber: "5713301230",
     email: "jessaduring@yahoo.com",
-    solutionFormattedDate: "Saturday 8 June 2024",
-    solutionDate: "6/27/2024",
+    solutionDateContract: {
+      solutionDate: "July/27/2024",
+      longTermContract: "",
+      longTermstartDate: "",
+      longTermEndDate: "",
+      solutionFormattedDate: "Saturday 27 july 2024",
+    },
     solutionTask: "Take my blood pressure",
     solutionJob: "Nurse",
     solutionStartTime: "11:00 AM",
@@ -344,8 +407,13 @@ export const customerOrderHistory = [
     zip: "22408",
     phoneNumber: "5713301230",
     email: "jessaduring@yahoo.com",
-    solutionFormattedDate: "Thursday 6 June 2024",
-    solutionDate: "6/27/2024",
+    solutionDateContract: {
+      longTermContract: "3Months",
+      longTermEndDate: "September/25/2024",
+      longTermstartDate: "June/25/2024",
+      solutionDate: "July/25/2024",
+      solutionFormattedDate: "Tuesday 25 July 2024",
+    },
     solutionTask: "Take my blood pressure",
     solutionJob: "Nurse",
     solutionStartTime: "08:00 AM",
@@ -373,8 +441,13 @@ export const customerOrderHistory = [
     zip: "62704",
     phoneNumber: "5551234567",
     email: "samuel.jackson@example.com",
-    solutionFormattedDate: "Monday 10 June 2024",
-    solutionDate: "6/28/2024",
+    solutionDateContract: {
+      solutionDate: "July/28/2024",
+      longTermContract: "",
+      longTermstartDate: "",
+      longTermEndDate: "",
+      solutionFormattedDate: "Monday 7 July 2024",
+    },
     solutionTask: "Physical Therapy",
     solutionJob: "Therapist",
     solutionStartTime: "09:00 AM",
@@ -385,7 +458,7 @@ export const customerOrderHistory = [
     solutionPrice: 200,
     solutionPricePerHourStatus: true,
     solutionPriceDiscountPercentage: 10,
-    orderDate: "5/01/2024",
+    orderDate: "July/01/2024",
     orderStatus: true,
     giftStatus: false,
     giftFor_fullName: "",
@@ -402,8 +475,13 @@ export const customerOrderHistory = [
     zip: "20500",
     phoneNumber: "2024567890",
     email: "emily.blunt@example.com",
-    solutionFormattedDate: "Friday 14 June 2024",
-    solutionDate: "6/29/2024",
+    solutionDateContract: {
+      solutionDate: "July/30/2024",
+      longTermContract: "",
+      longTermstartDate: "",
+      longTermEndDate: "",
+      solutionFormattedDate: "Friday 30 July 2024",
+    },
     solutionTask: "Massage Therapy",
     solutionJob: "Masseuse",
     solutionStartTime: "02:00 PM",
@@ -431,11 +509,16 @@ export const customerOrderHistory = [
     zip: "10118",
     phoneNumber: "2127363100",
     email: "robert.downey@example.com",
-    solutionFormattedDate: "Sunday 9 June 2024",
-    solutionDate: "6/30/2024",
+    solutionDateContract: {
+      solutionDate: "July/01/2024",
+      longTermContract: "",
+      longTermstartDate: "",
+      longTermEndDate: "",
+      solutionFormattedDate: "Monday 1 July 2024",
+    },
     solutionTask: "Personal Training",
     solutionJob: "Trainer",
-    solutionStartTime: "06:00 AM",
+    solutionStartTime: "09:00 AM",
     selectedTalent: "Trainer",
     talentID: 192837465,
     talentFirstName: "Chris",
@@ -543,7 +626,7 @@ export const diyToolListings: DIYToolListing[] = [
     category: "Power Tools",
     brand: "ToolBrand",
     modelNumber: "TB-DRL-2024",
-    pricePerday: .99,
+    pricePerday: 0.99,
     availability: true,
     rating: 4.5,
     numberOfReviews: 150,

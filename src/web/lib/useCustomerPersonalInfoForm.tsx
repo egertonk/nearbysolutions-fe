@@ -8,6 +8,7 @@ import { setCustomerOrder } from "../../store/customerContractorSlice";
 import { RootState } from "../../store";
 import { DateSelection } from "./types/CalenderTypes";
 import { useCalender } from "./useCalender";
+import { orderStates } from "../../store/defualtStates";
 
 export const useCustomerPersonalInfoForm = (
   selectedTalent?: string,
@@ -43,35 +44,7 @@ export const useCustomerPersonalInfoForm = (
     ? jobDetails.price.discount
     : jobDetails?.price.discount || 0;
 
-  const [formData, setFormData] = useState<CustomerFormData>({
-    orderID: 0,
-    customerID: 0, // we can generated it later and it should never be null
-    firstName: "",
-    lastName: "",
-    country: "",
-    address: "",
-    city: "",
-    state: "",
-    zip: "",
-    phoneNumber: "",
-    email: "",
-    solutionFormattedDate: "",
-    solutionDate: "",
-    solutionTask: "",
-    solutionJob: "",
-    solutionStartTime: "",
-    selectedTalent: "",
-    talentID: 0, // it should never be null
-    talentFirstName: "",
-    talentLastName: "",
-    solutionPrice: 0,
-    solutionPricePerHourStatus: false,
-    solutionPriceDiscountPercentage: 0,
-    orderDate: "",
-    orderStatus: false,
-    giftStatus: false,
-    giftFor_fullName: "",
-  });
+  const [formData, setFormData] = useState<CustomerFormData>(orderStates);
 
   const handleChange = (
     e: React.ChangeEvent<HTMLInputElement | HTMLSelectElement>
@@ -107,12 +80,23 @@ export const useCustomerPersonalInfoForm = (
         zip: customerOrder.zip || "",
         phoneNumber: customerOrder.phoneNumber || "5713301230",
         email: customerOrder.email || "",
-        solutionFormattedDate:
-          customerOrder.solutionFormattedDate || formattedDate || "",
-        solutionDate:
-          customerOrder.solutionDate ||
-          `${userSelectedDate?.month}/${userSelectedDate?.day}/${userSelectedDate?.year}` ||
-          "",
+        solutionDateContract: {
+          solutionDate:
+            customerOrder.solutionDateContract.solutionDate ||
+            `${userSelectedDate?.month}/${userSelectedDate?.day}/${userSelectedDate?.year}` ||
+            "",
+          longTermContract:
+            customerOrder.solutionDateContract.longTermContract || "",
+          longTermstartDate:
+            customerOrder.solutionDateContract.longTermstartDate || "",
+          longTermEndDate:
+            customerOrder.solutionDateContract.longTermEndDate || "",
+          solutionFormattedDate:
+            customerOrder.solutionDateContract.solutionFormattedDate ||
+            formattedDate ||
+            "",
+        },
+
         solutionTask: customerOrder.solutionTask || "",
         solutionJob: jobDetails?.title || customerOrder.solutionJob || "",
         solutionStartTime:

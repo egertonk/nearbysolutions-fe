@@ -1,4 +1,4 @@
-import React from "react";
+import React, { lazy } from "react";
 import { Route, Routes } from "react-router-dom";
 import logo from "./logo.svg";
 import "./App.css";
@@ -33,10 +33,15 @@ function App() {
         <header className="App-header">
           <NearBySolutionsHeader />
         </header>
+
         <Routes>
           <Route path="/home" element={<HomeIndex />} />
 
-          <Route path="/login" element={<Login />} />
+          <Route path="home/">
+            <Route path="login" element={<Login />} />
+            <Route path="contact-us" element={<ContactUs />} />
+          </Route>
+
           <Route path="/favorite" element={<Favorite />} />
           <Route path="/reviews" element={<Reviews />} />
           <Route path="/register" element={<Register />} />
@@ -67,7 +72,7 @@ function App() {
           <Route path="/edit-order" element={<EditOrder />} />
 
           {/*Contact US */}
-          <Route path="/contact-us" element={<ContactUs />} />
+          {/* <Route path="/contact-us" element={<ContactUs />} /> */}
         </Routes>
         <Footer />
       </div>

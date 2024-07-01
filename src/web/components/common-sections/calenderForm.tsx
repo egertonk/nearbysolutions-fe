@@ -18,7 +18,11 @@ export const CalenderForm: React.FC = () => {
   const isGiftASolution = states.applicationModeState.isGiftASolution;
 
   const validateForm = () => {
-    const excludedFields = ["giftFor_fullName", "giftStatus"];
+    const excludedFields = [
+      "giftFor_fullName",
+      "giftStatus",
+      "longTermContract",
+    ];
     return Object.entries(customerOrder.customerOrder).every(([key, value]) => {
       if (!excludedFields.includes(key)) {
         return value?.toString()?.length > 0;
@@ -63,7 +67,7 @@ export const CalenderForm: React.FC = () => {
           }`}
         </p>
         <p className="flex justify-center text-gray-900 dark:text-white text-base font-medium mb-3 text-center font-heading">
-          {`Date: ${customerOrder.customerOrder.solutionFormattedDate} | Time: ${customerOrder.customerOrder.solutionStartTime}`}
+          {`Date: ${customerOrder.customerOrder.solutionDateContract.solutionFormattedDate} | Time: ${customerOrder.customerOrder.solutionStartTime}`}
         </p>
         <p className="text-gray-900 dark:text-white text-base font-medium mb-3 text-center">
           <span className="font-heading text-purple-800">Job:</span>{" "}

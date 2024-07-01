@@ -1,28 +1,30 @@
 import { useNavigate } from "react-router";
-import { cSettings, isTimeValid } from "../../lib";
-import { DateSelection } from "../../lib/types/CalenderTypes";
+import { cSettings, compareDates, isTimeValid } from "../../lib";
+import { TimeProps } from "../../lib/types/CalenderTypes";
 import { CustomerFormData } from "../../lib/types/OrderSolutionTypes";
 import { useTimeIntervals } from "../../lib/useTimeIntervals";
 import { useDispatch, useSelector } from "react-redux";
 import { RootState } from "../../../store";
 import { setCustomerOrder } from "../../../store/customerContractorSlice";
+import {
+  availableTimeCSS,
+  grayOutTime,
+  scheduleTimeSelectedCSS,
+  userTimeSelectedCSS,
+} from "../../assets/common-css/css";
+import { useVacationCheck } from "../../lib/useVacationCheck";
 
-type Props = {
-  requiredData: {
-    date: number;
-    userSelectedDate: DateSelection;
-    isCurrentMonth: boolean;
-    solutionStartTimes: string[];
-  };
-  isTimeChangeAllow?: any;
-};
-
-export const TimeList: React.FC<Props> = ({
+export const TimeList: React.FC<TimeProps> = ({
   requiredData,
+  previousDateCheck,
   isTimeChangeAllow,
+  filteredOrders,
 }) => {
   const dispatch = useDispatch();
   const navigate = useNavigate();
+  const { isTimeSelectionAllow } = useVacationCheck(
+    requiredData.userSelectedDate
+  );
   const { generate24HourIntervals, generateIntervals } = useTimeIntervals();
   const customerOrder = useSelector(
     (state: RootState) => state.formData.customerOrder
@@ -49,27 +51,28 @@ export const TimeList: React.FC<Props> = ({
   };
 
   const getDateStyle = (twelveHour: string) => {
-    if (twelveHour.toString() === customerOrder.solutionStartTime.toString()) {
-      return timeSelected;
+    const nowDate = new Date();
+    const isDateTimeListValid = compareDates(
+      `${previousDateCheck.dateUpdate.month}/${previousDateCheck.dateUpdate.day}/${previousDateCheck.dateUpdate.year}`,
+      `${nowDate}`
+    );
+
+    if (isTimeSelectionAllow) return grayOutTime;
+    else if (
+      twelveHour.toString() === customerOrder.solutionStartTime.toString()
+    ) {
+      return userTimeSelectedCSS;
     } else if (requiredData.isCurrentMonth) {
       if (isTimeValid(twelveHour)) {
-        return timeSelectionCSS;
+        return availableTimeCSS;
       } else {
-        return "inline-flex items-center justify-center w-full p-2 text-sm font-medium text-center  border rounded-lg text-white border-blue-600 dark:border-blue-500 bg-gray-500";
+        if (isDateTimeListValid) return availableTimeCSS;
+        else return grayOutTime;
       }
     } else {
-      return timeSelectionCSS;
+      return availableTimeCSS;
     }
   };
-
-  const timeSelectionCSS =
-    "cursor-pointer bg-white inline-flex items-center justify-center w-full p-2 text-sm font-medium text-center  border rounded-lg text-blue-600 border-blue-600 dark:hover:text-white dark:border-blue-500 dark:peer-checked:border-blue-500 peer-checked:border-blue-600 hover:bg-blue-500 dark:text-blue-500 dark:bg-gray-900 dark:hover:bg-purple-600 dark:hover:border-blue-600 dark:peer-checked:bg-purple-500 peer-checked:bg-purple-600 hover:text-white peer-checked:text-white";
-
-  const timeSelected =
-    "bg-red-500 inline-flex items-center justify-center w-full p-2 text-sm font-medium text-center  border rounded-lg text-white border-blue-600 dark:hover:text-white ";
-
-  const scheduleTimeSelected =
-    "bg-purple-500 inline-flex items-center justify-center w-full p-2 text-sm font-medium text-center  border rounded-lg text-white border-blue-600 dark:hover:text-white ";
 
   const checkSchedule = (time: string) => {
     const foundTime = requiredData.solutionStartTimes.find(
@@ -79,14 +82,27 @@ export const TimeList: React.FC<Props> = ({
     return false;
   };
 
+  const checkTimeForPreviousOrders = (time: string) => {
+    const foundTime = filteredOrders.find((timeData) => {
+      return timeData.solutionStartTime === time;
+    });
+    if (foundTime) return true;
+    return false;
+  };
+
   return (
-    <ul id="timetable" className="grid w-full grid-cols-4 gap-2 mt-5">
+    <ul
+      id="timetable"
+      className="grid w-full grid-cols-4 gap-2 mt-5"
+      key={Math.random()}
+    >
       {contractorSettings.twelveHoursStatus
-        ? timeIntervals.map((time) => (
+        ? timeIntervals.map((time, index) => (
             <>
               {requiredData.userSelectedDate?.day !== undefined &&
               requiredData.userSelectedDate?.day !== requiredData.date ? (
                 <li
+                  key={`tim-li-${index}`}
                   className={`${
                     isTimeChangeAllow &&
                     customerOrder.solutionStartTime === time.twelveHour &&
@@ -103,21 +119,22 @@ export const TimeList: React.FC<Props> = ({
                     disabled={checkSchedule(time.twelveHour)}
                   />
                   <label
+                    key={`label-${index}`}
                     htmlFor={`${time.twelveHour}`}
                     className={`${
                       checkSchedule(time.twelveHour)
-                        ? scheduleTimeSelected
+                        ? scheduleTimeSelectedCSS
                         : isTimeChangeAllow &&
                           customerOrder.solutionStartTime === time.twelveHour
                         ? ""
-                        : timeSelectionCSS
+                        : availableTimeCSS
                     }`}
                   >
-                    {time.twelveHour}-----
+                    {time.twelveHour}
                   </label>
                 </li>
               ) : (
-                <li>
+                <li key={`li-${index}`}>
                   <input
                     type="radio"
                     id={`${time.twelveHour}`}
@@ -126,7 +143,11 @@ export const TimeList: React.FC<Props> = ({
                     name="timetable"
                     onChange={(e) => updateStore(e)}
                     disabled={
-                      requiredData.isCurrentMonth
+                      checkTimeForPreviousOrders(time.twelveHour)
+                        ? true
+                        : isTimeSelectionAllow
+                        ? isTimeSelectionAllow
+                        : requiredData.isCurrentMonth
                         ? !isTimeValid(time.twelveHour)
                         : false
                     }
@@ -141,8 +162,8 @@ export const TimeList: React.FC<Props> = ({
               )}
             </>
           ))
-        : generate24HourIntervals().map((time) => (
-            <li key={time}>
+        : generate24HourIntervals().map((time, index) => (
+            <li key={`time-${index}`}>
               <input
                 type="radio"
                 id={`${time}`}
@@ -152,6 +173,7 @@ export const TimeList: React.FC<Props> = ({
                 onChange={(e) => updateStore(e)}
               />
               <label
+                key={`label-2-${index}`}
                 htmlFor={`${time}`}
                 className="inline-flex items-center justify-center w-full p-2 text-sm font-medium text-center bg-white border rounded-lg cursor-pointer text-blue-600 border-blue-600 dark:hover:text-white dark:border-blue-500 dark:peer-checked:border-blue-500 peer-checked:border-blue-600 peer-checked:bg-blue-600 hover:text-white peer-checked:text-white hover:bg-blue-500 dark:text-blue-500 dark:bg-gray-900 dark:hover:bg-blue-600 dark:hover:border-blue-600 dark:peer-checked:bg-blue-500"
               >
