@@ -11,7 +11,9 @@ import {
 } from "../../assets/svg/svgs";
 import { customerInputCSS, errorCss } from "../../assets/common-css/css";
 import { dayNames, monthNames } from "../../lib";
-import { LongTermContract } from "./LongTermContract";
+import { LongTermContract } from "../common-sections/LongTermContract";
+import { customerInfoFields } from ".";
+import { CustomerInputs } from "./CustomerInputs";
 
 export const CustomerPersonalInfoForm: React.FC = () => {
   const dispatch = useDispatch();
@@ -19,9 +21,6 @@ export const CustomerPersonalInfoForm: React.FC = () => {
   const [contractLength, setContractLength] = useState<number>(0);
   const customerOrder = states.formData.customerOrder;
   const isGiftASolution = states.applicationModeState.isGiftASolution;
-
-  // inside useQuery Mutate
-  // Navigate(`/mmmmmm?ordernumber=${res.orderNumber}`, {state: {orderDetails: res}});
 
   const dates = [] as {
     dayName: string;
@@ -91,7 +90,7 @@ export const CustomerPersonalInfoForm: React.FC = () => {
       ...customerOrder,
       [name]: value,
     };
-
+    console.log("updatedOrder = ", updatedOrder);
     dispatch(setCustomerOrder(updatedOrder));
   };
 
@@ -99,99 +98,81 @@ export const CustomerPersonalInfoForm: React.FC = () => {
     e: React.ChangeEvent<HTMLInputElement | HTMLSelectElement>
   ) => {
     const { name, value } = e.target;
-    if (customerOrder.solutionDateContract.solutionFormattedDate.length > 0)
-      updateStore(name, value);
-  };
 
+    if (customerInfoFields.includes(name)) {
+      const updatedCustomerFormData = {
+        ...customerOrder,
+        customerInfo: {
+          ...customerOrder.customerInfo,
+          [name]: value,
+        },
+      };
+
+      dispatch(setCustomerOrder(updatedCustomerFormData));
+    }
+    // if (customerOrder.solutionDateContract.solutionFormattedDate.length > 0)
+    //   updateStore(name, value);
+  };
+  console.log("customerOrder.customerInfo = ", customerOrder);
   return (
     <>
       <div className="grid lg:grid-cols-3 items-center gap-4 p-2 shadow-[0_2px_10px_-3px_rgba(6,81,237,0.3)] rounded-lg mt-8 w-full">
         <div className="relative flex items-center m-1">
-          <input
-            className={`${customerInputCSS} ${
-              customerOrder.firstName.length === 0 && errorCss
-            }`}
+          <CustomerInputs
             id="firstName"
-            name="firstName"
-            type="text"
-            placeholder="Enter your First Name"
-            value={customerOrder.firstName}
-            onChange={updateCustomerInfo}
+            value={customerOrder.customerInfo.firstName}
+            placeHolder="Enter your First Name"
+            updateCustomerInfo={updateCustomerInfo}
           />
           {personIconSVG}
         </div>
 
         <div className="relative flex items-center m-1">
-          <input
-            className={`${customerInputCSS} ${
-              customerOrder.lastName.length === 0 && errorCss
-            }`}
+          <CustomerInputs
             id="lastName"
-            name="lastName"
-            type="text"
-            placeholder="Enter your Last Name"
-            value={customerOrder.lastName}
-            onChange={updateCustomerInfo}
+            value={customerOrder.customerInfo.lastName}
+            placeHolder="Enter your Last Name"
+            updateCustomerInfo={updateCustomerInfo}
           />
           {personIconSVG}
         </div>
 
         <div className="relative flex items-center m-1">
-          <input
-            className={`${customerInputCSS} ${
-              customerOrder.email.length === 0 && errorCss
-            }`}
+          <CustomerInputs
             id="email"
-            name="email"
-            type="text"
-            placeholder="Email"
-            value={customerOrder.email}
-            onChange={updateCustomerInfo}
+            value={customerOrder.customerInfo.email}
+            placeHolder="Enter your email"
+            updateCustomerInfo={updateCustomerInfo}
           />
           {envelopIconSVG}
         </div>
 
         <div className="relative flex items-center m-1">
-          <input
-            className={`${customerInputCSS} ${
-              customerOrder.phoneNumber.length === 0 && errorCss
-            }`}
+          <CustomerInputs
             id="phoneNumber"
-            name="phoneNumber"
-            type="text"
-            placeholder="Phone Number"
-            value={customerOrder.phoneNumber}
-            onChange={updateCustomerInfo}
+            value={customerOrder.customerInfo.phoneNumber}
+            placeHolder="Enter your Phone Number"
+            updateCustomerInfo={updateCustomerInfo}
           />
           {phoneIconSVG}
         </div>
 
         <div className="relative flex items-center m-1">
-          <input
-            className={`${customerInputCSS} ${
-              customerOrder.address.length === 0 && errorCss
-            }`}
+          <CustomerInputs
             id="address"
-            name="address"
-            type="text"
-            placeholder="Home Address"
-            value={customerOrder.address}
-            onChange={updateCustomerInfo}
+            value={customerOrder.customerInfo.address}
+            placeHolder="Enter your Home Address"
+            updateCustomerInfo={updateCustomerInfo}
           />
           {locationDropSVG}
         </div>
 
         <div className="relative flex items-center m-1">
-          <input
-            className={`${customerInputCSS} ${
-              customerOrder.city.length === 0 && errorCss
-            }`}
+          <CustomerInputs
             id="city"
-            name="city"
-            type="text"
-            placeholder="City"
-            value={customerOrder.city}
-            onChange={updateCustomerInfo}
+            value={customerOrder.customerInfo.city}
+            placeHolder="Enter your City"
+            updateCustomerInfo={updateCustomerInfo}
           />
           {phoneIconSVG}
         </div>
@@ -201,7 +182,7 @@ export const CustomerPersonalInfoForm: React.FC = () => {
             className={customerInputCSS}
             id="state"
             name="state"
-            value={customerOrder.state}
+            value={customerOrder.customerInfo.state}
             onChange={updateCustomerInfo}
           >
             <option value="">Select State</option>
@@ -212,16 +193,11 @@ export const CustomerPersonalInfoForm: React.FC = () => {
         </div>
 
         <div className="relative flex items-center m-1">
-          <input
-            className={`${customerInputCSS} ${
-              customerOrder.zip.length === 0 && errorCss
-            }`}
+          <CustomerInputs
             id="zip"
-            name="zip"
-            type="text"
-            placeholder="Zip Code"
-            value={customerOrder.zip}
-            onChange={updateCustomerInfo}
+            value={customerOrder.customerInfo.zip}
+            placeHolder="Enter your Zip Code"
+            updateCustomerInfo={updateCustomerInfo}
           />
           {phoneIconSVG}
         </div>
@@ -229,11 +205,11 @@ export const CustomerPersonalInfoForm: React.FC = () => {
         <div className="relative flex items-center m-1">
           <select
             className={`${customerInputCSS} ${
-              customerOrder.country.length === 0 && errorCss
+              customerOrder.customerInfo.country.length === 0 && errorCss
             }`}
             id="country"
             name="country"
-            value={customerOrder.country}
+            value={customerOrder.customerInfo.country}
             onChange={updateCustomerInfo}
           >
             <option value="">Select your Country</option>

@@ -93,7 +93,7 @@ export const CustomerToolListings: React.FC = () => {
                       </div>
                       <div className="text-sm">
                         <span className="text-base font-semibold">
-                          Usage Instructions:
+                          User Instructions:
                         </span>{" "}
                         {tool.usageInstructions}
                       </div>

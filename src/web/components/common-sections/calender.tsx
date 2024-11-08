@@ -109,18 +109,18 @@ export const Calender: React.FC<Props> = ({
     );
   };
 
-  useEffect(() => {
-    if (month) {
-      setWeeksArray({
-        weeksArray: getMappedDays(
-          monthNameToNumber[month.substring(0, 3)],
-          year
-        ),
-        month: month,
-        year: year,
-      });
-    }
-  }, []);
+  // useEffect(() => {
+  //   if (month) {
+  //     setWeeksArray({
+  //       weeksArray: getMappedDays(
+  //         monthNameToNumber[month.substring(0, 3)],
+  //         year
+  //       ),
+  //       month: month,
+  //       year: year,
+  //     });
+  //   }
+  // }, []);
 
   const systemDate = new Date();
 

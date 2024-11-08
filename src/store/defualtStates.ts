@@ -10,16 +10,18 @@ export const paymentStatusStates = {
 
 export const orderStates = {
   orderID: 0,
-  customerID: 0, // we can generated it later and it should never be null
-  firstName: "",
-  lastName: "",
-  country: "",
-  address: "",
-  city: "",
-  state: "",
-  zip: "",
-  phoneNumber: "",
-  email: "",
+  customerInfo: {
+    customerID: 0, // we can generated it later and it should never be null
+    firstName: "",
+    lastName: "",
+    country: "",
+    address: "",
+    city: "",
+    state: "",
+    zip: "",
+    phoneNumber: "",
+    email: "",
+  },
   solutionDateContract: {
     solutionDate: "",
     longTermContract: "",
@@ -35,7 +37,7 @@ export const orderStates = {
   talentFirstName: "",
   talentLastName: "",
   solutionPrice: 0,
-  solutionPricePerHourStatus: false,
+  fixPriceStatus: false,
   solutionPriceDiscountPercentage: 0,
   orderDate: "",
   orderStatus: false,

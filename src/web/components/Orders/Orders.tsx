@@ -77,7 +77,7 @@ export const Orders: React.FC<Props> = ({ isOrderSumary }) => {
                           <span className="text-base font-semibold">
                             Customer Name:
                           </span>{" "}
-                          {`${order.firstName} ${order.lastName}`}
+                          {`${order.customerInfo.firstName} ${order.customerInfo.lastName}`}
                         </div>
 
                         <div className="text-sm">
@@ -91,8 +91,8 @@ export const Orders: React.FC<Props> = ({ isOrderSumary }) => {
                           <span className="text-base font-semibold">
                             Location:
                           </span>{" "}
-                          {`${order.address}`}
-                          <p>{`${order.city}, ${order.state}, ${order.zip}.`}</p>
+                          {`${order.customerInfo.address}`}
+                          <p>{`${order.customerInfo.city}, ${order.customerInfo.state}, ${order.customerInfo.zip}.`}</p>
                         </div>
                       </div>
 

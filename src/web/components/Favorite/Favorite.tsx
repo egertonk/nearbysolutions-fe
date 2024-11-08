@@ -1,5 +1,5 @@
 import { useState } from "react";
-import { TalentCard } from "../Hire-A-Talent/talentCard";
+import { SolutionistCard } from "../solutionist/SolutionistCard";
 import { talentInformation } from "../../lib";
 import { MainTitle } from "../common-sections/MainTitle";
 import { Search } from "../common-sections/Search";
@@ -13,7 +13,7 @@ export const Favorite: React.FC = () => {
     <>
       <MainTitle title="Favorite Solutionists" />
 
-      <Search
+      {/* <Search
         setSearchResults={setSearchResults}
         searchResults={searchResults}
         fallBackData={talentInformation}
@@ -21,7 +21,7 @@ export const Favorite: React.FC = () => {
       
       <div className="grid grid-cols-1 lg:grid-cols-4 gap-4">
         <TalentCard searchResults={searchResults} isFavoriteValid={true} />
-      </div>
+      </div> */}
     </>
   );
 };

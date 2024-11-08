@@ -57,7 +57,7 @@ export const Footer: React.FC = () => {
               className="mt-8 flex justify-center gap-6 sm:justify-start md:gap-8"
               style={{ color: "cyan" }}
             >
-              {companySocialData.map((socialData) => (
+              {companySocialData?.map((socialData) => (
                 <li key={`social-media-${socialData.name}`}>
                   <a
                     href={`${socialData.link}`}

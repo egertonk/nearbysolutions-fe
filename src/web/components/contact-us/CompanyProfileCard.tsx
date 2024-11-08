@@ -57,7 +57,7 @@ export const CompanyProfileCard: React.FC = () => {
         </li>
       </ul>
       <ul className="flex max-lg:justify-center mt-16 space-x-4">
-        {companySocialData.map((socialData) => (
+        {companySocialData?.map((socialData) => (
           <li
             className="bg-purple-800 text-white hover:bg-gray-900 h-10 w-10 rounded-full flex items-center justify-center shrink-0"
             key={`contact-social-media-${socialData.name}`}

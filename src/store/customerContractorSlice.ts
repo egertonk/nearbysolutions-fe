@@ -1,14 +1,10 @@
 import { createSlice, PayloadAction } from "@reduxjs/toolkit";
-import {
-  CustomerFormData,
-  CustomerOrder,
-} from "../web/lib/types/OrderSolutionTypes";
+import { CustomerFormData } from "../web/lib/types/OrderSolutionTypes";
 import { orderStates } from "./defualtStates";
 
 interface CustomerContractorState {
   customerOrder: CustomerFormData;
   isEditOrder: boolean;
-  order: CustomerOrder;
   isError: boolean;
 }
 
@@ -16,7 +12,6 @@ const initialState: CustomerContractorState = {
   customerOrder: orderStates,
   isEditOrder: false,
   isError: false,
-  order: orderStates,
 };
 
 const customerContractorSlice = createSlice({
@@ -25,9 +20,6 @@ const customerContractorSlice = createSlice({
   reducers: {
     setCustomerOrder(state, action: PayloadAction<CustomerFormData>) {
       state.customerOrder = action.payload;
-    },
-    setOrder(state, action: PayloadAction<CustomerOrder>) {
-      state.order = action.payload;
     },
     setIsEditOrder(state, action: PayloadAction<boolean>) {
       state.isEditOrder = action.payload;
@@ -41,11 +33,6 @@ const customerContractorSlice = createSlice({
   },
 });
 
-export const {
-  setCustomerOrder,
-  setOrder,
-  setIsEditOrder,
-  setIsError,
-  setShowPayReady,
-} = customerContractorSlice.actions;
+export const { setCustomerOrder, setIsEditOrder, setIsError, setShowPayReady } =
+  customerContractorSlice.actions;
 export default customerContractorSlice.reducer;

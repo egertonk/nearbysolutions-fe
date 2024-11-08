@@ -6,25 +6,26 @@ import { NearBySolutionsHeader } from "./web/components/Header/NearBySolutionsHe
 
 import { Login } from "./web/components/Login/login";
 import { Register } from "./web/components/Register/register";
-import { Talent } from "./web/components/Hire-A-Talent/talents";
+import { Solutionist } from "./web/components/solutionist/Solutionist";
 import { Footer } from "./web/components/Footer/footer";
-import { Reviews } from "./web/components/Reviews/reviews";
+import { Review } from "./web/components/Reviews/Review";
 import { Favorite } from "./web/components/Favorite/Favorite";
 import { OrderSumary } from "./web/components/Orders/OrderSumary";
-import { TalentDetailPage } from "./web/components/Hire-A-Talent/talentDetailPage";
-import { DateTimeSelection } from "./web/components/Hire-A-Talent/DateTimeSelection";
-import { CalenderForm } from "./web/components/common-sections/calenderForm";
+import { TalentDetailPage } from "./web/components/customer-calender-time/CalenderPage";
+import { DateTimeSelection } from "./web/components/customer-calender-time/DateTimeSelection";
+import { CalenderForm } from "./web/components/customer-calender-time/calenderForm";
 import { Provider } from "react-redux";
 import store from "./store";
 import { Payment } from "./web/components/Payment-Process/Payment";
 import { EditOrder } from "./web/components/Orders/EditOrder";
-import { ContactUs } from "./web/components/contact-us/ContactUs";
+import { ContactUs } from "./web/components/Contact-US/ContactUs";
 import { FindWorkPostAJob } from "./web/components/Find-Work-Post-A-Job/FindWorkPostAJob";
 import { PostAJobForm } from "./web/components/Find-Work-Post-A-Job/PostAJobForm";
 import { HomeIndex } from "./web/components/Home/HomeIndex";
 import { CustomerJobListings } from "./web/components/Find-Work-Post-A-Job/CustomerJobListings";
 import { CustomerToolListings } from "./web/components/DIY-Tool-Rentals/CustomerToolListings";
 import { UserHistory } from "./web/components/Orders/UserHistory";
+import { RentAToolForm } from "./web/components/Rent-Tools/RentAToolForm";
 
 function App() {
   return (
@@ -43,22 +44,25 @@ function App() {
           </Route>
 
           <Route path="/favorite" element={<Favorite />} />
-          <Route path="/reviews" element={<Reviews />} />
+          <Route path="/reviews" element={<Review />} />
           <Route path="/register" element={<Register />} />
 
           {/* Hire A Talent */}
-          <Route path="/hire-a-talent" element={<Talent />} />
+          <Route path="/hire-a-talent" element={<Solutionist />} />
           <Route path="/talent-detail-page" element={<TalentDetailPage />} />
           <Route path="date-time-selection" element={<DateTimeSelection />} />
           <Route path="/customer-form" element={<CalenderForm />} />
           <Route path="/order-summary" element={<OrderSumary />} />
 
           {/* Hire A Talent */}
-          <Route path="/gift-a-solution" element={<Talent />} />
+          <Route path="/gift-a-solution" element={<Solutionist />} />
 
           {/*Find Work / Post a Job */}
           <Route path="/find-work-post-a-job" element={<FindWorkPostAJob />} />
           <Route path="/post-a-job" element={<PostAJobForm />} />
+
+          {/*Rent Tools */}
+          <Route path="/rent-your-tools" element={<RentAToolForm />} />
 
           {/* Payment */}
           <Route path="/payment" element={<Payment />} />

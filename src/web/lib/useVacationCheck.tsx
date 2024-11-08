@@ -1,4 +1,4 @@
-import { cSettings, monthNameToNumber } from ".";
+import { solutionistWorkSettings, monthNameToNumber } from ".";
 import { DateSelection, weeksArrayTypes } from "./types/CalenderTypes";
 
 export const calculateDaysBetweenDates = (
@@ -20,8 +20,8 @@ export const isVacationValid = (
   userSelectedDate: DateSelection,
   weeksArray?: weeksArrayTypes
 ) => {
-  const startDate = cSettings.vacationStartDate;
-  const endDate = cSettings.vacationEndDate;
+  const startDate = solutionistWorkSettings.vacationStartDate;
+  const endDate = solutionistWorkSettings.vacationEndDate;
   const daysBetweenArray = calculateDaysBetweenDates(startDate, endDate);
 
   const calenderDate = `${userSelectedDate.day}/${userSelectedDate.month}/${userSelectedDate.year}`;

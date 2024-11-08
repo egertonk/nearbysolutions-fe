@@ -56,21 +56,22 @@ export const PaymentCustomerDetails: React.FC = () => {
                 <div className="text-left mt-5">
                   <h3 className="font-semibold">Name</h3>
                   <span>
-                    {customerOrder.firstName} {customerOrder.lastName}
+                    {customerOrder.customerInfo.firstName}{" "}
+                    {customerOrder.customerInfo.lastName}
                   </span>
                 </div>
 
                 <div className="text-left mt-3">
                   <h3 className="font-semibold">Phone</h3>
-                  <span>{customerOrder.phoneNumber}</span>
+                  <span>{customerOrder.customerInfo.phoneNumber}</span>
                 </div>
 
                 <div className="text-left mt-3">
                   <h3 className="font-semibold">Address</h3>
-                  <p>{customerOrder.address}</p>
+                  <p>{customerOrder.customerInfo.address}</p>
                   <p>
-                    {customerOrder.city}, {customerOrder.state},{" "}
-                    {customerOrder.zip}.
+                    {customerOrder.customerInfo.city}, {customerOrder.customerInfo.state},{" "}
+                    {customerOrder.customerInfo.zip}.
                   </p>
                 </div>
               </>

@@ -1,6 +1,6 @@
 import { useSelector } from "react-redux";
 import { TimeProps } from "../../lib/types/CalenderTypes";
-import { TimeList } from "../common-sections/timeList";
+import { TimeList } from "./timeList";
 import { RootState } from "../../../store";
 
 export const DatePicker: React.FC<TimeProps> = ({

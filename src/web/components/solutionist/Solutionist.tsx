@@ -1,32 +1,38 @@
-import { talentInformation } from "../../lib";
 import { ChevronLeftIcon, ChevronRightIcon } from "@heroicons/react/20/solid";
+
 import { Search } from "../common-sections/Search";
-import { TalentCard } from "./talentCard";
+import { SolutionistCard } from "./SolutionistCard";
 import { useEffect, useState } from "react";
 import { MainTitle } from "../common-sections/MainTitle";
 import { useLocation } from "react-router";
-import { useDispatch } from "react-redux";
-import { setApplicationMode } from "../../../store/applicationModeSlice";
-import { setCustomerOrder } from "../../../store/customerContractorSlice";
-import { orderStates, paymentStatusStates } from "../../../store/defualtStates";
-import { setPaymentState } from "../../../store/paymentSlice";
+import { useGetUser } from "../../utils/fetchEndpoints";
+import { TalentTypes } from "../talent/talentTypes";
 
-export const Talent: React.FC = () => {
-  const dispatch = useDispatch();
+export const Solutionist: React.FC = () => {
   const location = useLocation();
+
+  const { data: user, isFetching } = useGetUser();
+
   const MAX_TALENT = 1;
-  const [searchResults, setSearchResults] = useState(talentInformation);
-  const isSearchResults = searchResults.length === 0;
+  const [data, setData] = useState([] as TalentTypes[]);
+  const [searchResults, setSearchResults] = useState([] as TalentTypes[]);
+  const isSearchResults = data.length === 0;
 
   const isGiftASolution = location.pathname.includes("gift-a-solution");
 
+  // useEffect(() => {
+  //   const giftStatus = location.pathname.includes("gift-a-solution");
+  //   if (giftStatus) dispatch(setApplicationMode(true));
+  //   if (giftStatus === false) dispatch(setApplicationMode(false));
+  //   dispatch(setCustomerOrder(orderStates));
+  //   dispatch(setPaymentState(paymentStatusStates));
+  // }, []);
+
   useEffect(() => {
-    const giftStatus = location.pathname.includes("gift-a-solution");
-    if (giftStatus) dispatch(setApplicationMode(true));
-    if (giftStatus === false) dispatch(setApplicationMode(false));
-    dispatch(setCustomerOrder(orderStates));
-    dispatch(setPaymentState(paymentStatusStates));
-  }, []);
+    console.log("user = ", user);
+    if (user && searchResults.length === 0 && isFetching === false)
+      setSearchResults(user);
+  }, [isFetching]);
 
   return (
     <>
@@ -37,21 +43,22 @@ export const Talent: React.FC = () => {
               isGiftASolution
                 ? "Gift a Solution"
                 : isSearchResults
-                ? "Solutionist is Unavailable"
-                : "Select a Solutionist"
+                ? "Select a Solutionist"
+                : "Solutionist is Unavailable"
             }
           />
-
           <Search
             setSearchResults={setSearchResults}
             searchResults={searchResults}
-            fallBackData={talentInformation}
+            fallBackData={user}
           />
-
-          <div className="grid grid-cols-1 lg:grid-cols-4 gap-4">
-            <TalentCard searchResults={searchResults} />
-          </div>
-          {!isSearchResults && searchResults.length > MAX_TALENT && (
+          {searchResults.length}
+          {user !== undefined && (
+            <div className="grid grid-cols-1 lg:grid-cols-4 gap-4">
+              <SolutionistCard data={searchResults} />
+            </div>
+          )}
+          {!isSearchResults && data.length > MAX_TALENT && (
             <div className="flex items-center justify-between border-t border-gray-200 bg-white px-4 py-3 sm:px-6">
               <div className="flex flex-1 justify-between sm:hidden">
                 <a
@@ -72,8 +79,7 @@ export const Talent: React.FC = () => {
                   <p className="text-sm text-gray-700">
                     Showing <span className="font-medium">1</span> to{" "}
                     <span className="font-medium">10</span> of{" "}
-                    <span className="font-medium">{searchResults.length}</span>{" "}
-                    results
+                    <span className="font-medium">{data.length}</span> results
                   </p>
                 </div>
                 <div>

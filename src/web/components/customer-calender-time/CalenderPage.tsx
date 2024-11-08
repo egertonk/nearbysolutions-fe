@@ -1,4 +1,5 @@
-import React from "react";
+import React, { useEffect } from "react";
+import { useDispatch, useSelector } from "react-redux";
 import { useLocation } from "react-router-dom";
 import { useCalenderStates } from "../../lib/useCalenderStates";
 import { useCustomerPersonalInfoForm } from "../../lib/useCustomerPersonalInfoForm";
@@ -6,35 +7,75 @@ import { useState } from "react";
 import { talentInformation } from "../../lib";
 import { DateTimeSelection } from "./DateTimeSelection";
 import { MainTitle } from "../common-sections/MainTitle";
+import { useGetUserWithId } from "../../utils/fetchEndpoints";
+import { RootState } from "../../../store";
+import { CustomerFormData } from "../../lib/types/OrderSolutionTypes";
+import { setCustomerOrder } from "../../../store/customerContractorSlice";
 
 export const TalentDetailPage: React.FC = () => {
   const location = useLocation();
+  const dispatch = useDispatch();
+  const customerOrder = useSelector(
+    (state: RootState) => state.formData.customerOrder
+  );
 
   const searchParams = new URLSearchParams(location.search);
-  const talentID = searchParams.get("talentID");
+  const talentId = searchParams.get("talentId"); // Access `talentId` directly
+  const jobId = searchParams.get("jobId"); // Access `jobId` directly
 
-  const talent = talentInformation.find((talent) => {
-    return talent?.talentID.toString() === talentID?.toString();
-  });
-
-  const jobDetails = talent?.jobTitlesPrice.find(
-    (price) => price.selectedStatus
+  console.log("jobId = ", jobId);
+  console.log("talentId = ", talentId);
+  const { data: solutionistDeatils, isFetching } = useGetUserWithId(
+    Number(talentId)
   );
-  const { userSelectedTime, userSelectedDate, formattedDate } =
-    useCalenderStates();
 
-  const [selectedTalent, setSelectedTalent] = useState(jobDetails?.title || "");
+  // const talent = user?.find((userData) => {
+  //   return userData?.talent?.user?.id.toString() === talentID?.toString();
+  // });
+
+  // const jobDetails = talent?.talent?.jobTitle.find(
+  //   (price) => price.selectedStatus
+  // );
+  // const { userSelectedTime, userSelectedDate, formattedDate } =
+  //   useCalenderStates();
+
+  // const [selectedTalent, setSelectedTalent] = useState(
+  //   solutionistDeatils?.talent?.talentId || ""
+  // );
 
   // Initial states for personal order
-  useCustomerPersonalInfoForm(
-    selectedTalent,
-    userSelectedTime,
-    formattedDate,
-    userSelectedDate,
-    setSelectedTalent,
-    jobDetails,
-    talent
-  );
+  // useCustomerPersonalInfoForm(
+  //   userSelectedTime,
+  //   formattedDate,
+  //   userSelectedDate,
+  //   jobDetails,
+  //   solutionistDeatils
+  // );
+
+  useEffect(() => {
+    const jobDetails = solutionistDeatils?.talent?.jobTitle.find(
+      (job) => job?.id === Number(jobId)
+    );
+
+    console.log("solutionist1111111111 = ", jobDetails);
+    console.log("solutionist1111111111 = ", solutionistDeatils);
+
+    const updatedOrder: CustomerFormData = {
+      ...customerOrder,
+      solutionJob: jobDetails?.title || "",
+      selectedTalent: jobDetails?.title || "",
+      talentID: solutionistDeatils?.talent?.user.id || 0,
+      talentFirstName: solutionistDeatils?.talent?.user.firstName || "",
+      talentLastName: solutionistDeatils?.talent?.user?.lastName || "",
+      solutionPrice:
+        (jobDetails?.isFixPrice
+          ? jobDetails.fixPrice
+          : jobDetails?.ratePerHour) || 0,
+    };
+
+    console.log("updatedOrder1111111 = ", updatedOrder);
+    dispatch(setCustomerOrder(updatedOrder));
+  }, [isFetching]);
 
   return (
     <>

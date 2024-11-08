@@ -1,5 +1,5 @@
 import { useNavigate } from "react-router";
-import { cSettings, compareDates, isTimeValid } from "../../lib";
+import { solutionistWorkSettings, compareDates, isTimeValid } from "../../lib";
 import { TimeProps } from "../../lib/types/CalenderTypes";
 import { CustomerFormData } from "../../lib/types/OrderSolutionTypes";
 import { useTimeIntervals } from "../../lib/useTimeIntervals";
@@ -29,7 +29,7 @@ export const TimeList: React.FC<TimeProps> = ({
   const customerOrder = useSelector(
     (state: RootState) => state.formData.customerOrder
   );
-  const contractorSettings = cSettings; // API
+  const contractorSettings = solutionistWorkSettings; // API
 
   // Generate the intervals based on the provided start and end times
   const timeIntervals = generateIntervals(

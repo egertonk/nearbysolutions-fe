@@ -20,6 +20,7 @@ import {
 import { JobTitlePricing } from "./types/OrderSolutionTypes";
 import { CustomerJobs } from "./types/FindWorkPostAJobtypesData";
 import { DIYToolListing } from "./types/DIYToolsListings";
+import { JobTitleTypes } from "../components/talent/talentTypes";
 
 export const monthNames = [
   "January",
@@ -177,13 +178,10 @@ export const breakUpDate = (dateString: string | undefined) => {
   return { day, month, year };
 };
 
-export const isFixPriceValid = (jobTitlesPrice: JobTitlePricing[]) => {
-  const foundValidPrice = jobTitlesPrice.find((data) => data.selectedStatus);
+export const isFixPriceValid = (jobTitlesPrice: JobTitleTypes[]) => {
+  const foundValidPrice = jobTitlesPrice?.find((data) => data.selectedStatus);
 
-  if (
-    foundValidPrice?.price.fixPrice !== undefined &&
-    foundValidPrice?.price.fixPrice > 0
-  )
+  if (foundValidPrice?.fixPrice !== undefined && foundValidPrice?.fixPrice > 0)
     return true;
   return false;
 };
@@ -215,164 +213,309 @@ export const getSocialMedia = (name: string) => {
 };
 
 // temp
+// export const talentInformation = [
+//   {
+//     talentID: 111111,
+//     imageSource:
+//       "https://images.unsplash.com/photo-1438761681033-6461ffad8d80?ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&ixlib=rb-1.2.1&auto=format&fit=crop&w=1170&q=80",
+//     fullName: "Jessa During",
+//     firstName: "Jessa",
+//     lastName: "During",
+//     jobTitlesPrice: [
+//       {
+//         isFixPrice: true, // only one can be have an amout - fixPrice: 10000, ratePerHour: 0
+//         selectedStatus: false, // required - only on can be true and rest false
+//         title: "Graphic Designer",
+//         price: { fixPrice: 10000, ratePerHour: 0, discount: 15 },
+//       },
+//       {
+//         isFixPrice: false,
+//         selectedStatus: true,
+//         title: "Nurse",
+//         price: { fixPrice: 0, ratePerHour: 100, discount: 15 },
+//       },
+//     ],
+//     talentIntroduction:
+//       "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.",
+//     socialMediaDetails: [
+//       { name: "Google", link: "https://www.Google.com/" },
+//       { name: "TikTok", link: "https://www.TikTok.com/" },
+//       { name: "x", link: "https://www.x.com/" },
+//       { name: "Youtube", link: "https://www.Youtube.com/" },
+//       { name: "Whatsapp", link: "https://www.Whatsapp.com/" },
+//     ],
+//     verifyStatus: true,
+//     vacationStatus: true,
+//     vacationDaysOff: {
+//       startDate: "07/20/2024",
+//       endDate: "07/25/2024",
+//     },
+//   },
+//   {
+//     talentID: 343434,
+//     imageSource:
+//       "https://images.unsplash.com/photo-1438761681033-6461ffad8d80?ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&ixlib=rb-1.2.1&auto=format&fit=crop&w=1170&q=80",
+//     fullName: "Egerton During",
+//     firstName: "Egerton",
+//     lastName: "During",
+//     jobTitlesPrice: [
+//       {
+//         isFixPrice: true,
+//         selectedStatus: true,
+//         title: "Software Engineer",
+//         price: { fixPrice: 10000, ratePerHour: 0, discount: 15 },
+//       },
+//       {
+//         isFixPrice: false,
+//         selectedStatus: false,
+//         title: "Fullstack Developer",
+//         price: { fixPrice: 0, ratePerHour: 200, discount: 15 },
+//       },
+//     ],
+//     talentIntroduction:
+//       "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.",
+//     socialMediaDetails: [
+//       { name: "facebook", link: "https://www.facebook.com/" },
+//       { name: "Instagram", link: "https://www.Instagram.com/" },
+//       { name: "X", link: "https://www.x.com/" },
+//       { name: "Linkedin", link: "https://www.linkedin.com/" },
+//       { name: "youtube", link: "https://www.youtube.com/" },
+//     ],
+//     verifyStatus: true,
+//     vacationStatus: true,
+//     vacationDaysOff: {
+//       startDate: "08/12/2024",
+//       endDate: "08/20/2024",
+//     },
+//   },
+//   {
+//     talentID: 1133333,
+//     imageSource:
+//       "https://images.unsplash.com/flagged/photo-1570612861542-284f4c12e75f?ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&ixlib=rb-1.2.1&auto=format&fit=crop&w=1170&q=80",
+//     fullName: "Jade Bradley",
+//     firstName: "Jade",
+//     lastName: "Bradley",
+//     jobTitlesPrice: [
+//       {
+//         isFixPrice: true,
+//         selectedStatus: false,
+//         title: "Help Desk",
+//         price: { fixPrice: 10000, ratePerHour: 0, discount: 15 },
+//       },
+//       {
+//         isFixPrice: false,
+//         selectedStatus: true,
+//         title: "bbbbbbbb Desk",
+//         price: { fixPrice: 0, ratePerHour: 300, discount: 15 },
+//       },
+//     ],
+//     talentIntroduction:
+//       "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.",
+//     socialMediaDetails: [
+//       { name: "facebook", link: "https://www.facebook.com/" },
+//       { name: "Instagram", link: "https://www.Instagram.com/" },
+//       { name: "X", link: "https://www.x.com/" },
+//       { name: "Linkedin", link: "https://www.linkedin.com/" },
+//       { name: "youtube", link: "https://www.youtube.com/" },
+//     ],
+//     verifyStatus: false,
+//     vacationStatus: true,
+//     vacationDaysOff: {
+//       startDate: "06/10/2024",
+//       endDate: "06/10/2024",
+//     },
+//   },
+//   {
+//     talentID: 44141,
+//     imageSource:
+//       "https://images.unsplash.com/flagged/photo-1570612861542-284f4c12e75f?ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&ixlib=rb-1.2.1&auto=format&fit=crop&w=1170&q=80",
+//     fullName: "Dany Bailey",
+//     firstName: "Dany",
+//     lastName: "Bailey",
+//     jobTitlesPrice: [
+//       {
+//         isFixPrice: true,
+//         selectedStatus: true,
+//         title: "Nurse s",
+//         price: { fixPrice: 100, ratePerHour: 0, discount: 15 },
+//       },
+//     ],
+//     talentIntroduction:
+//       "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.",
+//     socialMediaDetails: [
+//       { name: "facebook", link: "https://www.facebook.com/" },
+//       { name: "Instagram", link: "https://www.Instagram.com/" },
+//       { name: "X", link: "https://www.x.com/" },
+//       { name: "Linkedin", link: "https://www.linkedin.com/" },
+//       { name: "youtube", link: "https://www.youtube.com/" },
+//     ],
+//     verifyStatus: true,
+//     vacationStatus: false,
+//     vacationDaysOff: {
+//       startDate: "06/10/2024",
+//       endDate: "06/10/2024",
+//     },
+//   },
+// ];
+
 export const talentInformation = [
   {
-    talentID: 111111,
-    imageSource:
-      "https://images.unsplash.com/photo-1438761681033-6461ffad8d80?ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&ixlib=rb-1.2.1&auto=format&fit=crop&w=1170&q=80",
-    fullName: "Jessa During",
-    firstName: "Jessa",
-    lastName: "During",
-    jobTitlesPrice: [
-      {
-        isFixPrice: true, // only one can be have an amout - fixPrice: 10000, ratePerHour: 0
-        selectedStatus: false, // required - only on can be true and rest false
-        title: "Graphic Designer",
-        price: { fixPrice: 10000, ratePerHour: 0, discount: 15 },
+    talent: {
+      talentId: 2,
+      imageSource: "talent2.jpg",
+      talentIntroduction: "Backend Developer with Java expertise",
+      vacationStatus: true,
+      verifyStatus: true,
+      vacationDaysOff: null,
+      user: {
+        id: 42,
+        name: "Bob Smith",
+        email: "bob.smith@example.com",
+        password: "password123",
+        role: "user",
+        username: "bobsmith",
+        passwordHash: "hashed_pw_2",
+        fullName: null,
+        phoneNumber: "234-567-8901",
+        profilePicture: "profile2.jpg",
+        dateOfBirth: "1985-11-12",
+        location: "Los Angeles",
+        communicationPreferences: '{"sms": true, "email": false}',
+        createdAt: "2024-11-01T20:17:47.877289",
+        updatedAt: "2024-11-01T20:17:47.877289",
+        termsAccepted: true,
+        privacyPolicyAccepted: true,
+        firstName: "Bob",
+        middleName: "Alan",
+        lastName: "Smith",
       },
-      {
-        isFixPrice: false,
-        selectedStatus: true,
-        title: "Nurse",
-        price: { fixPrice: 0, ratePerHour: 100, discount: 15 },
-      },
-    ],
-    talentIntroduction:
-      "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.",
-    socialMediaDetails: [
-      { name: "Google", link: "https://www.Google.com/" },
-      { name: "TikTok", link: "https://www.TikTok.com/" },
-      { name: "x", link: "https://www.x.com/" },
-      { name: "Youtube", link: "https://www.Youtube.com/" },
-      { name: "Whatsapp", link: "https://www.Whatsapp.com/" },
-    ],
-    verifyStatus: true,
-    vacationStatus: true,
-    vacationDaysOff: {
-      startDate: "06/10/2024",
-      endDate: "06/10/2024",
-    },
-  },
-  {
-    talentID: 343434,
-    imageSource:
-      "https://images.unsplash.com/photo-1438761681033-6461ffad8d80?ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&ixlib=rb-1.2.1&auto=format&fit=crop&w=1170&q=80",
-    fullName: "Egerton During",
-    firstName: "Egerton",
-    lastName: "During",
-    jobTitlesPrice: [
-      {
-        isFixPrice: true,
-        selectedStatus: true,
-        title: "Software Engineer",
-        price: { fixPrice: 10000, ratePerHour: 0, discount: 15 },
-      },
-      {
-        isFixPrice: false,
-        selectedStatus: false,
-        title: "Fullstack Developer",
-        price: { fixPrice: 0, ratePerHour: 200, discount: 15 },
-      },
-    ],
-    talentIntroduction:
-      "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.",
-    socialMediaDetails: [
-      { name: "facebook", link: "https://www.facebook.com/" },
-      { name: "Instagram", link: "https://www.Instagram.com/" },
-      { name: "X", link: "https://www.x.com/" },
-      { name: "Linkedin", link: "https://www.linkedin.com/" },
-      { name: "youtube", link: "https://www.youtube.com/" },
-    ],
-    verifyStatus: true,
-    vacationStatus: false,
-    vacationDaysOff: {
-      startDate: "06/10/2024",
-      endDate: "06/10/2024",
-    },
-  },
-  {
-    talentID: 1133333,
-    imageSource:
-      "https://images.unsplash.com/flagged/photo-1570612861542-284f4c12e75f?ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&ixlib=rb-1.2.1&auto=format&fit=crop&w=1170&q=80",
-    fullName: "Jade Bradley",
-    firstName: "Jade",
-    lastName: "Bradley",
-    jobTitlesPrice: [
-      {
-        isFixPrice: true,
-        selectedStatus: false,
-        title: "Help Desk",
-        price: { fixPrice: 10000, ratePerHour: 0, discount: 15 },
-      },
-      {
-        isFixPrice: false,
-        selectedStatus: true,
-        title: "bbbbbbbb Desk",
-        price: { fixPrice: 0, ratePerHour: 300, discount: 15 },
-      },
-    ],
-    talentIntroduction:
-      "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.",
-    socialMediaDetails: [
-      { name: "facebook", link: "https://www.facebook.com/" },
-      { name: "Instagram", link: "https://www.Instagram.com/" },
-      { name: "X", link: "https://www.x.com/" },
-      { name: "Linkedin", link: "https://www.linkedin.com/" },
-      { name: "youtube", link: "https://www.youtube.com/" },
-    ],
-    verifyStatus: false,
-    vacationStatus: true,
-    vacationDaysOff: {
-      startDate: "06/10/2024",
-      endDate: "06/10/2024",
-    },
-  },
-  {
-    talentID: 44141,
-    imageSource:
-      "https://images.unsplash.com/flagged/photo-1570612861542-284f4c12e75f?ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&ixlib=rb-1.2.1&auto=format&fit=crop&w=1170&q=80",
-    fullName: "Dany Bailey",
-    firstName: "Dany",
-    lastName: "Bailey",
-    jobTitlesPrice: [
-      {
-        isFixPrice: true,
-        selectedStatus: true,
-        title: "Nurse s",
-        price: { fixPrice: 100, ratePerHour: 0, discount: 15 },
-      },
-    ],
-    talentIntroduction:
-      "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.",
-    socialMediaDetails: [
-      { name: "facebook", link: "https://www.facebook.com/" },
-      { name: "Instagram", link: "https://www.Instagram.com/" },
-      { name: "X", link: "https://www.x.com/" },
-      { name: "Linkedin", link: "https://www.linkedin.com/" },
-      { name: "youtube", link: "https://www.youtube.com/" },
-    ],
-    verifyStatus: true,
-    vacationStatus: false,
-    vacationDaysOff: {
-      startDate: "06/10/2024",
-      endDate: "06/10/2024",
+      skills: [
+        {
+          id: 22,
+          name: "Java",
+          description: "Experienced with Java backend development",
+          proficiencyLevel: "Intermediate",
+        },
+      ],
+      addresses: [
+        {
+          id: 62,
+          userId: 42,
+          street: "456 Elm St",
+          city: "Los Angeles",
+          state: "CA",
+          postalCode: "90001",
+          country: "USA",
+          addressType: "work",
+          createdAt: "2024-11-01T20:23:09.767209",
+          updatedAt: "2024-11-01T20:23:09.767209",
+          permanent: false,
+        },
+      ],
+      socialMedia: [
+        {
+          id: 5,
+          name: "Facebook",
+          link: "https://facebook.com/talent2",
+          talent: null,
+        },
+        {
+          id: 6,
+          name: "Instagram",
+          link: "https://instagram.com/talent2",
+          talent: null,
+        },
+        {
+          id: 7,
+          name: "LinkedIn",
+          link: "https://linkedin.com/in/talent2",
+          talent: null,
+        },
+      ],
+      jobTitle: [
+        {
+          id: 22,
+          discount: 5,
+          fixPrice: 0,
+          isFixPrice: false,
+          ratePerHour: 50,
+          selectedStatus: true,
+          title: "Java Developer",
+          user: {
+            id: 42,
+            name: "Bob Smith",
+            email: "bob.smith@example.com",
+            password: "password123",
+            role: "user",
+            username: "bobsmith",
+            passwordHash: "hashed_pw_2",
+            fullName: null,
+            phoneNumber: "234-567-8901",
+            profilePicture: "profile2.jpg",
+            dateOfBirth: "1985-11-12",
+            location: "Los Angeles",
+            communicationPreferences: '{"sms": true, "email": false}',
+            createdAt: "2024-11-01T20:17:47.877289",
+            updatedAt: "2024-11-01T20:17:47.877289",
+            termsAccepted: true,
+            privacyPolicyAccepted: true,
+            firstName: "Bob",
+            middleName: "Alan",
+            lastName: "Smith",
+          },
+        },
+        {
+          id: 41,
+          discount: 8,
+          fixPrice: 20000,
+          isFixPrice: true,
+          ratePerHour: 45,
+          selectedStatus: true,
+          title: "Egerton During - Full stack",
+          user: {
+            id: 42,
+            name: "Bob Smith",
+            email: "bob.smith@example.com",
+            password: "password123",
+            role: "user",
+            username: "bobsmith",
+            passwordHash: "hashed_pw_2",
+            fullName: null,
+            phoneNumber: "234-567-8901",
+            profilePicture: "profile2.jpg",
+            dateOfBirth: "1985-11-12",
+            location: "Los Angeles",
+            communicationPreferences: '{"sms": true, "email": false}',
+            createdAt: "2024-11-01T20:17:47.877289",
+            updatedAt: "2024-11-01T20:17:47.877289",
+            termsAccepted: true,
+            privacyPolicyAccepted: true,
+            firstName: "Bob",
+            middleName: "Alan",
+            lastName: "Smith",
+          },
+        },
+      ],
     },
   },
 ];
 
+// Done
 export const customerOrderHistory = [
   {
     orderID: 5353,
-    customerID: 12345,
-    firstName: "Jessa",
-    lastName: "During",
-    country: "United States",
-    address: "13296 Oakham Ct",
-    city: "Woodbridge",
-    state: "Virginia",
-    zip: "22193",
-    phoneNumber: "5713301230",
-    email: "jessaduring@yahoo.com",
+    customerInfo: {
+      customerID: 12345,
+      firstName: "Jessa",
+      lastName: "During",
+      country: "United States",
+      address: "13296 Oakham Ct",
+      city: "Woodbridge",
+      state: "Virginia",
+      zip: "22193",
+      phoneNumber: "5713301230",
+      email: "jessaduring@yahoo.com",
+    },
     solutionDateContract: {
       solutionDate: "July/27/2024",
       longTermContract: "",
@@ -388,7 +531,7 @@ export const customerOrderHistory = [
     talentFirstName: "John",
     talentLastName: "Doe",
     solutionPrice: 5000,
-    solutionPricePerHourStatus: false,
+    fixPriceStatus: false,
     solutionPriceDiscountPercentage: 5,
     orderDate: "4/30/2024",
     orderStatus: true,
@@ -397,16 +540,18 @@ export const customerOrderHistory = [
   },
   {
     orderID: 54666,
-    customerID: 12345,
-    firstName: "Brighton",
-    lastName: "During",
-    country: "United States",
-    address: "10308 Gazelle Ct",
-    city: "Fredericksburg",
-    state: "Virginia",
-    zip: "22408",
-    phoneNumber: "5713301230",
-    email: "jessaduring@yahoo.com",
+    customerInfo: {
+      customerID: 12345,
+      firstName: "Brighton",
+      lastName: "During",
+      country: "United States",
+      address: "10308 Gazelle Ct",
+      city: "Fredericksburg",
+      state: "Virginia",
+      zip: "22408",
+      phoneNumber: "5713301230",
+      email: "jessaduring@yahoo.com",
+    },
     solutionDateContract: {
       longTermContract: "3Months",
       longTermEndDate: "September/25/2024",
@@ -422,7 +567,7 @@ export const customerOrderHistory = [
     talentFirstName: "John",
     talentLastName: "Doe",
     solutionPrice: 100,
-    solutionPricePerHourStatus: true,
+    fixPriceStatus: true,
     solutionPriceDiscountPercentage: 5,
     orderDate: "4/29/2024",
     orderStatus: true,
@@ -431,16 +576,18 @@ export const customerOrderHistory = [
   },
   {
     orderID: 98765,
-    customerID: 67890,
-    firstName: "Samuel",
-    lastName: "Jackson",
-    country: "United States",
-    address: "742 Evergreen Terrace",
-    city: "Springfield",
-    state: "Illinois",
-    zip: "62704",
-    phoneNumber: "5551234567",
-    email: "samuel.jackson@example.com",
+    customerInfo: {
+      customerID: 67890,
+      firstName: "Samuel",
+      lastName: "Jackson",
+      country: "United States",
+      address: "742 Evergreen Terrace",
+      city: "Springfield",
+      state: "Illinois",
+      zip: "62704",
+      phoneNumber: "5551234567",
+      email: "samuel.jackson@example.com",
+    },
     solutionDateContract: {
       solutionDate: "July/28/2024",
       longTermContract: "",
@@ -456,7 +603,7 @@ export const customerOrderHistory = [
     talentFirstName: "Jane",
     talentLastName: "Smith",
     solutionPrice: 200,
-    solutionPricePerHourStatus: true,
+    fixPriceStatus: true,
     solutionPriceDiscountPercentage: 10,
     orderDate: "July/01/2024",
     orderStatus: true,
@@ -465,16 +612,18 @@ export const customerOrderHistory = [
   },
   {
     orderID: 11223,
-    customerID: 34567,
-    firstName: "Emily",
-    lastName: "Blunt",
-    country: "United States",
-    address: "1600 Pennsylvania Ave NW",
-    city: "Washington",
-    state: "DC",
-    zip: "20500",
-    phoneNumber: "2024567890",
-    email: "emily.blunt@example.com",
+    customerInfo: {
+      customerID: 34567,
+      firstName: "Emily",
+      lastName: "Blunt",
+      country: "United States",
+      address: "1600 Pennsylvania Ave NW",
+      city: "Washington",
+      state: "DC",
+      zip: "20500",
+      phoneNumber: "2024567890",
+      email: "emily.blunt@example.com",
+    },
     solutionDateContract: {
       solutionDate: "July/30/2024",
       longTermContract: "",
@@ -490,7 +639,7 @@ export const customerOrderHistory = [
     talentFirstName: "Michael",
     talentLastName: "Jordan",
     solutionPrice: 150,
-    solutionPricePerHourStatus: false,
+    fixPriceStatus: false,
     solutionPriceDiscountPercentage: 15,
     orderDate: "5/02/2024",
     orderStatus: true,
@@ -499,16 +648,18 @@ export const customerOrderHistory = [
   },
   {
     orderID: 44556,
-    customerID: 78901,
-    firstName: "Robert",
-    lastName: "Downey",
-    country: "United States",
-    address: "350 Fifth Ave",
-    city: "New York",
-    state: "New York",
-    zip: "10118",
-    phoneNumber: "2127363100",
-    email: "robert.downey@example.com",
+    customerInfo: {
+      customerID: 78901,
+      firstName: "Robert",
+      lastName: "Downey",
+      country: "United States",
+      address: "350 Fifth Ave",
+      city: "New York",
+      state: "New York",
+      zip: "10118",
+      phoneNumber: "2127363100",
+      email: "robert.downey@example.com",
+    },
     solutionDateContract: {
       solutionDate: "July/01/2024",
       longTermContract: "",
@@ -524,7 +675,7 @@ export const customerOrderHistory = [
     talentFirstName: "Chris",
     talentLastName: "Evans",
     solutionPrice: 300,
-    solutionPricePerHourStatus: true,
+    fixPriceStatus: true,
     solutionPriceDiscountPercentage: 20,
     orderDate: "5/03/2024",
     orderStatus: true,
@@ -533,7 +684,8 @@ export const customerOrderHistory = [
   },
 ];
 
-export const cSettings = {
+// Done
+export const solutionistWorkSettings = {
   businessStartTime: "08:00 AM",
   businessEndTime: "20:00 Pm",
   oneBlockedStatus: true,
@@ -541,16 +693,10 @@ export const cSettings = {
   bandStatus: false,
   availableDays: ["Monday", "Tuesday", "Wednesday", "Thursday"],
   vacationStatus: false,
-  vacationStartDate: "06/20/2024",
-  vacationEndDate: "06/24/2024",
+  vacationStartDate: "07/10/2024",
+  vacationEndDate: "07/24/2024",
   twentyFourHoursStatus: false,
   twelveHoursStatus: true,
-};
-
-export const talentProfile = {
-  talentID: 111111,
-  fullName: "Jessa During",
-  jobTitles: ["Software Engineer", "Fullstack Developer"],
 };
 
 export const talentProjectImages = {

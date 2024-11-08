@@ -1,9 +1,9 @@
 import { useEffect } from "react";
 import { breakUpDate, compareDates, customerOrderHistory } from "../../lib";
 import { useCalenderStates } from "../../lib/useCalenderStates";
-import { CustomerOrder } from "../../lib/types/OrderSolutionTypes";
-import { DateTimeSelection } from "../Hire-A-Talent/DateTimeSelection";
+import { DateTimeSelection } from "../customer-calender-time/DateTimeSelection";
 import { MainTitle } from "../common-sections/MainTitle";
+import { CustomerFormData } from "../../lib/types/OrderSolutionTypes";
 
 export const EditOrder: React.FC = () => {
   const today = new Date();
@@ -12,7 +12,7 @@ export const EditOrder: React.FC = () => {
 
   const order = customerOrderHistory.find(
     (data) => data.orderID === 0
-  ) as CustomerOrder; // Todo: use this to get customer previous order to edit
+  ) as CustomerFormData; // Todo: use this to get customer previous order to edit
 
   const oldDate = breakUpDate(order?.orderDate);
   const oldDateString = `${oldDate?.month}/${oldDate?.day}/${oldDate?.year}`;

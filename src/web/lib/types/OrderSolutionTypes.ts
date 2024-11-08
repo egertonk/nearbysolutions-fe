@@ -57,16 +57,18 @@ export type TalentInformation = {
 
 export type CustomerFormData = {
   orderID: number;
-  customerID: number;
-  firstName: string;
-  lastName: string;
-  country: string;
-  address: string;
-  city: string;
-  state: string;
-  zip: string;
-  phoneNumber: string;
-  email: string;
+  customerInfo: {
+    customerID: number;
+    firstName: string;
+    lastName: string;
+    country: string;
+    address: string;
+    city: string;
+    state: string;
+    zip: string;
+    phoneNumber: string;
+    email: string;
+  };
   solutionDateContract: {
     solutionDate: string;
     longTermContract?: string;
@@ -82,42 +84,10 @@ export type CustomerFormData = {
   talentFirstName: string;
   talentLastName: string;
   solutionPrice: number;
-  solutionPricePerHourStatus: boolean;
+  fixPriceStatus: boolean;
   solutionPriceDiscountPercentage: number;
   orderDate: string;
   orderStatus: boolean;
   giftStatus: boolean;
   giftFor_fullName: string;
-};
-
-export type CustomerOrder = {
-  orderID: number;
-  customerID: number;
-  firstName: string;
-  lastName: string;
-  country: string;
-  address: string;
-  city: string;
-  state: string;
-  zip: string;
-  phoneNumber: string;
-  solutionDateContract: {
-    solutionDate: string;
-    longTermContract: string;
-    longTermstartDate: string;
-    longTermEndDate: string;
-    solutionFormattedDate: string;
-  };
-  solutionTask: string;
-  solutionJob: string;
-  solutionStartTime: string;
-  selectedTalent: string;
-  talentID: number;
-  talentFirstName: string;
-  talentLastName: string;
-  solutionPrice: number;
-  solutionPricePerHourStatus: boolean;
-  solutionPriceDiscountPercentage: number;
-  orderDate: string;
-  orderStatus: boolean;
 };

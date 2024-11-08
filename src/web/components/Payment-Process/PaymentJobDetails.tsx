@@ -6,7 +6,7 @@ export const PaymentJobDetails: React.FC = () => {
   const customerOrder = useSelector(
     (state: RootState) => state.formData.customerOrder
   );
-  const address = `${customerOrder.address}, ${customerOrder.city}, ${customerOrder.state}, ${customerOrder.zip}.`;
+  const address = `${customerOrder.customerInfo.address}, ${customerOrder.customerInfo.city}, ${customerOrder.customerInfo.state}, ${customerOrder.customerInfo.zip}.`;
   const [imageUrl, setImageUrl] = useState("");
 
   const googleMapURL = "https://maps.googleapis.com/maps/api/staticmap";
@@ -62,9 +62,11 @@ export const PaymentJobDetails: React.FC = () => {
 
           <div>
             <h3 className="font-semibold">Job Address</h3>
-            <p>{customerOrder.address}</p>
+            <p>{customerOrder.customerInfo.address}</p>
             <p>
-              {customerOrder.city}, {customerOrder.state}, {customerOrder.zip}.
+              {customerOrder.customerInfo.city},{" "}
+              {customerOrder.customerInfo.state},{" "}
+              {customerOrder.customerInfo.zip}.
             </p>
           </div>
         </div>

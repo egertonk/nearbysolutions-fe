@@ -9,26 +9,14 @@ import { RootState } from "../../store";
 import { DateSelection } from "./types/CalenderTypes";
 import { useCalender } from "./useCalender";
 import { orderStates } from "../../store/defualtStates";
+import { JobTitleTypes, TalentTypes } from "../components/talent/talentTypes";
 
 export const useCustomerPersonalInfoForm = (
-  selectedTalent?: string,
   userSelectedTime?: string,
   formattedDate?: string,
   userSelectedDate?: DateSelection,
-  setSelectedTalent?: (value: React.SetStateAction<string>) => void,
-  jobDetails?:
-    | {
-        isFixPrice: boolean;
-        selectedStatus: boolean;
-        title: string;
-        price: {
-          fixPrice: number;
-          ratePerHour: number;
-          discount: number;
-        };
-      }
-    | undefined,
-  talent?: TalentInformation | undefined
+  jobDetails?: JobTitleTypes | undefined,
+  solutionistDeatils?: TalentTypes
 ) => {
   const { today } = useCalender();
   const dispatch = useDispatch();
@@ -37,12 +25,12 @@ export const useCustomerPersonalInfoForm = (
   );
 
   const priceWithoutDiscount = jobDetails?.isFixPrice
-    ? jobDetails.price.fixPrice
-    : jobDetails?.price.ratePerHour || 0;
+    ? jobDetails.fixPrice
+    : jobDetails?.ratePerHour || 0;
 
   const discountGiven = jobDetails?.isFixPrice
-    ? jobDetails.price.discount
-    : jobDetails?.price.discount || 0;
+    ? jobDetails.discount
+    : jobDetails?.discount || 0;
 
   const [formData, setFormData] = useState<CustomerFormData>(orderStates);
 
@@ -54,9 +42,9 @@ export const useCustomerPersonalInfoForm = (
       ...prevFormData,
       [id]: value,
     }));
-    if (id === "selectedTalent" && setSelectedTalent) {
-      setSelectedTalent(value);
-    }
+    // if (id === "selectedTalent" && setSelectedTalent) {
+    //   setSelectedTalent(value);
+    // }
   };
 
   const updateSolutionDetails = (id: string, value: string) => {
@@ -65,59 +53,63 @@ export const useCustomerPersonalInfoForm = (
       [`${id}`]: value,
     }));
   };
-
+  console.log("customerOrder22222222 = ", customerOrder);
   useEffect(() => {
-    dispatch(
-      setCustomerOrder({
-        orderID: customerOrder.orderID,
-        customerID: customerOrder.customerID || 0, // we can generated it later and it should never be null
-        firstName: customerOrder.firstName || "",
-        lastName: customerOrder.lastName || "",
-        country: customerOrder.country || "",
-        address: customerOrder.address || "",
-        city: customerOrder.city || "",
-        state: customerOrder.state || "",
-        zip: customerOrder.zip || "",
-        phoneNumber: customerOrder.phoneNumber || "5713301230",
-        email: customerOrder.email || "",
-        solutionDateContract: {
-          solutionDate:
-            customerOrder.solutionDateContract.solutionDate ||
-            `${userSelectedDate?.month}/${userSelectedDate?.day}/${userSelectedDate?.year}` ||
-            "",
-          longTermContract:
-            customerOrder.solutionDateContract.longTermContract || "",
-          longTermstartDate:
-            customerOrder.solutionDateContract.longTermstartDate || "",
-          longTermEndDate:
-            customerOrder.solutionDateContract.longTermEndDate || "",
-          solutionFormattedDate:
-            customerOrder.solutionDateContract.solutionFormattedDate ||
-            formattedDate ||
-            "",
-        },
+    console.log("solutionist1111111111 = ", solutionistDeatils);
+    const orderData = {
+      orderID: customerOrder.orderID,
+      customerInfo: {
+        customerID: customerOrder.customerInfo.customerID || 0, // we can generated it later and it should never be null
+        firstName: customerOrder.customerInfo.firstName || "",
+        lastName: customerOrder.customerInfo.lastName || "",
+        country: customerOrder.customerInfo.country || "",
+        address: customerOrder.customerInfo.address || "",
+        city: customerOrder.customerInfo.city || "",
+        state: customerOrder.customerInfo.state || "",
+        zip: customerOrder.customerInfo.zip || "",
+        phoneNumber: customerOrder.customerInfo.phoneNumber || "5713301230",
+        email: customerOrder.customerInfo.email || "",
+      },
+      solutionDateContract: {
+        solutionDate:
+          customerOrder.solutionDateContract.solutionDate ||
+          `${userSelectedDate?.month}/${userSelectedDate?.day}/${userSelectedDate?.year}` ||
+          "",
+        longTermContract:
+          customerOrder.solutionDateContract.longTermContract || "",
+        longTermstartDate:
+          customerOrder.solutionDateContract.longTermstartDate || "",
+        longTermEndDate:
+          customerOrder.solutionDateContract.longTermEndDate || "",
+        solutionFormattedDate:
+          customerOrder.solutionDateContract.solutionFormattedDate ||
+          formattedDate ||
+          "",
+      },
 
-        solutionTask: customerOrder.solutionTask || "",
-        solutionJob: jobDetails?.title || customerOrder.solutionJob || "",
-        solutionStartTime:
-          userSelectedTime || customerOrder.solutionStartTime || "",
-        selectedTalent: selectedTalent || customerOrder.selectedTalent || "",
-        talentID: talent?.talentID || customerOrder.talentID || 0, // it should never be null
-        talentFirstName:
-          talent?.firstName || customerOrder.talentFirstName || "",
-        talentLastName: talent?.lastName || customerOrder.talentLastName || "",
-        solutionPrice: customerOrder.solutionPrice || priceWithoutDiscount,
-        solutionPricePerHourStatus:
-          jobDetails?.isFixPrice ??
-          (customerOrder.solutionPricePerHourStatus || false),
-        solutionPriceDiscountPercentage:
-          customerOrder.solutionPriceDiscountPercentage || discountGiven,
-        orderDate: `${today}`,
-        orderStatus: customerOrder.orderStatus || false,
-        giftStatus: customerOrder.giftStatus || false,
-        giftFor_fullName: customerOrder.giftFor_fullName || "",
-      })
-    );
+      solutionTask: customerOrder.solutionTask || "",
+      solutionJob: jobDetails?.title || customerOrder.solutionJob || "",
+      solutionStartTime:
+        userSelectedTime || customerOrder.solutionStartTime || "",
+      selectedTalent: jobDetails?.title || "",
+      talentID: solutionistDeatils?.talent?.user.id || 0, // it should never be null
+      talentFirstName: solutionistDeatils?.talent?.user.firstName || "",
+      talentLastName: solutionistDeatils?.talent?.user?.lastName || "",
+      solutionPrice:
+        (jobDetails?.isFixPrice
+          ? jobDetails.fixPrice
+          : jobDetails?.ratePerHour) || 0,
+      fixPriceStatus:
+        jobDetails?.isFixPrice ?? (customerOrder.fixPriceStatus || false),
+      solutionPriceDiscountPercentage:
+        customerOrder.solutionPriceDiscountPercentage || discountGiven,
+      orderDate: `${today}`,
+      orderStatus: customerOrder.orderStatus || false,
+      giftStatus: customerOrder.giftStatus || false,
+      giftFor_fullName: customerOrder.giftFor_fullName || "",
+    };
+    console.log("orderData1111111 = ", orderData);
+    dispatch(setCustomerOrder(orderData));
   }, []);
 
   return {

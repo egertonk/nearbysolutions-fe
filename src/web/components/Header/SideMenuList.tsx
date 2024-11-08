@@ -120,7 +120,7 @@ export const SideMenuList: React.FC = () => {
               type="button"
               className={menuItemCSS}
               onClick={() => console.log(true)}
-              to={""}
+              to={"/rent-your-tools"}
             >
               <svg
                 xmlns="http://www.w3.org/2000/svg"

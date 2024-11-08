@@ -1,5 +1,5 @@
 import { useDispatch, useSelector } from "react-redux";
-import { CustomerPersonalInfoForm } from "./CustomerPersonalInfoForm";
+import { CustomerPersonalInfoForm } from "../customer/CustomerPersonalInfoForm";
 import { RootState } from "../../../store";
 import {
   setCustomerOrder,
@@ -7,7 +7,7 @@ import {
 } from "../../../store/customerContractorSlice";
 import { CustomerFormData } from "../../lib/types/OrderSolutionTypes";
 import { useNavigate } from "react-router";
-import { MainTitle } from "./MainTitle";
+import { MainTitle } from "../common-sections/MainTitle";
 
 export const CalenderForm: React.FC = () => {
   const dispatch = useDispatch();
@@ -22,13 +22,34 @@ export const CalenderForm: React.FC = () => {
       "giftFor_fullName",
       "giftStatus",
       "longTermContract",
+      "orderID", // Delete from here to down
+      "customerInfo",
+      "solutionDateContract",
+      "solutionTask",
+      "solutionJob",
+      "solutionStartTime",
+      "selectedTalent",
+      "talentID",
+      "talentFirstName",
+      "talentLastName",
+      "solutionPrice",
+      "fixPriceStatus",
+      "solutionPriceDiscountPercentage",
+      "orderDate",
     ];
-    return Object.entries(customerOrder.customerOrder).every(([key, value]) => {
-      if (!excludedFields.includes(key)) {
-        return value?.toString()?.length > 0;
+
+    const result = Object.entries(customerOrder.customerOrder).every(
+      ([key, value]) => {
+        console.log(key, "   ");
+
+        if (!excludedFields.includes(key)) {
+          return value?.toString()?.length > 0;
+        }
+        return true;
       }
-      return true;
-    });
+    );
+
+    return result;
   };
 
   const handleSubmit = () => {
@@ -60,11 +81,7 @@ export const CalenderForm: React.FC = () => {
 
       <div className="justify-center -mx-3 mb-1">
         <p className="text-gray-900 dark:text-white text-base font-medium mb-3 text-center font-heading text-purple-800">
-          {`Talent Name: ${
-            isEditOrder
-              ? `${customerOrder.order.firstName} ${customerOrder.order.lastName}`
-              : `${customerOrder.customerOrder.talentFirstName} ${customerOrder.customerOrder.talentLastName}`
-          }`}
+          {`Talent Name: ${customerOrder.customerOrder.talentFirstName} ${customerOrder.customerOrder.talentLastName}`}
         </p>
         <p className="flex justify-center text-gray-900 dark:text-white text-base font-medium mb-3 text-center font-heading">
           {`Date: ${customerOrder.customerOrder.solutionDateContract.solutionFormattedDate} | Time: ${customerOrder.customerOrder.solutionStartTime}`}
@@ -74,8 +91,7 @@ export const CalenderForm: React.FC = () => {
           {customerOrder.customerOrder.solutionJob}{" "}
           {isEditOrder ? (
             <>
-              {customerOrder.customerOrder.solutionPricePerHourStatus ===
-              false ? (
+              {customerOrder.customerOrder.fixPriceStatus === false ? (
                 <>
                   <span className="font-heading text-purple-800">
                     Fix Price:{" $"}
@@ -94,7 +110,7 @@ export const CalenderForm: React.FC = () => {
           ) : (
             <>
               <span className="font-heading text-purple-800">
-                {customerOrder.customerOrder.solutionPricePerHourStatus
+                {customerOrder.customerOrder.fixPriceStatus
                   ? "Fix Price: $"
                   : "Price Per Hour: $"}
               </span>

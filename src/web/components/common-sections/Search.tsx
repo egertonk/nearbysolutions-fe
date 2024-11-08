@@ -1,11 +1,11 @@
 import React, { useState } from "react";
-import { TalentInformation } from "../../lib/types/OrderSolutionTypes";
 import { SearchUI } from "./SearchUI";
+import { TalentTypes } from "../talent/talentTypes";
 
 type Props = {
-  searchResults: TalentInformation[] | [];
-  fallBackData: TalentInformation[];
-  setSearchResults: React.Dispatch<React.SetStateAction<TalentInformation[]>>;
+  searchResults: TalentTypes[] | [];
+  fallBackData: TalentTypes[] | undefined;
+  setSearchResults: React.Dispatch<React.SetStateAction<TalentTypes[]>>;
 };
 
 export const Search: React.FC<Props> = ({
@@ -15,27 +15,26 @@ export const Search: React.FC<Props> = ({
 }) => {
   const [userSearch, setUserSearch] = useState("");
 
-  const getAllJobTitles = (talentInfo: TalentInformation[] | []) => {
+  const getAllJobTitles = (talentInfo: TalentTypes[] | []) => {
     return talentInfo.flatMap((talent) =>
-      talent.jobTitlesPrice.map((job) => job.title)
+      talent?.talent?.jobTitle?.map((job) => job?.title)
     );
   };
 
-  const jobTitlesArray = getAllJobTitles(searchResults); // from a api supported jobs
+  const jobTitlesArray = getAllJobTitles(searchResults);
 
   const handleOnChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const { value } = e.target;
 
     setUserSearch(value);
-    if (value.length === 0) setSearchResults(fallBackData);
+    if (value.length === 0 && fallBackData) setSearchResults(fallBackData);
   };
 
   const handleSubmit = () => {
     if (userSearch.length > 0) {
       const matchJobs = searchResults.filter((talent) =>
-        talent.jobTitlesPrice.some((job) => job.title.includes(userSearch))
+        talent?.talent?.jobTitle?.some((job) => job.title.includes(userSearch))
       );
-
       setSearchResults(matchJobs);
     }
   };

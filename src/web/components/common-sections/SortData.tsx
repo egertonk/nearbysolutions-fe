@@ -16,7 +16,7 @@ export const SortData: React.FC<Props> = ({ handleSort, sortList }) => {
 
   return (
     <>
-      <div className="relative flex justify-end mb-2 -mt-4">
+      <div className="relative flex justify-end mb-2 -mt-4" id="sorted-data">
         <div className="relative w-35 text-end">
           <button
             className="text-black-300 px-6 py-1 flex items-center justify-between space-x-4"

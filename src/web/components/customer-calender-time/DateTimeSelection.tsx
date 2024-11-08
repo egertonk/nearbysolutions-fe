@@ -5,7 +5,7 @@ import { orderSortList, useOrders } from "../../lib/useOrders";
 import { SortData } from "../common-sections/SortData";
 import { TableHeader } from "../common-sections/TableHeader";
 import { Calender, extractDateParts } from "../common-sections/calender";
-import { DatePicker } from "../common-sections/datePicker";
+import { DatePicker } from "./datePicker";
 import { RootState } from "../../../store";
 import { CustomerFormData } from "../../lib/types/OrderSolutionTypes";
 import { setCustomerOrder } from "../../../store/customerContractorSlice";
@@ -177,7 +177,7 @@ export const DateTimeSelection: React.FC<Props> = ({ isDateChangeAllow }) => {
                       key={`3-${index}`}
                     >
                       <div className="w-full md:w-60 text-center md:text-left mr-2">
-                        {customerID === order.customerID && (
+                        {customerID === order.customerInfo.customerID && (
                           <>
                             <div className="text-sm">
                               <span className="text-base font-semibold">
@@ -189,7 +189,7 @@ export const DateTimeSelection: React.FC<Props> = ({ isDateChangeAllow }) => {
                               <span className="text-base font-semibold">
                                 Customer Name:
                               </span>{" "}
-                              {`${order.firstName} ${order.lastName}`}
+                              {`${order.customerInfo.firstName} ${order.customerInfo.lastName}`}
                             </div>{" "}
                           </>
                         )}
@@ -201,20 +201,20 @@ export const DateTimeSelection: React.FC<Props> = ({ isDateChangeAllow }) => {
                           {order.solutionStartTime}
                         </div>
 
-                        {customerID === order.customerID ? (
+                        {customerID === order.customerInfo.customerID ? (
                           <div className="text-sm">
                             <span className="text-base font-semibold">
                               Location:
                             </span>{" "}
-                            {`${order.address}`}
-                            <p>{`${order.city}, ${order.state}, ${order.zip}.`}</p>
+                            {`${order.customerInfo.address}`}
+                            <p>{`${order.customerInfo.city}, ${order.customerInfo.state}, ${order.customerInfo.zip}.`}</p>
                           </div>
                         ) : (
                           <div className="text-sm">
                             <span className="text-base font-semibold">
                               Location:
                             </span>{" "}
-                            {`${order.city}, ${order.state}.`}
+                            {`${order.customerInfo.city}, ${order.customerInfo.state}.`}
                           </div>
                         )}
                       </div>
@@ -234,7 +234,7 @@ export const DateTimeSelection: React.FC<Props> = ({ isDateChangeAllow }) => {
                           {order.selectedTalent}
                         </div>
 
-                        {customerID === order.customerID && (
+                        {customerID === order.customerInfo.customerID && (
                           <>
                             <div className="text-sm">
                               <span className="text-base font-semibold">
