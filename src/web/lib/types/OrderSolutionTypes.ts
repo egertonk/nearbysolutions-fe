@@ -75,10 +75,10 @@ export type CustomerFormData = {
     longTermstartDate?: string;
     longTermEndDate?: string;
     solutionFormattedDate: string;
+    solutionStartTime: string;
   };
   solutionTask: string;
   solutionJob: string;
-  solutionStartTime: string;
   selectedTalent: string;
   talentID: number;
   talentFirstName: string;

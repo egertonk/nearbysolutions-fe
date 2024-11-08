@@ -28,10 +28,10 @@ export const orderStates = {
     longTermstartDate: "",
     longTermEndDate: "",
     solutionFormattedDate: "",
+    solutionStartTime: "",
   },
   solutionTask: "",
   solutionJob: "",
-  solutionStartTime: "",
   selectedTalent: "",
   talentID: 0, // it should never be null
   talentFirstName: "",

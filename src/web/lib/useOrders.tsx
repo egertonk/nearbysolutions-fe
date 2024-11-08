@@ -154,7 +154,10 @@ export const useOrders = (
           parseInt(minutes, 10)
         );
       };
-      return parseTime(a.solutionStartTime) - parseTime(b.solutionStartTime);
+      return (
+        parseTime(a.solutionDateContract.solutionStartTime) -
+        parseTime(b.solutionDateContract.solutionStartTime)
+      );
     });
 
     setFilteredOrders(sortedOrders);

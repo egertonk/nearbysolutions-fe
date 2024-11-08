@@ -84,7 +84,7 @@ export const Orders: React.FC<Props> = ({ isOrderSumary }) => {
                           <span className="text-base font-semibold">
                             Start Time:
                           </span>{" "}
-                          {order.solutionStartTime}
+                          {order.solutionDateContract.solutionStartTime}
                         </div>
 
                         <div className="text-sm">

@@ -1,10 +1,14 @@
-import { useEffect, useState } from "react";
+import { useState } from "react";
+import { useDispatch, useSelector } from "react-redux";
 import { isFixPriceValid, priceWithComma } from "../../lib";
 import { SocialIcon } from "./socialIcon";
 import { JobTitleTypes, TalentTypes } from "../talent/talentTypes";
 import { SolutionistCheckMark } from "./SolutionistCheckMark";
 import { SolutionistImageHire } from "./SolutionistImageHire";
 import { SolutionistFavoriteAddAndRemove } from "./SolutionistFavoriteAddAndRemove";
+import { setCustomerOrder } from "../../../store/customerContractorSlice";
+import { RootState } from "../../../store";
+import { solutionDate, solutionFormattedDate } from "../customer-calender-time";
 
 type Props = {
   data: TalentTypes[];
@@ -12,14 +16,29 @@ type Props = {
 };
 
 export const SolutionistCard: React.FC<Props> = ({ data, isFavoriteValid }) => {
+  const dispatch = useDispatch();
   const [id, setId] = useState<Number>(-1);
   const [jobId, setJobId] = useState<Number>(-1);
-  console.log("id  = ", id);
+
+  const customerOrder = useSelector(
+    (state: RootState) => state.formData.customerOrder
+  );
 
   const updateSelectedStatus = (selectedJobId: string, userId: number) => {
     if (selectedJobId !== "select-job") {
       setId(userId);
       setJobId(Number(selectedJobId));
+
+      const updatedOrder = {
+        ...customerOrder,
+        solutionDateContract: {
+          ...customerOrder.solutionDateContract,
+          solutionDate,
+          solutionFormattedDate,
+        },
+      };
+
+      dispatch(setCustomerOrder(updatedOrder));
     }
   };
 
@@ -87,7 +106,7 @@ export const SolutionistCard: React.FC<Props> = ({ data, isFavoriteValid }) => {
               index={index}
               jobId={jobId}
               disabled={id !== talentData.talent.user.id}
-              isFavoriteValid
+              isFavoriteValid={false}
               talentData={talentData}
             />
 

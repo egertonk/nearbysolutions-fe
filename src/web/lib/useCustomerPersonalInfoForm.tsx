@@ -85,12 +85,14 @@ export const useCustomerPersonalInfoForm = (
           customerOrder.solutionDateContract.solutionFormattedDate ||
           formattedDate ||
           "",
+        solutionStartTime:
+          userSelectedTime ||
+          customerOrder.solutionDateContract.solutionStartTime ||
+          "",
       },
 
       solutionTask: customerOrder.solutionTask || "",
       solutionJob: jobDetails?.title || customerOrder.solutionJob || "",
-      solutionStartTime:
-        userSelectedTime || customerOrder.solutionStartTime || "",
       selectedTalent: jobDetails?.title || "",
       talentID: solutionistDeatils?.talent?.user.id || 0, // it should never be null
       talentFirstName: solutionistDeatils?.talent?.user.firstName || "",

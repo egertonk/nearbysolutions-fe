@@ -62,7 +62,7 @@ export const WorkOrderList: React.FC<Props> = ({
                         <span className="text-xs leading-4 font-normal text-gray-500 pr">
                           Start Time:
                         </span>{" "}
-                        {order.solutionStartTime}
+                        {order.solutionDateContract.solutionStartTime}
                       </div>
                     </div>
 

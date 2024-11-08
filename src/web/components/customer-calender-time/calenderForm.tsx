@@ -84,7 +84,7 @@ export const CalenderForm: React.FC = () => {
           {`Talent Name: ${customerOrder.customerOrder.talentFirstName} ${customerOrder.customerOrder.talentLastName}`}
         </p>
         <p className="flex justify-center text-gray-900 dark:text-white text-base font-medium mb-3 text-center font-heading">
-          {`Date: ${customerOrder.customerOrder.solutionDateContract.solutionFormattedDate} | Time: ${customerOrder.customerOrder.solutionStartTime}`}
+          {`Date: ${customerOrder.customerOrder.solutionDateContract.solutionFormattedDate} | Time: ${customerOrder.customerOrder.solutionDateContract.solutionStartTime}`}
         </p>
         <p className="text-gray-900 dark:text-white text-base font-medium mb-3 text-center">
           <span className="font-heading text-purple-800">Job:</span>{" "}

@@ -23,42 +23,14 @@ export const TalentDetailPage: React.FC = () => {
   const talentId = searchParams.get("talentId"); // Access `talentId` directly
   const jobId = searchParams.get("jobId"); // Access `jobId` directly
 
-  console.log("jobId = ", jobId);
-  console.log("talentId = ", talentId);
   const { data: solutionistDeatils, isFetching } = useGetUserWithId(
     Number(talentId)
   );
-
-  // const talent = user?.find((userData) => {
-  //   return userData?.talent?.user?.id.toString() === talentID?.toString();
-  // });
-
-  // const jobDetails = talent?.talent?.jobTitle.find(
-  //   (price) => price.selectedStatus
-  // );
-  // const { userSelectedTime, userSelectedDate, formattedDate } =
-  //   useCalenderStates();
-
-  // const [selectedTalent, setSelectedTalent] = useState(
-  //   solutionistDeatils?.talent?.talentId || ""
-  // );
-
-  // Initial states for personal order
-  // useCustomerPersonalInfoForm(
-  //   userSelectedTime,
-  //   formattedDate,
-  //   userSelectedDate,
-  //   jobDetails,
-  //   solutionistDeatils
-  // );
 
   useEffect(() => {
     const jobDetails = solutionistDeatils?.talent?.jobTitle.find(
       (job) => job?.id === Number(jobId)
     );
-
-    console.log("solutionist1111111111 = ", jobDetails);
-    console.log("solutionist1111111111 = ", solutionistDeatils);
 
     const updatedOrder: CustomerFormData = {
       ...customerOrder,
@@ -73,7 +45,6 @@ export const TalentDetailPage: React.FC = () => {
           : jobDetails?.ratePerHour) || 0,
     };
 
-    console.log("updatedOrder1111111 = ", updatedOrder);
     dispatch(setCustomerOrder(updatedOrder));
   }, [isFetching]);
 

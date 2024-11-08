@@ -40,8 +40,8 @@ export const DatePicker: React.FC<TimeProps> = ({
                 clipRule="evenodd"
               />
             </svg>
-            {customerOrder.solutionStartTime.length > 0
-              ? customerOrder.solutionStartTime
+            {customerOrder.solutionDateContract.solutionStartTime.length > 0
+              ? customerOrder.solutionDateContract.solutionStartTime
               : "Pick a time"}
           </button>
           <label className="sr-only">Pick a time</label>

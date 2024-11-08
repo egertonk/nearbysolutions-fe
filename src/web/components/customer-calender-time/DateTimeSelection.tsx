@@ -7,7 +7,6 @@ import { TableHeader } from "../common-sections/TableHeader";
 import { Calender, extractDateParts } from "../common-sections/calender";
 import { DatePicker } from "./datePicker";
 import { RootState } from "../../../store";
-import { CustomerFormData } from "../../lib/types/OrderSolutionTypes";
 import { setCustomerOrder } from "../../../store/customerContractorSlice";
 import { DateSelection } from "../../lib/types/CalenderTypes";
 
@@ -16,7 +15,7 @@ type Props = {
   isDateChangeAllow?: boolean;
 };
 
-export const DateTimeSelection: React.FC<Props> = ({ isDateChangeAllow }) => {
+export const DateTimeSelection: React.FC<Props> = () => {
   const dispatch = useDispatch();
   const customerOrder = useSelector(
     (state: RootState) => state.formData.customerOrder
@@ -55,7 +54,7 @@ export const DateTimeSelection: React.FC<Props> = ({ isDateChangeAllow }) => {
     );
 
   const solutionStartTimes = filteredOrders.map(
-    (order) => order.solutionStartTime
+    (order) => order.solutionDateContract.solutionStartTime
   );
   const previousDate = new Date(
     customerOrder.solutionDateContract.solutionDate
@@ -103,15 +102,13 @@ export const DateTimeSelection: React.FC<Props> = ({ isDateChangeAllow }) => {
     );
 
     const formattedDate = `${dayName} ${dateSelectedByUser?.day} ${dateSelectedByUser?.month} ${dateSelectedByUser?.year}`;
-    const newSolutionDateContract = {
-      solutionDate: solutionDate || "",
-      solutionFormattedDate: formattedDate,
-    };
 
-    const updatedOrder: CustomerFormData = {
+    const updatedOrder = {
       ...customerOrder,
       solutionDateContract: {
-        ...newSolutionDateContract,
+        ...customerOrder.solutionDateContract,
+        solutionDate: solutionDate || "",
+        solutionFormattedDate: formattedDate,
       },
     };
 
@@ -198,7 +195,7 @@ export const DateTimeSelection: React.FC<Props> = ({ isDateChangeAllow }) => {
                           <span className="text-base font-semibold">
                             Start Time:
                           </span>{" "}
-                          {order.solutionStartTime}
+                          {order.solutionDateContract.solutionStartTime}
                         </div>
 
                         {customerID === order.customerInfo.customerID ? (

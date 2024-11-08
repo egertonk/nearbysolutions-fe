@@ -52,7 +52,7 @@ export const Solutionist: React.FC = () => {
             searchResults={searchResults}
             fallBackData={user}
           />
-          {searchResults.length}
+
           {user !== undefined && (
             <div className="grid grid-cols-1 lg:grid-cols-4 gap-4">
               <SolutionistCard data={searchResults} />

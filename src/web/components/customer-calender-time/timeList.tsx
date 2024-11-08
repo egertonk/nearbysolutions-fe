@@ -41,9 +41,12 @@ export const TimeList: React.FC<TimeProps> = ({
   }[];
 
   const updateStore = (e: React.ChangeEvent<HTMLInputElement>) => {
-    const updatedOrder: CustomerFormData = {
+    const updatedOrder = {
       ...customerOrder,
-      solutionStartTime: e.target.value,
+      solutionDateContract: {
+        ...customerOrder.solutionDateContract,
+        solutionStartTime: e.target.value,
+      },
     };
 
     dispatch(setCustomerOrder(updatedOrder));
@@ -59,7 +62,8 @@ export const TimeList: React.FC<TimeProps> = ({
 
     if (isTimeSelectionAllow) return grayOutTime;
     else if (
-      twelveHour.toString() === customerOrder.solutionStartTime.toString()
+      twelveHour.toString() ===
+      customerOrder.solutionDateContract.solutionStartTime.toString()
     ) {
       return userTimeSelectedCSS;
     } else if (requiredData.isCurrentMonth) {
@@ -84,7 +88,7 @@ export const TimeList: React.FC<TimeProps> = ({
 
   const checkTimeForPreviousOrders = (time: string) => {
     const foundTime = filteredOrders.find((timeData) => {
-      return timeData.solutionStartTime === time;
+      return timeData.solutionDateContract.solutionStartTime === time;
     });
     if (foundTime) return true;
     return false;
@@ -105,7 +109,8 @@ export const TimeList: React.FC<TimeProps> = ({
                   key={`tim-li-${index}`}
                   className={`${
                     isTimeChangeAllow &&
-                    customerOrder.solutionStartTime === time.twelveHour &&
+                    customerOrder.solutionDateContract.solutionStartTime ===
+                      time.twelveHour &&
                     "bg-purple-600 text-white items-center justify-center w-full p-2 text-sm font-medium text-center  border rounded-lg border-blue-600 "
                   }`}
                 >
@@ -125,7 +130,8 @@ export const TimeList: React.FC<TimeProps> = ({
                       checkSchedule(time.twelveHour)
                         ? scheduleTimeSelectedCSS
                         : isTimeChangeAllow &&
-                          customerOrder.solutionStartTime === time.twelveHour
+                          customerOrder.solutionDateContract
+                            .solutionStartTime === time.twelveHour
                         ? ""
                         : availableTimeCSS
                     }`}

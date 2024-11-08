@@ -47,7 +47,7 @@ export const PaymentJobDetails: React.FC = () => {
 
           <div>
             <h3 className="font-semibold">Schedule Time</h3>
-            <span>{customerOrder.solutionStartTime}</span>
+            <span>{customerOrder.solutionDateContract.solutionStartTime}</span>
           </div>
 
           <div>
