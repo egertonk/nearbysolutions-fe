@@ -11,11 +11,12 @@ import { setCustomerOrder } from "../../../store/customerContractorSlice";
 import { DateSelection } from "../../lib/types/CalenderTypes";
 
 type Props = {
+  setIsCalenderReady: React.Dispatch<React.SetStateAction<boolean>>;
   isTimeChangeAllow?: boolean;
   isDateChangeAllow?: boolean;
 };
 
-export const DateTimeSelection: React.FC<Props> = () => {
+export const DateTimeSelection: React.FC<Props> = ({ setIsCalenderReady }) => {
   const dispatch = useDispatch();
   const customerOrder = useSelector(
     (state: RootState) => state.formData.customerOrder
@@ -114,7 +115,7 @@ export const DateTimeSelection: React.FC<Props> = () => {
 
     dispatch(setCustomerOrder(updatedOrder));
 
-    filterAndSortOrders(customerOrderHistory, solutionDate);
+    // filterAndSortOrders(customerOrderHistory, solutionDate);
   };
 
   return (
@@ -141,6 +142,7 @@ export const DateTimeSelection: React.FC<Props> = () => {
               : defaultDateSelected,
           isCurrentMonth,
           solutionStartTimes,
+          setIsCalenderReady,
         }}
         previousDateCheck={{ isPreviousCurrentDatesMonthYear, dateUpdate }}
         filteredOrders={filteredOrders}

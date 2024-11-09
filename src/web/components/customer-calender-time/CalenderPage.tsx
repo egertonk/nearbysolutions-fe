@@ -1,20 +1,23 @@
-import React, { useEffect } from "react";
+import React, { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
-import { useLocation } from "react-router-dom";
-import { useCalenderStates } from "../../lib/useCalenderStates";
-import { useCustomerPersonalInfoForm } from "../../lib/useCustomerPersonalInfoForm";
-import { useState } from "react";
-import { talentInformation } from "../../lib";
+import { useLocation, useNavigate } from "react-router-dom";
 import { DateTimeSelection } from "./DateTimeSelection";
 import { MainTitle } from "../common-sections/MainTitle";
 import { useGetUserWithId } from "../../utils/fetchEndpoints";
 import { RootState } from "../../../store";
 import { CustomerFormData } from "../../lib/types/OrderSolutionTypes";
 import { setCustomerOrder } from "../../../store/customerContractorSlice";
+import {
+  setAllSolutionistWorkSettings,
+  SolutionistWorkSetting,
+} from "../../../store/solutionistWorkSettingsSlice";
 
 export const TalentDetailPage: React.FC = () => {
   const location = useLocation();
+  const navigate = useNavigate();
   const dispatch = useDispatch();
+
+  const [isCalenderReady, setIsCalenderReady] = useState(false);
   const customerOrder = useSelector(
     (state: RootState) => state.formData.customerOrder
   );
@@ -46,6 +49,12 @@ export const TalentDetailPage: React.FC = () => {
     };
 
     dispatch(setCustomerOrder(updatedOrder));
+    dispatch(
+      setAllSolutionistWorkSettings(
+        solutionistDeatils?.talent
+          ?.solutionistWorkSettings[0] as SolutionistWorkSetting
+      )
+    );
   }, [isFetching]);
 
   return (
@@ -54,7 +63,18 @@ export const TalentDetailPage: React.FC = () => {
       <MainTitle title="Select Date and Time" />
 
       <div className="flex flex-col lg:flex-row justify-center">
-        <DateTimeSelection />
+        <DateTimeSelection setIsCalenderReady={setIsCalenderReady} />
+      </div>
+
+      <div className="w-full px-3 pt-4">
+        <button
+          className="mt-5 align-middle select-none font-sans font-bold text-center uppercase transition-all disabled:opacity-50 disabled:shadow-none disabled:pointer-events-none text-xs py-3 px-6 rounded-lg bg-purple-900 text-white shadow-md shadow-gray-900/10 hover:shadow-lg hover:shadow-gray-900/20 focus:opacity-[0.85] focus:shadow-none active:opacity-[0.85] active:shadow-none block w-full"
+          type="button"
+          onClick={() => isCalenderReady && navigate(`/customer-form`)}
+          disabled={isCalenderReady === false}
+        >
+          Next
+        </button>
       </div>
 
       <hr className="w-full h-1 mx-auto my-4 bg-purple-300 border-0 rounded md:my-10 dark:bg-gray-700"></hr>

@@ -38,10 +38,10 @@ export const EditOrder: React.FC = () => {
       <MainTitle title="Editing Order" />
 
       <div className="flex flex-col lg:flex-row justify-center">
-        <DateTimeSelection
+        {/* <DateTimeSelection
           isDateChangeAllow={isDateChangeAllow}
           isTimeChangeAllow={isDateChangeAllow}
-        />
+        /> */}
       </div>
     </>
   );

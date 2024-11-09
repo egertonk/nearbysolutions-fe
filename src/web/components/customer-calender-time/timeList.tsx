@@ -1,7 +1,5 @@
-import { useNavigate } from "react-router";
-import { solutionistWorkSettings, compareDates, isTimeValid } from "../../lib";
+import { compareDates, isTimeValid } from "../../lib";
 import { TimeProps } from "../../lib/types/CalenderTypes";
-import { CustomerFormData } from "../../lib/types/OrderSolutionTypes";
 import { useTimeIntervals } from "../../lib/useTimeIntervals";
 import { useDispatch, useSelector } from "react-redux";
 import { RootState } from "../../../store";
@@ -21,20 +19,25 @@ export const TimeList: React.FC<TimeProps> = ({
   filteredOrders,
 }) => {
   const dispatch = useDispatch();
-  const navigate = useNavigate();
-  const { isTimeSelectionAllow } = useVacationCheck(
-    requiredData.userSelectedDate
-  );
-  const { generate24HourIntervals, generateIntervals } = useTimeIntervals();
+
   const customerOrder = useSelector(
     (state: RootState) => state.formData.customerOrder
   );
-  const contractorSettings = solutionistWorkSettings; // API
+  const solutionistWorkSettings = useSelector(
+    (state: RootState) => state.solutionistWorkSettingsState
+  );
+
+  const { isTimeSelectionAllow } = useVacationCheck(
+    solutionistWorkSettings,
+    requiredData.userSelectedDate
+  );
+
+  const { generate24HourIntervals, generateIntervals } = useTimeIntervals();
 
   // Generate the intervals based on the provided start and end times
   const timeIntervals = generateIntervals(
-    contractorSettings.businessStartTime.substring(0, 5),
-    contractorSettings.businessEndTime.substring(0, 5)
+    solutionistWorkSettings.businessStartTime.substring(0, 5),
+    solutionistWorkSettings.businessEndTime.substring(0, 5)
   ) as {
     twentyFourHour: string;
     twelveHour: string;
@@ -50,7 +53,7 @@ export const TimeList: React.FC<TimeProps> = ({
     };
 
     dispatch(setCustomerOrder(updatedOrder));
-    navigate(`/customer-form`);
+    requiredData.setIsCalenderReady(true);
   };
 
   const getDateStyle = (twelveHour: string) => {
@@ -100,7 +103,7 @@ export const TimeList: React.FC<TimeProps> = ({
       className="grid w-full grid-cols-4 gap-2 mt-5"
       key={Math.random()}
     >
-      {contractorSettings.twelveHoursStatus
+      {solutionistWorkSettings.twelveHoursStatus
         ? timeIntervals.map((time, index) => (
             <>
               {requiredData.userSelectedDate?.day !== undefined &&

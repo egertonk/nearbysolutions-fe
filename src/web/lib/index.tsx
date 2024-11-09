@@ -684,21 +684,6 @@ export const customerOrderHistory = [
   },
 ];
 
-// Done
-export const solutionistWorkSettings = {
-  businessStartTime: "08:00 AM",
-  businessEndTime: "20:00 Pm",
-  oneBlockedStatus: true,
-  jobASAPStatus: false,
-  bandStatus: false,
-  availableDays: ["Monday", "Tuesday", "Wednesday", "Thursday"],
-  vacationStatus: false,
-  vacationStartDate: "07/10/2024",
-  vacationEndDate: "07/24/2024",
-  twentyFourHoursStatus: false,
-  twelveHoursStatus: true,
-};
-
 export const talentProjectImages = {
   jobTitles: [
     "https://images.unsplash.com/photo-1438761681033-6461ffad8d80?ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&ixlib=rb-1.2.1&auto=format&fit=crop&w=1170&q=80",

@@ -44,3 +44,18 @@ export const orderStates = {
   giftStatus: false,
   giftFor_fullName: "",
 };
+
+export const SolutionistWorkSettingsStates = {
+  id: 0,
+  businessStartTime: "", // Format: "HH:MM:SS"
+  businessEndTime: "", // Format: "HH:MM:SS"
+  oneBlockedStatus: false,
+  jobASAPStatus: false,
+  bandStatus: false,
+  availableDays: "", // JSON string representing an array of days
+  vacationStatus: false,
+  vacationStartDate: "", // Format: "YYYY-MM-DD"
+  vacationEndDate: "", // Format: "YYYY-MM-DD"
+  twentyFourHoursStatus: false,
+  twelveHoursStatus: false,
+};

@@ -71,6 +71,9 @@ export const Calender: React.FC<Props> = ({
 }) => {
   const { showNextMonth, userSelectedDate, updateDateSelection } =
     useCalenderStates();
+  const solutionistWorkSettings = useSelector(
+    (state: RootState) => state.solutionistWorkSettingsState
+  );
 
   const { showMonth, showYear } = currentMonthYear;
   const { month, year, day } = userSelectedDate;
@@ -100,6 +103,7 @@ export const Calender: React.FC<Props> = ({
 
   const getVacationStatus = (day: number) => {
     return isVacationValid(
+      solutionistWorkSettings,
       {
         day: day,
         month: month,
@@ -141,7 +145,13 @@ export const Calender: React.FC<Props> = ({
       year: showYear,
     };
 
-    if (isVacationValid(currentCalendarVacationCheck, weeksArray)) {
+    if (
+      isVacationValid(
+        solutionistWorkSettings,
+        currentCalendarVacationCheck,
+        weeksArray
+      )
+    ) {
       console.log("1--");
       return vacationCSS;
     } else if (day === days.day && sameMonth) {
@@ -283,6 +293,7 @@ export const Calender: React.FC<Props> = ({
                       <div
                         className={`${
                           isVacationValid(
+                            solutionistWorkSettings,
                             {
                               day: days.day,
                               month: month || "",

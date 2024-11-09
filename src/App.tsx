@@ -50,7 +50,7 @@ function App() {
           {/* Hire A Talent */}
           <Route path="/hire-a-talent" element={<Solutionist />} />
           <Route path="/talent-detail-page" element={<TalentDetailPage />} />
-          <Route path="date-time-selection" element={<DateTimeSelection />} />
+          {/* <Route path="date-time-selection" element={<DateTimeSelection />} /> */}
           <Route path="/customer-form" element={<CalenderForm />} />
           <Route path="/order-summary" element={<OrderSumary />} />
 

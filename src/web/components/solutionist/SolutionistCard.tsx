@@ -51,8 +51,8 @@ export const SolutionistCard: React.FC<Props> = ({ data, isFavoriteValid }) => {
     jobDetailsObject: JobTitleTypes[],
     userId: number
   ) => {
-    const foundJob = jobDetailsObject.find(
-      (job) => job.id === jobId && job.title
+    const foundJob = jobDetailsObject?.find(
+      (job) => job?.id === jobId && job?.title
     );
 
     if (userId === id && foundJob?.id === jobId) {
@@ -145,8 +145,8 @@ export const SolutionistCard: React.FC<Props> = ({ data, isFavoriteValid }) => {
                   >
                     <option value="">
                       {getSelectedJob(
-                        talentData.talent.jobTitle,
-                        talentData.talent.user.id
+                        talentData?.talent?.jobTitle,
+                        talentData?.talent?.user.id
                       )}
                     </option>
                     {talentData.talent.jobTitle?.map((details) => (

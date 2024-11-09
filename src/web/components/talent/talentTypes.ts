@@ -1,5 +1,7 @@
 // Our Solutionist talent types
 
+import { SolutionistWorkSetting } from "../../../store/solutionistWorkSettingsSlice";
+
 // Define interfaces for the structure
 export interface User {
   id: number;
@@ -74,92 +76,12 @@ export interface Talent {
   addresses: Address[];
   socialMedia: SocialMedia[];
   jobTitle: JobTitleTypes[];
+  solutionistWorkSettings: SolutionistWorkSetting[];
 }
 
 export interface TalentTypes {
   talent: Talent;
 }
-
-
-// export type TalentTypes = {
-//   talentId: number;
-//   imageSource: string;
-//   talentIntroduction: string;
-//   vacationStatus: boolean;
-//   verifyStatus: boolean;
-//   vacationDaysOff: string | null;
-//   user: User;
-//   skills: Skill[];
-//   addresses: Address[];
-//   socialMedia: SocialMedia[];
-//   JobTitle: JobTitleTypes[];
-// };
-
-// export type User = {
-//   id: number;
-//   name: string;
-//   email: string;
-//   password: string;
-//   role: string;
-//   username: string;
-//   passwordHash: string;
-//   fullName: string | null;
-//   phoneNumber: string;
-//   profilePicture: string;
-//   dateOfBirth: string; // ISO date string
-//   location: string;
-//   communicationPreferences: CommunicationPreferences;
-//   createdAt: string; // ISO date string
-//   updatedAt: string; // ISO date string
-//   termsAccepted: boolean;
-//   privacyPolicyAccepted: boolean;
-//   firstName: string;
-//   middleName: string;
-//   lastName: string;
-// };
-
-// export type CommunicationPreferences = {
-//   sms: boolean;
-//   email: boolean;
-// };
-
-// export type Skill = {
-//   id: number;
-//   name: string;
-//   description: string;
-//   proficiencyLevel: string;
-// };
-
-// export type Address = {
-//   id: number;
-//   userId: number;
-//   street: string;
-//   city: string;
-//   state: string;
-//   postalCode: string;
-//   country: string;
-//   addressType: string;
-//   createdAt: string; // ISO date string
-//   updatedAt: string; // ISO date string
-//   permanent: boolean;
-// };
-
-// export type SocialMedia = {
-//   id: number;
-//   name: string;
-//   link: string;
-//   talent: TalentTypes | null;
-// };
-
-// export type JobTitleTypes = {
-//   id: number;
-//   discount: number;
-//   fixPrice: number;
-//   isFixPrice: boolean;
-//   ratePerHour: number;
-//   selectedStatus: boolean;
-//   title: string;
-// };
 
 // Placeholder data
 export const talentPlaceHolderData = [

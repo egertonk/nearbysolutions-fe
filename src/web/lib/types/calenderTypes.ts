@@ -12,6 +12,7 @@ export type TimeProps = {
     userSelectedDate: DateSelection;
     isCurrentMonth: boolean;
     solutionStartTimes: string[];
+    setIsCalenderReady: React.Dispatch<React.SetStateAction<boolean>>;
   };
   previousDateCheck: {
     isPreviousCurrentDatesMonthYear: boolean;
