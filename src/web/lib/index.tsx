@@ -17,10 +17,9 @@ import {
   youtube,
   whatsapp,
 } from "../assets/svg/svgs";
-import { JobTitlePricing } from "./types/OrderSolutionTypes";
 import { CustomerJobs } from "./types/FindWorkPostAJobtypesData";
 import { DIYToolListing } from "./types/DIYToolsListings";
-import { JobTitleTypes } from "../components/talent/talentTypes";
+import { JobTitleTypes } from "../components/all-types/solutionistTypes";
 
 export const monthNames = [
   "January",

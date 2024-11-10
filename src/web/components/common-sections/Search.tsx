@@ -1,11 +1,11 @@
 import React, { useState } from "react";
 import { SearchUI } from "./SearchUI";
-import { TalentTypes } from "../talent/talentTypes";
+import { SolutionistTypes } from "../all-types/solutionistTypes";
 
 type Props = {
-  searchResults: TalentTypes[] | [];
-  fallBackData: TalentTypes[] | undefined;
-  setSearchResults: React.Dispatch<React.SetStateAction<TalentTypes[]>>;
+  searchResults: SolutionistTypes[] | [];
+  fallBackData: SolutionistTypes[] | undefined;
+  setSearchResults: React.Dispatch<React.SetStateAction<SolutionistTypes[]>>;
 };
 
 export const Search: React.FC<Props> = ({
@@ -15,7 +15,7 @@ export const Search: React.FC<Props> = ({
 }) => {
   const [userSearch, setUserSearch] = useState("");
 
-  const getAllJobTitles = (talentInfo: TalentTypes[] | []) => {
+  const getAllJobTitles = (talentInfo: SolutionistTypes[] | []) => {
     return talentInfo.flatMap((talent) =>
       talent?.talent?.jobTitle?.map((job) => job?.title)
     );

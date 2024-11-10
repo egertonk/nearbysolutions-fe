@@ -2,7 +2,7 @@ import { useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { isFixPriceValid, priceWithComma } from "../../lib";
 import { SocialIcon } from "./socialIcon";
-import { JobTitleTypes, TalentTypes } from "../talent/talentTypes";
+import { JobTitleTypes, SolutionistTypes } from "../all-types/solutionistTypes";
 import { SolutionistCheckMark } from "./SolutionistCheckMark";
 import { SolutionistImageHire } from "./SolutionistImageHire";
 import { SolutionistFavoriteAddAndRemove } from "./SolutionistFavoriteAddAndRemove";
@@ -11,7 +11,7 @@ import { RootState } from "../../../store";
 import { solutionDate, solutionFormattedDate } from "../customer-calender-time";
 
 type Props = {
-  data: TalentTypes[];
+  data: SolutionistTypes[];
   isFavoriteValid?: boolean;
 };
 
@@ -105,7 +105,7 @@ export const SolutionistCard: React.FC<Props> = ({ data, isFavoriteValid }) => {
             <SolutionistImageHire
               index={index}
               jobId={jobId}
-              disabled={id !== talentData.talent.user.id}
+              disabled={id !== talentData.talent.solutionist.id}
               isFavoriteValid={false}
               talentData={talentData}
             />
@@ -114,8 +114,8 @@ export const SolutionistCard: React.FC<Props> = ({ data, isFavoriteValid }) => {
               <div className="grid grid-cols-4 gap-4">
                 <div className="col-span-3">
                   <p className="text-xl text-white font-bold">
-                    {talentData.talent.user.firstName}{" "}
-                    {talentData.talent.user.lastName}
+                    {talentData.talent.solutionist.firstName}{" "}
+                    {talentData.talent.solutionist.lastName}
                   </p>
                 </div>
 
@@ -138,7 +138,7 @@ export const SolutionistCard: React.FC<Props> = ({ data, isFavoriteValid }) => {
                       const selectedJobId = e.target.value;
                       updateSelectedStatus(
                         selectedJobId,
-                        talentData.talent.user.id
+                        talentData.talent.solutionist.id
                       );
                     }}
                     value={getValue(talentData.talent.jobTitle)}
@@ -146,7 +146,7 @@ export const SolutionistCard: React.FC<Props> = ({ data, isFavoriteValid }) => {
                     <option value="">
                       {getSelectedJob(
                         talentData?.talent?.jobTitle,
-                        talentData?.talent?.user.id
+                        talentData?.talent?.solutionist.id
                       )}
                     </option>
                     {talentData.talent.jobTitle?.map((details) => (

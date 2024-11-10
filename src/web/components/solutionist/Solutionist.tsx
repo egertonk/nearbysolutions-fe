@@ -5,17 +5,22 @@ import { SolutionistCard } from "./SolutionistCard";
 import { useEffect, useState } from "react";
 import { MainTitle } from "../common-sections/MainTitle";
 import { useLocation } from "react-router";
-import { useGetUser } from "../../utils/fetchEndpoints";
-import { TalentTypes } from "../talent/talentTypes";
+import { useGetCustomerWithId, useGetUser } from "../../utils/fetchEndpoints";
+import { SolutionistTypes } from "../all-types/solutionistTypes";
+import { useDispatch } from "react-redux";
+import { setCustomerDetails } from "../../../store/customerDetailsSlice";
 
 export const Solutionist: React.FC = () => {
+  const dispatch = useDispatch();
   const location = useLocation();
 
   const { data: user, isFetching } = useGetUser();
+  const { data: customer, isFetching: isCustomerFetching } =
+    useGetCustomerWithId(1);
 
   const MAX_TALENT = 1;
-  const [data, setData] = useState([] as TalentTypes[]);
-  const [searchResults, setSearchResults] = useState([] as TalentTypes[]);
+  const [data, setData] = useState([] as SolutionistTypes[]);
+  const [searchResults, setSearchResults] = useState([] as SolutionistTypes[]);
   const isSearchResults = data.length === 0;
 
   const isGiftASolution = location.pathname.includes("gift-a-solution");
@@ -29,10 +34,12 @@ export const Solutionist: React.FC = () => {
   // }, []);
 
   useEffect(() => {
-    console.log("user = ", user);
+    if (customer && isCustomerFetching === false) {
+      dispatch(setCustomerDetails(customer));
+    }
     if (user && searchResults.length === 0 && isFetching === false)
       setSearchResults(user);
-  }, [isFetching]);
+  }, [isFetching, isCustomerFetching]);
 
   return (
     <>

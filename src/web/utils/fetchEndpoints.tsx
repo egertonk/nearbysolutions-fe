@@ -1,9 +1,10 @@
 import { useQuery, useQueryClient } from "@tanstack/react-query";
 import { getWrapper, getWrapperWthId } from "./fetchGet";
 import {
+  SolutionistTypes,
   talentPlaceHolderData,
-  TalentTypes,
-} from "../components/talent/talentTypes";
+} from "../components/all-types/solutionistTypes";
+import { CustomerDetailsTypes } from "../../store/customerDetailsSlice";
 
 // Skills
 export const getSkills = () => {
@@ -35,8 +36,39 @@ export const useGetCart = () => {
   });
 };
 
+// Customer
+export const getCustomer = async (): Promise<CustomerDetailsTypes> => {
+  return getWrapper("customers").then((data) => {
+    return data;
+  });
+};
+
+export const useGetCustomer = () => {
+  return useQuery({
+    queryKey: ["customer"],
+    queryFn: () => getCustomer().then((data) => data),
+    placeholderData: {} as CustomerDetailsTypes,
+  });
+};
+
+export const getCustomerWithId = (
+  userId: number
+): Promise<CustomerDetailsTypes> => {
+  return getWrapperWthId("customers", userId).then((data) => {
+    return data;
+  });
+};
+
+export const useGetCustomerWithId = (userId: number) => {
+  return useQuery({
+    queryKey: ["customerWithId"],
+    queryFn: () => getCustomerWithId(userId).then((data) => data),
+    placeholderData: {} as CustomerDetailsTypes,
+  });
+};
+
 // User
-export const getUser = async (): Promise<TalentTypes[]> => {
+export const getUser = async (): Promise<SolutionistTypes[]> => {
   return getWrapper("user").then((data) => {
     return data;
   });
@@ -51,7 +83,7 @@ export const useGetUser = () => {
 };
 
 // User
-export const getUserWithId = (userId: number): Promise<TalentTypes> => {
+export const getUserWithId = (userId: number): Promise<SolutionistTypes> => {
   return getWrapperWthId("user", userId).then((data) => {
     return data;
   });

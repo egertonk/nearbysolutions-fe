@@ -3,7 +3,7 @@
 import { SolutionistWorkSetting } from "../../../store/solutionistWorkSettingsSlice";
 
 // Define interfaces for the structure
-export interface User {
+export interface Solutionist {
   id: number;
   name: string;
   email: string;
@@ -71,7 +71,7 @@ export interface Talent {
   vacationStatus: boolean;
   verifyStatus: boolean;
   vacationDaysOff: number | null;
-  user: User;
+  solutionist: Solutionist;
   skills: Skill[];
   addresses: Address[];
   socialMedia: SocialMedia[];
@@ -79,7 +79,7 @@ export interface Talent {
   solutionistWorkSettings: SolutionistWorkSetting[];
 }
 
-export interface TalentTypes {
+export interface SolutionistTypes {
   talent: Talent;
 }
 
@@ -157,4 +157,4 @@ export const talentPlaceHolderData = [
       },
     ],
   },
-] as unknown as TalentTypes[];
+] as unknown as SolutionistTypes[];

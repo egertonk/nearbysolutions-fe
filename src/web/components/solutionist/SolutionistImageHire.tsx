@@ -1,14 +1,14 @@
 import { Link } from "react-router-dom";
 
 import nearbySolutionsIcon from "../../assets/company-logos-icons/icononly_transparent_nobuffer.png";
-import { TalentTypes } from "../talent/talentTypes";
+import { SolutionistTypes } from "../all-types/solutionistTypes";
 
 type Props = {
   index: Number;
   jobId: Number;
   disabled: boolean;
   isFavoriteValid?: boolean;
-  talentData: TalentTypes;
+  talentData: SolutionistTypes;
 };
 
 export const SolutionistImageHire: React.FC<Props> = ({
@@ -30,7 +30,9 @@ export const SolutionistImageHire: React.FC<Props> = ({
       </div>
       <img
         className="object-center object-cover w-full h-full group-hover:opacity-50 object-cover inset-0"
-        src={talentData.talent.user.profilePicture || nearbySolutionsIcon}
+        src={
+          talentData.talent.solutionist.profilePicture || nearbySolutionsIcon
+        }
         alt={`user-${index}`}
       />
     </>
@@ -40,7 +42,7 @@ export const SolutionistImageHire: React.FC<Props> = ({
     <div className="w-full md:w-2/5 h-100 group">
       <Link
         className="object-center object-cover w-full h-full group relative"
-        to={`/talent-detail-page?talentId=${talentData?.talent?.user?.id}&jobId=${jobId}`}
+        to={`/talent-detail-page?talentId=${talentData?.talent?.solutionist?.id}&jobId=${jobId}`}
       >
         {solutionistJobStatus}
       </Link>

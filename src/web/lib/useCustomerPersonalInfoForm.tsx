@@ -1,22 +1,22 @@
 import { useEffect, useState } from "react";
-import {
-  CustomerFormData,
-  TalentInformation,
-} from "./types/OrderSolutionTypes";
+import { CustomerFormData } from "./types/OrderSolutionTypes";
 import { useDispatch, useSelector } from "react-redux";
 import { setCustomerOrder } from "../../store/customerContractorSlice";
 import { RootState } from "../../store";
 import { DateSelection } from "./types/CalenderTypes";
 import { useCalender } from "./useCalender";
 import { orderStates } from "../../store/defualtStates";
-import { JobTitleTypes, TalentTypes } from "../components/talent/talentTypes";
+import {
+  JobTitleTypes,
+  SolutionistTypes,
+} from "../components/all-types/solutionistTypes";
 
 export const useCustomerPersonalInfoForm = (
   userSelectedTime?: string,
   formattedDate?: string,
   userSelectedDate?: DateSelection,
   jobDetails?: JobTitleTypes | undefined,
-  solutionistDeatils?: TalentTypes
+  solutionistDeatils?: SolutionistTypes
 ) => {
   const { today } = useCalender();
   const dispatch = useDispatch();
@@ -94,9 +94,9 @@ export const useCustomerPersonalInfoForm = (
       solutionTask: customerOrder.solutionTask || "",
       solutionJob: jobDetails?.title || customerOrder.solutionJob || "",
       selectedTalent: jobDetails?.title || "",
-      talentID: solutionistDeatils?.talent?.user.id || 0, // it should never be null
-      talentFirstName: solutionistDeatils?.talent?.user.firstName || "",
-      talentLastName: solutionistDeatils?.talent?.user?.lastName || "",
+      talentID: solutionistDeatils?.talent?.solutionist.id || 0, // it should never be null
+      talentFirstName: solutionistDeatils?.talent?.solutionist.firstName || "",
+      talentLastName: solutionistDeatils?.talent?.solutionist?.lastName || "",
       solutionPrice:
         (jobDetails?.isFixPrice
           ? jobDetails.fixPrice

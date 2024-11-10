@@ -59,3 +59,24 @@ export const SolutionistWorkSettingsStates = {
   twentyFourHoursStatus: false,
   twelveHoursStatus: false,
 };
+
+export const customerDetails = {
+  customerId: 0, // NOT NULL, primary key
+  firstName: "", // Up to 50 characters
+  lastName: "", // Up to 50 characters
+  dateOfBirth: new Date(), // Date type
+  gender: "", // 1 character (e.g., "M" or "F")
+  country: "", // Up to 50 characters
+  address: "", // Up to 100 characters
+  city: "", // Up to 50 characters
+  state: "", // Up to 50 characters
+  zip: "", // Up to 20 characters
+  phoneNumber: "", // Up to 15 characters
+  email: "", // Up to 100 characters
+  accountCreationDate: new Date(), // Defaults to CURRENT_TIMESTAMP
+  lastUpdatedDate: new Date(), // Defaults to CURRENT_TIMESTAMP
+  customerType: "Regular", // Defaults to 'Regular', max 20 characters
+  preferredContactMethod: "", // Up to 10 characters (e.g., "Email" or "Phone")
+  status: true, // Defaults to true
+  notes: "", // Text field for additional notes
+};

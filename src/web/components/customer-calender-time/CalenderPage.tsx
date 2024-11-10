@@ -42,9 +42,9 @@ export const TalentDetailPage: React.FC = () => {
       ...customerOrder,
       solutionJob: jobDetails?.title || "",
       selectedTalent: jobDetails?.title || "",
-      talentID: solutionistDeatils?.talent?.user.id || 0,
-      talentFirstName: solutionistDeatils?.talent?.user.firstName || "",
-      talentLastName: solutionistDeatils?.talent?.user?.lastName || "",
+      talentID: solutionistDeatils?.talent?.solutionist.id || 0,
+      talentFirstName: solutionistDeatils?.talent?.solutionist.firstName || "",
+      talentLastName: solutionistDeatils?.talent?.solutionist?.lastName || "",
       solutionPrice:
         (jobDetails?.isFixPrice
           ? jobDetails.fixPrice
