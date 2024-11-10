@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import React, { useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { useLocation, useNavigate } from "react-router-dom";
 import { DateTimeSelection } from "./DateTimeSelection";
@@ -17,7 +17,6 @@ export const TalentDetailPage: React.FC = () => {
   const navigate = useNavigate();
   const dispatch = useDispatch();
 
-  const [isCalenderReady, setIsCalenderReady] = useState(false);
   const customerOrder = useSelector(
     (state: RootState) => state.formData.customerOrder
   );
@@ -25,6 +24,10 @@ export const TalentDetailPage: React.FC = () => {
   const searchParams = new URLSearchParams(location.search);
   const talentId = searchParams.get("talentId"); // Access `talentId` directly
   const jobId = searchParams.get("jobId"); // Access `jobId` directly
+  const isCalenderReady = !(
+    customerOrder.solutionDateContract.solutionStartTime.length > 0 &&
+    customerOrder.solutionDateContract.solutionDate.length > 0
+  );
 
   const { data: solutionistDeatils, isFetching } = useGetUserWithId(
     Number(talentId)
@@ -63,15 +66,15 @@ export const TalentDetailPage: React.FC = () => {
       <MainTitle title="Select Date and Time" />
 
       <div className="flex flex-col lg:flex-row justify-center">
-        <DateTimeSelection setIsCalenderReady={setIsCalenderReady} />
+        <DateTimeSelection />
       </div>
 
       <div className="w-full px-3 pt-4">
         <button
           className="mt-5 align-middle select-none font-sans font-bold text-center uppercase transition-all disabled:opacity-50 disabled:shadow-none disabled:pointer-events-none text-xs py-3 px-6 rounded-lg bg-purple-900 text-white shadow-md shadow-gray-900/10 hover:shadow-lg hover:shadow-gray-900/20 focus:opacity-[0.85] focus:shadow-none active:opacity-[0.85] active:shadow-none block w-full"
           type="button"
-          onClick={() => isCalenderReady && navigate(`/customer-form`)}
-          disabled={isCalenderReady === false}
+          onClick={() => navigate(`/customer-form`)}
+          disabled={isCalenderReady}
         >
           Next
         </button>

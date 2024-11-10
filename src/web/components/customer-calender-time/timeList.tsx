@@ -8,6 +8,8 @@ import {
   availableTimeCSS,
   grayOutTime,
   scheduleTimeSelectedCSS,
+  selectedCSS,
+  timeSelectedCSS,
   userTimeSelectedCSS,
 } from "../../assets/common-css/css";
 import { useVacationCheck } from "../../lib/useVacationCheck";
@@ -53,9 +55,8 @@ export const TimeList: React.FC<TimeProps> = ({
     };
 
     dispatch(setCustomerOrder(updatedOrder));
-    requiredData.setIsCalenderReady(true);
   };
-
+  console.log("customerOrder = ", customerOrder);
   const getDateStyle = (twelveHour: string) => {
     const nowDate = new Date();
     const isDateTimeListValid = compareDates(
@@ -111,17 +112,15 @@ export const TimeList: React.FC<TimeProps> = ({
                 <li
                   key={`tim-li-${index}`}
                   className={`${
-                    isTimeChangeAllow &&
                     customerOrder.solutionDateContract.solutionStartTime ===
-                      time.twelveHour &&
-                    "bg-purple-600 text-white items-center justify-center w-full p-2 text-sm font-medium text-center  border rounded-lg border-blue-600 "
+                      time.twelveHour && timeSelectedCSS
                   }`}
                 >
                   <input
                     type="radio"
                     id={`${time.twelveHour}`}
                     value={`${time.twelveHour}`}
-                    className="hidden peer"
+                    className={`${selectedCSS} hidden peer`}
                     name="timetable"
                     onChange={(e) => updateStore(e)}
                     disabled={checkSchedule(time.twelveHour)}
@@ -136,6 +135,9 @@ export const TimeList: React.FC<TimeProps> = ({
                           customerOrder.solutionDateContract
                             .solutionStartTime === time.twelveHour
                         ? ""
+                        : customerOrder.solutionDateContract
+                            .solutionStartTime === time.twelveHour
+                        ? timeSelectedCSS
                         : availableTimeCSS
                     }`}
                   >

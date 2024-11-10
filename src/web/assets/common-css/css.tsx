@@ -27,3 +27,6 @@ export const selectedCSS =
 
 export const vacationCSS =
   "cursor-none pointer-events-none focus:ring-black hover:bg-black text-base w-8 h-8 flex items-center justify-center font-medium text-white bg-black";
+
+export const timeSelectedCSS =
+  "bg-purple-600 text-white items-center justify-center  p-2 text-sm font-medium text-center  border rounded-lg border-blue-600 ";
