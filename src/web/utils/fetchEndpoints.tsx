@@ -5,6 +5,7 @@ import {
   talentPlaceHolderData,
 } from "../components/all-types/solutionistTypes";
 import { CustomerDetailsTypes } from "../../store/customerDetailsSlice";
+import { CountryTypes } from "../components/all-types/countryTypes";
 
 // Skills
 export const getSkills = () => {
@@ -94,5 +95,20 @@ export const useGetUserWithId = (userId: number) => {
     queryKey: ["userWithId"],
     queryFn: () => getUserWithId(userId).then((data) => data),
     placeholderData: talentPlaceHolderData[0],
+  });
+};
+
+// Coutries
+export const getCoutries = async (): Promise<CountryTypes[]> => {
+  return getWrapper("country-features").then((data) => {
+    return data;
+  });
+};
+
+export const useGetCoutries = () => {
+  return useQuery({
+    queryKey: ["coutries"],
+    queryFn: () => getCoutries().then((data) => data),
+    placeholderData: [],
   });
 };

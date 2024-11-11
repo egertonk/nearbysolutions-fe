@@ -22,9 +22,6 @@ export const TimeList: React.FC<TimeProps> = ({
 }) => {
   const dispatch = useDispatch();
 
-  const customerDetails = useSelector(
-    (state: RootState) => state.customerDetailsState
-  );
   const customerOrder = useSelector(
     (state: RootState) => state.formData.customerOrder
   );
@@ -59,8 +56,7 @@ export const TimeList: React.FC<TimeProps> = ({
 
     dispatch(setCustomerOrder(updatedOrder));
   };
-  console.log("customerOrder = ", customerOrder);
-  console.log("customerDetails = ", customerDetails);
+
   const getDateStyle = (twelveHour: string) => {
     const nowDate = new Date();
     const isDateTimeListValid = compareDates(

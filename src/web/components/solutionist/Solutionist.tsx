@@ -7,16 +7,21 @@ import { MainTitle } from "../common-sections/MainTitle";
 import { useLocation } from "react-router";
 import { useGetCustomerWithId, useGetUser } from "../../utils/fetchEndpoints";
 import { SolutionistTypes } from "../all-types/solutionistTypes";
-import { useDispatch } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import { setCustomerDetails } from "../../../store/customerDetailsSlice";
+import { setCustomerOrder } from "../../../store/customerContractorSlice";
+import { RootState } from "../../../store";
 
 export const Solutionist: React.FC = () => {
   const dispatch = useDispatch();
   const location = useLocation();
 
+  const states = useSelector((state: RootState) => state);
+  const customerOrder = states.formData.customerOrder;
+
   const { data: user, isFetching } = useGetUser();
   const { data: customer, isFetching: isCustomerFetching } =
-    useGetCustomerWithId(1);
+    useGetCustomerWithId(1); // comes from login
 
   const MAX_TALENT = 1;
   const [data, setData] = useState([] as SolutionistTypes[]);
@@ -36,6 +41,23 @@ export const Solutionist: React.FC = () => {
   useEffect(() => {
     if (customer && isCustomerFetching === false) {
       dispatch(setCustomerDetails(customer));
+
+      const updatedCustomerFormData = {
+        ...customerOrder,
+        customerInfo: {
+          customerID: customer.customerId,
+          firstName: customer.firstName || "",
+          lastName: customer.lastName || "",
+          country: customer.country || "",
+          address: customer.address || "",
+          city: customer.city || "",
+          state: customer.state || "",
+          zip: customer.zip || "",
+          phoneNumber: customer.phoneNumber || "",
+          email: customer.email || "",
+        },
+      };
+      dispatch(setCustomerOrder(updatedCustomerFormData));
     }
     if (user && searchResults.length === 0 && isFetching === false)
       setSearchResults(user);

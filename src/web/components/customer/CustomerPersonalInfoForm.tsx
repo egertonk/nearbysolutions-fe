@@ -1,7 +1,6 @@
-import React, { useState } from "react";
+import React, { useMemo, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { RootState } from "../../../store";
-import { CustomerFormData } from "../../lib/types/OrderSolutionTypes";
 import { setCustomerOrder } from "../../../store/customerContractorSlice";
 import {
   envelopIconSVG,
@@ -14,9 +13,12 @@ import { dayNames, monthNames } from "../../lib";
 import { LongTermContract } from "../common-sections/LongTermContract";
 import { customerInfoFields } from ".";
 import { CustomerInputs } from "./CustomerInputs";
+import { useGetCoutries } from "../../utils/fetchEndpoints";
 
 export const CustomerPersonalInfoForm: React.FC = () => {
   const dispatch = useDispatch();
+  const { data: coutries, isFetching: isCoutriesFetching } = useGetCoutries();
+
   const states = useSelector((state: RootState) => state);
   const [contractLength, setContractLength] = useState<number>(0);
   const customerOrder = states.formData.customerOrder;
@@ -85,14 +87,14 @@ export const CustomerPersonalInfoForm: React.FC = () => {
     customerOrder.solutionDateContract.solutionFormattedDate.length > 0 &&
     customerOrder.solutionDateContract.longTermContract !== "";
 
-  const updateStore = (name: string, value: string) => {
-    const updatedOrder: CustomerFormData = {
-      ...customerOrder,
-      [name]: value,
-    };
-    console.log("updatedOrder = ", updatedOrder);
-    dispatch(setCustomerOrder(updatedOrder));
-  };
+  // const updateStore = (name: string, value: string) => {
+  //   const updatedOrder: CustomerFormData = {
+  //     ...customerOrder,
+  //     [name]: value,
+  //   };
+  //   console.log("updatedOrder = ", updatedOrder);
+  //   dispatch(setCustomerOrder(updatedOrder));
+  // };
 
   const updateCustomerInfo = (
     e: React.ChangeEvent<HTMLInputElement | HTMLSelectElement>
@@ -113,7 +115,11 @@ export const CustomerPersonalInfoForm: React.FC = () => {
     // if (customerOrder.solutionDateContract.solutionFormattedDate.length > 0)
     //   updateStore(name, value);
   };
-  console.log("customerOrder.customerInfo = ", customerOrder);
+
+  const validCountries = useMemo(() => {
+    return coutries?.filter((country) => country.featureFlag);
+  }, [coutries]);
+
   return (
     <>
       <div className="grid lg:grid-cols-3 items-center gap-4 p-2 shadow-[0_2px_10px_-3px_rgba(6,81,237,0.3)] rounded-lg mt-8 w-full">
@@ -179,31 +185,6 @@ export const CustomerPersonalInfoForm: React.FC = () => {
 
         <div className="relative flex items-center m-1">
           <select
-            className={customerInputCSS}
-            id="state"
-            name="state"
-            value={customerOrder.customerInfo.state}
-            onChange={updateCustomerInfo}
-          >
-            <option value="">Select State</option>
-            <option value="New Mexico">New Mexico</option>
-            <option value="Virginia">Virginia</option>
-            <option value="Texas">Texas</option>
-          </select>
-        </div>
-
-        <div className="relative flex items-center m-1">
-          <CustomerInputs
-            id="zip"
-            value={customerOrder.customerInfo.zip}
-            placeHolder="Enter your Zip Code"
-            updateCustomerInfo={updateCustomerInfo}
-          />
-          {phoneIconSVG}
-        </div>
-
-        <div className="relative flex items-center m-1">
-          <select
             className={`${customerInputCSS} ${
               customerOrder.customerInfo.country.length === 0 && errorCss
             }`}
@@ -212,13 +193,93 @@ export const CustomerPersonalInfoForm: React.FC = () => {
             value={customerOrder.customerInfo.country}
             onChange={updateCustomerInfo}
           >
-            <option value="">Select your Country</option>
-            <option value="United States">United States</option>
-            <option value="Canada">Canada</option>
-            <option value="Philippines">Philippines</option>
+            <option className="h-20" value="">
+              Select your Country
+            </option>
+            {validCountries?.map((countryData) => (
+              <option className="h-20" value={`${countryData.countryName}`}>
+                {countryData.countryName}
+              </option>
+            ))}
           </select>
         </div>
 
+        {(customerOrder.customerInfo.country === "United States" ||
+          customerOrder.customerInfo.country === "Canada") && (
+          <>
+            <div className="relative flex items-center m-1">
+              <select
+                className={customerInputCSS}
+                id="state"
+                name="state"
+                value={customerOrder.customerInfo.state}
+                onChange={updateCustomerInfo}
+              >
+                <option value="">Select State</option>
+                <option value="Alabama">Alabama</option>
+                <option value="Alaska">Alaska</option>
+                <option value="Arizona">Arizona</option>
+                <option value="Arkansas">Arkansas</option>
+                <option value="California">California</option>
+                <option value="Colorado">Colorado</option>
+                <option value="Connecticut">Connecticut</option>
+                <option value="Delaware">Delaware</option>
+                <option value="Florida">Florida</option>
+                <option value="Georgia">Georgia</option>
+                <option value="Hawaii">Hawaii</option>
+                <option value="Idaho">Idaho</option>
+                <option value="Illinois">Illinois</option>
+                <option value="Indiana">Indiana</option>
+                <option value="Iowa">Iowa</option>
+                <option value="Kansas">Kansas</option>
+                <option value="Kentucky">Kentucky</option>
+                <option value="Louisiana">Louisiana</option>
+                <option value="Maine">Maine</option>
+                <option value="Maryland">Maryland</option>
+                <option value="Massachusetts">Massachusetts</option>
+                <option value="Michigan">Michigan</option>
+                <option value="Minnesota">Minnesota</option>
+                <option value="Mississippi">Mississippi</option>
+                <option value="Missouri">Missouri</option>
+                <option value="Montana">Montana</option>
+                <option value="Nebraska">Nebraska</option>
+                <option value="Nevada">Nevada</option>
+                <option value="New Hampshire">New Hampshire</option>
+                <option value="New Jersey">New Jersey</option>
+                <option value="New Mexico">New Mexico</option>
+                <option value="New York">New York</option>
+                <option value="North Carolina">North Carolina</option>
+                <option value="North Dakota">North Dakota</option>
+                <option value="Ohio">Ohio</option>
+                <option value="Oklahoma">Oklahoma</option>
+                <option value="Oregon">Oregon</option>
+                <option value="Pennsylvania">Pennsylvania</option>
+                <option value="Rhode Island">Rhode Island</option>
+                <option value="South Carolina">South Carolina</option>
+                <option value="South Dakota">South Dakota</option>
+                <option value="Tennessee">Tennessee</option>
+                <option value="Texas">Texas</option>
+                <option value="Utah">Utah</option>
+                <option value="Vermont">Vermont</option>
+                <option value="Virginia">Virginia</option>
+                <option value="Washington">Washington</option>
+                <option value="West Virginia">West Virginia</option>
+                <option value="Wisconsin">Wisconsin</option>
+                <option value="Wyoming">Wyoming</option>
+              </select>
+            </div>
+
+            <div className="relative flex items-center m-1">
+              <CustomerInputs
+                id="zip"
+                value={customerOrder.customerInfo.zip}
+                placeHolder="Enter your Zip Code"
+                updateCustomerInfo={updateCustomerInfo}
+              />
+              {phoneIconSVG}
+            </div>
+          </>
+        )}
         {isGiftASolution && (
           <div className="relative flex items-center m-1">
             <input
@@ -236,7 +297,12 @@ export const CustomerPersonalInfoForm: React.FC = () => {
           </div>
         )}
 
-        <LongTermContract dates={dates} setContractLength={setContractLength} />
+        {customerOrder.fixPriceStatus == false && (
+          <LongTermContract
+            dates={dates}
+            setContractLength={setContractLength}
+          />
+        )}
       </div>
 
       {showFutureApp && (
