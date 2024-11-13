@@ -8,7 +8,7 @@ import { SolutionistImageHire } from "./SolutionistImageHire";
 import { SolutionistFavoriteAddAndRemove } from "./SolutionistFavoriteAddAndRemove";
 import { setCustomerOrder } from "../../../store/customerContractorSlice";
 import { RootState } from "../../../store";
-import { solutionDate, solutionFormattedDate } from "../customer-calender-time";
+import { solutionDate, solutionFormattedDate } from "../customer-calender-time/data-setup";
 
 type Props = {
   data: SolutionistTypes[];

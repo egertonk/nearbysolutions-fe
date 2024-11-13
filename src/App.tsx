@@ -11,7 +11,6 @@ import { Footer } from "./web/components/Footer/footer";
 import { Review } from "./web/components/Reviews/Review";
 import { Favorite } from "./web/components/Favorite/Favorite";
 import { OrderSumary } from "./web/components/Orders/OrderSumary";
-import { TalentDetailPage } from "./web/components/customer-calender-time/CalenderPage";
 import { DateTimeSelection } from "./web/components/customer-calender-time/DateTimeSelection";
 import { CalenderForm } from "./web/components/customer-calender-time/calenderForm";
 import { Provider } from "react-redux";
@@ -26,6 +25,7 @@ import { CustomerJobListings } from "./web/components/Find-Work-Post-A-Job/Custo
 import { CustomerToolListings } from "./web/components/DIY-Tool-Rentals/CustomerToolListings";
 import { UserHistory } from "./web/components/Orders/UserHistory";
 import { RentAToolForm } from "./web/components/Rent-Tools/RentAToolForm";
+import { TalentDetailPage } from "./web/components/customer-calender-time/calenderPage";
 
 function App() {
   return (

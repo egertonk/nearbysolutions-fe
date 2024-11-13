@@ -3,7 +3,7 @@ import { CustomerFormData } from "./types/OrderSolutionTypes";
 import { useDispatch, useSelector } from "react-redux";
 import { setCustomerOrder } from "../../store/customerContractorSlice";
 import { RootState } from "../../store";
-import { DateSelection } from "./types/CalenderTypes";
+import { DateSelection } from "../components/customer-calender-time/types/CalenderTypes";
 import { useCalender } from "./useCalender";
 import { orderStates } from "../../store/defualtStates";
 import {

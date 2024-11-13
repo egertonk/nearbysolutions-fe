@@ -1,6 +1,9 @@
 import { useSelector } from "react-redux";
 import { greaterThanArrowSVG, lessThanArrowSVG } from "../../assets/svg/svgs";
-import { DateSelection } from "../../lib/types/CalenderTypes";
+import {
+  DateSelection,
+  WeeksData,
+} from "../customer-calender-time/types/CalenderTypes";
 import { useCalender } from "../../lib/useCalender";
 import { RootState } from "../../../store";
 import { useEffect, useState } from "react";
@@ -16,24 +19,12 @@ import {
   selectedCSS,
   vacationCSS,
 } from "../../assets/common-css/css";
-
-export type DateParts = {
-  month: string;
-  day: number;
-  year: number;
-};
-
-export const extractDateParts = (dateStr: string): DateParts | null => {
-  const parts = dateStr.split("/");
-  if (parts.length === 3) {
-    return {
-      month: parts[0] || "",
-      day: Number(parts[1]) || 0,
-      year: Number(parts[2]) || 0,
-    };
-  }
-  return null;
-};
+import { SolutionistTypes } from "../all-types/solutionistTypes";
+import {
+  DayKeys,
+  dayWithShortNames,
+  defaultWeeksData,
+} from "../customer-calender-time/data-setup";
 
 type Props = {
   currentMonthYear: {
@@ -48,26 +39,13 @@ type Props = {
     day: number;
     year: number;
   }) => void;
-};
-
-type WeeksData = {
-  weeksArray: {
-    day: number;
-    dayTitle: string;
-  }[][];
-  month: string | "";
-  year: number | 0;
-};
-
-export const defaultWeeksData: WeeksData = {
-  weeksArray: Array(4).fill(Array(7).fill({ day: 0, dayTitle: "" })),
-  month: "",
-  year: 0,
+  solutionistDeatils: SolutionistTypes | undefined;
 };
 
 export const Calender: React.FC<Props> = ({
   currentMonthYear,
   updateStore,
+  solutionistDeatils,
 }) => {
   const { showNextMonth, userSelectedDate, updateDateSelection } =
     useCalenderStates();
@@ -131,6 +109,10 @@ export const Calender: React.FC<Props> = ({
 
   const sameMonth = month === weeksArray?.month && year === weeksArray?.year;
 
+  const availableDays =
+    solutionistDeatils?.talent?.solutionistWorkSettings?.[0]?.availableDays ||
+    "";
+
   const getDateStyle = (days: { day: number; dayTitle: string }) => {
     const systemMonthNumber =
       monthNameToNumberMarch[
@@ -144,8 +126,15 @@ export const Calender: React.FC<Props> = ({
       month: showMonth,
       year: showYear,
     };
+    const dayKey = days.dayTitle;
 
     if (
+      availableDays.includes(dayWithShortNames[dayKey as DayKeys]) === false &&
+      availableDays?.length > 0
+    ) {
+      console.log("1--contractor availableDays");
+      return disablePastDatesTime;
+    } else if (
       isVacationValid(
         solutionistWorkSettings,
         currentCalendarVacationCheck,

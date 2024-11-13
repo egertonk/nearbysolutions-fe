@@ -3,7 +3,10 @@ import { useDispatch, useSelector } from "react-redux";
 import { useLocation, useNavigate } from "react-router-dom";
 import { DateTimeSelection } from "./DateTimeSelection";
 import { MainTitle } from "../common-sections/MainTitle";
-import { useGetUserWithId } from "../../utils/fetchEndpoints";
+import {
+  useGetOrdersWithSolutionistId,
+  useGetUserWithId,
+} from "../../utils/fetchEndpoints";
 import { RootState } from "../../../store";
 import { CustomerFormData } from "../../lib/types/OrderSolutionTypes";
 import { setCustomerOrder } from "../../../store/customerContractorSlice";
@@ -30,6 +33,9 @@ export const TalentDetailPage: React.FC = () => {
   );
 
   const { data: solutionistDeatils, isFetching } = useGetUserWithId(
+    Number(talentId)
+  );
+  const { data: solutionistOrders } = useGetOrdersWithSolutionistId(
     Number(talentId)
   );
 
@@ -66,7 +72,10 @@ export const TalentDetailPage: React.FC = () => {
       <MainTitle title="Select Date and Time" />
 
       <div className="flex flex-col lg:flex-row justify-center">
-        <DateTimeSelection />
+        <DateTimeSelection
+          solutionistDeatils={solutionistDeatils}
+          solutionistOrders={solutionistOrders ?? []}
+        />
       </div>
 
       <div className="w-full px-3 pt-4">

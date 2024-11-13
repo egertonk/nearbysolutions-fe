@@ -1,5 +1,5 @@
 import { useSelector } from "react-redux";
-import { TimeProps } from "../../lib/types/CalenderTypes";
+import { TimeProps } from "./types/CalenderTypes";
 import { TimeList } from "./timeList";
 import { RootState } from "../../../store";
 
@@ -8,6 +8,7 @@ export const DatePicker: React.FC<TimeProps> = ({
   previousDateCheck,
   isTimeChangeAllow,
   filteredOrders,
+  ordersGreaterThanTodaysDate,
 }) => {
   const customerOrder = useSelector(
     (state: RootState) => state.formData.customerOrder
@@ -50,6 +51,7 @@ export const DatePicker: React.FC<TimeProps> = ({
             previousDateCheck={previousDateCheck}
             isTimeChangeAllow={isTimeChangeAllow}
             filteredOrders={filteredOrders}
+            ordersGreaterThanTodaysDate={ordersGreaterThanTodaysDate}
           />
         </div>
       </div>

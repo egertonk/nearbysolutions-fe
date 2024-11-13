@@ -4,18 +4,26 @@ import { useCalenderStates } from "../../lib/useCalenderStates";
 import { orderSortList, useOrders } from "../../lib/useOrders";
 import { SortData } from "../common-sections/SortData";
 import { TableHeader } from "../common-sections/TableHeader";
-import { Calender, extractDateParts } from "../common-sections/calender";
+import { Calender } from "../common-sections/calender";
 import { DatePicker } from "./datePicker";
 import { RootState } from "../../../store";
 import { setCustomerOrder } from "../../../store/customerContractorSlice";
-import { DateSelection } from "../../lib/types/CalenderTypes";
+import { DateSelection } from "./types/CalenderTypes";
+import { SolutionistTypes } from "../all-types/solutionistTypes";
+import { extractDateParts } from "./data-setup";
+import { OrderTypes } from "../all-types/orderTypes";
 
 type Props = {
+  solutionistOrders: OrderTypes[] | [];
+  solutionistDeatils: SolutionistTypes | undefined;
   isTimeChangeAllow?: boolean;
   isDateChangeAllow?: boolean;
 };
 
-export const DateTimeSelection: React.FC<Props> = () => {
+export const DateTimeSelection: React.FC<Props> = ({
+  solutionistDeatils,
+  solutionistOrders,
+}) => {
   const dispatch = useDispatch();
   const customerOrder = useSelector(
     (state: RootState) => state.formData.customerOrder
@@ -36,6 +44,12 @@ export const DateTimeSelection: React.FC<Props> = () => {
     date,
     isCurrentMonth,
   } = useCalenderStates();
+
+  const ordersGreaterThanTodaysDate = Array.isArray(solutionistOrders)
+    ? solutionistOrders.filter((data) => {
+        return data?.startDate && new Date(data.startDate) > new Date();
+      })
+    : [];
 
   const dateSelectedByUser = extractDateParts(
     customerOrder.solutionDateContract.solutionDate
@@ -130,6 +144,7 @@ export const DateTimeSelection: React.FC<Props> = () => {
           dateSelectedByUser !== null ? dateSelectedByUser : defaultDateSelected
         }
         updateStore={updateStore}
+        solutionistDeatils={solutionistDeatils}
       />
 
       <DatePicker
@@ -144,6 +159,7 @@ export const DateTimeSelection: React.FC<Props> = () => {
         }}
         previousDateCheck={{ isPreviousCurrentDatesMonthYear, dateUpdate }}
         filteredOrders={filteredOrders}
+        ordersGreaterThanTodaysDate={ordersGreaterThanTodaysDate}
       />
 
       {filteredOrders.length > 0 && (

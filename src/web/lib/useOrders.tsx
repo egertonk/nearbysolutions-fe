@@ -4,7 +4,7 @@ import { customerOrderHistory } from ".";
 import { setCustomerOrder } from "../../store/customerContractorSlice";
 import { useNavigate } from "react-router";
 import { useDispatch } from "react-redux";
-import { DateSelection } from "./types/CalenderTypes";
+import { DateSelection } from "../components/customer-calender-time/types/CalenderTypes";
 
 export const orderSortList = [
   "Order ID",

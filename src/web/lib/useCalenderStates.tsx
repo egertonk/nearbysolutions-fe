@@ -1,5 +1,5 @@
 import { useState } from "react";
-import { DateSelection } from "./types/CalenderTypes";
+import { DateSelection } from "../components/customer-calender-time/types/CalenderTypes";
 import { useCalender } from "./useCalender";
 import { monthNames } from ".";
 import { useSelector } from "react-redux";

@@ -1,4 +1,5 @@
-import { CustomerFormData } from "./OrderSolutionTypes";
+import { CustomerFormData } from "../../../lib/types/OrderSolutionTypes";
+import { OrderTypes } from "../../all-types/orderTypes";
 
 export type DateSelection = {
   day: number;
@@ -23,6 +24,7 @@ export type TimeProps = {
   };
   isTimeChangeAllow?: any;
   filteredOrders: CustomerFormData[];
+  ordersGreaterThanTodaysDate: OrderTypes[] | [];
 };
 
 export type weeksArrayTypes = {
@@ -32,4 +34,19 @@ export type weeksArrayTypes = {
   }[][];
   month: string;
   year: number;
+};
+
+export type DateParts = {
+  month: string;
+  day: number;
+  year: number;
+};
+
+export type WeeksData = {
+  weeksArray: {
+    day: number;
+    dayTitle: string;
+  }[][];
+  month: string | "";
+  year: number | 0;
 };

@@ -1,11 +1,12 @@
-import { compareDates, isTimeValid } from "../../lib";
-import { TimeProps } from "../../lib/types/CalenderTypes";
+import { compareDates, isTimeGreater, isTimeValid } from "../../lib";
+import { TimeProps } from "./types/CalenderTypes";
 import { useTimeIntervals } from "../../lib/useTimeIntervals";
 import { useDispatch, useSelector } from "react-redux";
 import { RootState } from "../../../store";
 import { setCustomerOrder } from "../../../store/customerContractorSlice";
 import {
   availableTimeCSS,
+  purpleBookedTime,
   grayOutTime,
   scheduleTimeSelectedCSS,
   selectedCSS,
@@ -13,14 +14,17 @@ import {
   userTimeSelectedCSS,
 } from "../../assets/common-css/css";
 import { useVacationCheck } from "../../lib/useVacationCheck";
+import { useGetCoutries } from "../../utils/fetchEndpoints";
 
 export const TimeList: React.FC<TimeProps> = ({
   requiredData,
   previousDateCheck,
   isTimeChangeAllow,
   filteredOrders,
+  ordersGreaterThanTodaysDate,
 }) => {
   const dispatch = useDispatch();
+  const { data: coutries, isFetching: isCoutriesFetching } = useGetCoutries();
 
   const customerOrder = useSelector(
     (state: RootState) => state.formData.customerOrder
@@ -64,7 +68,8 @@ export const TimeList: React.FC<TimeProps> = ({
       `${nowDate}`
     );
 
-    if (isTimeSelectionAllow) return grayOutTime;
+    if (findTimeFromPastOrders(twelveHour, "")) return purpleBookedTime;
+    else if (isTimeSelectionAllow) return grayOutTime;
     else if (
       twelveHour.toString() ===
       customerOrder.solutionDateContract.solutionStartTime.toString()
@@ -95,6 +100,39 @@ export const TimeList: React.FC<TimeProps> = ({
       return timeData.solutionDateContract.solutionStartTime === time;
     });
     if (foundTime) return true;
+    return false;
+  };
+
+  const findTimeFromPastOrders = (time: string, date: string) => {
+    const date1 = new Date();
+
+    const isTimeFound = ordersGreaterThanTodaysDate?.find(
+      (data) => data.startTime === time
+    );
+
+    //  const isTimeFound = ordersGreaterThanTodaysDate?.find(
+    //   (data) =>
+    //     data.startTime === time &&
+    //     new Date(
+    //       `${requiredData?.userSelectedDate?.month}/${requiredData?.userSelectedDate?.day}/${requiredData?.userSelectedDate?.year}`
+    //     ) === new Date(date)
+    // );
+
+    console.log("isTimeFound = ", isTimeFound);
+    return isTimeFound !== undefined ? true : false;
+  };
+  const isTimeGreater = (time1: any, time2: any) => {
+    if (ordersGreaterThanTodaysDate !== undefined) {
+      const date1 = new Date();
+      date1.setHours(ordersGreaterThanTodaysDate[0]?.startTime as any);
+      date1.setMinutes(time1.minutes);
+
+      const date2 = new Date();
+      date2.setHours(time2.hours);
+      date2.setMinutes(time2.minutes);
+
+      return date1 > date2;
+    }
     return false;
   };
 
@@ -154,7 +192,7 @@ export const TimeList: React.FC<TimeProps> = ({
                     name="timetable"
                     onChange={(e) => updateStore(e)}
                     disabled={
-                      checkTimeForPreviousOrders(time.twelveHour)
+                      findTimeFromPastOrders(time.twelveHour, "")
                         ? true
                         : isTimeSelectionAllow
                         ? isTimeSelectionAllow
@@ -167,7 +205,8 @@ export const TimeList: React.FC<TimeProps> = ({
                     htmlFor={`${time.twelveHour}`}
                     className={`${getDateStyle(time.twelveHour)}`}
                   >
-                    {time.twelveHour}
+                    {time.twelveHour}{" "}
+                    {findTimeFromPastOrders(time.twelveHour, "") && "Booked"}
                   </label>
                 </li>
               )}

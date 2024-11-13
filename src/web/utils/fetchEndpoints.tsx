@@ -6,6 +6,7 @@ import {
 } from "../components/all-types/solutionistTypes";
 import { CustomerDetailsTypes } from "../../store/customerDetailsSlice";
 import { CountryTypes } from "../components/all-types/countryTypes";
+import { OrderTypes } from "../components/all-types/orderTypes";
 
 // Skills
 export const getSkills = () => {
@@ -109,6 +110,37 @@ export const useGetCoutries = () => {
   return useQuery({
     queryKey: ["coutries"],
     queryFn: () => getCoutries().then((data) => data),
+    placeholderData: [],
+  });
+};
+
+// Orders
+export const getOrders = async (): Promise<[]> => {
+  return getWrapper("orders").then((data) => {
+    return data;
+  });
+};
+
+export const useGetOrders = () => {
+  return useQuery({
+    queryKey: ["orders"],
+    queryFn: () => getOrders().then((data) => data),
+    placeholderData: [],
+  });
+};
+
+export const getOrdersWithSolutionistId = (
+  userId: number
+): Promise<OrderTypes[]> => {
+  return getWrapperWthId("orders/contractor", userId).then((data) => {
+    return data;
+  });
+};
+
+export const useGetOrdersWithSolutionistId = (userId: number) => {
+  return useQuery({
+    queryKey: ["rrdersWithSolutionistId"],
+    queryFn: () => getOrdersWithSolutionistId(userId).then((data) => data),
     placeholderData: [],
   });
 };

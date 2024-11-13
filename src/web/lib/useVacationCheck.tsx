@@ -1,5 +1,8 @@
 import { monthNameToNumber } from ".";
-import { DateSelection, weeksArrayTypes } from "./types/CalenderTypes";
+import {
+  DateSelection,
+  weeksArrayTypes,
+} from "../components/customer-calender-time/types/CalenderTypes";
 import { SolutionistWorkSetting } from "../../store/solutionistWorkSettingsSlice";
 
 export const calculateDaysBetweenDates = (
@@ -52,7 +55,8 @@ export const isVacationValid = (
 };
 
 export const useVacationCheck = (
-  solutionistWorkSettings: SolutionistWorkSetting, userSelectedDate: DateSelection
+  solutionistWorkSettings: SolutionistWorkSetting,
+  userSelectedDate: DateSelection
 ) => {
   const isTimeSelectionAllow = isVacationValid(
     solutionistWorkSettings,
