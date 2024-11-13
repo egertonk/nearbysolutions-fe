@@ -9,6 +9,7 @@ export const DatePicker: React.FC<TimeProps> = ({
   isTimeChangeAllow,
   filteredOrders,
   ordersGreaterThanTodaysDate,
+  weeksArray,
 }) => {
   const customerOrder = useSelector(
     (state: RootState) => state.formData.customerOrder
@@ -52,6 +53,7 @@ export const DatePicker: React.FC<TimeProps> = ({
             isTimeChangeAllow={isTimeChangeAllow}
             filteredOrders={filteredOrders}
             ordersGreaterThanTodaysDate={ordersGreaterThanTodaysDate}
+            weeksArray={weeksArray}
           />
         </div>
       </div>

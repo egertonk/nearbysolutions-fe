@@ -25,6 +25,7 @@ export type TimeProps = {
   isTimeChangeAllow?: any;
   filteredOrders: CustomerFormData[];
   ordersGreaterThanTodaysDate: OrderTypes[] | [];
+  weeksArray: WeeksData;
 };
 
 export type weeksArrayTypes = {

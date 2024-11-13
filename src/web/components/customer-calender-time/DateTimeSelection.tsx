@@ -8,10 +8,11 @@ import { Calender } from "../common-sections/calender";
 import { DatePicker } from "./datePicker";
 import { RootState } from "../../../store";
 import { setCustomerOrder } from "../../../store/customerContractorSlice";
-import { DateSelection } from "./types/CalenderTypes";
+import { DateSelection, WeeksData } from "./types/CalenderTypes";
 import { SolutionistTypes } from "../all-types/solutionistTypes";
-import { extractDateParts } from "./data-setup";
+import { defaultWeeksData, extractDateParts } from "./data-setup";
 import { OrderTypes } from "../all-types/orderTypes";
+import { useState } from "react";
 
 type Props = {
   solutionistOrders: OrderTypes[] | [];
@@ -25,6 +26,8 @@ export const DateTimeSelection: React.FC<Props> = ({
   solutionistOrders,
 }) => {
   const dispatch = useDispatch();
+  const [weeksArray, setWeeksArray] = useState<WeeksData>(defaultWeeksData);
+
   const customerOrder = useSelector(
     (state: RootState) => state.formData.customerOrder
   );
@@ -145,6 +148,8 @@ export const DateTimeSelection: React.FC<Props> = ({
         }
         updateStore={updateStore}
         solutionistDeatils={solutionistDeatils}
+        weeksArray={weeksArray}
+        setWeeksArray={setWeeksArray}
       />
 
       <DatePicker
@@ -160,6 +165,7 @@ export const DateTimeSelection: React.FC<Props> = ({
         previousDateCheck={{ isPreviousCurrentDatesMonthYear, dateUpdate }}
         filteredOrders={filteredOrders}
         ordersGreaterThanTodaysDate={ordersGreaterThanTodaysDate}
+        weeksArray={weeksArray}
       />
 
       {filteredOrders.length > 0 && (

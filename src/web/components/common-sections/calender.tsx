@@ -40,12 +40,16 @@ type Props = {
     year: number;
   }) => void;
   solutionistDeatils: SolutionistTypes | undefined;
+  weeksArray: WeeksData;
+  setWeeksArray: React.Dispatch<React.SetStateAction<WeeksData>>;
 };
 
 export const Calender: React.FC<Props> = ({
   currentMonthYear,
   updateStore,
   solutionistDeatils,
+  weeksArray,
+  setWeeksArray,
 }) => {
   const { showNextMonth, userSelectedDate, updateDateSelection } =
     useCalenderStates();
@@ -57,7 +61,6 @@ export const Calender: React.FC<Props> = ({
   const { month, year, day } = userSelectedDate;
 
   const [isUpdateValid, setIsUpdateValid] = useState(false);
-  const [weeksArray, setWeeksArray] = useState<WeeksData>(defaultWeeksData);
 
   const states = useSelector((state: RootState) => state.formData);
   const customerOrder = states.customerOrder;

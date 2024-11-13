@@ -22,6 +22,7 @@ export const TimeList: React.FC<TimeProps> = ({
   isTimeChangeAllow,
   filteredOrders,
   ordersGreaterThanTodaysDate,
+  weeksArray,
 }) => {
   const dispatch = useDispatch();
   const { data: coutries, isFetching: isCoutriesFetching } = useGetCoutries();
@@ -61,6 +62,40 @@ export const TimeList: React.FC<TimeProps> = ({
     dispatch(setCustomerOrder(updatedOrder));
   };
 
+  const isDateTimeInPast = (timeString: string): boolean => {
+    const currentDate = new Date();
+
+    // Check if the month is November (month index 10) and the year is 2024
+    const isCurrentMonthYear =
+      weeksArray.month === previousDateCheck.dateUpdate.month &&
+      weeksArray.year === previousDateCheck.dateUpdate.year;
+
+    if (isCurrentMonthYear) {
+      // Parse the time string (e.g., "11:00 AM")
+      const [time, period] = timeString.split(" ");
+      const [hourString, minuteString] = time.split(":");
+      let hour = parseInt(hourString, 10);
+      const minute = parseInt(minuteString, 10);
+
+      // Adjust the hour based on AM/PM
+      if (period === "PM" && hour !== 12) {
+        hour += 12;
+      } else if (period === "AM" && hour === 12) {
+        hour = 0;
+      }
+
+      // Create a Date object for the specified time on the current day in November 2024
+      const specifiedTime = new Date(currentDate);
+      specifiedTime.setHours(hour, minute, 0, 0); // Set the parsed hour and minute
+
+      // Check if the current time has passed the specified time
+      return currentDate > specifiedTime;
+    }
+
+    // If it's not November 2024, return false
+    return false;
+  };
+
   const getDateStyle = (twelveHour: string) => {
     const nowDate = new Date();
     const isDateTimeListValid = compareDates(
@@ -72,7 +107,8 @@ export const TimeList: React.FC<TimeProps> = ({
     else if (isTimeSelectionAllow) return grayOutTime;
     else if (
       twelveHour.toString() ===
-      customerOrder.solutionDateContract.solutionStartTime.toString()
+        customerOrder.solutionDateContract.solutionStartTime.toString() &&
+      isDateTimeInPast(twelveHour) === false
     ) {
       return userTimeSelectedCSS;
     } else if (requiredData.isCurrentMonth) {
@@ -118,7 +154,6 @@ export const TimeList: React.FC<TimeProps> = ({
     //     ) === new Date(date)
     // );
 
-    console.log("isTimeFound = ", isTimeFound);
     return isTimeFound !== undefined ? true : false;
   };
   const isTimeGreater = (time1: any, time2: any) => {
