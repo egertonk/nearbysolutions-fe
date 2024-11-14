@@ -22,7 +22,7 @@ export interface CustomerDetailsTypes {
     notes?: string; // Text field for additional notes
   }
 
-interface CustomerDetailsState {
+export interface CustomerDetailsState {
   customerDetails: CustomerDetailsTypes;
 }
 

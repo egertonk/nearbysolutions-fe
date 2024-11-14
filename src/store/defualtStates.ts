@@ -51,7 +51,7 @@ export const SolutionistWorkSettingsStates = {
   businessEndTime: "", // Format: "HH:MM:SS"
   oneBlockedStatus: false,
   jobASAPStatus: false,
-  bandStatus: false,
+  onlineStatus: false,
   availableDays: "", // JSON string representing an array of days
   vacationStatus: false,
   vacationStartDate: "", // Format: "YYYY-MM-DD"

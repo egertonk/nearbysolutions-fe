@@ -7,7 +7,7 @@ export interface SolutionistWorkSetting {
   businessEndTime: string; // Format: "HH:MM:SS"
   oneBlockedStatus: boolean;
   jobASAPStatus: boolean;
-  bandStatus: boolean;
+  onlineStatus: boolean;
   availableDays: string; // JSON string representing an array of days
   vacationStatus: boolean;
   vacationStartDate: string; // Format: "YYYY-MM-DD"
@@ -38,8 +38,8 @@ const solutionistWorkSettingsSlice = createSlice({
     setJobASAPStatus(state, action: PayloadAction<boolean>) {
       state.jobASAPStatus = action.payload;
     },
-    setBandStatus(state, action: PayloadAction<boolean>) {
-      state.bandStatus = action.payload;
+    setOnlineStatus(state, action: PayloadAction<boolean>) {
+      state.onlineStatus = action.payload;
     },
     setAvailableDays(state, action: PayloadAction<string>) {
       state.availableDays = action.payload;
@@ -74,7 +74,7 @@ export const {
   setBusinessEndTime,
   setOneBlockedStatus,
   setJobASAPStatus,
-  setBandStatus,
+  setOnlineStatus,
   setAvailableDays,
   setVacationStatus,
   setVacationStartDate,

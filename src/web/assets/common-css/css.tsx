@@ -1,3 +1,17 @@
+import { SolutionistWorkSetting } from "../../../store/solutionistWorkSettingsSlice";
+import { SolutionistTypes } from "../../components/all-types/solutionistTypes";
+import {
+  DayKeys,
+  dayWithShortNames,
+} from "../../components/customer-calender-time/data-setup";
+import {
+  DateSelection,
+  WeeksData,
+} from "../../components/customer-calender-time/types/CalenderTypes";
+import { monthNames, monthNameToNumberMarch } from "../../lib";
+import { CustomerFormData } from "../../lib/types/OrderSolutionTypes";
+import { isVacationValid } from "../../lib/useVacationCheck";
+
 export const inputCSS =
   "px-2 py-3 bg-white w-full text-sm border-b-2 focus:border-[#011c2b] outline-none";
 
@@ -21,7 +35,6 @@ export const grayOutTime =
 export const purpleBookedTime =
   "inline-flex items-center justify-center w-full p-2 text-sm font-medium text-center  border rounded-lg text-white border-blue-600 dark:border-purple-500 bg-purple-500";
 
-// todo
 export const disablePastDatesTime =
   "cursor-none pointer-events-none bg-gray-200 rounded-full px-4 flex w-8 justify-center ";
 
@@ -33,3 +46,84 @@ export const vacationCSS =
 
 export const timeSelectedCSS =
   "bg-purple-600 text-white items-center justify-center  p-2 text-sm font-medium text-center  border rounded-lg border-blue-600 ";
+
+export const getDateStyle = (
+  customerOrder: CustomerFormData,
+  userSelectedDate: DateSelection,
+  weeksArray: WeeksData,
+  solutionistDeatils: SolutionistTypes | undefined,
+  currentMonthYear: {
+    showMonth: string;
+    showYear: number;
+  },
+  solutionistWorkSettings: SolutionistWorkSetting,
+  days: { day: number; dayTitle: string }
+) => {
+  const { showMonth, showYear } = currentMonthYear;
+  const { month, year, day } = userSelectedDate;
+
+  const solutionDate = new Date(
+    customerOrder.solutionDateContract.solutionDate
+  );
+
+  const systemDate = new Date();
+
+  const sameMonth = month === weeksArray?.month && year === weeksArray?.year;
+
+  const availableDays =
+    solutionistDeatils?.talent?.solutionistWorkSettings?.[0]?.availableDays ||
+    "";
+
+  const systemMonthNumber =
+    monthNameToNumberMarch[monthNames[systemDate.getMonth()]?.substring(0, 3)];
+  const currentMonthNumber =
+    monthNameToNumberMarch[weeksArray?.month?.substring(0, 3)];
+
+  const currentCalendarVacationCheck = {
+    day: days.day,
+    month: showMonth,
+    year: showYear,
+  };
+  const dayKey = days.dayTitle;
+
+  if (
+    availableDays.includes(dayWithShortNames[dayKey as DayKeys]) === false &&
+    availableDays?.length > 0
+  ) {
+    console.log("1--contractor availableDays");
+    return disablePastDatesTime;
+  } else if (
+    isVacationValid(
+      solutionistWorkSettings,
+      currentCalendarVacationCheck,
+      weeksArray
+    )
+  ) {
+    console.log("1--");
+    return vacationCSS;
+  } else if (day === days.day && sameMonth) {
+    console.log("2--");
+    return selectedCSS;
+  } else if (solutionDate.getDate() === days.day && sameMonth) {
+    console.log("3--");
+    return selectedCSS;
+  } else if (
+    weeksArray?.year === year &&
+    systemMonthNumber < currentMonthNumber
+  ) {
+    console.log("4--");
+    return "";
+  } else if (
+    systemMonthNumber === currentMonthNumber &&
+    systemDate.getDate() > days.day
+  ) {
+    console.log("5--");
+    return disablePastDatesTime;
+  } else if (
+    weeksArray?.year === year &&
+    systemMonthNumber > currentMonthNumber
+  ) {
+    console.log("6--");
+    return disablePastDatesTime;
+  }
+};

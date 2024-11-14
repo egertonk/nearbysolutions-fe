@@ -15,10 +15,12 @@ export const Search: React.FC<Props> = ({
 }) => {
   const [userSearch, setUserSearch] = useState("");
 
-  const getAllJobTitles = (talentInfo: SolutionistTypes[] | []) => {
-    return talentInfo.flatMap((talent) =>
-      talent?.talent?.jobTitle?.map((job) => job?.title)
-    );
+  const getAllJobTitles = (talentInfo: SolutionistTypes[] = []) => {
+    return Array.isArray(talentInfo)
+      ? talentInfo.flatMap(
+          (talent) => talent?.talent?.jobTitle?.map((job) => job?.title) || []
+        )
+      : [];
   };
 
   const jobTitlesArray = getAllJobTitles(searchResults);

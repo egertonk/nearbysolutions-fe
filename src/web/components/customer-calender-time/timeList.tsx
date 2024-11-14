@@ -131,45 +131,35 @@ export const TimeList: React.FC<TimeProps> = ({
     return false;
   };
 
-  const checkTimeForPreviousOrders = (time: string) => {
-    const foundTime = filteredOrders.find((timeData) => {
-      return timeData.solutionDateContract.solutionStartTime === time;
-    });
-    if (foundTime) return true;
-    return false;
-  };
+  // const checkTimeForPreviousOrders = (time: string) => {
+  //   const foundTime = filteredOrders.find((timeData) => {
+  //     return timeData.solutionDateContract.solutionStartTime === time;
+  //   });
+  //   if (foundTime) return true;
+  //   return false;
+  // };
 
   const findTimeFromPastOrders = (time: string, date: string) => {
-    const date1 = new Date();
-
     const isTimeFound = ordersGreaterThanTodaysDate?.find(
       (data) => data.startTime === time
     );
 
-    //  const isTimeFound = ordersGreaterThanTodaysDate?.find(
-    //   (data) =>
-    //     data.startTime === time &&
-    //     new Date(
-    //       `${requiredData?.userSelectedDate?.month}/${requiredData?.userSelectedDate?.day}/${requiredData?.userSelectedDate?.year}`
-    //     ) === new Date(date)
-    // );
-
     return isTimeFound !== undefined ? true : false;
   };
-  const isTimeGreater = (time1: any, time2: any) => {
-    if (ordersGreaterThanTodaysDate !== undefined) {
-      const date1 = new Date();
-      date1.setHours(ordersGreaterThanTodaysDate[0]?.startTime as any);
-      date1.setMinutes(time1.minutes);
+  // const isTimeGreater = (time1: any, time2: any) => {
+  //   if (ordersGreaterThanTodaysDate !== undefined) {
+  //     const date1 = new Date();
+  //     date1.setHours(ordersGreaterThanTodaysDate[0]?.startTime as any);
+  //     date1.setMinutes(time1.minutes);
 
-      const date2 = new Date();
-      date2.setHours(time2.hours);
-      date2.setMinutes(time2.minutes);
+  //     const date2 = new Date();
+  //     date2.setHours(time2.hours);
+  //     date2.setMinutes(time2.minutes);
 
-      return date1 > date2;
-    }
-    return false;
-  };
+  //     return date1 > date2;
+  //   }
+  //   return false;
+  // };
 
   return (
     <ul

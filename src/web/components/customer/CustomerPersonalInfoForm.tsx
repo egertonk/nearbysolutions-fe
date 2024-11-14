@@ -117,7 +117,8 @@ export const CustomerPersonalInfoForm: React.FC = () => {
   };
 
   const validCountries = useMemo(() => {
-    return coutries?.filter((country) => country.featureFlag);
+    if (coutries) return coutries?.filter((country) => country?.featureFlag);
+    return [];
   }, [coutries]);
 
   return (

@@ -1,18 +1,35 @@
 import { useState } from "react";
-import { DateSelection } from "../components/customer-calender-time/types/CalenderTypes";
+import {
+  DateSelection,
+  WeeksData,
+} from "../components/customer-calender-time/types/CalenderTypes";
 import { useCalender } from "./useCalender";
-import { monthNames } from ".";
+import { monthNames, monthNameToNumber } from ".";
 import { useSelector } from "react-redux";
 import { RootState } from "../../store";
+import { isVacationValid } from "./useVacationCheck";
 
 export const useCalenderStates = () => {
+  const [isUpdateValid, setIsUpdateValid] = useState(false);
   const [showNextMonth, setShowNextMonth] = useState(false);
   const [showPrevMonth, setShowPrevMonth] = useState(false);
   const [userSelectedTime, setUserSelectedTime] = useState("");
   const [formattedDate, setFormattedDate] = useState("");
 
-  const { year, dayNames, nextMonthName, currentMonthName, date, day, month } =
-    useCalender();
+  const solutionistWorkSettings = useSelector(
+    (state: RootState) => state.solutionistWorkSettingsState
+  );
+
+  const {
+    year,
+    dayNames,
+    nextMonthName,
+    currentMonthName,
+    date,
+    day,
+    month,
+    getMappedDays,
+  } = useCalender();
 
   const currentMonthSelection = showNextMonth
     ? nextMonthName
@@ -51,6 +68,75 @@ export const useCalenderStates = () => {
     setFormattedDate(`${dayName} ${day} ${month} ${year}`);
   };
 
+  const updateDaySelection = (
+    actualDay: number,
+    weeksArray: WeeksData,
+    updateStore: (defaultValueDate?: DateSelection) => void
+  ) => {
+    updateDateSelection(
+      actualDay,
+      weeksArray?.month || "",
+      weeksArray?.year || 0
+    );
+    updateStore({
+      month: userSelectedDate.month,
+      day: actualDay,
+      year: userSelectedDate.year,
+    });
+    setIsUpdateValid(true);
+  };
+
+  const getVacationStatus = (day: number, weeksArray: WeeksData) => {
+    return isVacationValid(
+      solutionistWorkSettings,
+      {
+        day: day,
+        month: userSelectedDate.month,
+        year: userSelectedDate.year,
+      },
+      weeksArray
+    );
+  };
+
+  const handleCalenderArrows = (
+    weeksArray: WeeksData,
+    setWeeksArray: React.Dispatch<React.SetStateAction<WeeksData>>,
+    attowAction?: string
+  ) => {
+    if (attowAction === "previous") {
+      const previousMonthNumber =
+        monthNameToNumber[weeksArray?.month.substring(0, 3) || ""] - 1;
+
+      setWeeksArray({
+        weeksArray: getMappedDays(previousMonthNumber, year),
+        month:
+          monthNames[previousMonthNumber > 0 ? previousMonthNumber - 1 : 11],
+        year:
+          previousMonthNumber === 0
+            ? weeksArray?.year - 1
+            : weeksArray?.year || 0,
+      });
+    } else {
+      const MonthNumber =
+        monthNameToNumber[weeksArray?.month.substring(0, 3) || ""] + 1;
+
+      const mName =
+        monthNames[
+          MonthNumber <= 12 && MonthNumber >= 1
+            ? MonthNumber - 1
+            : MonthNumber > 12
+            ? 0
+            : 11
+        ];
+
+      setWeeksArray({
+        weeksArray: getMappedDays(MonthNumber, year),
+        month: mName,
+        year: MonthNumber > 12 ? weeksArray?.year + 1 || 0 : weeksArray?.year,
+      });
+    }
+  };
+
   return {
     showNextMonth,
     setShowNextMonth,
@@ -69,5 +155,10 @@ export const useCalenderStates = () => {
     isCurrentMonth,
     showPrevMonth,
     setShowPrevMonth,
+    isUpdateValid,
+    setIsUpdateValid,
+    updateDaySelection,
+    getVacationStatus,
+    handleCalenderArrows,
   };
 };

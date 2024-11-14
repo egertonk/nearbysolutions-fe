@@ -4,7 +4,7 @@ import { useCalenderStates } from "../../lib/useCalenderStates";
 import { orderSortList, useOrders } from "../../lib/useOrders";
 import { SortData } from "../common-sections/SortData";
 import { TableHeader } from "../common-sections/TableHeader";
-import { Calender } from "../common-sections/calender";
+import { Calender } from "./calender";
 import { DatePicker } from "./datePicker";
 import { RootState } from "../../../store";
 import { setCustomerOrder } from "../../../store/customerContractorSlice";
