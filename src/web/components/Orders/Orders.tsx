@@ -4,7 +4,7 @@ import { MainTitle } from "../common-sections/MainTitle";
 import { SortData } from "../common-sections/SortData";
 import { priceWithComma } from "../../lib";
 import { TableHeader } from "../common-sections/TableHeader";
-import { SearchUI } from "../common-sections/SearchUI";
+import { SearchUI } from "../search/SearchUI";
 import { orderSortList, useOrders } from "../../lib/useOrders";
 
 type Props = {

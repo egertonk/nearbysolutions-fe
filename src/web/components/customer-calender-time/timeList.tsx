@@ -1,5 +1,4 @@
 import { compareDates, isTimeGreater, isTimeValid } from "../../lib";
-import { TimeProps } from "./types/CalenderTypes";
 import { useTimeIntervals } from "../../lib/useTimeIntervals";
 import { useDispatch, useSelector } from "react-redux";
 import { RootState } from "../../../store";
@@ -15,6 +14,7 @@ import {
 } from "../../assets/common-css/css";
 import { useVacationCheck } from "../../lib/useVacationCheck";
 import { useGetCoutries } from "../../utils/fetchEndpoints";
+import { TimeProps } from "../../lib/types/CalenderTypes";
 
 export const TimeList: React.FC<TimeProps> = ({
   requiredData,

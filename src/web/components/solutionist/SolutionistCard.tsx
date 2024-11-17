@@ -2,13 +2,19 @@ import { useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { isFixPriceValid, priceWithComma } from "../../lib";
 import { SocialIcon } from "./socialIcon";
-import { JobTitleTypes, SolutionistTypes } from "../all-types/solutionistTypes";
+import {
+  JobTitleTypes,
+  SolutionistTypes,
+} from "../../lib/types/solutionistTypes";
 import { SolutionistCheckMark } from "./SolutionistCheckMark";
 import { SolutionistImageHire } from "./SolutionistImageHire";
 import { SolutionistFavoriteAddAndRemove } from "./SolutionistFavoriteAddAndRemove";
 import { setCustomerOrder } from "../../../store/customerContractorSlice";
 import { RootState } from "../../../store";
-import { solutionDate, solutionFormattedDate } from "../customer-calender-time/data-setup";
+import {
+  solutionDate,
+  solutionFormattedDate,
+} from "../customer-calender-time/data-setup";
 
 type Props = {
   data: SolutionistTypes[];

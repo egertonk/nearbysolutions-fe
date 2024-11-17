@@ -1,6 +1,5 @@
 import { useSelector } from "react-redux";
 import { greaterThanArrowSVG, lessThanArrowSVG } from "../../assets/svg/svgs";
-import { DateSelection, WeeksData } from "./types/CalenderTypes";
 import { useCalender } from "../../lib/useCalender";
 import { RootState } from "../../../store";
 import { useEffect } from "react";
@@ -8,7 +7,8 @@ import { isVacationValid } from "../../lib/useVacationCheck";
 import { useCalenderStates } from "../../lib/useCalenderStates";
 import { monthNameToNumber } from "../../lib";
 import { getDateStyle } from "../../assets/common-css/css";
-import { SolutionistTypes } from "../all-types/solutionistTypes";
+import { SolutionistTypes } from "../../lib/types/solutionistTypes";
+import { DateSelection, WeeksData } from "../../lib/types/CalenderTypes";
 
 type Props = {
   currentMonthYear: {

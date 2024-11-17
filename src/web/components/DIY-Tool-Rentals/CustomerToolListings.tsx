@@ -5,7 +5,7 @@ import { MainTitle } from "../common-sections/MainTitle";
 import { SortData } from "../common-sections/SortData";
 import { SideMenuList } from "../Header/SideMenuList";
 import { TableHeader } from "../common-sections/TableHeader";
-import { SearchUI } from "../common-sections/SearchUI";
+import { SearchUI } from "../search/SearchUI";
 import { useCustomerToolListings } from "../../lib/useCustomerToolListings";
 
 export const CustomerToolListings: React.FC = () => {

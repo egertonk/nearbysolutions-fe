@@ -1,7 +1,7 @@
 import { PostAJobHeader } from "./PostAJobHeader";
 import { MainTitle } from "../common-sections/MainTitle";
 import { JobListings } from "./JobListings";
-import { SearchUI } from "../common-sections/SearchUI";
+import { SearchUI } from "../search/SearchUI";
 import { SortData } from "../common-sections/SortData";
 import { useFindWorkPostAJob } from "../../lib/useFindWorkPostAJob";
 

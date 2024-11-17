@@ -1,9 +1,6 @@
 import { monthNameToNumber } from ".";
-import {
-  DateSelection,
-  weeksArrayTypes,
-} from "../components/customer-calender-time/types/CalenderTypes";
 import { SolutionistWorkSetting } from "../../store/solutionistWorkSettingsSlice";
+import { DateSelection, weeksArrayTypes } from "./types/CalenderTypes";
 
 export const calculateDaysBetweenDates = (
   startDate: string,

@@ -8,11 +8,11 @@ import { Calender } from "./calender";
 import { DatePicker } from "./datePicker";
 import { RootState } from "../../../store";
 import { setCustomerOrder } from "../../../store/customerContractorSlice";
-import { DateSelection, WeeksData } from "./types/CalenderTypes";
-import { SolutionistTypes } from "../all-types/solutionistTypes";
+import { SolutionistTypes } from "../../lib/types/solutionistTypes";
 import { defaultWeeksData, extractDateParts } from "./data-setup";
-import { OrderTypes } from "../all-types/orderTypes";
 import { useState } from "react";
+import { DateSelection, WeeksData } from "../../lib/types/CalenderTypes";
+import { OrderTypes } from "../../lib/types/orderTypes";
 
 type Props = {
   solutionistOrders: OrderTypes[] | [];

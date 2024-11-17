@@ -3,13 +3,10 @@ import { CustomerFormData } from "./types/OrderSolutionTypes";
 import { useDispatch, useSelector } from "react-redux";
 import { setCustomerOrder } from "../../store/customerContractorSlice";
 import { RootState } from "../../store";
-import { DateSelection } from "../components/customer-calender-time/types/CalenderTypes";
 import { useCalender } from "./useCalender";
 import { orderStates } from "../../store/defualtStates";
-import {
-  JobTitleTypes,
-  SolutionistTypes,
-} from "../components/all-types/solutionistTypes";
+import { JobTitleTypes, SolutionistTypes } from "./types/solutionistTypes";
+import { DateSelection } from "./types/CalenderTypes";
 
 export const useCustomerPersonalInfoForm = (
   userSelectedTime?: string,

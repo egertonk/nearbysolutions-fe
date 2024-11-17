@@ -1,7 +1,7 @@
 import { Link } from "react-router-dom";
 
 import nearbySolutionsIcon from "../../assets/company-logos-icons/icononly_transparent_nobuffer.png";
-import { SolutionistTypes } from "../all-types/solutionistTypes";
+import { SolutionistTypes } from "../../lib/types/solutionistTypes";
 
 type Props = {
   index: Number;

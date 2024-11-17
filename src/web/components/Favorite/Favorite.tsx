@@ -2,7 +2,7 @@ import { useState } from "react";
 import { SolutionistCard } from "../solutionist/SolutionistCard";
 import { talentInformation } from "../../lib";
 import { MainTitle } from "../common-sections/MainTitle";
-import { Search } from "../common-sections/Search";
+import { Search } from "../search/Search";
 
 export const Favorite: React.FC = () => {
   const [searchResults, setSearchResults] = useState(talentInformation); // api call to get user Favorite

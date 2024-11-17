@@ -1,5 +1,5 @@
-import { CustomerFormData } from "../../../lib/types/OrderSolutionTypes";
-import { OrderTypes } from "../../all-types/orderTypes";
+import { CustomerFormData } from "./OrderSolutionTypes";
+import { OrderTypes } from "./orderTypes";
 
 export type DateSelection = {
   day: number;

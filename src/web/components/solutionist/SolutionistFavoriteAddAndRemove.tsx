@@ -1,6 +1,6 @@
 import { Link } from "react-router-dom";
 import { addTalentSVG, removeTalentSVG } from "../../assets/svg/svgs";
-import { SolutionistTypes } from "../all-types/solutionistTypes";
+import { SolutionistTypes } from "../../lib/types/solutionistTypes";
 
 type Props = {
   id: Number;

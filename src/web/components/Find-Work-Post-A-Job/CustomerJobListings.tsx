@@ -4,7 +4,7 @@ import { useFindWorkPostAJob } from "../../lib/useFindWorkPostAJob";
 import { SideMenuList } from "../Header/SideMenuList";
 import { priceWithComma } from "../../lib";
 import { TableHeader } from "../common-sections/TableHeader";
-import { SearchUI } from "../common-sections/SearchUI";
+import { SearchUI } from "../search/SearchUI";
 
 type Props = {
   isOrderSumary?: boolean;

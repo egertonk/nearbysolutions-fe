@@ -19,7 +19,7 @@ import {
 } from "../assets/svg/svgs";
 import { CustomerJobs } from "./types/FindWorkPostAJobtypesData";
 import { DIYToolListing } from "./types/DIYToolsListings";
-import { JobTitleTypes } from "../components/all-types/solutionistTypes";
+import { JobTitleTypes } from "./types/solutionistTypes";
 
 export const monthNames = [
   "January",

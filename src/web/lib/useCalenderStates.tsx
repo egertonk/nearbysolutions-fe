@@ -1,13 +1,10 @@
 import { useState } from "react";
-import {
-  DateSelection,
-  WeeksData,
-} from "../components/customer-calender-time/types/CalenderTypes";
 import { useCalender } from "./useCalender";
 import { monthNames, monthNameToNumber } from ".";
 import { useSelector } from "react-redux";
 import { RootState } from "../../store";
 import { isVacationValid } from "./useVacationCheck";
+import { DateSelection, WeeksData } from "./types/CalenderTypes";
 
 export const useCalenderStates = () => {
   const [isUpdateValid, setIsUpdateValid] = useState(false);

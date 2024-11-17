@@ -1,4 +1,4 @@
-import { Solutionist, Talent } from "./solutionistTypes";
+import { Solutionist, Talent } from "../../lib/types/solutionistTypes";
 
 export interface CustomerTypes {
   customerId: number;

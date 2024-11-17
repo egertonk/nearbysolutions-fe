@@ -1,12 +1,12 @@
 import { ChevronLeftIcon, ChevronRightIcon } from "@heroicons/react/20/solid";
 
-import { Search } from "../common-sections/Search";
+import { Search } from "../search/Search";
 import { SolutionistCard } from "./SolutionistCard";
 import { useEffect, useState } from "react";
 import { MainTitle } from "../common-sections/MainTitle";
 import { useLocation } from "react-router";
 import { useGetCustomerWithId, useGetUser } from "../../utils/fetchEndpoints";
-import { SolutionistTypes } from "../all-types/solutionistTypes";
+import { SolutionistTypes } from "../../lib/types/solutionistTypes";
 import { useDispatch, useSelector } from "react-redux";
 import { setCustomerDetails } from "../../../store/customerDetailsSlice";
 import { setCustomerOrder } from "../../../store/customerContractorSlice";

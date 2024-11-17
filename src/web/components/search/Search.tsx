@@ -1,6 +1,7 @@
 import React, { useState } from "react";
 import { SearchUI } from "./SearchUI";
-import { SolutionistTypes } from "../all-types/solutionistTypes";
+import { SolutionistTypes } from "../../lib/types/solutionistTypes";
+import { localHostURL } from "../../utils/fetchGet";
 
 type Props = {
   searchResults: SolutionistTypes[] | [];
@@ -13,7 +14,7 @@ export const Search: React.FC<Props> = ({
   searchResults,
   fallBackData,
 }) => {
-  const [userSearch, setUserSearch] = useState("");
+  const [searchTerm, setSearchTerm] = useState("");
 
   const getAllJobTitles = (talentInfo: SolutionistTypes[] = []) => {
     return Array.isArray(talentInfo)
@@ -28,16 +29,32 @@ export const Search: React.FC<Props> = ({
   const handleOnChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const { value } = e.target;
 
-    setUserSearch(value);
+    setSearchTerm(value);
     if (value.length === 0 && fallBackData) setSearchResults(fallBackData);
   };
 
-  const handleSubmit = () => {
-    if (userSearch.length > 0) {
-      const matchJobs = searchResults.filter((talent) =>
-        talent?.talent?.jobTitle?.some((job) => job.title.includes(userSearch))
-      );
-      setSearchResults(matchJobs);
+  const handleSubmit = async () => {
+    if (searchTerm.length > 0) {
+      if (!searchTerm.trim()) return; // Only search when there's input
+
+      try {
+        const response = await fetch(
+          `${localHostURL}/skills/search?name=${encodeURIComponent(searchTerm)}`
+        );
+
+        if (!response.ok) {
+          throw new Error(`Error: ${response.statusText}`);
+        }
+
+        const data = await response.json();
+
+        if (data.length === 0 && fallBackData) setSearchResults(fallBackData);
+        else setSearchResults(data);
+      } catch (err) {
+        //   setError(err.message);
+      } finally {
+        // setLoading(false);
+      }
     }
   };
 

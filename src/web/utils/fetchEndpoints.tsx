@@ -1,12 +1,12 @@
 import { useQuery, useQueryClient } from "@tanstack/react-query";
-import { getWrapper, getWrapperWthId } from "./fetchGet";
+import { getWrapper, getWrapperSearchTerm, getWrapperWthId } from "./fetchGet";
 import {
   SolutionistTypes,
   talentPlaceHolderData,
-} from "../components/all-types/solutionistTypes";
+} from "../lib/types/solutionistTypes";
 import { CustomerDetailsTypes } from "../../store/customerDetailsSlice";
-import { CountryTypes } from "../components/all-types/countryTypes";
-import { OrderTypes } from "../components/all-types/orderTypes";
+import { CountryTypes } from "../lib/types/countryTypes";
+import { OrderTypes } from "../lib/types/orderTypes";
 
 // Skills
 export const getSkills = () => {
@@ -142,5 +142,22 @@ export const useGetOrdersWithSolutionistId = (userId: number) => {
     queryKey: ["rrdersWithSolutionistId"],
     queryFn: () => getOrdersWithSolutionistId(userId).then((data) => data),
     placeholderData: [],
+  });
+};
+
+// Search Term Result
+export const getUserSearchResult = (
+  searchTerm: string
+): Promise<SolutionistTypes[]> => {
+  return getWrapperSearchTerm("skills", searchTerm).then((data) => {
+    return data;
+  });
+};
+
+export const useGetUserSearchResult = (searchTerm: string) => {
+  return useQuery({
+    queryKey: ["search-result"],
+    queryFn: () => getUserSearchResult(searchTerm).then((data) => data),
+    placeholderData: talentPlaceHolderData,
   });
 };

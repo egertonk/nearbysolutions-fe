@@ -1,14 +1,11 @@
 import { SolutionistWorkSetting } from "../../../store/solutionistWorkSettingsSlice";
-import { SolutionistTypes } from "../../components/all-types/solutionistTypes";
+import { SolutionistTypes } from "../../lib/types/solutionistTypes";
 import {
   DayKeys,
   dayWithShortNames,
 } from "../../components/customer-calender-time/data-setup";
-import {
-  DateSelection,
-  WeeksData,
-} from "../../components/customer-calender-time/types/CalenderTypes";
 import { monthNames, monthNameToNumberMarch } from "../../lib";
+import { DateSelection, WeeksData } from "../../lib/types/CalenderTypes";
 import { CustomerFormData } from "../../lib/types/OrderSolutionTypes";
 import { isVacationValid } from "../../lib/useVacationCheck";
 

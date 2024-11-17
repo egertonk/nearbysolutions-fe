@@ -1,4 +1,4 @@
-import { DateParts, WeeksData } from "../types/CalenderTypes";
+import { DateParts, WeeksData } from "../../../lib/types/CalenderTypes";
 
 export const solutionDate = new Date().toLocaleDateString("en-US", {
   month: "2-digit",
