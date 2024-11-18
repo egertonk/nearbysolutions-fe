@@ -89,5 +89,15 @@ export type CustomerFormData = {
   orderDate: string;
   orderStatus: boolean;
   giftStatus: boolean;
-  giftFor_fullName: string;
+  giftInformationFor: {
+    firstName: string;
+    lastName: string;
+    country: string;
+    address: string;
+    city: string;
+    state: string;
+    zip: string;
+    phoneNumber: string;
+    email: string;
+  };
 };

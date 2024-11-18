@@ -281,7 +281,7 @@ export const CustomerPersonalInfoForm: React.FC = () => {
             </div>
           </>
         )}
-        {isGiftASolution && (
+        {/* {isGiftASolution && (
           <div className="relative flex items-center m-1">
             <input
               className={`${customerInputCSS} ${
@@ -296,7 +296,7 @@ export const CustomerPersonalInfoForm: React.FC = () => {
             />
             {personIconSVG}
           </div>
-        )}
+        )} */}
 
         {customerOrder.fixPriceStatus == false && (
           <LongTermContract

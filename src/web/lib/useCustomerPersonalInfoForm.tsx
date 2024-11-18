@@ -52,7 +52,6 @@ export const useCustomerPersonalInfoForm = (
   };
   console.log("customerOrder22222222 = ", customerOrder);
   useEffect(() => {
-    console.log("solutionist1111111111 = ", solutionistDeatils);
     const orderData = {
       orderID: customerOrder.orderID,
       customerInfo: {
@@ -105,7 +104,17 @@ export const useCustomerPersonalInfoForm = (
       orderDate: `${today}`,
       orderStatus: customerOrder.orderStatus || false,
       giftStatus: customerOrder.giftStatus || false,
-      giftFor_fullName: customerOrder.giftFor_fullName || "",
+      giftInformationFor: {
+        firstName: customerOrder.giftInformationFor.firstName || "",
+        lastName: customerOrder.giftInformationFor.lastName || "",
+        country: customerOrder.giftInformationFor.country || "",
+        address: customerOrder.giftInformationFor.address || "",
+        city: customerOrder.giftInformationFor.city || "",
+        state: customerOrder.giftInformationFor.state || "",
+        zip: customerOrder.giftInformationFor.zip || "",
+        phoneNumber: customerOrder.giftInformationFor.phoneNumber || "",
+        email: customerOrder.giftInformationFor.email || "",
+      },
     };
     console.log("orderData1111111 = ", orderData);
     dispatch(setCustomerOrder(orderData));

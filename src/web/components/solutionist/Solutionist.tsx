@@ -56,12 +56,14 @@ export const Solutionist: React.FC = () => {
           phoneNumber: customer.phoneNumber || "",
           email: customer.email || "",
         },
+        giftStatus: isGiftASolution,
       };
+      console.info(updatedCustomerFormData);
       dispatch(setCustomerOrder(updatedCustomerFormData));
     }
     if (user && searchResults.length === 0 && isFetching === false)
       setSearchResults(user);
-  }, [isFetching, isCustomerFetching]);
+  }, [isFetching, isCustomerFetching, isGiftASolution]);
 
   return (
     <>

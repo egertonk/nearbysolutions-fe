@@ -42,7 +42,17 @@ export const orderStates = {
   orderDate: "",
   orderStatus: false,
   giftStatus: false,
-  giftFor_fullName: "",
+  giftInformationFor: {
+    firstName: "",
+    lastName: "",
+    country: "",
+    address: "",
+    city: "",
+    state: "",
+    zip: "",
+    phoneNumber: "",
+    email: "",
+  },
 };
 
 export const SolutionistWorkSettingsStates = {
