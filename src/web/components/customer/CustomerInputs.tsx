@@ -6,7 +6,7 @@ type CustomerInputTypes = {
   id: string;
   value: string;
   placeHolder: string;
-  updateCustomerInfo: (
+  updateInfo: (
     e: React.ChangeEvent<HTMLInputElement | HTMLSelectElement>
   ) => void;
 };
@@ -15,7 +15,7 @@ export const CustomerInputs: React.FC<CustomerInputTypes> = ({
   id,
   value,
   placeHolder,
-  updateCustomerInfo,
+  updateInfo,
 }) => {
   return (
     <input
@@ -25,7 +25,7 @@ export const CustomerInputs: React.FC<CustomerInputTypes> = ({
       type="text"
       placeholder={placeHolder}
       value={value}
-      onChange={updateCustomerInfo}
+      onChange={updateInfo}
     />
   );
 };

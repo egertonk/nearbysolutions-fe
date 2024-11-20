@@ -50,6 +50,14 @@ export const products = [
   //   icon: SquaresPlusIcon,
   //   routeName: "bulk-hire",
   // },
+  //Todo later
+  // {
+  //   name: "Store finder HASSAN",
+  //   description: "Speak directly to your customers",
+  //   href: "#",
+  //   icon: SquaresPlusIcon,
+  //   routeName: "bulk-hire",
+  // },
   {
     name: "Find Work / Post a Job",
     description: "Your customers’ data will be safe and secure",

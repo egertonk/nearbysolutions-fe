@@ -15,10 +15,10 @@ export const CalenderForm: React.FC = () => {
   const states = useSelector((state: RootState) => state);
   const customerOrder = states.formData;
   const isEditOrder = states.formData.isEditOrder;
-  const isGiftASolution = states.applicationModeState.isGiftASolution;
+  const isGiftASolution = states.formData.customerOrder.giftStatus;
 
   const validateForm = () => {
-    const excludedFields = [
+    const excludedFieldsForCustomer = [
       "giftFor_fullName",
       "giftStatus",
       "longTermContract",
@@ -38,18 +38,24 @@ export const CalenderForm: React.FC = () => {
       "orderDate",
     ];
 
-    const result = Object.entries(customerOrder.customerOrder).every(
-      ([key, value]) => {
-        console.log(key, "   ");
-
-        if (!excludedFields.includes(key)) {
-          return value?.toString()?.length > 0;
-        }
-        return true;
+    const isCustomerOrderReady = Object.entries(
+      customerOrder.customerOrder
+    ).every(([key, value]) => {
+      if (!excludedFieldsForCustomer.includes(key)) {
+        return value?.toString()?.length > 0;
       }
-    );
+      return true;
+    });
 
-    return result;
+    let isGiftASolutionReady = true;
+    if (isGiftASolution)
+      isGiftASolutionReady = Object.entries(
+        states.formData.customerOrder.giftInformationFor
+      ).every(([key, value]) => {
+        return value?.toString()?.length > 0;
+      });
+
+    return isGiftASolutionReady && isCustomerOrderReady;
   };
 
   const handleSubmit = () => {

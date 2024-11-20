@@ -214,6 +214,8 @@ export const SolutionistCard: React.FC<Props> = ({ data, isFavoriteValid }) => {
                 )}
               </div>
 
+              {/* <hr className="w-48 h-1 mx-auto bg-gray-100 border-0 rounded md:my-4 dark:bg-gray-700"></hr> */}
+
               <SolutionistFavoriteAddAndRemove
                 id={id}
                 jobId={jobId}

@@ -1,11 +1,11 @@
 import { useState } from "react";
 import { customerJobsArray } from ".";
-import { CustomerJobs } from "./types/FindWorkPostAJobtypesData";
+import { JobPosting } from "./types/FindWorkPostAJobtypesData";
 
 export const useFindWorkPostAJob = (sortList: string[]) => {
   const [searchTerm, setSearchTerm] = useState<string>("");
   const [filteredJobs, setFilteredJobs] =
-    useState<CustomerJobs[]>(customerJobsArray);
+    useState<JobPosting[]>(customerJobsArray);
   const [sortDirection, setSortDirection] = useState<string>("asc");
 
   const handleOnChange = (e: React.ChangeEvent<HTMLInputElement>) => {
@@ -41,7 +41,7 @@ export const useFindWorkPostAJob = (sortList: string[]) => {
   const handleSort = (sortType: string) => {
     const sortOrder = sortDirection === "asc" ? 1 : -1;
 
-    const sortByJobPrice = (jobs: CustomerJobs[]): CustomerJobs[] => {
+    const sortByJobPrice = (jobs: JobPosting[]): JobPosting[] => {
       return [...jobs].sort((a, b) => {
         const priceA = parseFloat(a.jobPrice.replace("$", ""));
         const priceB = parseFloat(b.jobPrice.replace("$", ""));
@@ -49,14 +49,14 @@ export const useFindWorkPostAJob = (sortList: string[]) => {
       });
     };
 
-    const sortByDate = (jobs: CustomerJobs[]): CustomerJobs[] => {
+    const sortByDate = (jobs: JobPosting[]): JobPosting[] => {
       return [...jobs].sort(
         (a, b) =>
           (new Date(a.date).getTime() - new Date(b.date).getTime()) * sortOrder
       );
     };
 
-    const sortByTime = (jobs: CustomerJobs[]): CustomerJobs[] => {
+    const sortByTime = (jobs: JobPosting[]): JobPosting[] => {
       return [...jobs].sort(
         (a, b) =>
           (new Date(`1970/01/01 ${a.time}`).getTime() -
@@ -65,7 +65,7 @@ export const useFindWorkPostAJob = (sortList: string[]) => {
       );
     };
 
-    const sortByStatus = (jobs: CustomerJobs[]): CustomerJobs[] => {
+    const sortByStatus = (jobs: JobPosting[]): JobPosting[] => {
       return [...jobs].sort((a, b) => {
         if (a.jobStatus === b.jobStatus) return 0;
         return (a.jobStatus ? -1 : 1) * sortOrder;

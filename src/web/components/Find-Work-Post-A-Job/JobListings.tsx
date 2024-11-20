@@ -1,7 +1,7 @@
-import { CustomerJobs } from "../../lib/types/FindWorkPostAJobtypesData";
+import { JobPosting } from "../../lib/types/FindWorkPostAJobtypesData";
 
 type Props = {
-  customerJobsArray: CustomerJobs[];
+  customerJobsArray: JobPosting[];
 };
 export const JobListings: React.FC<Props> = ({ customerJobsArray }) => {
   return (

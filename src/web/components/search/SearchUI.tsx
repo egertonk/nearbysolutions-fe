@@ -1,14 +1,14 @@
 import React, { useState } from "react";
 import { MagnifyingGlassIcon } from "@heroicons/react/24/outline";
-import { CustomerJobs } from "../../lib/types/FindWorkPostAJobtypesData";
 import { DIYToolListing } from "../../lib/types/DIYToolsListings";
 import { CustomerFormData } from "../../lib/types/OrderSolutionTypes";
+import { JobPosting } from "../../lib/types/FindWorkPostAJobtypesData";
 
 type Props = {
   handleOnChange: (e: React.ChangeEvent<HTMLInputElement>) => void;
   handleSubmit: () => void;
   jobTitlesArray?: string[];
-  filteredJobs?: CustomerJobs[];
+  filteredJobs?: JobPosting[];
   filteredTools?: DIYToolListing[];
   filteredOrders?: CustomerFormData[];
 };

@@ -11,11 +11,16 @@ body {
   /* -moz-osx-font-smoothing: grayscale; */
 }
 
+a {
+  color: white;
+  text-decoration: inherit;
+}
+
 code {
   font-family: source-code-pro, Menlo, Monaco, Consolas, "Courier New",
     monospace;
 }
-.img{
+.img {
   display: unset;
 }
 
