@@ -746,7 +746,7 @@ export const customerJobsArray: JobPosting[] = [
     jobTask: "Fix faulty kitchen lights",
     jobDescription:
       "The kitchen ceiling lights are flickering and need repair or replacement.",
-    jobPrice: "150",
+    jobPrice: 150,
     jobZip: "90210",
     jobCityLocation: "Beverly Hills",
     jobAddress: "456 Sunset Blvd, Unit 12A",
@@ -766,23 +766,19 @@ export const customerJobsArray: JobPosting[] = [
     paymentStatus: true,
     cancellationPolicy:
       "No refund if canceled within 12 hours of the job date.",
-    attachments: [
-      {
-        type: "image",
-        url: "https://via.placeholder.com/150",
-        description: "Photo of the flickering lights",
-      },
-    ],
+    image: "https://via.placeholder.com/150",
     specialInstructions: "Be cautious around the electrical panel.",
     accessibilityInformation:
       "Ground floor access, parking available in the driveway.",
+    id: 0,
+    paymentMethodOnFile: "",
   },
   {
     jobName: "Furniture Assembly",
     jobTask: "Assemble IKEA wardrobe",
     jobDescription:
       "The customer needs help assembling a flat-pack IKEA wardrobe.",
-    jobPrice: "80",
+    jobPrice: 80,
     jobZip: "60611",
     jobCityLocation: "Chicago",
     jobAddress: "789 Lake Shore Drive, Apartment 23C",
@@ -801,24 +797,20 @@ export const customerJobsArray: JobPosting[] = [
     paymentMethod: "Cash",
     paymentStatus: false,
     cancellationPolicy: "Full refund if canceled 48 hours before the job date.",
-    attachments: [
-      {
-        type: "pdf",
-        url: "https://via.placeholder.com/150",
-        description: "IKEA assembly manual",
-      },
-    ],
+    image: "https://via.placeholder.com/150",
     specialInstructions:
       "Please handle the furniture pieces carefully to avoid scratches.",
     accessibilityInformation:
       "Elevator available, visitor parking in the basement.",
+    id: 0,
+    paymentMethodOnFile: "",
   },
   {
     jobName: "Landscaping",
     jobTask: "Mow lawn and trim hedges",
     jobDescription:
       "Lawn needs mowing and hedges require trimming in the front and backyard.",
-    jobPrice: "200",
+    jobPrice: 200,
     jobZip: "30303",
     jobCityLocation: "Atlanta",
     jobAddress: "101 Peachtree Street, House 5",
@@ -838,16 +830,18 @@ export const customerJobsArray: JobPosting[] = [
     paymentStatus: false,
     cancellationPolicy:
       "50% refund if canceled within 24 hours of the job date.",
-    attachments: [],
+    image: "",
     specialInstructions: "Dispose of grass clippings in the compost bin.",
     accessibilityInformation: "Wide access gate to the backyard, no steps.",
+    id: 0,
+    paymentMethodOnFile: "",
   },
   {
     jobName: "Painting",
     jobTask: "Repaint living room walls",
     jobDescription:
       "Living room walls need repainting, including filling in small cracks.",
-    jobPrice: "400",
+    jobPrice: 400,
     jobZip: "94103",
     jobCityLocation: "San Francisco",
     jobAddress: "321 Market Street, Apartment 45",
@@ -867,23 +861,19 @@ export const customerJobsArray: JobPosting[] = [
     paymentStatus: true,
     cancellationPolicy:
       "No refund if canceled within 48 hours of the job date.",
-    attachments: [
-      {
-        type: "image",
-        url: "https://via.placeholder.com/150",
-        description: "Photo of the current living room walls",
-      },
-    ],
+    image: "https://via.placeholder.com/150",
     specialInstructions:
       "Cover the furniture with sheets to avoid paint splatter.",
     accessibilityInformation: "Elevator access, loading zone nearby.",
+    id: 0,
+    paymentMethodOnFile: "",
   },
   {
     jobName: "Carpet Cleaning",
     jobTask: "Deep clean living room and bedroom carpets",
     jobDescription:
       "Carpets in the living room and master bedroom need a thorough deep cleaning.",
-    jobPrice: "250",
+    jobPrice: 250,
     jobZip: "75201",
     jobCityLocation: "Dallas",
     jobAddress: "555 Elm Street, Suite 7D",
@@ -904,9 +894,11 @@ export const customerJobsArray: JobPosting[] = [
     paymentStatus: false,
     cancellationPolicy:
       "Full refund if canceled within 24 hours of the job date.",
-    attachments: [],
+    image: "",
     specialInstructions: "Please use eco-friendly cleaning solutions.",
     accessibilityInformation: "No stairs, parking available in the front lot.",
+    id: 0,
+    paymentMethodOnFile: "",
   },
 ];
 

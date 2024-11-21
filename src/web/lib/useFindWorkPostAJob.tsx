@@ -1,12 +1,23 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { customerJobsArray } from ".";
 import { JobPosting } from "./types/FindWorkPostAJobtypesData";
+import { useJobPosting } from "../utils/fetchEndpoints";
 
 export const useFindWorkPostAJob = (sortList: string[]) => {
+  const { data: jobPostings, isFetching: isJobPostingFetching } =
+    useJobPosting();
+
   const [searchTerm, setSearchTerm] = useState<string>("");
-  const [filteredJobs, setFilteredJobs] =
-    useState<JobPosting[]>(customerJobsArray);
+  const [filteredJobs, setFilteredJobs] = useState<JobPosting[]>([]);
   const [sortDirection, setSortDirection] = useState<string>("asc");
+
+  useEffect(() => {
+    console.log("isJobPostingFetching = ", isJobPostingFetching);
+    console.log("jobPostings = ", jobPostings);
+    if (jobPostings) {
+      setFilteredJobs(jobPostings);
+    }
+  }, [isJobPostingFetching]);
 
   const handleOnChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const { value } = e.target;
@@ -43,10 +54,15 @@ export const useFindWorkPostAJob = (sortList: string[]) => {
 
     const sortByJobPrice = (jobs: JobPosting[]): JobPosting[] => {
       return [...jobs].sort((a, b) => {
-        const priceA = parseFloat(a.jobPrice.replace("$", ""));
-        const priceB = parseFloat(b.jobPrice.replace("$", ""));
+        const priceA = parseFloat(String(a.jobPrice));
+        const priceB = parseFloat(String(b.jobPrice));
         return (priceA - priceB) * sortOrder;
       });
+      // return [...jobs].sort((a, b) => {
+      //   const priceA = parseFloat(a.jobPrice.replace("$", ""));
+      //   const priceB = parseFloat(b.jobPrice.replace("$", ""));
+      //   return (priceA - priceB) * sortOrder;
+      // });
     };
 
     const sortByDate = (jobs: JobPosting[]): JobPosting[] => {

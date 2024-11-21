@@ -5,6 +5,7 @@ import { SideMenuList } from "../Header/SideMenuList";
 import { priceWithComma } from "../../lib";
 import { TableHeader } from "../common-sections/TableHeader";
 import { SearchUI } from "../search/SearchUI";
+import { useJobPosting } from "../../utils/fetchEndpoints";
 
 type Props = {
   isOrderSumary?: boolean;

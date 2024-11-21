@@ -7,6 +7,7 @@ import {
 import { CustomerDetailsTypes } from "../../store/customerDetailsSlice";
 import { CountryTypes } from "../lib/types/countryTypes";
 import { OrderTypes } from "../lib/types/orderTypes";
+import { JobPosting } from "../lib/types/FindWorkPostAJobtypesData";
 
 // Skills
 export const getSkills = () => {
@@ -159,5 +160,20 @@ export const useGetUserSearchResult = (searchTerm: string) => {
     queryKey: ["search-result"],
     queryFn: () => getUserSearchResult(searchTerm).then((data) => data),
     placeholderData: talentPlaceHolderData,
+  });
+};
+
+// Job Posting
+export const getJobPosting = async (): Promise<JobPosting[]> => {
+  return getWrapper("job-postings").then((data) => {
+    return data;
+  });
+};
+
+export const useJobPosting = () => {
+  return useQuery({
+    queryKey: ["job-postings"],
+    queryFn: () => getJobPosting().then((data) => data),
+    placeholderData: [],
   });
 };

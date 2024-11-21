@@ -10,6 +10,7 @@ export const FindWorkPostAJob: React.FC = () => {
   const { handleSearch, handleSubmit, handleSort, filteredJobs } =
     useFindWorkPostAJob(sortList);
 
+  console.log("filteredJobs = ", filteredJobs);
   return (
     <>
       <MainTitle title={"Customer Job Requests"} />

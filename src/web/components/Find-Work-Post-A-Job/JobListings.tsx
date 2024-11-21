@@ -1,4 +1,5 @@
 import { JobPosting } from "../../lib/types/FindWorkPostAJobtypesData";
+import jobSearchListImage from "../../assets/company-logos-icons/job-search-list.png";
 
 type Props = {
   customerJobsArray: JobPosting[];
@@ -13,16 +14,27 @@ export const JobListings: React.FC<Props> = ({ customerJobsArray }) => {
               {jobData.jobName}
             </h3>
           </div>
-          <p>Date: {jobData.date}</p>
-          <p>Time: {jobData.time}</p>
-          <p className="mb-4">Location: {jobData.jobCityLocation}</p>
-
-          <div className="px-6">
-            <p className="text-sm text-gray-500">{jobData.jobTask}</p>
-            <div className="mt-10 flex items-center flex-wrap gap-4">
-              <h3 className="text-xl text-[#333] font-bold flex-1">
-                {jobData.jobPrice}
-              </h3>
+          <div className="px-3 pb-5">
+            <div className="object-center">
+              <img
+                className="p-2 object-fill h-48 w-96 "
+                src={`${
+                  jobData?.image?.length > 0
+                    ? jobData.image
+                    : jobSearchListImage
+                }`}
+                alt="product"
+              />
+            </div>
+            <p>Date: {jobData.date}</p>
+            <p>Time: {jobData.time}</p>
+            <p className="mb-4">
+              Location: {jobData.jobCityLocation}, Zip: {jobData.jobZip}
+            </p>
+            <div className="flex items-center justify-between">
+              <span className="text-3xl font-bold text-gray-900 dark:text-white">
+                ${jobData.jobPrice}
+              </span>
               <button
                 type="button"
                 className="px-6 py-2.5 rounded text-white text-sm tracking-wider font-semibold border-none outline-none bg-gray-600 hover:bg-gray-700"
