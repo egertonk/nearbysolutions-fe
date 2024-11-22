@@ -44,7 +44,7 @@ export const SearchUI: React.FC<Props> = ({
             className="cursor-pointer border-2 border-[#011c2b] w-100"
           >
             {jobTitlesArray !== undefined &&
-              jobTitlesArray.map((title) => (
+              jobTitlesArray?.map((title) => (
                 <option
                   key={title}
                   className="cursor-pointer border-2 border-[#011c2b] w-100"
@@ -53,7 +53,7 @@ export const SearchUI: React.FC<Props> = ({
               ))}
 
             {filteredJobs !== undefined &&
-              filteredJobs.map((job) => (
+              filteredJobs?.map((job) => (
                 <option
                   key={job.jobName}
                   className="cursor-pointer border-2 border-[#011c2b] w-100"
@@ -62,7 +62,7 @@ export const SearchUI: React.FC<Props> = ({
               ))}
 
             {filteredTools !== undefined &&
-              filteredTools.map((tool) => (
+              filteredTools?.map((tool) => (
                 <option
                   key={tool.toolName}
                   className="cursor-pointer border-2 border-[#011c2b] w-100"
@@ -71,7 +71,7 @@ export const SearchUI: React.FC<Props> = ({
               ))}
 
             {filteredOrders !== undefined &&
-              filteredOrders.map((order) => (
+              filteredOrders?.map((order) => (
                 <option
                   key={order.orderID}
                   className="cursor-pointer border-2 border-[#011c2b] w-100"

@@ -177,3 +177,19 @@ export const useJobPosting = () => {
     placeholderData: [],
   });
 };
+
+export const getJobPostingSearchResult = (
+  searchTerm: string
+): Promise<JobPosting[]> => {
+  return getWrapperSearchTerm("job-postings", searchTerm).then((data) => {
+    return data;
+  });
+};
+
+export const useGetJobPostingSearchResult = (searchTerm: string) => {
+  return useQuery({
+    queryKey: ["job-postings-search-result"],
+    queryFn: () => getJobPostingSearchResult(searchTerm).then((data) => data),
+    placeholderData: [],
+  });
+};

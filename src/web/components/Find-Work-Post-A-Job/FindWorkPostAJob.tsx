@@ -7,15 +7,14 @@ import { useFindWorkPostAJob } from "../../lib/useFindWorkPostAJob";
 
 export const FindWorkPostAJob: React.FC = () => {
   const sortList = ["Date", "Time", "Amount"];
-  const { handleSearch, handleSubmit, handleSort, filteredJobs } =
+  const { handleOnChange, handleSubmit, handleSort, filteredJobs } =
     useFindWorkPostAJob(sortList);
 
-  console.log("filteredJobs = ", filteredJobs);
   return (
     <>
       <MainTitle title={"Customer Job Requests"} />
       <SearchUI
-        handleOnChange={handleSearch}
+        handleOnChange={handleOnChange}
         handleSubmit={handleSubmit}
         filteredJobs={filteredJobs}
       />

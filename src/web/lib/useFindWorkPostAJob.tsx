@@ -2,6 +2,7 @@ import { useEffect, useState } from "react";
 import { customerJobsArray } from ".";
 import { JobPosting } from "./types/FindWorkPostAJobtypesData";
 import { useJobPosting } from "../utils/fetchEndpoints";
+import { localHostURL } from "../utils/fetchGet";
 
 export const useFindWorkPostAJob = (sortList: string[]) => {
   const { data: jobPostings, isFetching: isJobPostingFetching } =
@@ -12,40 +13,37 @@ export const useFindWorkPostAJob = (sortList: string[]) => {
   const [sortDirection, setSortDirection] = useState<string>("asc");
 
   useEffect(() => {
-    console.log("isJobPostingFetching = ", isJobPostingFetching);
-    console.log("jobPostings = ", jobPostings);
-    if (jobPostings) {
-      setFilteredJobs(jobPostings);
-    }
-  }, [isJobPostingFetching]);
+    if (jobPostings && searchTerm.length === 0)
+      setFilteredJobs(jobPostings ?? []);
+  }, [isJobPostingFetching, searchTerm]);
 
   const handleOnChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const { value } = e.target;
-
     setSearchTerm(value);
-    if (value.length === 0) setFilteredJobs(customerJobsArray);
   };
 
-  const handleSearch = (event: React.ChangeEvent<HTMLInputElement>) => {
-    const term = event.target.value;
-    setSearchTerm(term);
-    if (term === "") {
-      setFilteredJobs(customerJobsArray);
-    } else {
-      const filtered = customerJobsArray.filter((job) =>
-        job.jobName.toLowerCase().includes(term.toLowerCase())
-      );
-      setFilteredJobs(filtered);
-    }
-  };
+  const handleSubmit = async () => {
+    if (searchTerm.length > 0) {
+      if (!searchTerm.trim()) return; // Only search when there's input
 
-  const handleSubmit = () => {
-    if (customerJobsArray.length > 0) {
-      const matchJobs = customerJobsArray.filter((job) =>
-        job.jobName.includes(searchTerm)
-      );
+      try {
+        const response = await fetch(
+          `${localHostURL}/job-postings/search?name=${encodeURIComponent(
+            searchTerm
+          )}`
+        );
 
-      setFilteredJobs(matchJobs);
+        if (!response.ok) {
+          throw new Error(`Error: ${response.statusText}`);
+        }
+
+        const data = await response.json();
+        setFilteredJobs(data);
+      } catch (err) {
+        //   setError(err.message);
+      } finally {
+        // setLoading(false);
+      }
     }
   };
 
@@ -58,11 +56,6 @@ export const useFindWorkPostAJob = (sortList: string[]) => {
         const priceB = parseFloat(String(b.jobPrice));
         return (priceA - priceB) * sortOrder;
       });
-      // return [...jobs].sort((a, b) => {
-      //   const priceA = parseFloat(a.jobPrice.replace("$", ""));
-      //   const priceB = parseFloat(b.jobPrice.replace("$", ""));
-      //   return (priceA - priceB) * sortOrder;
-      // });
     };
 
     const sortByDate = (jobs: JobPosting[]): JobPosting[] => {
@@ -105,7 +98,6 @@ export const useFindWorkPostAJob = (sortList: string[]) => {
   };
 
   return {
-    handleSearch,
     handleSubmit,
     handleSort,
     customerJobsArray,

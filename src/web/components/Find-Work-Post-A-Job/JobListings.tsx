@@ -11,6 +11,19 @@ export const JobListings: React.FC<Props> = ({ customerJobsArray }) => {
   const [openImage, setOpenImage] = useState(false);
   const [jobDetails, setJobDetails] = useState<JobPosting>();
 
+  const daysUntil = (targetDate: string) => {
+    const today = new Date(); // Get today's date
+    const target = new Date(targetDate); // Parse the target date
+
+    // Calculate the difference in time (milliseconds)
+    const diffTime = target.getTime() - today.getTime();
+
+    // Convert milliseconds to days
+    const diffDays = Math.ceil(diffTime / (1000 * 60 * 60 * 24));
+
+    return diffDays;
+  };
+
   return (
     <>
       {openImage && (
@@ -54,7 +67,7 @@ export const JobListings: React.FC<Props> = ({ customerJobsArray }) => {
                 </a>
               </div>
 
-              <p>Date: {jobData.date}</p>
+              <p>Work Date: {jobData.date}</p>
               <p>Time: {jobData.time}</p>
               <p className="mb-4">
                 Location: {jobData.jobCityLocation}, Zip: {jobData.jobZip}
@@ -68,6 +81,20 @@ export const JobListings: React.FC<Props> = ({ customerJobsArray }) => {
                 </button>
               </div>
             </div>
+            {daysUntil(jobData.date) >= 1 && daysUntil(jobData.date) <= 5 && (
+              <div role="alert">
+                <div className="bg-blue-500 text-white font-bold rounded-t px-4 py-2">
+                  Job expiring Soon
+                </div>
+              </div>
+            )}
+            {daysUntil(jobData.date) === -0 && (
+              <div role="alert">
+                <div className="bg-red-500 text-white font-bold rounded-t px-4 py-2">
+                  Job expiring Today
+                </div>
+              </div>
+            )}
           </div>
         ))}
       </div>
