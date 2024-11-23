@@ -1,8 +1,14 @@
-import { ChangeEvent, useState } from "react";
+import { useMemo, useState } from "react";
 import { useNavigate } from "react-router";
 import { MainTitle } from "../common-sections/MainTitle";
+import { useGetCoutries } from "../../utils/fetchEndpoints";
+import { StateAndTerritorySelector } from "../common-sections/StateAndTerritorySelector";
+import { RootState } from "../../../store";
+import { useSelector } from "react-redux";
+import { CustomerContractorState } from "../../../store/customerContractorSlice";
+import { JobInputs } from "./JobInputs";
 
-type FormData = {
+export type FormData = {
   jobName: string;
   jobTask: string;
   jobPrice: string;
@@ -11,24 +17,71 @@ type FormData = {
   date: string;
   time: string;
   email: string;
+  jobCountry: string;
+  jobState: string;
+  urgencyLevel: string;
+  phoneNumber: string;
+  customerName: string;
+  jobAddress: string;
+  countryName: string;
 };
 
 export const PostAJobForm: React.FC = () => {
   const navigate = useNavigate();
+
+  const states = useSelector((state: RootState) => state) as {
+    formData: CustomerContractorState;
+  };
+
+  const customerOrder = states.formData.customerOrder;
+  const { data: coutries, isFetching: isCoutriesFetching } = useGetCoutries();
+
   const [errors, setErrors] = useState<Partial<FormData>>({});
   const [formData, setFormData] = useState({
     jobName: "",
     jobTask: "",
     jobPrice: "",
-    jobZip: "",
-    jobCityLocation: "",
+    jobZip: customerOrder.customerInfo.zip || "",
+    jobCityLocation: customerOrder.customerInfo.city || "",
     date: "",
     time: "",
-    email: "",
+    email: customerOrder.customerInfo.email || "",
+    jobCountry: customerOrder.customerInfo.country || "",
+    jobState: customerOrder.customerInfo.state || "",
+    urgencyLevel: "",
+    phoneNumber: "",
+    customerName:
+      `${customerOrder.customerInfo.firstName} ${customerOrder.customerInfo.lastName}` ||
+      "",
+    jobAddress: customerOrder.customerInfo.address || "",
+    countryName: customerOrder.customerInfo.country || "",
   });
 
-  const handleChange = (e: ChangeEvent<HTMLInputElement>) => {
+  const urgencyLevels = [
+    { value: "", label: "Select Level" },
+    { value: "High", label: "High" },
+    { value: "Medium", label: "Medium" },
+    { value: "Low", label: "Low" },
+  ];
+
+  // Add database colunmn
+  // jobCountry;
+  // jobState;
+  // urgencyLevel
+  // phoneNumber
+  // customerName
+  // preferredCommunicationMethod
+
+  const validCountries = useMemo(() => {
+    if (coutries) return coutries?.filter((country) => country?.featureFlag);
+    return [];
+  }, [coutries]);
+
+  const handleChange = (
+    e: React.ChangeEvent<HTMLInputElement | HTMLSelectElement>
+  ) => {
     const { name, value } = e.target;
+
     setFormData((prevFormData) => ({
       ...prevFormData,
       [name]: value,
@@ -37,25 +90,62 @@ export const PostAJobForm: React.FC = () => {
 
   const validateForm = () => {
     const newErrors: Partial<FormData> = {};
-    if (!formData.jobName) newErrors.jobName = "Job Name is required";
-    if (!formData.jobTask) newErrors.jobTask = "Job Task is required";
+    const isUSA = formData.jobCountry === "United States";
+
+    // Define required fields with their corresponding error messages
+    const requiredFields: { key: keyof FormData; message: string }[] = [
+      { key: "jobName", message: "Job Name is required" },
+      { key: "jobTask", message: "Job Task is required" },
+      { key: "jobCityLocation", message: "Job City Location is required" },
+      { key: "date", message: "Date is required" },
+      { key: "time", message: "Time is required" },
+      { key: "email", message: "Email is required" },
+      { key: "jobCountry", message: "Country is required" },
+      { key: "jobState", message: "State is required" },
+      { key: "urgencyLevel", message: "Urgency level is required" },
+      { key: "phoneNumber", message: "Phone number is required" },
+      { key: "customerName", message: "Customer name is required" },
+      { key: "jobAddress", message: "Job address is required" },
+    ];
+
+    const usaRequiredFields: { key: keyof FormData; message: string }[] = [
+      { key: "jobZip", message: "Zip Code is required" },
+      { key: "jobState", message: "State is required" },
+    ];
+
+    const validateRequiredFields = () => {
+      requiredFields.forEach(({ key, message }) => {
+        if (!formData[key]) {
+          newErrors[key] = message;
+        }
+      });
+    };
+
+    // Validate required fields
+    if (isUSA) {
+      usaRequiredFields.forEach(({ key, message }) => {
+        if (!formData[key]) {
+          newErrors[key] = message;
+        }
+      });
+
+      if (!formData.jobZip) {
+        newErrors.jobZip = "Job Zip is required";
+      } else if (!/^\d{5}(-\d+)?$/.test(formData.jobZip)) {
+        newErrors.jobZip =
+          "Job Zip must be either 5 digits or 5 digits followed by a hyphen and more digits";
+      }
+
+      validateRequiredFields();
+    } else validateRequiredFields();
+
+    // Additional field-specific validations
     if (!formData.jobPrice) {
       newErrors.jobPrice = "Job Price is required";
     } else if (!/^\d+(\.\d{1,2})?$/.test(formData.jobPrice)) {
       newErrors.jobPrice =
         "Job Price must be a number with up to two decimal places";
     }
-    if (!formData.jobZip) {
-      newErrors.jobZip = "Job Zip is required";
-    } else if (!/^\d{5}(-\d+)?$/.test(formData.jobZip)) {
-      newErrors.jobZip =
-        "Job Zip must be either 5 digits or 5 digits followed by a hyphen and more digits";
-    }
-    if (!formData.jobCityLocation)
-      newErrors.jobCityLocation = "Job City Location is required";
-    if (!formData.date) newErrors.date = "Date is required";
-    if (!formData.time) newErrors.time = "Time is required";
-    if (!formData.email) newErrors.email = "Email is required";
 
     setErrors(newErrors);
     return Object.keys(newErrors).length === 0;
@@ -64,10 +154,8 @@ export const PostAJobForm: React.FC = () => {
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
     if (validateForm()) {
-      console.log("Form submitted:", formData);
+      console.log("Form submitted: to database", formData);
       navigate("/find-work-post-a-job");
-    } else {
-      console.log("Form has errors");
     }
   };
 
@@ -76,75 +164,77 @@ export const PostAJobForm: React.FC = () => {
       <MainTitle title={"Post a Job"} />
 
       <form
-        className="p-6 bg-gray-800 font-[sans-serif] m-6 max-w-4xl mx-auto"
+        className="p-6 font-[sans-serif] m-6 max-w-4xl mx-auto"
         onSubmit={handleSubmit}
       >
         <div className="grid sm:grid-cols-2 gap-10">
-          <div className="relative flex items-center">
-            <label className="text-[13px] bg-white text-black absolute px-2 top-[-10px] left-[18px]">
-              Name
-            </label>
-            <input
-              type="text"
-              name="jobName"
-              placeholder="Enter job name"
-              className="px-4 py-3.5 bg-white text-black w-full text-sm border-2 border-gray-100 focus:border-blue-500 rounded outline-none"
-              value={formData.jobName}
-              onChange={handleChange}
-            />
-            {errors.jobName && (
-              <p className="text-red-500 text-xs">{errors.jobName}</p>
-            )}
-          </div>
+          <JobInputs
+            value={formData.jobName}
+            errorMessage={errors.jobName ?? ""}
+            labelName={"Job Name"}
+            name="jobName"
+            handleChange={handleChange}
+          />
+
+          <JobInputs
+            value={formData.jobTask}
+            errorMessage={errors.jobTask ?? ""}
+            labelName={"Job Task"}
+            name="jobTask"
+            handleChange={handleChange}
+          />
+
+          <JobInputs
+            value={formData.jobPrice}
+            errorMessage={errors.jobPrice ?? ""}
+            labelName={"Job Price"}
+            name="jobPrice"
+            handleChange={handleChange}
+          />
+
+          <JobInputs
+            value={formData.jobAddress}
+            errorMessage={errors.jobAddress ?? ""}
+            labelName={"Job Address"}
+            name="jobAddress"
+            handleChange={handleChange}
+          />
+
+          <JobInputs
+            value={formData.phoneNumber}
+            errorMessage={errors.phoneNumber ?? ""}
+            labelName={"Customer Phone Number"}
+            name="phoneNumber"
+            handleChange={handleChange}
+          />
 
           <div className="relative flex items-center">
             <label className="text-[13px] bg-white text-black absolute px-2 top-[-10px] left-[18px]">
-              Job Task
+              Job Country Location
             </label>
-            <input
-              type="text"
-              name="jobTask"
-              placeholder="Enter job task"
+            <select
               className="px-4 py-3.5 bg-white text-black w-full text-sm border-2 border-gray-100 focus:border-blue-500 rounded outline-none"
-              value={formData.jobTask}
+              id="country"
+              name="jobCountry"
+              value={formData.jobCountry}
               onChange={handleChange}
-            />
-            {errors.jobTask && (
-              <p className="text-red-500 text-xs">{errors.jobTask}</p>
-            )}
-          </div>
+            >
+              <option className="h-20" value="">
+                Select your Country
+              </option>
+              {validCountries?.map((countryData) => (
+                <option
+                  className="h-20"
+                  value={`${countryData.countryName}`}
+                  key={countryData.countryName}
+                >
+                  {countryData.countryName}
+                </option>
+              ))}
+            </select>
 
-          <div className="relative flex items-center">
-            <label className="text-[13px] bg-white text-black absolute px-2 top-[-10px] left-[18px]">
-              Job Price
-            </label>
-            <input
-              type="text"
-              name="jobPrice"
-              placeholder="Enter job price"
-              className="px-4 py-3.5 bg-white text-black w-full text-sm border-2 border-gray-100 focus:border-blue-500 rounded outline-none"
-              value={formData.jobPrice}
-              onChange={handleChange}
-            />
-            {errors.jobPrice && (
-              <p className="text-red-500 text-xs">{errors.jobPrice}</p>
-            )}
-          </div>
-
-          <div className="relative flex items-center">
-            <label className="text-[13px] bg-white text-black absolute px-2 top-[-10px] left-[18px]">
-              Job Zip
-            </label>
-            <input
-              type="number"
-              name="jobZip"
-              placeholder="Enter job zip"
-              className="px-4 py-3.5 bg-white text-black w-full text-sm border-2 border-gray-100 focus:border-blue-500 rounded outline-none"
-              value={formData.jobZip}
-              onChange={handleChange}
-            />
-            {errors.jobZip && (
-              <p className="text-red-500 text-xs">{errors.jobZip}</p>
+            {errors.countryName && (
+              <p className="text-red-500 text-xs">{errors.countryName}</p>
             )}
           </div>
 
@@ -165,9 +255,37 @@ export const PostAJobForm: React.FC = () => {
             )}
           </div>
 
+          {(formData.jobCountry === "United States" ||
+            formData.jobCountry === "Canada") && (
+            <>
+              <div className="relative flex items-center">
+                <label className="text-[13px] bg-white text-black absolute px-2 top-[-10px] left-[18px]">
+                  Job State Location
+                </label>
+                <StateAndTerritorySelector
+                  className="px-4 py-3.5 bg-white text-black w-full text-sm border-2 border-gray-100 focus:border-blue-500 rounded outline-none"
+                  name={"jobState"}
+                  value={formData.jobState}
+                  onChange={handleChange}
+                />
+                {errors.jobState && (
+                  <p className="text-red-500 text-xs">{errors.jobState}</p>
+                )}
+              </div>
+
+              <JobInputs
+                value={formData.jobZip}
+                errorMessage={errors.jobZip ?? ""}
+                labelName={"Job Zip Code"}
+                name="jobZip"
+                handleChange={handleChange}
+              />
+            </>
+          )}
+
           <div className="relative flex items-center">
             <label className="text-[13px] bg-white text-black absolute px-2 top-[-10px] left-[18px]">
-              Date
+              Job Date
             </label>
             <input
               type="date"
@@ -175,6 +293,7 @@ export const PostAJobForm: React.FC = () => {
               className="px-4 py-3 bg-[#f0f1f2] text-black w-full text-sm outline-[#007bff] rounded"
               value={formData.date}
               onChange={handleChange}
+              min={new Date(Date.now() + 86400000).toISOString().split("T")[0]} //Data is one day ahead
             />
             {errors.date && (
               <p className="text-red-500 text-xs">{errors.date}</p>
@@ -183,7 +302,7 @@ export const PostAJobForm: React.FC = () => {
 
           <div className="relative flex items-center">
             <label className="text-[13px] bg-white text-black absolute px-2 top-[-10px] left-[18px]">
-              Time
+              Job Time
             </label>
             <input
               type="time"
@@ -194,6 +313,29 @@ export const PostAJobForm: React.FC = () => {
             />
             {errors.time && (
               <p className="text-red-500 text-xs">{errors.time}</p>
+            )}
+          </div>
+
+          <div className="relative flex items-center">
+            <label className="text-[13px] bg-white text-black absolute px-2 top-[-10px] left-[18px]">
+              Job Urgency Level
+            </label>
+            <select
+              className="px-4 py-3.5 bg-white text-black w-full text-sm border-2 border-gray-100 focus:border-blue-500 rounded outline-none"
+              id="country"
+              name="urgencyLevel"
+              value={formData.urgencyLevel}
+              onChange={handleChange}
+            >
+              {urgencyLevels.map((level) => (
+                <option key={level.value} className="h-20" value={level.value}>
+                  {level.label}
+                </option>
+              ))}
+            </select>
+            ;
+            {errors.urgencyLevel && (
+              <p className="text-red-500 text-xs">{errors.urgencyLevel}</p>
             )}
           </div>
 

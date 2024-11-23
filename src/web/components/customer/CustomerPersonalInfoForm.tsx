@@ -78,11 +78,13 @@ export const CustomerPersonalInfoForm: React.FC = () => {
         contractLength={contractLength}
       />
 
-      <GiftForm
-        customerOrder={customerOrder}
-        updateGiftInfo={updateGiftInfo}
-        validGiftCountries={validGiftCountries}
-      />
+      {customerOrder.giftStatus && (
+        <GiftForm
+          customerOrder={customerOrder}
+          updateGiftInfo={updateGiftInfo}
+          validGiftCountries={validGiftCountries}
+        />
+      )}
     </>
   );
 };

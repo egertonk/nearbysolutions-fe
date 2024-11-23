@@ -37,8 +37,32 @@ export const JobListings: React.FC<Props> = ({ customerJobsArray }) => {
         {customerJobsArray.map((jobData, index) => (
           <div
             key={`job-${index}`}
-            className="hover:bg-purple-50 bg-white shadow-[0_2px_15px_-6px_rgba(0,0,0,0.2)] w-full py-6 max-w-sm rounded-lg font-[sans-serif] overflow-hidden mx-auto mt-4 flex-col"
+            className="hover:bg-purple-50 bg-white shadow-[0_2px_15px_-6px_rgba(0,0,0,0.2)] w-full max-w-sm rounded-lg font-[sans-serif] overflow-hidden mx-auto flex-col"
           >
+            {daysUntil(jobData.date) >= 1 && daysUntil(jobData.date) <= 5 && (
+              <div role="alert">
+                <div className="bg-blue-500 text-white font-bold rounded-t px-4 py-2">
+                  Job expiring Soon
+                </div>
+              </div>
+            )}
+            {daysUntil(jobData.date) === -0 && (
+              <div role="alert">
+                <div className="bg-red-500 text-white font-bold rounded-t px-4 py-2">
+                  Job expiring Today
+                </div>
+              </div>
+            )}
+
+            <div className="flex items-center justify-between m-4">
+              <span className="text-3xl font-bold text-gray-900 dark:text-white">
+                ${jobData.jobPrice}
+              </span>
+              <button type="button" className={grayButtonCSS}>
+                Accept Job
+              </button>
+            </div>
+
             <div className="flex items-center gap-2 px-6">
               <h3 className="text-2xl text-[#333] font-extrabold flex-1 mb-4">
                 {jobData.jobName}
@@ -72,29 +96,7 @@ export const JobListings: React.FC<Props> = ({ customerJobsArray }) => {
               <p className="mb-4">
                 Location: {jobData.jobCityLocation}, Zip: {jobData.jobZip}
               </p>
-              <div className="flex items-center justify-between">
-                <span className="text-3xl font-bold text-gray-900 dark:text-white">
-                  ${jobData.jobPrice}
-                </span>
-                <button type="button" className={grayButtonCSS}>
-                  Accept Job
-                </button>
-              </div>
             </div>
-            {daysUntil(jobData.date) >= 1 && daysUntil(jobData.date) <= 5 && (
-              <div role="alert">
-                <div className="bg-blue-500 text-white font-bold rounded-t px-4 py-2">
-                  Job expiring Soon
-                </div>
-              </div>
-            )}
-            {daysUntil(jobData.date) === -0 && (
-              <div role="alert">
-                <div className="bg-red-500 text-white font-bold rounded-t px-4 py-2">
-                  Job expiring Today
-                </div>
-              </div>
-            )}
           </div>
         ))}
       </div>

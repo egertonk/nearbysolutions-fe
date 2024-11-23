@@ -208,11 +208,11 @@ export const CustomerForm: React.FC<CustomerInputTypes> = ({
         )}
       </div>{" "}
       {showFutureApp && (
-        <div className="w-full">
+        <div className="items-center gap-4 p-2 shadow-[0_2px_10px_-3px_rgba(6,81,237,0.3)] rounded-lg mt-8 w-full">
           <p className="text-purple-900 dark:text-purple text-base font-medium mt-3 text-center">
             Future Appointments{" "}
           </p>
-          <div className="grid lg:grid-cols-3 items-center gap-4 p-2 shadow-[0_2px_10px_-3px_rgba(6,81,237,0.3)] rounded-lg mt-2 w-full">
+          <div className="grid lg:grid-cols-3 items-center gap-4 p-2 shadow-[0_2px_10px_-3px_rgba(6,81,237,0.3)] rounded-lg mt-8 w-full">
             {LimitedList(contractLength)}
             {customerOrder.solutionDateContract.longTermContract ===
               "goodUntilCancel" && "..."}

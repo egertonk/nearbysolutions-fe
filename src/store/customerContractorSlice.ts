@@ -2,7 +2,7 @@ import { createSlice, PayloadAction } from "@reduxjs/toolkit";
 import { CustomerFormData } from "../web/lib/types/OrderSolutionTypes";
 import { orderStates } from "./defualtStates";
 
-interface CustomerContractorState {
+export interface CustomerContractorState {
   customerOrder: CustomerFormData;
   isEditOrder: boolean;
   isError: boolean;

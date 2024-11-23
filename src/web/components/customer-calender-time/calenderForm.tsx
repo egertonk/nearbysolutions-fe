@@ -127,7 +127,7 @@ export const CalenderForm: React.FC = () => {
       </div>
 
       <div className="flex flex-wrap w-50 justify-center">
-        <div className="flex flex-wrap mb-6">
+        <div>
           <CustomerPersonalInfoForm />
 
           <div className="w-full px-3 pt-4">
