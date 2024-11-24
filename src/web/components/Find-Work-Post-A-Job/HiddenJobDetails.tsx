@@ -4,13 +4,11 @@ import { CustomerFormData } from "../../lib/types/OrderSolutionTypes";
 
 type Props = {
   formData: JobDetailTypes;
-  imageUrl: string;
   customerOrder: CustomerFormData;
 };
 
 export const HiddenJobDetails: React.FC<Props> = ({
   formData,
-  imageUrl,
   customerOrder,
 }) => {
   const detailsColor = "font-bold text-xl bg-[#525495] rounded-lg";
@@ -83,9 +81,6 @@ export const HiddenJobDetails: React.FC<Props> = ({
             <h3 className={detailsColor}>Job Urgency Level</h3>
             <span>{formData.urgencyLevel}</span>
           </div>
-        </div>
-        <div className="flex justify-center items-center m-5">
-          {imageUrl && <img src={imageUrl} alt="Static Map" />}
         </div>
       </div>
     </div>

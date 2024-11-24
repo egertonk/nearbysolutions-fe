@@ -1,4 +1,3 @@
-import { useEffect, useState } from "react";
 import { useSelector } from "react-redux";
 import { RootState } from "../../../store";
 
@@ -6,22 +5,6 @@ export const PaymentJobDetails: React.FC = () => {
   const customerOrder = useSelector(
     (state: RootState) => state.formData.customerOrder
   );
-  // const address = `${customerOrder.customerInfo.address}, ${customerOrder.customerInfo.city}, ${customerOrder.customerInfo.state}, ${customerOrder.customerInfo.zip}.`;
-  const address = "10308 Gazelle Ct, Fredericksburg, VA 22408";
-  const [imageUrl, setImageUrl] = useState("");
-
-  const googleMapURL = "https://maps.googleapis.com/maps/api/staticmap";
-  const apiKey = "AIzaSyCkpoGe0dJZVeOo6Rq0k22WS6gPOHsDuuA";
-  const signature = "YQLhWfyFuKgCykLi7ynJv2gAjTE=";
-
-  const fetchMap = () => {
-    const baseUrl = `${googleMapURL}?size=512x512&maptype=roadmap\&markers=size:mid%7Ccolor:red%7C${address},CA&key=${apiKey}`;
-    setImageUrl(baseUrl);
-  };
-
-  useEffect(() => {
-    fetchMap();
-  }, [customerOrder]);
 
   return (
     <div className="flex-1 px-3">
@@ -70,9 +53,6 @@ export const PaymentJobDetails: React.FC = () => {
               {customerOrder.customerInfo.zip}.
             </p>
           </div>
-        </div>
-        <div className="flex justify-center items-center m-5">
-          {imageUrl && <img src={imageUrl} alt="Static Map" />}
         </div>
       </div>
     </div>
