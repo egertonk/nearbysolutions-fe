@@ -54,7 +54,7 @@ export const ImagePopup: React.FC<Props> = ({
                   alt="job"
                 />
                 <button
-                  className={grayButtonCSS}
+                  className={`cursor-pointer ${grayButtonCSS}`}
                   onClick={() => setOpenImage(false)}
                 >
                   Close

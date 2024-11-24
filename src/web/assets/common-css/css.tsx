@@ -45,7 +45,10 @@ export const timeSelectedCSS =
   "bg-purple-600 text-white items-center justify-center  p-2 text-sm font-medium text-center  border rounded-lg border-blue-600 ";
 
 export const grayButtonCSS =
-  "px-6 py-2.5 rounded text-white text-sm tracking-wider font-semibold border-none outline-none bg-gray-600 hover:bg-gray-700 cursor-pointer";
+  "px-6 py-2.5 rounded text-white text-sm tracking-wider font-semibold border-none outline-none bg-gray-600 hover:bg-gray-700";
+
+export const purpleButtonCSS =
+  "px-6 py-2.5 rounded text-white text-sm tracking-wider font-semibold border-none outline-none bg-purple-600 hover:bg-purple-700";
 
 export const getDateStyle = (
   customerOrder: CustomerFormData,

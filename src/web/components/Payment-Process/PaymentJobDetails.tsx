@@ -6,7 +6,8 @@ export const PaymentJobDetails: React.FC = () => {
   const customerOrder = useSelector(
     (state: RootState) => state.formData.customerOrder
   );
-  const address = `${customerOrder.customerInfo.address}, ${customerOrder.customerInfo.city}, ${customerOrder.customerInfo.state}, ${customerOrder.customerInfo.zip}.`;
+  // const address = `${customerOrder.customerInfo.address}, ${customerOrder.customerInfo.city}, ${customerOrder.customerInfo.state}, ${customerOrder.customerInfo.zip}.`;
+  const address = "10308 Gazelle Ct, Fredericksburg, VA 22408";
   const [imageUrl, setImageUrl] = useState("");
 
   const googleMapURL = "https://maps.googleapis.com/maps/api/staticmap";
