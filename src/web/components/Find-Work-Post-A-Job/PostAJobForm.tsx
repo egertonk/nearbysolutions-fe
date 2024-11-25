@@ -55,6 +55,14 @@ export const PostAJobForm: React.FC = () => {
               />
             )}
 
+          {"Job Not Listed" === userCategory && (
+            <GeneralBannerInfo
+              title="Job Not Listed"
+              description="This job posting request requires government verification of any certification prior to publication. Please allow up to 3 business days for processing."
+              titleBG={"bg-red-500"}
+            />
+          )}
+
           <form
             className="p-6 font-[sans-serif] m-6 max-w-4xl mx-auto"
             onSubmit={handleReview}
@@ -70,37 +78,26 @@ export const PostAJobForm: React.FC = () => {
                   name="jobCountry"
                   value={userCategory}
                   onChange={(e) => {
-                    if (e.target.value.length === 0)
-                      dispatch(
-                        setPostAJobDetails({
-                          ...postAJobOrder,
-                          jobName: "",
-                          jobTask: postAJobOrder.postAJobFormDetails.jobTask,
-                          jobPrice: postAJobOrder.postAJobFormDetails.jobPrice,
-                          jobZip: postAJobOrder.postAJobFormDetails.jobZip,
-                          jobCityLocation:
-                            postAJobOrder.postAJobFormDetails.jobCityLocation,
-                          date: postAJobOrder.postAJobFormDetails.date,
-                          time: postAJobOrder.postAJobFormDetails.time,
-                          email: postAJobOrder.postAJobFormDetails.email,
-                          jobCountry:
-                            postAJobOrder.postAJobFormDetails.jobCountry,
-                          jobState: postAJobOrder.postAJobFormDetails.jobState,
-                          urgencyLevel:
-                            postAJobOrder.postAJobFormDetails.urgencyLevel,
-                          phoneNumber:
-                            postAJobOrder.postAJobFormDetails.phoneNumber,
-                          customerName:
-                            postAJobOrder.postAJobFormDetails.customerName,
-                          jobAddress:
-                            postAJobOrder.postAJobFormDetails.jobAddress,
-                        })
-                      );
+                    if (e.target.value === "Job Not Listed") {
+                      e.target.value =
+                        e.target.value === "Job Not Listed"
+                          ? "Job Not Listed"
+                          : "";
+                      e.target.name = "jobName";
+                      handleChange(e);
+                    }
+
                     setUserCategory(e.target.value);
                   }}
                 >
                   <option className="h-20" value="">
                     Select Category
+                  </option>
+                  <option
+                    className="h-20 bg-purple-700 text-white"
+                    value="Job Not Listed"
+                  >
+                    Job Not Listed
                   </option>
                   {Object.entries(groupedServices).map(
                     ([category, services]) => (
