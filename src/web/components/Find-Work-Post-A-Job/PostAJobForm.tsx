@@ -1,13 +1,17 @@
-import { useMemo, useState } from "react";
+import { useEffect, useMemo, useState } from "react";
 // import * as nsfwjs from "nsfwjs";
 import { useNavigate } from "react-router";
 import { MainTitle } from "../common-sections/MainTitle";
 import { useGetCoutries } from "../../utils/fetchEndpoints";
 import { StateAndTerritorySelector } from "../common-sections/StateAndTerritorySelector";
 import { RootState } from "../../../store";
-import { useSelector } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import { JobInputs } from "./JobInputs";
 import { ReviewPopup } from "./ReviewPopup";
+import {
+  setPostAJobDetails,
+  urgencyLevels,
+} from "../../../store/postAJobSlice";
 
 export type FormData = {
   jobName: string;
@@ -27,40 +31,42 @@ export type FormData = {
 };
 
 export const PostAJobForm: React.FC = () => {
+  const dispatch = useDispatch();
   const navigate = useNavigate();
   const [openReview, setOpenReview] = useState(false);
   const [jobImage, setJobImage] = useState<File>();
   const states = useSelector((state: RootState) => state);
 
   const customerOrder = states.formData.customerOrder;
+  const postAJobOrder = states.postAJobFormDetailsState;
   const { data: coutries, isFetching: isCoutriesFetching } = useGetCoutries();
 
   const [errors, setErrors] = useState<Partial<FormData>>({});
-  const [formData, setFormData] = useState({
-    jobName: "",
-    jobTask: "",
-    jobPrice: "",
-    jobZip: customerOrder.customerInfo.zip || "",
-    jobCityLocation: customerOrder.customerInfo.city || "",
-    date: "",
-    time: "",
-    email: customerOrder.customerInfo.email || "",
-    jobCountry: customerOrder.customerInfo.country || "",
-    jobState: customerOrder.customerInfo.state || "",
-    urgencyLevel: "",
-    phoneNumber: "",
-    customerName:
-      `${customerOrder.customerInfo.firstName} ${customerOrder.customerInfo.lastName}` ||
-      "",
-    jobAddress: customerOrder.customerInfo.address || "",
-  });
 
-  const urgencyLevels = [
-    { value: "", label: "Select Level" },
-    { value: "High", label: "High" },
-    { value: "Medium", label: "Medium" },
-    { value: "Low", label: "Low" },
-  ];
+  useEffect(() => {
+    if (customerOrder && isCoutriesFetching === false) {
+      const updatedPostAJobFormData = {
+        jobName: "",
+        jobTask: "",
+        jobPrice: "",
+        jobZip: customerOrder.customerInfo.zip || "",
+        jobCityLocation: customerOrder.customerInfo.city || "",
+        date: "",
+        time: "",
+        email: customerOrder.customerInfo.email || "",
+        jobCountry: customerOrder.customerInfo.country || "",
+        jobState: customerOrder.customerInfo.state || "",
+        urgencyLevel: "",
+        phoneNumber: "",
+        customerName:
+          `${customerOrder.customerInfo.firstName} ${customerOrder.customerInfo.lastName}` ||
+          "",
+        jobAddress: customerOrder.customerInfo.address || "",
+      };
+
+      dispatch(setPostAJobDetails(updatedPostAJobFormData));
+    }
+  }, [isCoutriesFetching]);
 
   // Add database colunmn
   // jobCountry;
@@ -80,10 +86,52 @@ export const PostAJobForm: React.FC = () => {
   ) => {
     const { name, value } = e.target;
 
-    setFormData((prevFormData) => ({
-      ...prevFormData,
-      [name]: value,
-    }));
+    let updatedCustomerFormData = {
+      ...postAJobOrder,
+      jobName:
+        name === "jobName" ? value : postAJobOrder.postAJobFormDetails.jobName,
+      jobTask:
+        name === "jobTask" ? value : postAJobOrder.postAJobFormDetails.jobTask,
+      jobAddress:
+        name === "jobAddress"
+          ? value
+          : postAJobOrder.postAJobFormDetails.jobAddress,
+      jobPrice:
+        name === "jobPrice"
+          ? value
+          : postAJobOrder.postAJobFormDetails.jobPrice,
+      jobZip:
+        name === "jobZip" ? value : postAJobOrder.postAJobFormDetails.jobZip,
+      jobCityLocation:
+        name === "jobCityLocation"
+          ? value
+          : postAJobOrder.postAJobFormDetails.jobCityLocation,
+      date: name === "date" ? value : postAJobOrder.postAJobFormDetails.date,
+      time: name === "time" ? value : postAJobOrder.postAJobFormDetails.time,
+      email: name === "email" ? value : postAJobOrder.postAJobFormDetails.email,
+      jobCountry:
+        name === "jobCountry"
+          ? value
+          : postAJobOrder.postAJobFormDetails.jobCountry,
+      jobState:
+        name === "jobState"
+          ? value
+          : postAJobOrder.postAJobFormDetails.jobState,
+      urgencyLevel:
+        name === "urgencyLevel"
+          ? value
+          : postAJobOrder.postAJobFormDetails.urgencyLevel,
+      phoneNumber:
+        name === "phoneNumber"
+          ? value
+          : postAJobOrder.postAJobFormDetails.phoneNumber,
+      customerName:
+        name === "customerName"
+          ? value
+          : postAJobOrder.postAJobFormDetails.customerName,
+    };
+
+    dispatch(setPostAJobDetails(updatedCustomerFormData));
   };
 
   // const detectExplicitContent = async (imageElement: any) => {
@@ -97,7 +145,8 @@ export const PostAJobForm: React.FC = () => {
 
   const validateForm = () => {
     const newErrors: Partial<FormData> = {};
-    const isUSA = formData.jobCountry === "United States";
+    const isUSA =
+      postAJobOrder.postAJobFormDetails.jobCountry === "United States";
 
     // Define required fields with their corresponding error messages
     const requiredFields: { key: keyof FormData; message: string }[] = [
@@ -123,7 +172,7 @@ export const PostAJobForm: React.FC = () => {
 
     const validateRequiredFields = async () => {
       requiredFields.forEach(({ key, message }) => {
-        if (!formData[key]) {
+        if (!postAJobOrder.postAJobFormDetails[key]) {
           newErrors[key] = message;
         }
       });
@@ -140,14 +189,16 @@ export const PostAJobForm: React.FC = () => {
     // Validate required fields
     if (isUSA) {
       usaRequiredFields.forEach(({ key, message }) => {
-        if (!formData[key]) {
+        if (!postAJobOrder.postAJobFormDetails[key]) {
           newErrors[key] = message;
         }
       });
 
-      if (!formData.jobZip) {
+      if (!postAJobOrder.postAJobFormDetails.jobZip) {
         newErrors.jobZip = "Job Zip is required";
-      } else if (!/^\d{5}(-\d+)?$/.test(formData.jobZip)) {
+      } else if (
+        !/^\d{5}(-\d+)?$/.test(postAJobOrder.postAJobFormDetails.jobZip)
+      ) {
         newErrors.jobZip =
           "Job Zip must be either 5 digits or 5 digits followed by a hyphen and more digits";
       }
@@ -156,9 +207,11 @@ export const PostAJobForm: React.FC = () => {
     } else validateRequiredFields();
 
     // Additional field-specific validations
-    if (!formData.jobPrice) {
+    if (!postAJobOrder.postAJobFormDetails.jobPrice) {
       newErrors.jobPrice = "Job Price is required";
-    } else if (!/^\d+(\.\d{1,2})?$/.test(formData.jobPrice)) {
+    } else if (
+      !/^\d+(\.\d{1,2})?$/.test(postAJobOrder.postAJobFormDetails.jobPrice)
+    ) {
       newErrors.jobPrice =
         "Job Price must be a number with up to two decimal places";
     }
@@ -169,13 +222,15 @@ export const PostAJobForm: React.FC = () => {
 
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
+    navigate("/payment");
+
+    // WE Need cutomer Info before head to payment
+  };
+
+  const handleReview = (e: React.FormEvent) => {
+    e.preventDefault();
     if (validateForm()) {
-      console.log(
-        `${customerOrder.customerInfo.firstName} ${customerOrder.customerInfo}`,
-        "Form submitted: to database",
-        formData
-      );
-      // navigate("/find-work-post-a-job");
+      setOpenReview(true);
     }
   };
 
@@ -189,10 +244,10 @@ export const PostAJobForm: React.FC = () => {
     <>
       {openReview ? (
         <ReviewPopup
-          openReview={openReview}
           setOpenReview={setOpenReview}
-          formData={formData}
+          formData={postAJobOrder.postAJobFormDetails}
           jobImage={jobImage}
+          handleSubmit={handleSubmit}
         />
       ) : (
         <>
@@ -200,11 +255,11 @@ export const PostAJobForm: React.FC = () => {
 
           <form
             className="p-6 font-[sans-serif] m-6 max-w-4xl mx-auto"
-            onSubmit={handleSubmit}
+            onSubmit={handleReview}
           >
             <div className="grid sm:grid-cols-2 gap-10">
               <JobInputs
-                value={formData.jobName}
+                value={postAJobOrder.postAJobFormDetails.jobName}
                 errorMessage={errors.jobName ?? ""}
                 labelName={"Job Name"}
                 name="jobName"
@@ -212,7 +267,7 @@ export const PostAJobForm: React.FC = () => {
               />
 
               <JobInputs
-                value={formData.jobTask}
+                value={postAJobOrder.postAJobFormDetails.jobTask}
                 errorMessage={errors.jobTask ?? ""}
                 labelName={"Job Task"}
                 name="jobTask"
@@ -220,7 +275,7 @@ export const PostAJobForm: React.FC = () => {
               />
 
               <JobInputs
-                value={formData.jobPrice}
+                value={postAJobOrder.postAJobFormDetails.jobPrice}
                 errorMessage={errors.jobPrice ?? ""}
                 labelName={"Job Price"}
                 name="jobPrice"
@@ -228,7 +283,7 @@ export const PostAJobForm: React.FC = () => {
               />
 
               <JobInputs
-                value={formData.jobAddress}
+                value={postAJobOrder.postAJobFormDetails.jobAddress}
                 errorMessage={errors.jobAddress ?? ""}
                 labelName={"Job Address"}
                 name="jobAddress"
@@ -236,7 +291,7 @@ export const PostAJobForm: React.FC = () => {
               />
 
               <JobInputs
-                value={formData.phoneNumber}
+                value={postAJobOrder.postAJobFormDetails.phoneNumber}
                 errorMessage={errors.phoneNumber ?? ""}
                 labelName={"Customer Phone Number"}
                 name="phoneNumber"
@@ -251,7 +306,7 @@ export const PostAJobForm: React.FC = () => {
                   className="px-4 py-3.5 bg-white text-black w-full text-sm border-2 border-gray-100 focus:border-blue-500 rounded outline-none"
                   id="country"
                   name="jobCountry"
-                  value={formData.jobCountry}
+                  value={postAJobOrder.postAJobFormDetails.jobCountry}
                   onChange={handleChange}
                 >
                   <option className="h-20" value="">
@@ -282,7 +337,7 @@ export const PostAJobForm: React.FC = () => {
                   name="jobCityLocation"
                   placeholder="Enter job city location"
                   className="px-4 py-3.5 bg-white text-black w-full text-sm border-2 border-gray-100 focus:border-blue-500 rounded outline-none"
-                  value={formData.jobCityLocation}
+                  value={postAJobOrder.postAJobFormDetails.jobCityLocation}
                   onChange={handleChange}
                 />
                 {errors.jobCityLocation && (
@@ -292,8 +347,9 @@ export const PostAJobForm: React.FC = () => {
                 )}
               </div>
 
-              {(formData.jobCountry === "United States" ||
-                formData.jobCountry === "Canada") && (
+              {(postAJobOrder.postAJobFormDetails.jobCountry ===
+                "United States" ||
+                postAJobOrder.postAJobFormDetails.jobCountry === "Canada") && (
                 <>
                   <div className="relative flex items-center">
                     <label className="text-[13px] bg-white text-black absolute px-2 top-[-10px] left-[18px]">
@@ -302,7 +358,7 @@ export const PostAJobForm: React.FC = () => {
                     <StateAndTerritorySelector
                       className="px-4 py-3.5 bg-white text-black w-full text-sm border-2 border-gray-100 focus:border-blue-500 rounded outline-none"
                       name={"jobState"}
-                      value={formData.jobState}
+                      value={postAJobOrder.postAJobFormDetails.jobState}
                       onChange={handleChange}
                     />
                     {errors.jobState && (
@@ -311,7 +367,7 @@ export const PostAJobForm: React.FC = () => {
                   </div>
 
                   <JobInputs
-                    value={formData.jobZip}
+                    value={postAJobOrder.postAJobFormDetails.jobZip}
                     errorMessage={errors.jobZip ?? ""}
                     labelName={"Job Zip Code"}
                     name="jobZip"
@@ -328,7 +384,7 @@ export const PostAJobForm: React.FC = () => {
                   type="date"
                   name="date"
                   className="px-4 py-3 bg-[#f0f1f2] text-black w-full text-sm outline-[#007bff] rounded"
-                  value={formData.date}
+                  value={postAJobOrder.postAJobFormDetails.date}
                   onChange={handleChange}
                   min={
                     new Date(Date.now() + 86400000).toISOString().split("T")[0]
@@ -347,7 +403,7 @@ export const PostAJobForm: React.FC = () => {
                   type="time"
                   name="time"
                   className="px-4 py-3 bg-[#f0f1f2] text-black w-full text-sm outline-[#007bff] rounded"
-                  value={formData.time}
+                  value={postAJobOrder.postAJobFormDetails.time}
                   onChange={handleChange}
                 />
                 {errors.time && (
@@ -363,7 +419,7 @@ export const PostAJobForm: React.FC = () => {
                   className="px-4 py-3.5 bg-white text-black w-full text-sm border-2 border-gray-100 focus:border-blue-500 rounded outline-none"
                   id="country"
                   name="urgencyLevel"
-                  value={formData.urgencyLevel}
+                  value={postAJobOrder.postAJobFormDetails.urgencyLevel}
                   onChange={handleChange}
                 >
                   {urgencyLevels.map((level) => (
@@ -408,7 +464,7 @@ export const PostAJobForm: React.FC = () => {
                   type="email"
                   name="email"
                   className="px-4 py-3.5 bg-white text-black w-full text-sm border-2 border-gray-100 focus:border-blue-500 rounded outline-none"
-                  value={formData.email}
+                  value={postAJobOrder.postAJobFormDetails.email}
                   onChange={handleChange}
                 />
                 {errors.email && (
@@ -419,7 +475,7 @@ export const PostAJobForm: React.FC = () => {
             <button
               type="submit"
               className="mt-8 px-6 py-2.5 w-full text-sm text-white rounded bg-gray-600 hover:bg-gray-700 transition-all"
-              onClick={(e) => setOpenReview(true)}
+              onClick={handleReview}
             >
               Review
             </button>

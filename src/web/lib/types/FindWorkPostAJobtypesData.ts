@@ -19,6 +19,7 @@ export type JobPosting = {
   expectedDuration: string;
   materialsProvided: string;
   email: string;
+  jobCountry: string;
   phoneNumber: string;
   customerName: string;
   preferredCommunicationMethod: "Email" | "Phone" | "Text Message";

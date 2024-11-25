@@ -90,3 +90,20 @@ export const customerDetails = {
   status: true, // Defaults to true
   notes: "", // Text field for additional notes
 };
+
+export const postAJobFormDetails = {
+  jobName: "",
+  jobTask: "",
+  jobPrice: "",
+  jobZip: "",
+  jobCityLocation: "",
+  date: "",
+  time: "",
+  email: "",
+  jobCountry: "",
+  jobState: "",
+  urgencyLevel: "",
+  phoneNumber: "",
+  customerName: "",
+  jobAddress: "",
+};

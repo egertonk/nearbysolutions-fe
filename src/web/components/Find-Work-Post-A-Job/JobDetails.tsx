@@ -92,7 +92,12 @@ export const JobDetails: React.FC<Props> = ({
           Time: {jobDetails.time}
         </p>
         <p className="items-center justify-center grid mb-4">
-          Location: {jobDetails.jobCityLocation}, Zip: {jobDetails.jobZip}
+          Location: {jobDetails.jobCityLocation},{" "}
+          {jobDetails.jobCountry === "United States" ||
+            (jobDetails.jobCountry === "Canada" && (
+              <>Zip: {jobDetails.jobZip}</>
+            ))}{" "}
+          {jobDetails.jobCountry}
         </p>
       </div>
     </>

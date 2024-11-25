@@ -1,5 +1,4 @@
 import { useEffect, useState } from "react";
-import { customerJobsArray } from ".";
 import { JobPosting } from "./types/FindWorkPostAJobtypesData";
 import { useJobPosting } from "../utils/fetchEndpoints";
 import { localHostURL } from "../utils/fetchGet";
@@ -100,7 +99,6 @@ export const useFindWorkPostAJob = (sortList: string[]) => {
   return {
     handleSubmit,
     handleSort,
-    customerJobsArray,
     filteredJobs,
     setFilteredJobs,
     searchTerm,

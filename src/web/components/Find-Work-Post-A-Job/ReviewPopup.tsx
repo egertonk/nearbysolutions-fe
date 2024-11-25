@@ -10,12 +10,14 @@ type Props = {
   setOpenReview: React.Dispatch<React.SetStateAction<boolean>>;
   formData: JobDetailTypes;
   jobImage: File | undefined;
+  handleSubmit: (e: React.FormEvent) => void;
 };
 
 export const ReviewPopup: React.FC<Props> = ({
   setOpenReview,
   formData,
   jobImage,
+  handleSubmit,
 }) => {
   const customerOrder = useSelector(
     (state: RootState) => state.formData.customerOrder
@@ -42,7 +44,7 @@ export const ReviewPopup: React.FC<Props> = ({
         </button>
         <button
           className={`cursor-pointer m-2 w-48 ${grayButtonCSS}`}
-          onClick={() => setOpenReview(false)}
+          onClick={(e) => handleSubmit(e)}
         >
           Setup Payment
         </button>
