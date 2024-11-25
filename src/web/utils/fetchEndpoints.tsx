@@ -7,7 +7,7 @@ import {
 import { CustomerDetailsTypes } from "../../store/customerDetailsSlice";
 import { CountryTypes } from "../lib/types/countryTypes";
 import { OrderTypes } from "../lib/types/orderTypes";
-import { JobPosting } from "../lib/types/FindWorkPostAJobtypesData";
+import { JobPosting, NoLicensePermitVerificationServiceTypes } from "../lib/types/FindWorkPostAJobtypesData";
 
 // Skills
 export const getSkills = () => {
@@ -190,6 +190,23 @@ export const useGetJobPostingSearchResult = (searchTerm: string) => {
   return useQuery({
     queryKey: ["job-postings-search-result"],
     queryFn: () => getJobPostingSearchResult(searchTerm).then((data) => data),
+    placeholderData: [],
+  });
+};
+
+// No License Permit Verification Service
+export const getNoLicensePermitVerificationService = async (): Promise<
+  NoLicensePermitVerificationServiceTypes[]
+> => {
+  return getWrapper("no-verification-services").then((data) => {
+    return data;
+  });
+};
+
+export const useNoLicensePermitVerificationService = () => {
+  return useQuery({
+    queryKey: ["no-license-permit-verification-service"],
+    queryFn: () => getNoLicensePermitVerificationService().then((data) => data),
     placeholderData: [],
   });
 };

@@ -39,3 +39,21 @@ export type JobPosting = {
   accessibilityInformation: string;
   image: string; // One Imaage
 };
+
+export type NoLicensePermitVerificationServiceTypes = {
+  id: number;
+  category: string;
+  name: string;
+  description: string;
+  licensePermitVerification: boolean;
+};
+
+export type Service = {
+  id: number;
+  category: string;
+  name: string;
+  description: string;
+  licensePermitVerification: boolean;
+};
+
+export type GroupedServices = Record<string, Service[]>;

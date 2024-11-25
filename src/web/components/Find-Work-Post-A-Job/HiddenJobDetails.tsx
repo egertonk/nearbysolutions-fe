@@ -11,7 +11,7 @@ export const HiddenJobDetails: React.FC<Props> = ({
   formData,
   customerOrder,
 }) => {
-  const detailsColor = "font-bold text-xl bg-[#525495] rounded-lg";
+  const detailsColor = "font-bold text-xl text-[#00e5ff] rounded-lg";
 
   return (
     <div className="flex-1 mt-3 bg-[#312020] text-white font-bold w-full max-w-lg rounded-lg overflow-hidden mx-auto flex-col mb-4">
@@ -19,7 +19,7 @@ export const HiddenJobDetails: React.FC<Props> = ({
         className="p-6 rounded-lg border-gray-200 mb-8 justtify-center"
         style={{ boxShadow: "0 10px 28px rgba(0,0,0,.08)" }}
       >
-        <p className="text-3xl font-bold grid center-text bg-[#525495] rounded-lg">
+        <p className="text-3xl font-bold grid center-text text-[#00e5ff] rounded-lg">
           Hidden Job Details
         </p>
 
@@ -38,16 +38,16 @@ export const HiddenJobDetails: React.FC<Props> = ({
             {formData.jobCountry === "United States" ||
             formData.jobCountry === "Canada" ? (
               <>
-                <p>{formData.jobCountry}.</p>
                 <p>
                   {formData.jobCityLocation}, {formData.jobState},{" "}
-                  {formData.jobZip}.
+                  {formData.jobZip}
                 </p>
+                <p>{formData.jobCountry}</p>
               </>
             ) : (
               <>
-                <p>{formData.jobCountry}.</p>
-                <p>{formData.jobCityLocation}.</p>
+                <p>{formData.jobCityLocation}</p>
+                <p>{formData.jobCountry}</p>
               </>
             )}
           </div>

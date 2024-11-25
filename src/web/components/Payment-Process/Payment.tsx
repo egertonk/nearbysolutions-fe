@@ -10,6 +10,7 @@ import {
   setIsEditOrder,
 } from "../../../store/customerContractorSlice";
 import { orderStates, paymentStatusStates } from "../../../store/defualtStates";
+import { GeneralBannerInfo } from "../common-sections/GeneralBannerInfo";
 
 export const Payment: React.FC = () => {
   const navigate = useNavigate();
@@ -45,19 +46,13 @@ export const Payment: React.FC = () => {
             : "Review Order"}
         </h1>
 
-        <div
-          className="p-2 bg-indigo-900 items-center text-indigo-100 leading-none lg:rounded-full flex lg:inline-flex"
-          role="alert"
-        >
-          <span className="flex rounded-full bg-indigo-500 uppercase px-2 py-1 text-xs font-bold mr-3">
-            Policy
-          </span>
-          <span className="font-semibold mr-2 text-left flex-auto">
-            All payments will be put on hold until you confirm through the
+        <GeneralBannerInfo
+          title={`Policy`}
+          description="All payments will be put on hold until you confirm through the
             contactor onsite. A work pin will be given sent to your email that
-            will be use to confirm job on site
-          </span>
-        </div>
+            will be use to confirm job on site"
+          titleBG={"bg-indigo-500"}
+        />
       </div>
 
       <section id="testimonials" className="py-10">

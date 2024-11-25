@@ -2,6 +2,7 @@ import React from "react";
 import { grayButtonCSS } from "../../assets/common-css/css";
 import { JobPosting } from "../../lib/types/FindWorkPostAJobtypesData";
 import jobSearchListImage from "../../assets/company-logos-icons/job-search-list.png";
+import { PostAJobFormTypes } from "../../../store/postAJobSlice";
 
 export type JobDetailTypes = {
   jobName: string;
@@ -22,7 +23,7 @@ export type JobDetailTypes = {
 
 type Props = {
   isJob: boolean;
-  jobDetails: JobDetailTypes | JobPosting;
+  jobDetails: PostAJobFormTypes | JobPosting;
   jobImage?: File;
   setOpenImage?: (value: React.SetStateAction<boolean>) => void;
   setJobDetails?: (value: React.SetStateAction<JobPosting | undefined>) => void;
