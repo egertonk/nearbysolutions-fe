@@ -2,9 +2,9 @@ import { useSelector } from "react-redux";
 import { RootState } from "../../../store";
 
 export const PaymentJobDetails: React.FC = () => {
-  const customerOrder = useSelector(
-    (state: RootState) => state.formData.customerOrder
-  );
+  const states = useSelector((state: RootState) => state);
+  const customerOrder = states.formData.customerOrder;
+  const postAJobOrder = states.postAJobFormDetailsState.postAJobFormDetails;
 
   return (
     <div className="flex-1 px-3">
@@ -14,46 +14,110 @@ export const PaymentJobDetails: React.FC = () => {
       >
         <p className="text-xl font-semibold">Job Details</p>
 
-        <div className="grid grid-cols-2 gap-4 content-start mt-5">
-          <div>
-            <h3 className="font-semibold">Talent Name</h3>
-            <span>
-              {customerOrder.talentFirstName} {customerOrder.talentLastName}
-            </span>
-          </div>
+        {postAJobOrder ? (
+          <div className="grid grid-cols-2 gap-4 content-start mt-5">
+            <div>
+              <h3 className="font-semibold">Requestor Name</h3>
+              <span>{postAJobOrder.customerName}</span>
+            </div>
 
-          <div>
-            <h3 className="font-semibold">Appointment Date</h3>
-            <span>
-              {customerOrder.solutionDateContract.solutionFormattedDate}
-            </span>
-          </div>
+            <div>
+              <h3 className="font-semibold">Requestor Email</h3>
+              <span>{postAJobOrder.email}</span>
+            </div>
 
-          <div>
-            <h3 className="font-semibold">Schedule Time</h3>
-            <span>{customerOrder.solutionDateContract.solutionStartTime}</span>
-          </div>
+            <div>
+              <h3 className="font-semibold">Requestor Phone Number</h3>
+              <span>{postAJobOrder.email}</span>
+            </div>
 
-          <div>
-            <h3 className="font-semibold">Job Selection</h3>
-            <span>{customerOrder.solutionJob}</span>
-          </div>
+            <div>
+              <h3 className="font-semibold">Job Location </h3>
 
-          <div>
-            <h3 className="font-semibold">Job Task</h3>
-            <span>{customerOrder.solutionTask || "N/A"}</span>
-          </div>
+              {postAJobOrder.jobCountry === "United States" ||
+              postAJobOrder.jobCountry === "Canada" ? (
+                <span>
+                  {postAJobOrder.jobAddress} {postAJobOrder.jobCityLocation}{" "}
+                  {postAJobOrder.jobState} {postAJobOrder.jobZip}
+                  {postAJobOrder.jobCountry}
+                </span>
+              ) : (
+                <span>
+                  {postAJobOrder.jobAddress} {postAJobOrder.jobCityLocation}{" "}
+                  {postAJobOrder.jobCountry}
+                </span>
+              )}
+            </div>
 
-          <div>
-            <h3 className="font-semibold">Job Address</h3>
-            <p>{customerOrder.customerInfo.address}</p>
-            <p>
-              {customerOrder.customerInfo.city},{" "}
-              {customerOrder.customerInfo.state},{" "}
-              {customerOrder.customerInfo.zip}.
-            </p>
+            <div>
+              <h3 className="font-semibold">Job Name</h3>
+              <span>{postAJobOrder.jobName}</span>
+            </div>
+
+            <div>
+              <h3 className="font-semibold">Job Task</h3>
+              <span>{postAJobOrder.jobTask}</span>
+            </div>
+
+            <div>
+              <h3 className="font-semibold">Appointment Job Date</h3>
+              <span>{postAJobOrder.date}</span>
+            </div>
+
+            <div>
+              <h3 className="font-semibold">Schedule Time</h3>
+              <span>{postAJobOrder.time}</span>
+            </div>
+
+            <div>
+              <h3 className="font-semibold">Job Urgency Level</h3>
+              <span>{postAJobOrder.urgencyLevel}</span>
+            </div>
           </div>
-        </div>
+        ) : (
+          <div className="grid grid-cols-2 gap-4 content-start mt-5">
+            <div>
+              <h3 className="font-semibold">Talent Name</h3>
+              <span>
+                {customerOrder.talentFirstName} {customerOrder.talentLastName}
+              </span>
+            </div>
+
+            <div>
+              <h3 className="font-semibold">Appointment Date</h3>
+              <span>
+                {customerOrder.solutionDateContract.solutionFormattedDate}
+              </span>
+            </div>
+
+            <div>
+              <h3 className="font-semibold">Schedule Time</h3>
+              <span>
+                {customerOrder.solutionDateContract.solutionStartTime}
+              </span>
+            </div>
+
+            <div>
+              <h3 className="font-semibold">Job Selection</h3>
+              <span>{customerOrder.solutionJob}</span>
+            </div>
+
+            <div>
+              <h3 className="font-semibold">Job Task</h3>
+              <span>{customerOrder.solutionTask || "N/A"}</span>
+            </div>
+
+            <div>
+              <h3 className="font-semibold">Job Address</h3>
+              <p>{customerOrder.customerInfo.address}</p>
+              <p>
+                {customerOrder.customerInfo.city},{" "}
+                {customerOrder.customerInfo.state},{" "}
+                {customerOrder.customerInfo.zip}.
+              </p>
+            </div>
+          </div>
+        )}
       </div>
     </div>
   );

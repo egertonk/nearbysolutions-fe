@@ -92,6 +92,7 @@ export const customerDetails = {
 };
 
 export const postAJobFormDetails = {
+  id: "",
   jobName: "",
   jobTask: "",
   jobPrice: "",

@@ -1,7 +1,7 @@
 import { PaymentCustomerDetails } from "./PaymentCustomerDetails";
 import { PaymentJobDetails } from "./PaymentJobDetails";
 import { PaymentSumary } from "./PaymentSumary";
-import { useNavigate } from "react-router";
+import { useLocation, useNavigate } from "react-router";
 import { useDispatch, useSelector } from "react-redux";
 import { RootState } from "../../../store";
 import { setPaymentState } from "../../../store/paymentSlice";
@@ -11,16 +11,23 @@ import {
 } from "../../../store/customerContractorSlice";
 import { orderStates, paymentStatusStates } from "../../../store/defualtStates";
 import { GeneralBannerInfo } from "../common-sections/GeneralBannerInfo";
+import { useJobPostingById } from "../../utils/fetchEndpoints";
 
 export const Payment: React.FC = () => {
+  const location = useLocation();
   const navigate = useNavigate();
   const dispatch = useDispatch();
+
   const paymentStatus = useSelector(
     (state: RootState) => state.paymentCheckoutState.paymentCheckoutState
   );
   const isEditOrder = useSelector(
     (state: RootState) => state.formData.isEditOrder
   );
+
+  const searchParams = new URLSearchParams(location.search);
+  const acceptJobId = searchParams.get("acceptJob");
+  const { data: postAJobOrder } = useJobPostingById(Number(acceptJobId));
 
   const handleSubmit = (action: string) => {
     // todo - submit to the database
@@ -38,12 +45,15 @@ export const Payment: React.FC = () => {
   return (
     <>
       <div className="text-center ">
-        <h1 className="font-bold text-3xl md:text-4xl lg:text-5xl font-heading text-purple-800 mb-4">
+        {/* <h1 className="font-bold text-3xl md:text-4xl lg:text-5xl font-heading text-purple-800 mb-4">
           {isEditOrder
             ? "Review Information"
             : paymentStatus.showPaymentInputs
             ? "Payment"
             : "Review Order"}
+        </h1> */}
+        <h1 className="font-bold text-3xl md:text-4xl lg:text-5xl font-heading text-purple-800 mb-4">
+          {postAJobOrder ? "Future Payment" : "Payment"}
         </h1>
 
         <GeneralBannerInfo

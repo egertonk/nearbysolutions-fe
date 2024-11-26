@@ -3,8 +3,10 @@ import { grayButtonCSS } from "../../assets/common-css/css";
 import { JobPosting } from "../../lib/types/FindWorkPostAJobtypesData";
 import jobSearchListImage from "../../assets/company-logos-icons/job-search-list.png";
 import { PostAJobFormTypes } from "../../../store/postAJobSlice";
+import { useNavigate } from "react-router";
 
 export type JobDetailTypes = {
+  id: string;
   jobName: string;
   jobTask: string;
   jobPrice: string;
@@ -36,13 +38,20 @@ export const JobDetails: React.FC<Props> = ({
   setOpenImage,
   setJobDetails,
 }) => {
+  const navigate = useNavigate();
+
   return (
     <>
       <div className="flex items-center justify-between m-4">
         <span className="text-3xl font-bold text-gray-900 dark:text-white">
           ${jobDetails.jobPrice}
         </span>
-        <button type="button" disabled className={grayButtonCSS}>
+        <button
+          type="button"
+          className={`cursor-pointer ${grayButtonCSS}`}
+          disabled={!isJob}
+          onClick={() => navigate(`/payment?acceptJob=${jobDetails.id}`)}
+        >
           Accept Job
         </button>
       </div>

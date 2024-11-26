@@ -9,8 +9,13 @@ export const PostAJobHeader: React.FC = () => {
           Can't find a Solution? Post a Job today.
         </h1>
         <p className="mt-2 text-sm text-gray-400">
-          Lorem ipsum dolor sit amet, consectetur adipiscing elit. Duis
-          accumsan, nuncet tempus blandit, metus mi consectetur nibh.
+          Looking for the right solution? Post a job today and trust us to
+          connect you with reliable professionals!
+        </p>
+        <p className="mt-2 text-sm text-gray-400">
+          <span className="text-white">Note:</span> "Not Listed Job" posting
+          request requires government verification of any certification prior to
+          publication. Please allow up to 3 business days for processing.
         </p>
         <button
           type="button"

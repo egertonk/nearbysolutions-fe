@@ -2,6 +2,7 @@ import { createSlice, PayloadAction } from "@reduxjs/toolkit";
 import { postAJobFormDetails } from "./defualtStates";
 
 export type PostAJobFormTypes = {
+  id: string;
   jobName: string;
   jobTask: string;
   jobPrice: string;

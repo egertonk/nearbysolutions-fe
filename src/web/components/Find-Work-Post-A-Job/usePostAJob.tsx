@@ -65,6 +65,7 @@ export const usePostAJob = () => {
   useEffect(() => {
     if (customerOrder && isCoutriesFetching === false) {
       const updatedPostAJobFormData = {
+        id: postAJobOrder.postAJobFormDetails.id ?? "",
         jobName: "",
         jobTask: "",
         jobPrice: "",
@@ -122,6 +123,7 @@ export const usePostAJob = () => {
 
     let updatedCustomerFormData = {
       ...postAJobOrder,
+      id: postAJobOrder.postAJobFormDetails.id,
       jobName:
         name === "jobName" ? value : postAJobOrder.postAJobFormDetails.jobName,
       jobTask:
@@ -256,7 +258,7 @@ export const usePostAJob = () => {
 
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
-    navigate("/payment");
+    navigate(`/payment?acceptJob=${postAJobOrder.postAJobFormDetails.id}`);
 
     // WE Need cutomer Info before head to payment
   };

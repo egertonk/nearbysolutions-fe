@@ -178,6 +178,20 @@ export const useJobPosting = () => {
   });
 };
 
+export const getJobPostingById = async (id: number): Promise<JobPosting[]> => {
+  return getWrapperWthId("job-postings", id).then((data) => {
+    return data;
+  });
+};
+
+export const useJobPostingById = (id: number) => {
+  return useQuery({
+    queryKey: ["job-postings-by-Id"],
+    queryFn: () => getJobPostingById(id).then((data) => data),
+    placeholderData: [],
+  });
+};
+
 export const getJobPostingSearchResult = (
   searchTerm: string
 ): Promise<JobPosting[]> => {
