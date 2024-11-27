@@ -1,27 +1,17 @@
 import { ChevronLeftIcon, ChevronRightIcon } from "@heroicons/react/20/solid";
-
 import { Search } from "../search/Search";
 import { SolutionistCard } from "./SolutionistCard";
 import { useEffect, useState } from "react";
 import { MainTitle } from "../common-sections/MainTitle";
 import { useLocation } from "react-router";
-import { useGetCustomerWithId, useGetUser } from "../../utils/fetchEndpoints";
+import { useGetUser } from "../../utils/fetchEndpoints";
 import { SolutionistTypes } from "../../lib/types/solutionistTypes";
-import { useDispatch, useSelector } from "react-redux";
-import { setCustomerDetails } from "../../../store/customerDetailsSlice";
-import { setCustomerOrder } from "../../../store/customerContractorSlice";
-import { RootState } from "../../../store";
+import { useCustomerInfo } from "../customer/useCustomerInfo";
 
 export const Solutionist: React.FC = () => {
-  const dispatch = useDispatch();
   const location = useLocation();
 
-  const states = useSelector((state: RootState) => state);
-  const customerOrder = states.formData.customerOrder;
-
   const { data: user, isFetching } = useGetUser();
-  const { data: customer, isFetching: isCustomerFetching } =
-    useGetCustomerWithId(1); // comes from login
 
   const MAX_TALENT = 1;
   const [data, setData] = useState([] as SolutionistTypes[]);
@@ -29,6 +19,8 @@ export const Solutionist: React.FC = () => {
   const isSearchResults = data.length === 0;
 
   const isGiftASolution = location.pathname.includes("gift-a-solution");
+
+  const { customerInfo } = useCustomerInfo(isGiftASolution, 1);
 
   // useEffect(() => {
   //   const giftStatus = location.pathname.includes("gift-a-solution");
@@ -39,31 +31,9 @@ export const Solutionist: React.FC = () => {
   // }, []);
 
   useEffect(() => {
-    if (customer && isCustomerFetching === false) {
-      dispatch(setCustomerDetails(customer));
-
-      const updatedCustomerFormData = {
-        ...customerOrder,
-        customerInfo: {
-          customerID: customer.customerId,
-          firstName: customer.firstName || "",
-          lastName: customer.lastName || "",
-          country: customer.country || "",
-          address: customer.address || "",
-          city: customer.city || "",
-          state: customer.state || "",
-          zip: customer.zip || "",
-          phoneNumber: customer.phoneNumber || "",
-          email: customer.email || "",
-        },
-        giftStatus: isGiftASolution,
-      };
-      console.info(updatedCustomerFormData);
-      dispatch(setCustomerOrder(updatedCustomerFormData));
-    }
     if (user && searchResults.length === 0 && isFetching === false)
       setSearchResults(user);
-  }, [isFetching, isCustomerFetching, isGiftASolution]);
+  }, [isFetching, customerInfo, isGiftASolution]);
 
   return (
     <>

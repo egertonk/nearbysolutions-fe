@@ -1,19 +1,13 @@
 import { MainTitle } from "../common-sections/MainTitle";
 import { StateAndTerritorySelector } from "../common-sections/StateAndTerritorySelector";
-import { useDispatch } from "react-redux";
 import { JobInputs } from "./JobInputs";
 import { ReviewPopup } from "./ReviewPopup";
-import {
-  setPostAJobDetails,
-  urgencyLevels,
-} from "../../../store/postAJobSlice";
+import { urgencyLevels } from "../../../store/postAJobSlice";
 import { usePostAJob } from "./usePostAJob";
 import { Service } from "../../lib/types/FindWorkPostAJobtypesData";
 import { GeneralBannerInfo } from "../common-sections/GeneralBannerInfo";
 
 export const PostAJobForm: React.FC = () => {
-  const dispatch = useDispatch();
-
   const {
     handleImage,
     handleReview,

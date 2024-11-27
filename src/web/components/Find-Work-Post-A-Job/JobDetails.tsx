@@ -50,7 +50,7 @@ export const JobDetails: React.FC<Props> = ({
           type="button"
           className={`cursor-pointer ${grayButtonCSS}`}
           disabled={!isJob}
-          onClick={() => navigate(`/payment?acceptJob=${jobDetails.id}`)}
+          onClick={() => navigate(`/job-accepted?acceptJob=${jobDetails.id}&solutionist=1`)}
         >
           Accept Job
         </button>

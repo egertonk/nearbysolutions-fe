@@ -7,7 +7,10 @@ import {
 import { CustomerDetailsTypes } from "../../store/customerDetailsSlice";
 import { CountryTypes } from "../lib/types/countryTypes";
 import { OrderTypes } from "../lib/types/orderTypes";
-import { JobPosting, NoLicensePermitVerificationServiceTypes } from "../lib/types/FindWorkPostAJobtypesData";
+import {
+  JobPosting,
+  NoLicensePermitVerificationServiceTypes,
+} from "../lib/types/FindWorkPostAJobtypesData";
 
 // Skills
 export const getSkills = () => {
@@ -178,7 +181,7 @@ export const useJobPosting = () => {
   });
 };
 
-export const getJobPostingById = async (id: number): Promise<JobPosting[]> => {
+export const getJobPostingById = async (id: number): Promise<JobPosting> => {
   return getWrapperWthId("job-postings", id).then((data) => {
     return data;
   });
@@ -188,7 +191,7 @@ export const useJobPostingById = (id: number) => {
   return useQuery({
     queryKey: ["job-postings-by-Id"],
     queryFn: () => getJobPostingById(id).then((data) => data),
-    placeholderData: [],
+    // placeholderData: {},
   });
 };
 

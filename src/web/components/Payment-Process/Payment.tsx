@@ -1,7 +1,7 @@
 import { PaymentCustomerDetails } from "./PaymentCustomerDetails";
 import { PaymentJobDetails } from "./PaymentJobDetails";
 import { PaymentSumary } from "./PaymentSumary";
-import { useLocation, useNavigate } from "react-router";
+import { useNavigate } from "react-router";
 import { useDispatch, useSelector } from "react-redux";
 import { RootState } from "../../../store";
 import { setPaymentState } from "../../../store/paymentSlice";
@@ -11,10 +11,9 @@ import {
 } from "../../../store/customerContractorSlice";
 import { orderStates, paymentStatusStates } from "../../../store/defualtStates";
 import { GeneralBannerInfo } from "../common-sections/GeneralBannerInfo";
-import { useJobPostingById } from "../../utils/fetchEndpoints";
+import { useGetPostedJobInfo } from "../Find-Work-Post-A-Job/useGetPostedJobInfo";
 
 export const Payment: React.FC = () => {
-  const location = useLocation();
   const navigate = useNavigate();
   const dispatch = useDispatch();
 
@@ -25,9 +24,7 @@ export const Payment: React.FC = () => {
     (state: RootState) => state.formData.isEditOrder
   );
 
-  const searchParams = new URLSearchParams(location.search);
-  const acceptJobId = searchParams.get("acceptJob");
-  const { data: postAJobOrder } = useJobPostingById(Number(acceptJobId));
+  const { postAJobOrder } = useGetPostedJobInfo("acceptJob");
 
   const handleSubmit = (action: string) => {
     // todo - submit to the database
