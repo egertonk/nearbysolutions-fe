@@ -4,7 +4,7 @@ import { RootState } from "../../../store";
 export const PaymentSumary: React.FC = () => {
   const states = useSelector((state: RootState) => state);
   const customerOrder = states.formData.customerOrder;
-  const postAJobOrder = states.postAJobFormDetailsState.postAJobFormDetails;
+  const postAJobOrder = states.postAJobFormDetailsState.postAJobFormDetailsData;
 
   const calculateFinalPrice = (originalPrice: number, discount: number) => {
     if (originalPrice) {

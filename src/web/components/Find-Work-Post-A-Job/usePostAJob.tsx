@@ -57,7 +57,7 @@ export const usePostAJob = () => {
   const states = useSelector((state: RootState) => state);
 
   const customerOrder = states.formData.customerOrder;
-  const postAJobOrder = states.postAJobFormDetailsState;
+  const postAJobOrder = states.postAJobFormDetailsState.postAJobFormDetailsData;
   const { data: coutries, isFetching: isCoutriesFetching } = useGetCoutries();
 
   const [errors, setErrors] = useState<Partial<FormData>>({});
@@ -65,7 +65,8 @@ export const usePostAJob = () => {
   useEffect(() => {
     if (customerOrder && isCoutriesFetching === false) {
       const updatedPostAJobFormData = {
-        id: postAJobOrder.postAJobFormDetails.id ?? "",
+        ...postAJobOrder,
+        id: postAJobOrder.id ?? "",
         jobName: "",
         jobTask: "",
         jobPrice: "",
@@ -109,62 +110,36 @@ export const usePostAJob = () => {
   const generalDescription = useMemo(() => {
     if (groupedServices)
       return groupedServices[`${userCategory}`]?.map(
-        (data) =>
-          data.name === postAJobOrder?.postAJobFormDetails?.jobName &&
-          data.description
+        (data) => data.name === postAJobOrder?.jobName && data.description
       );
     return [];
-  }, [postAJobOrder?.postAJobFormDetails?.jobName]);
+  }, [postAJobOrder?.jobName]);
 
   const handleChange = (
     e: React.ChangeEvent<HTMLInputElement | HTMLSelectElement>
   ) => {
     const { name, value } = e.target;
 
-    let updatedCustomerFormData = {
+    const updatedCustomerFormData = {
       ...postAJobOrder,
-      id: postAJobOrder.postAJobFormDetails.id,
-      jobName:
-        name === "jobName" ? value : postAJobOrder.postAJobFormDetails.jobName,
-      jobTask:
-        name === "jobTask" ? value : postAJobOrder.postAJobFormDetails.jobTask,
-      jobAddress:
-        name === "jobAddress"
-          ? value
-          : postAJobOrder.postAJobFormDetails.jobAddress,
-      jobPrice:
-        name === "jobPrice"
-          ? value
-          : postAJobOrder.postAJobFormDetails.jobPrice,
-      jobZip:
-        name === "jobZip" ? value : postAJobOrder.postAJobFormDetails.jobZip,
+      id: postAJobOrder.id,
+      jobName: name === "jobName" ? value : postAJobOrder.jobName,
+      jobTask: name === "jobTask" ? value : postAJobOrder.jobTask,
+      jobAddress: name === "jobAddress" ? value : postAJobOrder.jobAddress,
+      jobPrice: name === "jobPrice" ? value : postAJobOrder.jobPrice,
+      jobZip: name === "jobZip" ? value : postAJobOrder.jobZip,
       jobCityLocation:
-        name === "jobCityLocation"
-          ? value
-          : postAJobOrder.postAJobFormDetails.jobCityLocation,
-      date: name === "date" ? value : postAJobOrder.postAJobFormDetails.date,
-      time: name === "time" ? value : postAJobOrder.postAJobFormDetails.time,
-      email: name === "email" ? value : postAJobOrder.postAJobFormDetails.email,
-      jobCountry:
-        name === "jobCountry"
-          ? value
-          : postAJobOrder.postAJobFormDetails.jobCountry,
-      jobState:
-        name === "jobState"
-          ? value
-          : postAJobOrder.postAJobFormDetails.jobState,
+        name === "jobCityLocation" ? value : postAJobOrder.jobCityLocation,
+      date: name === "date" ? value : postAJobOrder.date,
+      time: name === "time" ? value : postAJobOrder.time,
+      email: name === "email" ? value : postAJobOrder.email,
+      jobCountry: name === "jobCountry" ? value : postAJobOrder.jobCountry,
+      jobState: name === "jobState" ? value : postAJobOrder.jobState,
       urgencyLevel:
-        name === "urgencyLevel"
-          ? value
-          : postAJobOrder.postAJobFormDetails.urgencyLevel,
-      phoneNumber:
-        name === "phoneNumber"
-          ? value
-          : postAJobOrder.postAJobFormDetails.phoneNumber,
+        name === "urgencyLevel" ? value : postAJobOrder.urgencyLevel,
+      phoneNumber: name === "phoneNumber" ? value : postAJobOrder.phoneNumber,
       customerName:
-        name === "customerName"
-          ? value
-          : postAJobOrder.postAJobFormDetails.customerName,
+        name === "customerName" ? value : postAJobOrder.customerName,
     };
 
     dispatch(setPostAJobDetails(updatedCustomerFormData));
@@ -181,8 +156,7 @@ export const usePostAJob = () => {
 
   const validateForm = () => {
     const newErrors: Partial<FormData> = {};
-    const isUSA =
-      postAJobOrder.postAJobFormDetails.jobCountry === "United States";
+    const isUSA = postAJobOrder.jobCountry === "United States";
 
     // Define required fields with their corresponding error messages
     const requiredFields: { key: keyof FormData; message: string }[] = [
@@ -208,7 +182,7 @@ export const usePostAJob = () => {
 
     const validateRequiredFields = async () => {
       requiredFields.forEach(({ key, message }) => {
-        if (!postAJobOrder.postAJobFormDetails[key]) {
+        if (!postAJobOrder[key]) {
           newErrors[key] = message;
         }
       });
@@ -225,16 +199,14 @@ export const usePostAJob = () => {
     // Validate required fields
     if (isUSA) {
       usaRequiredFields.forEach(({ key, message }) => {
-        if (!postAJobOrder.postAJobFormDetails[key]) {
+        if (!postAJobOrder[key]) {
           newErrors[key] = message;
         }
       });
 
-      if (!postAJobOrder.postAJobFormDetails.jobZip) {
+      if (!postAJobOrder.jobZip) {
         newErrors.jobZip = "Job Zip is required";
-      } else if (
-        !/^\d{5}(-\d+)?$/.test(postAJobOrder.postAJobFormDetails.jobZip)
-      ) {
+      } else if (!/^\d{5}(-\d+)?$/.test(postAJobOrder.jobZip)) {
         newErrors.jobZip =
           "Job Zip must be either 5 digits or 5 digits followed by a hyphen and more digits";
       }
@@ -243,11 +215,9 @@ export const usePostAJob = () => {
     } else validateRequiredFields();
 
     // Additional field-specific validations
-    if (!postAJobOrder.postAJobFormDetails.jobPrice) {
+    if (!postAJobOrder.jobPrice) {
       newErrors.jobPrice = "Job Price is required";
-    } else if (
-      !/^\d+(\.\d{1,2})?$/.test(postAJobOrder.postAJobFormDetails.jobPrice)
-    ) {
+    } else if (!/^\d+(\.\d{1,2})?$/.test(postAJobOrder.jobPrice)) {
       newErrors.jobPrice =
         "Job Price must be a number with up to two decimal places";
     }
@@ -258,7 +228,7 @@ export const usePostAJob = () => {
 
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
-    navigate(`/payment?acceptJob=${postAJobOrder.postAJobFormDetails.id}`);
+    navigate(`/payment?acceptJob=${postAJobOrder.id}`);
 
     // WE Need cutomer Info before head to payment
   };

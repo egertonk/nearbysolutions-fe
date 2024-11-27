@@ -31,7 +31,7 @@ export const PostAJobForm: React.FC = () => {
       {openReview ? (
         <ReviewPopup
           setOpenReview={setOpenReview}
-          formData={postAJobOrder.postAJobFormDetails}
+          formData={postAJobOrder}
           jobImage={jobImage}
           handleSubmit={handleSubmit}
         />
@@ -40,9 +40,9 @@ export const PostAJobForm: React.FC = () => {
           <MainTitle title={"Post a Job"} />
 
           {generalDescription?.length > 0 &&
-            postAJobOrder?.postAJobFormDetails?.jobName.length > 0 && (
+            postAJobOrder?.jobName.length > 0 && (
               <GeneralBannerInfo
-                title={`General ${postAJobOrder.postAJobFormDetails.jobName} 
+                title={`General ${postAJobOrder.jobName} 
                   Description`}
                 description={generalDescription as unknown as string}
                 titleBG={"bg-red-500"}
@@ -115,7 +115,7 @@ export const PostAJobForm: React.FC = () => {
                   className="px-4 py-3.5 bg-white text-black w-full text-sm border-2 border-gray-100 focus:border-blue-500 rounded outline-none"
                   id="jobName"
                   name="jobName"
-                  value={postAJobOrder.postAJobFormDetails.jobName}
+                  value={postAJobOrder.jobName}
                   onChange={(e) => {
                     // setUserService();
                     handleChange(e);
@@ -142,7 +142,7 @@ export const PostAJobForm: React.FC = () => {
               </div>
 
               <JobInputs
-                value={postAJobOrder.postAJobFormDetails.jobTask}
+                value={postAJobOrder.jobTask}
                 errorMessage={errors.jobTask ?? ""}
                 labelName={"Job Task"}
                 name="jobTask"
@@ -150,7 +150,7 @@ export const PostAJobForm: React.FC = () => {
               />
 
               <JobInputs
-                value={postAJobOrder.postAJobFormDetails.jobPrice}
+                value={postAJobOrder.jobPrice}
                 errorMessage={errors.jobPrice ?? ""}
                 labelName={"Job Price"}
                 name="jobPrice"
@@ -158,7 +158,7 @@ export const PostAJobForm: React.FC = () => {
               />
 
               <JobInputs
-                value={postAJobOrder.postAJobFormDetails.jobAddress}
+                value={postAJobOrder.jobAddress}
                 errorMessage={errors.jobAddress ?? ""}
                 labelName={"Job Address"}
                 name="jobAddress"
@@ -166,7 +166,7 @@ export const PostAJobForm: React.FC = () => {
               />
 
               <JobInputs
-                value={postAJobOrder.postAJobFormDetails.phoneNumber}
+                value={postAJobOrder.phoneNumber}
                 errorMessage={errors.phoneNumber ?? ""}
                 labelName={"Customer Phone Number"}
                 name="phoneNumber"
@@ -181,7 +181,7 @@ export const PostAJobForm: React.FC = () => {
                   className="px-4 py-3.5 bg-white text-black w-full text-sm border-2 border-gray-100 focus:border-blue-500 rounded outline-none"
                   id="country"
                   name="jobCountry"
-                  value={postAJobOrder.postAJobFormDetails.jobCountry}
+                  value={postAJobOrder.jobCountry}
                   onChange={handleChange}
                 >
                   <option className="h-20" value="">
@@ -212,7 +212,7 @@ export const PostAJobForm: React.FC = () => {
                   name="jobCityLocation"
                   placeholder="Enter job city location"
                   className="px-4 py-3.5 bg-white text-black w-full text-sm border-2 border-gray-100 focus:border-blue-500 rounded outline-none"
-                  value={postAJobOrder.postAJobFormDetails.jobCityLocation}
+                  value={postAJobOrder.jobCityLocation}
                   onChange={handleChange}
                 />
                 {errors.jobCityLocation && (
@@ -222,9 +222,9 @@ export const PostAJobForm: React.FC = () => {
                 )}
               </div>
 
-              {(postAJobOrder.postAJobFormDetails.jobCountry ===
+              {(postAJobOrder.jobCountry ===
                 "United States" ||
-                postAJobOrder.postAJobFormDetails.jobCountry === "Canada") && (
+                postAJobOrder.jobCountry === "Canada") && (
                 <>
                   <div className="relative flex items-center">
                     <label className="text-[13px] bg-white text-black absolute px-2 top-[-10px] left-[18px]">
@@ -233,7 +233,7 @@ export const PostAJobForm: React.FC = () => {
                     <StateAndTerritorySelector
                       className="px-4 py-3.5 bg-white text-black w-full text-sm border-2 border-gray-100 focus:border-blue-500 rounded outline-none"
                       name={"jobState"}
-                      value={postAJobOrder.postAJobFormDetails.jobState}
+                      value={postAJobOrder.jobState}
                       onChange={handleChange}
                     />
                     {errors.jobState && (
@@ -242,7 +242,7 @@ export const PostAJobForm: React.FC = () => {
                   </div>
 
                   <JobInputs
-                    value={postAJobOrder.postAJobFormDetails.jobZip}
+                    value={postAJobOrder.jobZip}
                     errorMessage={errors.jobZip ?? ""}
                     labelName={"Job Zip Code"}
                     name="jobZip"
@@ -259,7 +259,7 @@ export const PostAJobForm: React.FC = () => {
                   type="date"
                   name="date"
                   className="px-4 py-3 bg-[#f0f1f2] text-black w-full text-sm outline-[#007bff] rounded"
-                  value={postAJobOrder.postAJobFormDetails.date}
+                  value={postAJobOrder.date}
                   onChange={handleChange}
                   min={
                     new Date(Date.now() + 86400000).toISOString().split("T")[0]
@@ -278,7 +278,7 @@ export const PostAJobForm: React.FC = () => {
                   type="time"
                   name="time"
                   className="px-4 py-3 bg-[#f0f1f2] text-black w-full text-sm outline-[#007bff] rounded"
-                  value={postAJobOrder.postAJobFormDetails.time}
+                  value={postAJobOrder.time}
                   onChange={handleChange}
                 />
                 {errors.time && (
@@ -294,7 +294,7 @@ export const PostAJobForm: React.FC = () => {
                   className="px-4 py-3.5 bg-white text-black w-full text-sm border-2 border-gray-100 focus:border-blue-500 rounded outline-none"
                   id="country"
                   name="urgencyLevel"
-                  value={postAJobOrder.postAJobFormDetails.urgencyLevel}
+                  value={postAJobOrder.urgencyLevel}
                   onChange={handleChange}
                 >
                   {urgencyLevels.map((level) => (
@@ -339,7 +339,7 @@ export const PostAJobForm: React.FC = () => {
                   type="email"
                   name="email"
                   className="px-4 py-3.5 bg-white text-black w-full text-sm border-2 border-gray-100 focus:border-blue-500 rounded outline-none"
-                  value={postAJobOrder.postAJobFormDetails.email}
+                  value={postAJobOrder.email}
                   onChange={handleChange}
                 />
                 {errors.email && (

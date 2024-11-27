@@ -7,6 +7,7 @@ import { useLocation } from "react-router";
 import { useGetUser } from "../../utils/fetchEndpoints";
 import { SolutionistTypes } from "../../lib/types/solutionistTypes";
 import { useCustomerInfo } from "../customer/useCustomerInfo";
+import { useResetPostAJob } from "../Find-Work-Post-A-Job/useResetPostAJob";
 
 export const Solutionist: React.FC = () => {
   const location = useLocation();
@@ -21,14 +22,17 @@ export const Solutionist: React.FC = () => {
   const isGiftASolution = location.pathname.includes("gift-a-solution");
 
   const { customerInfo } = useCustomerInfo(isGiftASolution, 1);
+  const { resetPostAJob } = useResetPostAJob();
 
-  // useEffect(() => {
-  //   const giftStatus = location.pathname.includes("gift-a-solution");
-  //   if (giftStatus) dispatch(setApplicationMode(true));
-  //   if (giftStatus === false) dispatch(setApplicationMode(false));
-  //   dispatch(setCustomerOrder(orderStates));
-  //   dispatch(setPaymentState(paymentStatusStates));
-  // }, []);
+  useEffect(() => {
+    // const giftStatus = location.pathname.includes("gift-a-solution");
+    // if (giftStatus) dispatch(setApplicationMode(true));
+    // if (giftStatus === false) dispatch(setApplicationMode(false));
+    // dispatch(setCustomerOrder(orderStates));
+    // dispatch(setPaymentState(paymentStatusStates));
+    console.log("ressssssssssssssssssssset");
+    resetPostAJob();
+  }, []);
 
   useEffect(() => {
     if (user && searchResults.length === 0 && isFetching === false)

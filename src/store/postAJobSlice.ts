@@ -27,11 +27,11 @@ export const urgencyLevels = [
 ];
 
 export interface PostAJobFormDetailsState {
-  postAJobFormDetails: PostAJobFormTypes;
+  postAJobFormDetailsData: PostAJobFormTypes;
 }
 
 const initialState: PostAJobFormDetailsState = {
-  postAJobFormDetails: postAJobFormDetails,
+  postAJobFormDetailsData: postAJobFormDetails,
 };
 
 const postAJobSlice = createSlice({
@@ -39,7 +39,7 @@ const postAJobSlice = createSlice({
   initialState,
   reducers: {
     setPostAJobDetails(state, action: PayloadAction<PostAJobFormTypes>) {
-      state.postAJobFormDetails = action.payload;
+      state.postAJobFormDetailsData = action.payload;
     },
   },
 });

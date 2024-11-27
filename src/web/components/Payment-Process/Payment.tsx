@@ -12,6 +12,8 @@ import {
 import { orderStates, paymentStatusStates } from "../../../store/defualtStates";
 import { GeneralBannerInfo } from "../common-sections/GeneralBannerInfo";
 import { useGetPostedJobInfo } from "../Find-Work-Post-A-Job/useGetPostedJobInfo";
+import { PostAJobFormTypes } from "../../../store/postAJobSlice";
+import { isAllPostAJobOrderEmpty } from "../Find-Work-Post-A-Job/useResetPostAJob";
 
 export const Payment: React.FC = () => {
   const navigate = useNavigate();
@@ -50,7 +52,9 @@ export const Payment: React.FC = () => {
             : "Review Order"}
         </h1> */}
         <h1 className="font-bold text-3xl md:text-4xl lg:text-5xl font-heading text-purple-800 mb-4">
-          {postAJobOrder ? "Future Payment" : "Payment"}
+          {!isAllPostAJobOrderEmpty(postAJobOrder as unknown as PostAJobFormTypes)
+            ? "Future Payment"
+            : "Payment"}
         </h1>
 
         <GeneralBannerInfo

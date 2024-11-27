@@ -1,10 +1,11 @@
 import { useSelector } from "react-redux";
 import { RootState } from "../../../store";
+import { isAllPostAJobOrderEmpty } from "../Find-Work-Post-A-Job/useResetPostAJob";
 
 export const PaymentJobDetails: React.FC = () => {
   const states = useSelector((state: RootState) => state);
   const customerOrder = states.formData.customerOrder;
-  const postAJobOrder = states.postAJobFormDetailsState.postAJobFormDetails;
+  const postAJobOrder = states.postAJobFormDetailsState.postAJobFormDetailsData;
 
   return (
     <div className="flex-1 px-3">
@@ -14,7 +15,7 @@ export const PaymentJobDetails: React.FC = () => {
       >
         <p className="text-xl font-semibold">Job Details</p>
 
-        {postAJobOrder ? (
+        {!isAllPostAJobOrderEmpty(postAJobOrder) ? (
           <div className="grid grid-cols-2 gap-4 content-start mt-5">
             <div>
               <h3 className="font-semibold">Requestor Name</h3>
