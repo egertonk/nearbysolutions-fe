@@ -26,7 +26,7 @@ import { CustomerToolListings } from "./web/components/DIY-Tool-Rentals/Customer
 import { UserHistory } from "./web/components/Orders/UserHistory";
 import { RentAToolForm } from "./web/components/Rent-Tools/RentAToolForm";
 import { TalentDetailPage } from "./web/components/customer-calender-time/calenderPage";
-import { ThankYouMessage } from "./web/components/solutionist/ThankYouMessage";
+import { ThankYouMessage } from "./web/components/thank-you/ThankYouMessage";
 
 function App() {
   return (

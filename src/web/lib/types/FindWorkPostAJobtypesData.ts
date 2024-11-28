@@ -20,10 +20,13 @@ export type JobPosting = {
   materialsProvided: string;
   email: string;
   jobCountry: string;
+  jobState: string;
   phoneNumber: string;
   customerName: string;
   preferredCommunicationMethod: "Email" | "Phone" | "Text Message";
   jobStatus: boolean;
+  jobAcceptedByCustomer: boolean;
+  jobAcceptedBySolutionist: boolean;
   paymentMethod:
     | "Cash"
     | "Credit Card"

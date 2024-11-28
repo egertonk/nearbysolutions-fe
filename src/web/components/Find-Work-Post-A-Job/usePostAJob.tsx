@@ -89,14 +89,6 @@ export const usePostAJob = () => {
     }
   }, [isCoutriesFetching]);
 
-  // Add to database
-  // jobCountry;
-  // jobState;
-  // urgencyLevel
-  // phoneNumber
-  // customerName
-  // preferredCommunicationMethod
-
   const validCountries = useMemo(() => {
     if (coutries) return coutries?.filter((country) => country?.featureFlag);
     return [];

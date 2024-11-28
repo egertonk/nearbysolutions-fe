@@ -35,20 +35,24 @@ export const JobListings: React.FC<Props> = ({ customerJobsArray }) => {
         />
       )}
       <div className="grid grid-cols-1 lg:grid-cols-5 gap-4 ">
-        {customerJobsArray.map((jobData, index) => (
-          <div
-            key={`job-${index}`}
-            className="hover:bg-purple-50 bg-white shadow-[0_2px_15px_-6px_rgba(0,0,0,0.2)] w-full max-w-sm rounded-lg font-[sans-serif] overflow-hidden mx-auto flex-col"
-          >
-            <JobAlertMessage jobDate={jobData.date} />
-            <JobDetails
-              isJob
-              jobDetails={jobData}
-              setOpenImage={setOpenImage}
-              setJobDetails={setJobDetails}
-            />
-          </div>
-        ))}
+        {customerJobsArray.map(
+          (jobData, index) =>
+            jobData.jobAcceptedByCustomer &&
+            jobData.jobStatus && (
+              <div
+                key={`job-${index}`}
+                className="hover:bg-purple-50 bg-white shadow-[0_2px_15px_-6px_rgba(0,0,0,0.2)] w-full max-w-sm rounded-lg font-[sans-serif] overflow-hidden mx-auto flex-col"
+              >
+                <JobAlertMessage jobDate={jobData.date} />
+                <JobDetails
+                  isJob
+                  jobDetails={jobData}
+                  setOpenImage={setOpenImage}
+                  setJobDetails={setJobDetails}
+                />
+              </div>
+            )
+        )}
       </div>
     </>
   );
