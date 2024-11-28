@@ -12,6 +12,7 @@ import {
   GroupedServices,
   NoLicensePermitVerificationServiceTypes,
 } from "../../lib/types/FindWorkPostAJobtypesData";
+import { useBooleans } from "../common-sections/useBooleans";
 
 export type FormData = {
   jobName: string;
@@ -34,6 +35,18 @@ export const usePostAJob = () => {
   const dispatch = useDispatch();
   const navigate = useNavigate();
 
+  const [openReview, setOpenReview] = useState(false);
+  const [userCategory, setUserCategory] = useState("");
+  const [userService, setUserService] = useState("");
+  const [jobImage, setJobImage] = useState<File>();
+
+  const {
+    isAccept,
+    setIsAccept,
+    isShowTermsAndConditions,
+    setIsShowTermsAndConditions,
+  } = useBooleans();
+
   const { data: noLicensePermitList } = useNoLicensePermitVerificationService();
 
   const groupedServices = (
@@ -50,10 +63,6 @@ export const usePostAJob = () => {
     {}
   ) as GroupedServices;
 
-  const [openReview, setOpenReview] = useState(false);
-  const [userCategory, setUserCategory] = useState("");
-  const [userService, setUserService] = useState("");
-  const [jobImage, setJobImage] = useState<File>();
   const states = useSelector((state: RootState) => state);
 
   const customerOrder = states.formData.customerOrder;
@@ -220,14 +229,19 @@ export const usePostAJob = () => {
 
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
-    navigate(`/payment?acceptJob=${postAJobOrder.id}`);
 
     // WE Need cutomer Info before head to payment
+    console.log("Customer MUCH isAccept (TRUE) BE CALLING THE DATABASE");
+    console.log(
+      "Customer selected Job Not LISTED THEN set JobStatus to (FALSE)"
+    );
+
+    navigate(`/payment?acceptJob=${postAJobOrder.id}`); //
   };
 
   const handleReview = (e: React.FormEvent) => {
     e.preventDefault();
-    if (validateForm()) {
+    if (validateForm() && isAccept) {
       setOpenReview(true);
     }
   };
@@ -239,20 +253,30 @@ export const usePostAJob = () => {
   };
 
   return {
-    handleImage,
-    handleReview,
-    handleSubmit,
-    handleChange,
-    openReview,
-    setOpenReview,
-    postAJobOrder,
-    generalDescription,
-    jobImage,
-    userCategory,
-    setUserCategory,
-    subCategoryList,
-    errors,
-    validCountries,
-    groupedServices,
+    postActions: {
+      handleImage,
+      handleReview,
+      handleSubmit,
+      handleChange,
+      setOpenReview,
+      setUserCategory,
+    },
+    postData: {
+      postAJobOrder,
+      generalDescription,
+      jobImage,
+      userCategory,
+      subCategoryList,
+      errors,
+      validCountries,
+      groupedServices,
+      openReview,
+    },
+    booleanStatus: {
+      isAccept,
+      setIsAccept,
+      isShowTermsAndConditions,
+      setIsShowTermsAndConditions,
+    },
   };
 };

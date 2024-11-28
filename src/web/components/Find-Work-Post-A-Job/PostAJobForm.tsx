@@ -6,50 +6,35 @@ import { urgencyLevels } from "../../../store/postAJobSlice";
 import { usePostAJob } from "./usePostAJob";
 import { Service } from "../../lib/types/FindWorkPostAJobtypesData";
 import { GeneralBannerInfo } from "../common-sections/GeneralBannerInfo";
+import { JobAcceptanceAgreement } from "../thank-you/JobAcceptanceAgreement";
 
 export const PostAJobForm: React.FC = () => {
-  const {
-    handleImage,
-    handleReview,
-    handleSubmit,
-    handleChange,
-    openReview,
-    setOpenReview,
-    postAJobOrder,
-    generalDescription,
-    jobImage,
-    userCategory,
-    setUserCategory,
-    subCategoryList,
-    errors,
-    validCountries,
-    groupedServices,
-  } = usePostAJob();
+  const { postActions, booleanStatus, postData } = usePostAJob();
 
   return (
     <>
-      {openReview ? (
+      {postData.openReview ? (
         <ReviewPopup
-          setOpenReview={setOpenReview}
-          formData={postAJobOrder}
-          jobImage={jobImage}
-          handleSubmit={handleSubmit}
+          setOpenReview={postActions.setOpenReview}
+          formData={postData.postAJobOrder}
+          jobImage={postData.jobImage}
+          handleSubmit={postActions.handleSubmit}
         />
       ) : (
         <>
           <MainTitle title={"Post a Job"} />
 
-          {generalDescription?.length > 0 &&
-            postAJobOrder?.jobName.length > 0 && (
+          {postData.generalDescription?.length > 0 &&
+            postData.postAJobOrder?.jobName.length > 0 && (
               <GeneralBannerInfo
-                title={`General ${postAJobOrder.jobName} 
+                title={`General ${postData.postAJobOrder.jobName} 
                   Description`}
-                description={generalDescription as unknown as string}
+                description={postData.generalDescription as unknown as string}
                 titleBG={"bg-red-500"}
               />
             )}
 
-          {"Job Not Listed" === userCategory && (
+          {"Job Not Listed" === postData.userCategory && (
             <GeneralBannerInfo
               title="Job Not Listed"
               description="This job posting request requires government verification of any certification prior to publication. Please allow up to 3 business days for processing."
@@ -59,7 +44,7 @@ export const PostAJobForm: React.FC = () => {
 
           <form
             className="p-6 font-[sans-serif] m-6 max-w-4xl mx-auto"
-            onSubmit={handleReview}
+            onSubmit={postActions.handleReview}
           >
             <div className="grid sm:grid-cols-2 gap-10">
               <div className="relative flex items-center">
@@ -70,7 +55,7 @@ export const PostAJobForm: React.FC = () => {
                   className="px-4 py-3.5 bg-white text-black w-full text-sm border-2 border-gray-100 focus:border-blue-500 rounded outline-none"
                   id="country"
                   name="jobCountry"
-                  value={userCategory}
+                  value={postData.userCategory}
                   onChange={(e) => {
                     if (e.target.value === "Job Not Listed") {
                       e.target.value =
@@ -78,10 +63,10 @@ export const PostAJobForm: React.FC = () => {
                           ? "Job Not Listed"
                           : "";
                       e.target.name = "jobName";
-                      handleChange(e);
+                      postActions.handleChange(e);
                     }
 
-                    setUserCategory(e.target.value);
+                    postActions.setUserCategory(e.target.value);
                   }}
                 >
                   <option className="h-20" value="">
@@ -93,7 +78,7 @@ export const PostAJobForm: React.FC = () => {
                   >
                     Job Not Listed
                   </option>
-                  {Object.entries(groupedServices).map(
+                  {Object.entries(postData.groupedServices).map(
                     ([category, services]) => (
                       <option
                         className="h-20"
@@ -115,17 +100,17 @@ export const PostAJobForm: React.FC = () => {
                   className="px-4 py-3.5 bg-white text-black w-full text-sm border-2 border-gray-100 focus:border-blue-500 rounded outline-none"
                   id="jobName"
                   name="jobName"
-                  value={postAJobOrder.jobName}
+                  value={postData.postAJobOrder.jobName}
                   onChange={(e) => {
                     // setUserService();
-                    handleChange(e);
+                    postActions.handleChange(e);
                   }}
                 >
                   <option className="h-20" value="">
                     Select Service Name
                   </option>
-                  {subCategoryList &&
-                    (subCategoryList as Service[]).map((service) => (
+                  {postData.subCategoryList &&
+                    (postData.subCategoryList as Service[]).map((service) => (
                       <option
                         className="h-20"
                         value={`${service.name}`}
@@ -136,41 +121,43 @@ export const PostAJobForm: React.FC = () => {
                     ))}
                 </select>
 
-                {errors.jobName && (
-                  <p className="text-red-500 text-xs">{errors.jobName}</p>
+                {postData.errors.jobName && (
+                  <p className="text-red-500 text-xs">
+                    {postData.errors.jobName}
+                  </p>
                 )}
               </div>
 
               <JobInputs
-                value={postAJobOrder.jobTask}
-                errorMessage={errors.jobTask ?? ""}
+                value={postData.postAJobOrder.jobTask}
+                errorMessage={postData.errors.jobTask ?? ""}
                 labelName={"Job Task"}
                 name="jobTask"
-                handleChange={handleChange}
+                handleChange={postActions.handleChange}
               />
 
               <JobInputs
-                value={postAJobOrder.jobPrice}
-                errorMessage={errors.jobPrice ?? ""}
+                value={postData.postAJobOrder.jobPrice}
+                errorMessage={postData.errors.jobPrice ?? ""}
                 labelName={"Job Price"}
                 name="jobPrice"
-                handleChange={handleChange}
+                handleChange={postActions.handleChange}
               />
 
               <JobInputs
-                value={postAJobOrder.jobAddress}
-                errorMessage={errors.jobAddress ?? ""}
+                value={postData.postAJobOrder.jobAddress}
+                errorMessage={postData.errors.jobAddress ?? ""}
                 labelName={"Job Address"}
                 name="jobAddress"
-                handleChange={handleChange}
+                handleChange={postActions.handleChange}
               />
 
               <JobInputs
-                value={postAJobOrder.phoneNumber}
-                errorMessage={errors.phoneNumber ?? ""}
+                value={postData.postAJobOrder.phoneNumber}
+                errorMessage={postData.errors.phoneNumber ?? ""}
                 labelName={"Customer Phone Number"}
                 name="phoneNumber"
-                handleChange={handleChange}
+                handleChange={postActions.handleChange}
               />
 
               <div className="relative flex items-center">
@@ -181,13 +168,13 @@ export const PostAJobForm: React.FC = () => {
                   className="px-4 py-3.5 bg-white text-black w-full text-sm border-2 border-gray-100 focus:border-blue-500 rounded outline-none"
                   id="country"
                   name="jobCountry"
-                  value={postAJobOrder.jobCountry}
-                  onChange={handleChange}
+                  value={postData.postAJobOrder.jobCountry}
+                  onChange={postActions.handleChange}
                 >
                   <option className="h-20" value="">
                     Select your Country
                   </option>
-                  {validCountries?.map((countryData) => (
+                  {postData.validCountries?.map((countryData) => (
                     <option
                       className="h-20"
                       value={`${countryData.countryName}`}
@@ -198,8 +185,10 @@ export const PostAJobForm: React.FC = () => {
                   ))}
                 </select>
 
-                {errors.jobCountry && (
-                  <p className="text-red-500 text-xs">{errors.jobCountry}</p>
+                {postData.errors.jobCountry && (
+                  <p className="text-red-500 text-xs">
+                    {postData.errors.jobCountry}
+                  </p>
                 )}
               </div>
 
@@ -212,19 +201,18 @@ export const PostAJobForm: React.FC = () => {
                   name="jobCityLocation"
                   placeholder="Enter job city location"
                   className="px-4 py-3.5 bg-white text-black w-full text-sm border-2 border-gray-100 focus:border-blue-500 rounded outline-none"
-                  value={postAJobOrder.jobCityLocation}
-                  onChange={handleChange}
+                  value={postData.postAJobOrder.jobCityLocation}
+                  onChange={postActions.handleChange}
                 />
-                {errors.jobCityLocation && (
+                {postData.errors.jobCityLocation && (
                   <p className="text-red-500 text-xs">
-                    {errors.jobCityLocation}
+                    {postData.errors.jobCityLocation}
                   </p>
                 )}
               </div>
 
-              {(postAJobOrder.jobCountry ===
-                "United States" ||
-                postAJobOrder.jobCountry === "Canada") && (
+              {(postData.postAJobOrder.jobCountry === "United States" ||
+                postData.postAJobOrder.jobCountry === "Canada") && (
                 <>
                   <div className="relative flex items-center">
                     <label className="text-[13px] bg-white text-black absolute px-2 top-[-10px] left-[18px]">
@@ -233,20 +221,22 @@ export const PostAJobForm: React.FC = () => {
                     <StateAndTerritorySelector
                       className="px-4 py-3.5 bg-white text-black w-full text-sm border-2 border-gray-100 focus:border-blue-500 rounded outline-none"
                       name={"jobState"}
-                      value={postAJobOrder.jobState}
-                      onChange={handleChange}
+                      value={postData.postAJobOrder.jobState}
+                      onChange={postActions.handleChange}
                     />
-                    {errors.jobState && (
-                      <p className="text-red-500 text-xs">{errors.jobState}</p>
+                    {postData.errors.jobState && (
+                      <p className="text-red-500 text-xs">
+                        {postData.errors.jobState}
+                      </p>
                     )}
                   </div>
 
                   <JobInputs
-                    value={postAJobOrder.jobZip}
-                    errorMessage={errors.jobZip ?? ""}
+                    value={postData.postAJobOrder.jobZip}
+                    errorMessage={postData.errors.jobZip ?? ""}
                     labelName={"Job Zip Code"}
                     name="jobZip"
-                    handleChange={handleChange}
+                    handleChange={postActions.handleChange}
                   />
                 </>
               )}
@@ -259,14 +249,14 @@ export const PostAJobForm: React.FC = () => {
                   type="date"
                   name="date"
                   className="px-4 py-3 bg-[#f0f1f2] text-black w-full text-sm outline-[#007bff] rounded"
-                  value={postAJobOrder.date}
-                  onChange={handleChange}
+                  value={postData.postAJobOrder.date}
+                  onChange={postActions.handleChange}
                   min={
                     new Date(Date.now() + 86400000).toISOString().split("T")[0]
                   } //Data is one day ahead
                 />
-                {errors.date && (
-                  <p className="text-red-500 text-xs">{errors.date}</p>
+                {postData.errors.date && (
+                  <p className="text-red-500 text-xs">{postData.errors.date}</p>
                 )}
               </div>
 
@@ -278,11 +268,11 @@ export const PostAJobForm: React.FC = () => {
                   type="time"
                   name="time"
                   className="px-4 py-3 bg-[#f0f1f2] text-black w-full text-sm outline-[#007bff] rounded"
-                  value={postAJobOrder.time}
-                  onChange={handleChange}
+                  value={postData.postAJobOrder.time}
+                  onChange={postActions.handleChange}
                 />
-                {errors.time && (
-                  <p className="text-red-500 text-xs">{errors.time}</p>
+                {postData.errors.time && (
+                  <p className="text-red-500 text-xs">{postData.errors.time}</p>
                 )}
               </div>
 
@@ -294,8 +284,8 @@ export const PostAJobForm: React.FC = () => {
                   className="px-4 py-3.5 bg-white text-black w-full text-sm border-2 border-gray-100 focus:border-blue-500 rounded outline-none"
                   id="country"
                   name="urgencyLevel"
-                  value={postAJobOrder.urgencyLevel}
-                  onChange={handleChange}
+                  value={postData.postAJobOrder.urgencyLevel}
+                  onChange={postActions.handleChange}
                 >
                   {urgencyLevels.map((level) => (
                     <option
@@ -308,8 +298,10 @@ export const PostAJobForm: React.FC = () => {
                   ))}
                 </select>
                 ;
-                {errors.urgencyLevel && (
-                  <p className="text-red-500 text-xs">{errors.urgencyLevel}</p>
+                {postData.errors.urgencyLevel && (
+                  <p className="text-red-500 text-xs">
+                    {postData.errors.urgencyLevel}
+                  </p>
                 )}
               </div>
 
@@ -322,11 +314,11 @@ export const PostAJobForm: React.FC = () => {
                   type="file"
                   name="jobImage"
                   className="px-4 py-3.5 bg-white text-black w-full text-sm border-2 border-gray-100 focus:border-blue-500 rounded outline-none"
-                  value={(jobImage && jobImage?.name) || ""}
-                  onChange={handleImage}
+                  value={(postData.jobImage && postData.jobImage?.name) || ""}
+                  onChange={postActions.handleImage}
                   accept="image/*"
                 />
-                {jobImage && (
+                {postData.jobImage && (
                   <p className="text-red-500 text-xs">Job image nedded.</p>
                 )}
               </div>
@@ -339,18 +331,23 @@ export const PostAJobForm: React.FC = () => {
                   type="email"
                   name="email"
                   className="px-4 py-3.5 bg-white text-black w-full text-sm border-2 border-gray-100 focus:border-blue-500 rounded outline-none"
-                  value={postAJobOrder.email}
-                  onChange={handleChange}
+                  value={postData.postAJobOrder.email}
+                  onChange={postActions.handleChange}
                 />
-                {errors.email && (
-                  <p className="text-red-500 text-xs">{errors.email}</p>
+                {postData.errors.email && (
+                  <p className="text-red-500 text-xs">
+                    {postData.errors.email}
+                  </p>
                 )}
               </div>
             </div>
+
+            <JobAcceptanceAgreement isCustomer booleanStatus={booleanStatus} />
+
             <button
               type="submit"
               className="mt-8 px-6 py-2.5 w-full text-sm text-white rounded bg-gray-600 hover:bg-gray-700 transition-all"
-              onClick={handleReview}
+              onClick={postActions.handleReview}
             >
               Review
             </button>

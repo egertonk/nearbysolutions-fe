@@ -4,6 +4,7 @@ import { useCustomerInfo } from "../customer/useCustomerInfo";
 import { MainTitle } from "../common-sections/MainTitle";
 import { ThankYouDetail } from "./ThankYouDetail";
 import { JobAcceptanceAgreement } from "./JobAcceptanceAgreement";
+import { useBooleans } from "../common-sections/useBooleans";
 
 export const ThankYouMessage: React.FC = () => {
   const [isShowJobDetails, setIsShowJobDetails] = useState(true);
@@ -11,6 +12,13 @@ export const ThankYouMessage: React.FC = () => {
 
   const { postAJobOrder } = useGetPostedJobInfo("acceptJob");
   const { customerInfo } = useCustomerInfo(false, 1);
+
+  const {
+    isAccept,
+    setIsAccept,
+    isShowTermsAndConditions,
+    setIsShowTermsAndConditions,
+  } = useBooleans();
 
   return (
     <>
@@ -185,7 +193,16 @@ export const ThankYouMessage: React.FC = () => {
         </div>
       </div>
 
-      <JobAcceptanceAgreement postAJobOrder={postAJobOrder} />
+      <JobAcceptanceAgreement
+        isCustomer={false}
+        booleanStatus={{
+          isAccept,
+          setIsAccept,
+          isShowTermsAndConditions,
+          setIsShowTermsAndConditions,
+        }}
+        postAJobOrder={postAJobOrder}
+      />
     </>
   );
 };

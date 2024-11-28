@@ -30,14 +30,15 @@ export const companySocialData = [
 export const products = [
   {
     name: "Hire a Talent",
-    description: "Get a better understanding of your traffic",
+    description: "Connect with skilled professionals ready to meet your needs.",
     href: "hire-a-talent",
     icon: ViewfinderCircleIcon,
     routeName: "hire-a-talent",
   },
   {
     name: "Gift a Solution",
-    description: "Speak directly to your customers",
+    description:
+      "Offer thoughtful solutions tailored to brighten someone's day.",
     href: "gift-a-solution",
     icon: SquaresPlusIcon,
     routeName: "gift-a-solution",
@@ -60,17 +61,24 @@ export const products = [
   // },
   {
     name: "Find Work / Post a Job",
-    description: "Your customers’ data will be safe and secure",
+    description: "Discover opportunities or share job openings with ease.",
     href: "find-work-post-a-job",
     icon: CursorArrowRaysIcon,
     routeName: "find-work-post-a-job",
   },
   {
     name: "DIY Tools Rental",
-    description: "Your customers’ data will be safe and secure",
-    href: "rent-tools",
+    description: "Rent the tools you need for your DIY projects.",
+    href: "DIY-tools-rental",
     icon: CursorArrowRaysIcon,
-    routeName: "rent-tools",
+    routeName: "DIY-tools-rental",
+  },
+  {
+    name: "Rent Your Home Tools",
+    description: "Rent out your home tools and earn extra income effortlessly!",
+    href: "rent-your-home-tools",
+    icon: CursorArrowRaysIcon,
+    routeName: "rent-your-home-tools",
   },
 ];
 

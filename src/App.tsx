@@ -27,6 +27,7 @@ import { UserHistory } from "./web/components/Orders/UserHistory";
 import { RentAToolForm } from "./web/components/Rent-Tools/RentAToolForm";
 import { TalentDetailPage } from "./web/components/customer-calender-time/calenderPage";
 import { ThankYouMessage } from "./web/components/thank-you/ThankYouMessage";
+import { RentTools } from "./web/components/Rent-Tools/RentTools";
 
 function App() {
   return (
@@ -63,8 +64,9 @@ function App() {
           <Route path="/post-a-job" element={<PostAJobForm />} />
           <Route path="/job-accepted" element={<ThankYouMessage />} />
 
-          {/*Rent Tools */}
-          <Route path="/rent-your-tools" element={<RentAToolForm />} />
+          {/*Rent Tools and List Tools*/}
+          <Route path="/DIY-tools-rental" element={<RentTools />} />
+          <Route path="/rent-your-home-tools" element={<RentAToolForm />} />
 
           {/* Payment */}
           <Route path="/payment" element={<Payment />} />
