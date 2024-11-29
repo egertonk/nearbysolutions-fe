@@ -1,3 +1,5 @@
+// Social Medias
+
 export const facebook = (
   <svg
     className="w-6 h-6"
@@ -215,6 +217,137 @@ export const twitch = (
   </svg>
 );
 
+// Navigation
+export const lessThanArrowSVG = (
+  <svg
+    xmlns="http://www.w3.org/2000/svg"
+    className="icon icon-tabler icon-tabler-chevron-left"
+    width={24}
+    height={24}
+    viewBox="0 0 24 24"
+    strokeWidth="1.5"
+    stroke="currentColor"
+    fill="none"
+    strokeLinecap="round"
+    strokeLinejoin="round"
+  >
+    <path stroke="none" d="M0 0h24v24H0z" fill="none" />
+    <polyline points="15 6 9 12 15 18" />
+  </svg>
+);
+
+export const greaterThanArrowSVG = (
+  <svg
+    xmlns="http://www.w3.org/2000/svg"
+    className="icon icon-tabler  icon-tabler-chevron-right"
+    width={24}
+    height={24}
+    viewBox="0 0 24 24"
+    strokeWidth="1.5"
+    stroke="currentColor"
+    fill="none"
+    strokeLinecap="round"
+    strokeLinejoin="round"
+  >
+    <path stroke="none" d="M0 0h24v24H0z" fill="none" />
+    <polyline points="9 6 15 12 9 18" />
+  </svg>
+);
+
+export const forwardArrowNoCircleSVG = (
+  <svg
+    className="rtl:rotate-180 w-3 h-3 text-gray-400 mx-1 text-purple-500"
+    aria-hidden="true"
+    xmlns="http://www.w3.org/2000/svg"
+    fill="none"
+    viewBox="0 0 6 10"
+  >
+    <path
+      stroke="currentColor"
+      strokeLinecap="round"
+      strokeLinejoin="round"
+      strokeWidth={2}
+      d="m1 9 4-4-4-4"
+    />
+  </svg>
+);
+
+export const forwardArrowSVG = (
+  <svg
+    className="h-8 w-8 text-purple-500 mr-2"
+    fill="none"
+    viewBox="0 0 24 24"
+    stroke="currentColor"
+  >
+    <path
+      strokeLinecap="round"
+      strokeLinejoin="round"
+      strokeWidth={2}
+      d="M13 9l3 3m0 0l-3 3m3-3H8m13 0a9 9 0 11-18 0 9 9 0 0118 0z"
+    />
+  </svg>
+);
+
+export const sortUpDownSVG = (
+  <svg
+    className="h-8 w-8 text-purple-500"
+    width="24"
+    height="24"
+    viewBox="0 0 24 24"
+    strokeWidth="2"
+    stroke="currentColor"
+    fill="none"
+    strokeLinecap="round"
+    strokeLinejoin="round"
+  >
+    {" "}
+    <path
+      stroke="none"
+      d="M0 0h24v24H0z"
+    /> <path d="M3 9l4-4l4 4m-4 -4v14" /> <path d="M21 15l-4 4l-4-4m4 4v-14" />
+  </svg>
+);
+
+export const checkMarkSVG = (
+  <svg
+    xmlns="http://www.w3.org/2000/svg"
+    className="w-full fill-blue-500"
+    viewBox="0 0 520 520"
+  >
+    <path
+      d="M79.423 240.755a47.529 47.529 0 0 0-36.737 77.522l120.73 147.894a43.136 43.136 0 0 0 36.066 16.009c14.654-.787 27.884-8.626 36.319-21.515L486.588 56.773a6.13 6.13 0 0 1 .128-.2c2.353-3.613 1.59-10.773-3.267-15.271a13.321 13.321 0 0 0-19.362 1.343q-.135.166-.278.327L210.887 328.736a10.961 10.961 0 0 1-15.585.843l-83.94-76.386a47.319 47.319 0 0 0-31.939-12.438z"
+      data-name="7-Check"
+      data-original="#000000"
+    />
+  </svg>
+);
+
+// Reviews
+export const yellowStar = (
+  <svg
+    className="w-6 h-6 ms-2 text-yellow-300"
+    aria-hidden="true"
+    xmlns="http://www.w3.org/2000/svg"
+    fill="currentColor"
+    viewBox="0 0 22 20"
+  >
+    <path d="M20.924 7.625a1.523 1.523 0 0 0-1.238-1.044l-5.051-.734-2.259-4.577a1.534 1.534 0 0 0-2.752 0L7.365 5.847l-5.051.734A1.535 1.535 0 0 0 1.463 9.2l3.656 3.563-.863 5.031a1.532 1.532 0 0 0 2.226 1.616L11 17.033l4.518 2.375a1.534 1.534 0 0 0 2.226-1.617l-.863-5.03L20.537 9.2a1.523 1.523 0 0 0 .387-1.575Z" />
+  </svg>
+);
+
+export const whiteStar = (
+  <svg
+    className="w-6 h-6 ms-2 text-gray-300 dark:text-gray-500"
+    aria-hidden="true"
+    xmlns="http://www.w3.org/2000/svg"
+    fill="currentColor"
+    viewBox="0 0 22 20"
+  >
+    <path d="M20.924 7.625a1.523 1.523 0 0 0-1.238-1.044l-5.051-.734-2.259-4.577a1.534 1.534 0 0 0-2.752 0L7.365 5.847l-5.051.734A1.535 1.535 0 0 0 1.463 9.2l3.656 3.563-.863 5.031a1.532 1.532 0 0 0 2.226 1.616L11 17.033l4.518 2.375a1.534 1.534 0 0 0 2.226-1.617l-.863-5.03L20.537 9.2a1.523 1.523 0 0 0 .387-1.575Z" />
+  </svg>
+);
+
+// Forms
 export const emailSVG = (
   <svg
     xmlns="http://www.w3.org/2000/svg"
@@ -268,66 +401,6 @@ export const addressSVG = (
       strokeLinejoin="round"
       d="M15 11a3 3 0 11-6 0 3 3 0 016 0z"
     />
-  </svg>
-);
-
-export const lessThanArrowSVG = (
-  <svg
-    xmlns="http://www.w3.org/2000/svg"
-    className="icon icon-tabler icon-tabler-chevron-left"
-    width={24}
-    height={24}
-    viewBox="0 0 24 24"
-    strokeWidth="1.5"
-    stroke="currentColor"
-    fill="none"
-    strokeLinecap="round"
-    strokeLinejoin="round"
-  >
-    <path stroke="none" d="M0 0h24v24H0z" fill="none" />
-    <polyline points="15 6 9 12 15 18" />
-  </svg>
-);
-
-export const greaterThanArrowSVG = (
-  <svg
-    xmlns="http://www.w3.org/2000/svg"
-    className="icon icon-tabler  icon-tabler-chevron-right"
-    width={24}
-    height={24}
-    viewBox="0 0 24 24"
-    strokeWidth="1.5"
-    stroke="currentColor"
-    fill="none"
-    strokeLinecap="round"
-    strokeLinejoin="round"
-  >
-    <path stroke="none" d="M0 0h24v24H0z" fill="none" />
-    <polyline points="9 6 15 12 9 18" />
-  </svg>
-);
-
-export const yellowStar = (
-  <svg
-    className="w-6 h-6 ms-2 text-yellow-300"
-    aria-hidden="true"
-    xmlns="http://www.w3.org/2000/svg"
-    fill="currentColor"
-    viewBox="0 0 22 20"
-  >
-    <path d="M20.924 7.625a1.523 1.523 0 0 0-1.238-1.044l-5.051-.734-2.259-4.577a1.534 1.534 0 0 0-2.752 0L7.365 5.847l-5.051.734A1.535 1.535 0 0 0 1.463 9.2l3.656 3.563-.863 5.031a1.532 1.532 0 0 0 2.226 1.616L11 17.033l4.518 2.375a1.534 1.534 0 0 0 2.226-1.617l-.863-5.03L20.537 9.2a1.523 1.523 0 0 0 .387-1.575Z" />
-  </svg>
-);
-
-export const whiteStar = (
-  <svg
-    className="w-6 h-6 ms-2 text-gray-300 dark:text-gray-500"
-    aria-hidden="true"
-    xmlns="http://www.w3.org/2000/svg"
-    fill="currentColor"
-    viewBox="0 0 22 20"
-  >
-    <path d="M20.924 7.625a1.523 1.523 0 0 0-1.238-1.044l-5.051-.734-2.259-4.577a1.534 1.534 0 0 0-2.752 0L7.365 5.847l-5.051.734A1.535 1.535 0 0 0 1.463 9.2l3.656 3.563-.863 5.031a1.532 1.532 0 0 0 2.226 1.616L11 17.033l4.518 2.375a1.534 1.534 0 0 0 2.226-1.617l-.863-5.03L20.537 9.2a1.523 1.523 0 0 0 .387-1.575Z" />
   </svg>
 );
 
@@ -401,52 +474,6 @@ export const deleteIconSVG = (
     <line x1={14} y1={11} x2={14} y2={17} />{" "}
     <path d="M5 7l1 12a2 2 0 0 0 2 2h8a2 2 0 0 0 2 -2l1 -12" />{" "}
     <path d="M9 7v-3a1 1 0 0 1 1 -1h4a1 1 0 0 1 1 1v3" />
-  </svg>
-);
-
-export const forwardArrowSVG = (
-  <svg
-    className="h-8 w-8 text-purple-500 mr-2"
-    fill="none"
-    viewBox="0 0 24 24"
-    stroke="currentColor"
-  >
-    <path
-      strokeLinecap="round"
-      strokeLinejoin="round"
-      strokeWidth={2}
-      d="M13 9l3 3m0 0l-3 3m3-3H8m13 0a9 9 0 11-18 0 9 9 0 0118 0z"
-    />
-  </svg>
-);
-
-export const homeSVG = (
-  <svg
-    className="w-3 h-3 me-2.5"
-    aria-hidden="true"
-    xmlns="http://www.w3.org/2000/svg"
-    fill="currentColor"
-    viewBox="0 0 20 20"
-  >
-    <path d="m19.707 9.293-2-2-7-7a1 1 0 0 0-1.414 0l-7 7-2 2a1 1 0 0 0 1.414 1.414L2 10.414V18a2 2 0 0 0 2 2h3a1 1 0 0 0 1-1v-4a1 1 0 0 1 1-1h2a1 1 0 0 1 1 1v4a1 1 0 0 0 1 1h3a2 2 0 0 0 2-2v-7.586l.293.293a1 1 0 0 0 1.414-1.414Z" />
-  </svg>
-);
-
-export const forwardArrowNoCircleSVG = (
-  <svg
-    className="rtl:rotate-180 w-3 h-3 text-gray-400 mx-1 text-purple-500"
-    aria-hidden="true"
-    xmlns="http://www.w3.org/2000/svg"
-    fill="none"
-    viewBox="0 0 6 10"
-  >
-    <path
-      stroke="currentColor"
-      strokeLinecap="round"
-      strokeLinejoin="round"
-      strokeWidth={2}
-      d="m1 9 4-4-4-4"
-    />
   </svg>
 );
 
@@ -563,36 +590,33 @@ export const locationDropSVG = (
   </svg>
 );
 
-export const sortUpDownSVG = (
+// Greneral
+export const homeSVG = (
   <svg
-    className="h-8 w-8 text-purple-500"
-    width="24"
-    height="24"
-    viewBox="0 0 24 24"
-    strokeWidth="2"
-    stroke="currentColor"
-    fill="none"
-    strokeLinecap="round"
-    strokeLinejoin="round"
+    className="w-3 h-3 me-2.5"
+    aria-hidden="true"
+    xmlns="http://www.w3.org/2000/svg"
+    fill="currentColor"
+    viewBox="0 0 20 20"
   >
-    {" "}
-    <path
-      stroke="none"
-      d="M0 0h24v24H0z"
-    /> <path d="M3 9l4-4l4 4m-4 -4v14" /> <path d="M21 15l-4 4l-4-4m4 4v-14" />
+    <path d="m19.707 9.293-2-2-7-7a1 1 0 0 0-1.414 0l-7 7-2 2a1 1 0 0 0 1.414 1.414L2 10.414V18a2 2 0 0 0 2 2h3a1 1 0 0 0 1-1v-4a1 1 0 0 1 1-1h2a1 1 0 0 1 1 1v4a1 1 0 0 0 1 1h3a2 2 0 0 0 2-2v-7.586l.293.293a1 1 0 0 0 1.414-1.414Z" />
   </svg>
 );
 
-export const checkMarkSVG = (
+// Payment flows
+export const cart = (
   <svg
     xmlns="http://www.w3.org/2000/svg"
-    className="w-full fill-blue-500"
-    viewBox="0 0 520 520"
+    className="mr-2 h-6 w-6"
+    fill="none"
+    viewBox="0 0 24 24"
+    stroke="currentColor"
+    stroke-width="2"
   >
     <path
-      d="M79.423 240.755a47.529 47.529 0 0 0-36.737 77.522l120.73 147.894a43.136 43.136 0 0 0 36.066 16.009c14.654-.787 27.884-8.626 36.319-21.515L486.588 56.773a6.13 6.13 0 0 1 .128-.2c2.353-3.613 1.59-10.773-3.267-15.271a13.321 13.321 0 0 0-19.362 1.343q-.135.166-.278.327L210.887 328.736a10.961 10.961 0 0 1-15.585.843l-83.94-76.386a47.319 47.319 0 0 0-31.939-12.438z"
-      data-name="7-Check"
-      data-original="#000000"
+      stroke-linecap="round"
+      stroke-linejoin="round"
+      d="M3 3h2l.4 2M7 13h10l4-8H5.4M7 13L5.4 5M7 13l-2.293 2.293c-.63.63-.184 1.707.707 1.707H17m0 0a2 2 0 100 4 2 2 0 000-4zm-8 2a2 2 0 11-4 0 2 2 0 014 0z"
     />
   </svg>
 );

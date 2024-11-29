@@ -4,31 +4,22 @@ export type DIYToolListing = {
   description: string;
   category: string;
   brand: string;
-  modelNumber: string;
   pricePerday: number;
-  availability: boolean;
+  isAvailable: boolean;
+  nextAvailableDate: string;
   rating: number;
   numberOfReviews: number;
-  specifications: {
-    dimensions: string;
-    weight: string;
-    material: string;
-    powerSource: string;
-  };
+  powerSource: string;
   imageUrls: string[];
-  features: string[];
-  warrantyInformation: string;
-  sellerInformation: {
-    sellerName: string;
-    contactInfo: string;
-  };
+  customerId: string;
+  renterId: string;
+  isShippingValid: boolean;
   shippingInformation: {
     shippingCost: number;
     estimatedDelivery: string;
   };
+  discountPercent: number;
   returnDate: string;
-  rentalTotalDays: number;
   usageInstructions: string;
   safetyInformation: string;
-  discountsOffers?: string;
 };

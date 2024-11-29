@@ -31,7 +31,7 @@ export const useCustomerToolListings = (diyToolListings: DIYToolListing[]) => {
     const sortOrder = sortDirection === "asc" ? 1 : -1;
     return [...jobs].sort(
       (a, b) =>
-        (a.availability === b.availability ? 0 : a.availability ? -1 : 1) *
+        (a.isAvailable === b.isAvailable ? 0 : a.isAvailable ? -1 : 1) *
         sortOrder
     );
   };

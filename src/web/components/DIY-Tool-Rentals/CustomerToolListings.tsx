@@ -50,7 +50,7 @@ export const CustomerToolListings: React.FC = () => {
                 <div className="rounded-t auto-cols-max items-center">
                   <TableHeader
                     itemindex={index}
-                    itemStatus={tool.availability}
+                    itemStatus={tool.isAvailable}
                     itemsTotal={filteredTools.length}
                     handleEdit={handleEdit}
                     isRentalToolListings={true}
@@ -77,13 +77,13 @@ export const CustomerToolListings: React.FC = () => {
                         <span className="text-base font-semibold">
                           Availability:
                         </span>{" "}
-                        {tool.availability ? "In Stock" : "Out of Stock"}
+                        {tool.isAvailable ? "In Stock" : "Out of Stock"}
                       </div>
                       <div className="text-sm">
                         <span className="text-base font-semibold">
                           Max Rental Days:
                         </span>{" "}
-                        {tool.rentalTotalDays}
+                        {/* {tool.rentalTotalDays} */}
                       </div>
                       <div className="text-sm">
                         <span className="text-base font-semibold">
