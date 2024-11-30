@@ -89,7 +89,7 @@ export const CustomerToolListings: React.FC = () => {
                         <span className="text-base font-semibold">
                           Rental Price Per Day:
                         </span>{" "}
-                        ${priceWithComma(tool.pricePerday || "")}
+                        ${priceWithComma(tool.pricePerDay || "")}
                       </div>
                       <div className="text-sm">
                         <span className="text-base font-semibold">

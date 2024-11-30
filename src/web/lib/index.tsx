@@ -17,7 +17,7 @@ import {
   youtube,
   whatsapp,
 } from "../assets/svg/svgs";
-import { DIYToolListing } from "./types/DIYToolsListings";
+import { ToolRentalListing } from "./types/DIYToolsListings";
 import { JobTitleTypes } from "./types/solutionistTypes";
 
 export const monthNames = [
@@ -593,16 +593,16 @@ export const talentProjectImages = {
   ],
 };
 
-export const diyToolListings: DIYToolListing[] = [
+export const diyToolListings: ToolRentalListing[] = [
   {
     toolId: "67890",
     toolName: "Circular Saw",
     description: "A compact circular saw for precise wood cutting.",
     category: "Power Tools",
     brand: "SawMaster",
-    pricePerday: 1.49,
+    pricePerDay: 1.49,
     isAvailable: true,
-    nextAvailableDate: "11/29/2024",
+    nextAvailableDate: "12/29/2024",
     rating: 5,
     numberOfReviews: 120,
     powerSource: "Corded",
@@ -628,7 +628,7 @@ export const diyToolListings: DIYToolListing[] = [
       "An efficient sander for smooth finishing on wood and metal surfaces.",
     category: "Power Tools",
     brand: "SmoothPro",
-    pricePerday: 0.75,
+    pricePerDay: 0.75,
     isAvailable: true,
     nextAvailableDate: "",
     rating: 3,
@@ -655,7 +655,7 @@ export const diyToolListings: DIYToolListing[] = [
     description: "A gas-powered lawn mower suitable for medium to large yards.",
     category: "Outdoor Tools",
     brand: "GrassTrimmer",
-    pricePerday: 3.99,
+    pricePerDay: 3.99,
     isAvailable: true,
     nextAvailableDate: "11/01/2024",
     rating: 4,
@@ -682,7 +682,7 @@ export const diyToolListings: DIYToolListing[] = [
     description: "A portable arc welder for small welding jobs.",
     category: "Welding Tools",
     brand: "WeldMaster",
-    pricePerday: 4.49,
+    pricePerDay: 4.49,
     isAvailable: true,
     nextAvailableDate: "",
     rating: 4.2,
@@ -710,7 +710,7 @@ export const diyToolListings: DIYToolListing[] = [
       "A high-pressure washer for cleaning decks, patios, and driveways.",
     category: "Cleaning Tools",
     brand: "CleanForce",
-    pricePerday: 2.25,
+    pricePerDay: 2.25,
     isAvailable: true,
     nextAvailableDate: "",
     rating: 2,
@@ -738,7 +738,7 @@ export const diyToolListings: DIYToolListing[] = [
       "An efficient sander for smooth finishing on wood and metal surfaces.",
     category: "Power Tools",
     brand: "SmoothPro",
-    pricePerday: 0.75,
+    pricePerDay: 0.75,
     isAvailable: true,
     nextAvailableDate: "",
     rating: 3,
@@ -765,7 +765,7 @@ export const diyToolListings: DIYToolListing[] = [
     description: "A gas-powered lawn mower suitable for medium to large yards.",
     category: "Outdoor Tools",
     brand: "GrassTrimmer",
-    pricePerday: 3.99,
+    pricePerDay: 3.99,
     isAvailable: true,
     nextAvailableDate: "11/01/2024",
     rating: 4,
@@ -792,7 +792,7 @@ export const diyToolListings: DIYToolListing[] = [
     description: "A portable arc welder for small welding jobs.",
     category: "Welding Tools",
     brand: "WeldMaster",
-    pricePerday: 4.49,
+    pricePerDay: 4.49,
     isAvailable: true,
     nextAvailableDate: "",
     rating: 4.2,
@@ -820,7 +820,7 @@ export const diyToolListings: DIYToolListing[] = [
       "A high-pressure washer for cleaning decks, patios, and driveways.",
     category: "Cleaning Tools",
     brand: "CleanForce",
-    pricePerday: 2.25,
+    pricePerDay: 2.25,
     isAvailable: true,
     nextAvailableDate: "",
     rating: 2,

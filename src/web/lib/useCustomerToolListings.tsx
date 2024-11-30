@@ -1,33 +1,33 @@
 import { useState } from "react";
-import { DIYToolListing } from "./types/DIYToolsListings";
+import { ToolRentalListing } from "./types/DIYToolsListings";
 
-export const useCustomerToolListings = (diyToolListings: DIYToolListing[]) => {
+export const useCustomerToolListings = (diyToolListings: ToolRentalListing[]) => {
   const [filteredTools, setFilteredTools] =
-    useState<DIYToolListing[]>(diyToolListings);
+    useState<ToolRentalListing[]>(diyToolListings);
   const [sortDirection, setSortDirection] = useState<string>("asc");
 
-  const sortByToolName = (jobs: DIYToolListing[]): DIYToolListing[] => {
+  const sortByToolName = (jobs: ToolRentalListing[]): ToolRentalListing[] => {
     const sortOrder = sortDirection === "asc" ? 1 : -1;
     return [...jobs].sort(
       (a, b) => a.toolName.localeCompare(b.toolName) * sortOrder
     );
   };
 
-  const sortByDescription = (jobs: DIYToolListing[]): DIYToolListing[] => {
+  const sortByDescription = (jobs: ToolRentalListing[]): ToolRentalListing[] => {
     const sortOrder = sortDirection === "asc" ? 1 : -1;
     return [...jobs].sort(
       (a, b) => a.description.localeCompare(b.description) * sortOrder
     );
   };
 
-  const sortByCategory = (jobs: DIYToolListing[]): DIYToolListing[] => {
+  const sortByCategory = (jobs: ToolRentalListing[]): ToolRentalListing[] => {
     const sortOrder = sortDirection === "asc" ? 1 : -1;
     return [...jobs].sort(
       (a, b) => a.category.localeCompare(b.category) * sortOrder
     );
   };
 
-  const sortByAvailability = (jobs: DIYToolListing[]): DIYToolListing[] => {
+  const sortByAvailability = (jobs: ToolRentalListing[]): ToolRentalListing[] => {
     const sortOrder = sortDirection === "asc" ? 1 : -1;
     return [...jobs].sort(
       (a, b) =>
@@ -36,15 +36,15 @@ export const useCustomerToolListings = (diyToolListings: DIYToolListing[]) => {
     );
   };
 
-  const sortByBrand = (jobs: DIYToolListing[]): DIYToolListing[] => {
+  const sortByBrand = (jobs: ToolRentalListing[]): ToolRentalListing[] => {
     const sortOrder = sortDirection === "asc" ? 1 : -1;
     return [...jobs].sort((a, b) => a.brand.localeCompare(b.brand) * sortOrder);
   };
 
-  const sortByPrice = (jobs: DIYToolListing[]): DIYToolListing[] => {
+  const sortByPrice = (jobs: ToolRentalListing[]): ToolRentalListing[] => {
     const sortOrder = sortDirection === "asc" ? 1 : -1;
     return [...jobs].sort(
-      (a, b) => ((a.pricePerday || 0) - (b.pricePerday || 0)) * sortOrder
+      (a, b) => ((a.pricePerDay || 0) - (b.pricePerDay || 0)) * sortOrder
     );
   };
 

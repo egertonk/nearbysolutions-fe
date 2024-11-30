@@ -1,35 +1,64 @@
 import { MainTitle } from "../common-sections/MainTitle";
-import { SearchUI } from "../search/SearchUI";
-import { useCustomerToolListings } from "../../lib/useCustomerToolListings";
 import { diyToolListings } from "../../lib";
-import { DIYToolListing } from "../../lib/types/DIYToolsListings";
 import { GeneralBannerInfo } from "../common-sections/GeneralBannerInfo";
 import { cart } from "../../assets/svg/svgs";
 import { GetStars } from "../Reviews/getStars";
+import {
+  rentInputCSS,
+  SelectPickupDropoffTime,
+} from "./SelectPickupDropoffTime";
+import { SearchButton } from "../common-sections/SearchButton";
+import { useRentTools } from "./useRentTools";
 
 export const RentTools: React.FC = () => {
-  const { handleOnChange, filteredTools, handleSubmit, handleSort } =
-    useCustomerToolListings(diyToolListings as DIYToolListing[]);
-
-  const hasDatePassed = (dateString: string): boolean => {
-    const inputDate = new Date(dateString);
-    const today = new Date();
-
-    // Remove time from today's date for an accurate comparison
-    today.setHours(0, 0, 0, 0);
-
-    return inputDate > today;
-  };
+  const { rentToolsAction } = useRentTools();
 
   return (
     <>
       <MainTitle title={"DIY Tools Rental"} />
-      <SearchUI
-        handleOnChange={handleOnChange}
-        filteredTools={filteredTools}
-        handleSubmit={handleSubmit}
-      />
-      35 MILES RADUIS ONLY
+      <div className="justify-center mx-auto flex  gap-4 py-4 bg-white rounded-lg">
+        <p className="w-full">
+          <input
+            type="text"
+            placeholder="Product, Category or City"
+            value={rentToolsAction.location}
+            onChange={(e) => rentToolsAction.setLocation(e.target.value)}
+            className={rentInputCSS}
+          />
+
+          <input
+            type="date"
+            name="startDate"
+            value={rentToolsAction.fromDate}
+            onChange={(e) => rentToolsAction.setFromDate(e.target.value)}
+            className={rentInputCSS}
+            min={new Date().toISOString().split("T")[0]} // Sets the minimum date to today
+          />
+
+          <SelectPickupDropoffTime
+            value={rentToolsAction.fromTime}
+            onChange={(e) => rentToolsAction.setFromTime(e.target.value)}
+          />
+
+          <input
+            type="date"
+            name="returnDate"
+            value={rentToolsAction.untilDate}
+            onChange={(e) => rentToolsAction.setUntilDate(e.target.value)}
+            className={rentInputCSS}
+            min={new Date(Date.now() + 86400000).toISOString().split("T")[0]} //Data is one day ahead
+          />
+
+          <SelectPickupDropoffTime
+            selectedDate={rentToolsAction.selectedDate}
+            value={rentToolsAction.untilTime}
+            onChange={(e) => rentToolsAction.setUntilTime(e.target.value)}
+          />
+
+          <SearchButton handleSubmit={rentToolsAction.handleSearch} />
+        </p>
+      </div>
+
       <GeneralBannerInfo
         title={"Info"}
         description={
@@ -37,11 +66,11 @@ export const RentTools: React.FC = () => {
         }
         titleBG={"bg-purple-900"}
       />
-      <div className="grid grid-cols-1 sm:grid-cols-5 gap-3 m-10 justify-center items-center">
+      <div className="mt-6 grid grid-cols-1 gap-x-6 gap-y-10 sm:grid-cols-2 lg:grid-cols-4 xl:gap-x-8">
         {diyToolListings.map(
           (data) =>
             data.isAvailable && (
-              <div className="bg-sky-950 sm:m-4 mt-4 flex w-full flex-col overflow-hidden rounded-lg border border-purple-900 shadow-md text-white">
+              <div className="group relative m-5">
                 <a className="justify-center mx-3 mt-3 flex h-60 rounded-xl">
                   <img
                     className="object-cover"
@@ -70,17 +99,17 @@ export const RentTools: React.FC = () => {
                           <>
                             $
                             {(
-                              data.pricePerday -
-                              data.pricePerday * (data.discountPercent / 100)
+                              data.pricePerDay -
+                              data.pricePerDay * (data.discountPercent / 100)
                             ).toFixed(2)}
                           </>
                         ) : (
-                          <>${data.pricePerday}</>
+                          <>${data.pricePerDay}</>
                         )}
                       </span>
                       {data.discountPercent * 100 > 0 && (
                         <span className="text-sm text-white-900 line-through">
-                          ${data.pricePerday}
+                          ${data.pricePerDay}
                         </span>
                       )}
                     </p>
@@ -101,7 +130,8 @@ export const RentTools: React.FC = () => {
 
                   <button className="w-full flex items-center justify-center rounded-md bg-purple-900 px-5 py-2.5 text-center text-sm font-medium text-white hover:bg-gray-700 focus:outline-none focus:ring-4 focus:ring-blue-300">
                     {cart}
-                    {hasDatePassed(data.nextAvailableDate) === false
+                    {rentToolsAction.hasDatePassed(data.nextAvailableDate) ===
+                    false
                       ? `Rent Now`
                       : `Available On ${data.nextAvailableDate}`}
                   </button>
