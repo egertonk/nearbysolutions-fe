@@ -1,7 +1,7 @@
 import React from "react";
 import { grayButtonCSS } from "../../assets/common-css/css";
 import { JobPosting } from "../../lib/types/FindWorkPostAJobtypesData";
-import jobSearchListImage from "../../assets/company-logos-icons/job-search-list.png";
+import customerJobReuests from "../../assets/images/customer-job-requests.jpeg";
 import { PostAJobFormTypes } from "../../../store/postAJobSlice";
 import { useNavigate } from "react-router";
 
@@ -66,7 +66,7 @@ export const JobDetails: React.FC<Props> = ({
         <div className="items-center justify-center grid mb-4">
           {isJob && setOpenImage && setImageDetails ? (
             <a
-              href={`${jobSearchListImage}`}
+              href={`${customerJobReuests}`}
               onClick={(e) => {
                 e.preventDefault(); // Prevent the default behavior of navigating to the link
                 setOpenImage(true);
@@ -78,7 +78,7 @@ export const JobDetails: React.FC<Props> = ({
                 src={`${
                   (jobDetails as JobPosting)?.image?.length > 0
                     ? (jobDetails as JobPosting)?.image
-                    : jobSearchListImage
+                    : customerJobReuests
                 }`}
                 className="h-48 max-w-full items-center rounded-full inline-flex"
                 alt="job"
@@ -87,7 +87,7 @@ export const JobDetails: React.FC<Props> = ({
           ) : (
             <img
               src={`${
-                jobImage ? URL?.createObjectURL(jobImage) : jobSearchListImage
+                jobImage ? URL?.createObjectURL(jobImage) : customerJobReuests
               }`}
               className="h-48 max-w-full items-center rounded-full inline-flex"
               alt="job"

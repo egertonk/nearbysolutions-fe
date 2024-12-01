@@ -16,7 +16,7 @@ export const SelectPickupDropoffTime: React.FC<Props> = ({
 }) => {
   const [fromTime, setFromTime] = useState<string>("");
   const [timeOptions, setTimeOptions] = useState<string[]>([]);
-
+  console.log("selectedDate    = ", selectedDate);
   useEffect(() => {
     const generateTimeOptions = () => {
       const now = new Date();

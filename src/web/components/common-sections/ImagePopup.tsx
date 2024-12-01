@@ -5,7 +5,7 @@ import {
   DialogPanel,
   DialogTitle,
 } from "@headlessui/react";
-import jobSearchListImage from "../../assets/company-logos-icons/job-search-list.png";
+import jobSearchListImage from "../../assets/images/customer-job-requests.jpeg";
 import { JobPosting } from "../../lib/types/FindWorkPostAJobtypesData";
 import { grayButtonCSS } from "../../assets/common-css/css";
 

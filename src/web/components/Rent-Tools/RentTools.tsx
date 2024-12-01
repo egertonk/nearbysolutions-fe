@@ -10,6 +10,7 @@ import {
 import { SearchButton } from "../common-sections/SearchButton";
 import { useRentTools } from "./useRentTools";
 import { ImagePopup } from "../common-sections/ImagePopup";
+import DIYToolsImage from "../../assets/images/DIY-Tools-Renting.jpeg";
 
 export const RentTools: React.FC = () => {
   const { rentToolsAction } = useRentTools();
@@ -25,7 +26,7 @@ export const RentTools: React.FC = () => {
     rentToolsAction.filteredTools
   );
 
-  console.log("imageDetails    ", imageDetails);
+  console.log("imageDetails    ", Date.now());
 
   return (
     <>
@@ -58,6 +59,7 @@ export const RentTools: React.FC = () => {
           />
 
           <SelectPickupDropoffTime
+            selectedDate={rentToolsAction.fromDate}
             value={rentToolsAction.fromTime}
             onChange={(e) => rentToolsAction.setFromTime(e.target.value)}
           />
@@ -72,7 +74,7 @@ export const RentTools: React.FC = () => {
           />
 
           <SelectPickupDropoffTime
-            selectedDate={rentToolsAction.selectedDate}
+            selectedDate={rentToolsAction.untilDate}
             value={rentToolsAction.untilTime}
             onChange={(e) => rentToolsAction.setUntilTime(e.target.value)}
           />
@@ -99,14 +101,21 @@ export const RentTools: React.FC = () => {
                     onClick={() => {
                       setImageDetails({
                         name: data.toolName,
-                        image: data.imageUrls[0],
+                        image:
+                          data?.imageUrls === null
+                            ? DIYToolsImage
+                            : data.imageUrls[0],
                       });
                       setOpenImage(true);
                     }}
                   >
                     <img
                       className="object-cover"
-                      src={`${data.imageUrls[0]}`}
+                      src={`${
+                        data?.imageUrls === null
+                          ? DIYToolsImage
+                          : data.imageUrls[0]
+                      }`}
                     />
                     {data.discountPercent * 100 > 0 && (
                       <span className="absolute top-0 left-0 m-2 rounded-full bg-black px-2 text-center text-sm font-medium text-white">
