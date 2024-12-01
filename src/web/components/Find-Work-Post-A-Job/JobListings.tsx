@@ -23,7 +23,7 @@ export const daysUntil = (targetDate: string) => {
 
 export const JobListings: React.FC<Props> = ({ customerJobsArray }) => {
   const [openImage, setOpenImage] = useState(false);
-  const [jobDetails, setJobDetails] = useState<JobPosting>();
+  const [imageDetails, setImageDetails] = useState<JobPosting>();
 
   return (
     <>
@@ -31,9 +31,10 @@ export const JobListings: React.FC<Props> = ({ customerJobsArray }) => {
         <ImagePopup
           openImage={openImage}
           setOpenImage={setOpenImage}
-          jobDetails={jobDetails}
+          imageDetails={imageDetails}
         />
       )}
+
       <div className="grid grid-cols-1 lg:grid-cols-5 gap-4 ">
         {customerJobsArray.map(
           (jobData, index) =>
@@ -48,7 +49,7 @@ export const JobListings: React.FC<Props> = ({ customerJobsArray }) => {
                   isJob
                   jobDetails={jobData}
                   setOpenImage={setOpenImage}
-                  setJobDetails={setJobDetails}
+                  setImageDetails={setImageDetails}
                 />
               </div>
             )

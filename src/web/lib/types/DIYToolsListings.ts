@@ -2,10 +2,14 @@ export type ToolRentalListing = {
   toolId: string; // Unique identifier for the tool
   toolName: string; // Name of the tool
   description: string; // Short description of the tool
-  category: string; // Category the tool belongs to (e.g., Power Tools, Hand Tools)
-  brand: string; // Brand of the tool
+  toolCategory: string; // Category the tool belongs to (e.g., Power Tools, Hand Tools)
+  toolBrand: string; // Brand of the tool
+  toolAddress: string; // Address locationof the tool
+  toolCity: string; // City location of the tool
+  toolState: string; // State location of the tool
+  toolCountry: string; // Country location of the tool
   pricePerDay: number; // Rental price per day
-  isAvailable: boolean; // Availability status
+  available: boolean; // Availability status
   nextAvailableDate: string; // Next date the tool will be available (optional for always available tools)
   rating: number; // Average rating of the tool
   numberOfReviews: number; // Total number of reviews

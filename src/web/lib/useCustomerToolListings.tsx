@@ -1,10 +1,18 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { ToolRentalListing } from "./types/DIYToolsListings";
 
-export const useCustomerToolListings = (diyToolListings: ToolRentalListing[]) => {
-  const [filteredTools, setFilteredTools] =
-    useState<ToolRentalListing[]>(diyToolListings);
+export const useCustomerToolListings = (
+  toolRentalListing: ToolRentalListing[],
+  isFetchingToolRentalListing?: boolean
+) => {
+  const [filteredTools, setFilteredTools] = useState<ToolRentalListing[]>(
+    [] as ToolRentalListing[]
+  );
   const [sortDirection, setSortDirection] = useState<string>("asc");
+
+  useEffect(() => {
+    if (toolRentalListing.length > 0) setFilteredTools(toolRentalListing);
+  }, [isFetchingToolRentalListing]);
 
   const sortByToolName = (jobs: ToolRentalListing[]): ToolRentalListing[] => {
     const sortOrder = sortDirection === "asc" ? 1 : -1;
@@ -13,7 +21,9 @@ export const useCustomerToolListings = (diyToolListings: ToolRentalListing[]) =>
     );
   };
 
-  const sortByDescription = (jobs: ToolRentalListing[]): ToolRentalListing[] => {
+  const sortByDescription = (
+    jobs: ToolRentalListing[]
+  ): ToolRentalListing[] => {
     const sortOrder = sortDirection === "asc" ? 1 : -1;
     return [...jobs].sort(
       (a, b) => a.description.localeCompare(b.description) * sortOrder
@@ -23,22 +33,26 @@ export const useCustomerToolListings = (diyToolListings: ToolRentalListing[]) =>
   const sortByCategory = (jobs: ToolRentalListing[]): ToolRentalListing[] => {
     const sortOrder = sortDirection === "asc" ? 1 : -1;
     return [...jobs].sort(
-      (a, b) => a.category.localeCompare(b.category) * sortOrder
+      (a, b) => a.toolCategory.localeCompare(b.toolCategory) * sortOrder
     );
   };
 
-  const sortByAvailability = (jobs: ToolRentalListing[]): ToolRentalListing[] => {
+  const sortByAvailability = (
+    jobs: ToolRentalListing[]
+  ): ToolRentalListing[] => {
     const sortOrder = sortDirection === "asc" ? 1 : -1;
     return [...jobs].sort(
       (a, b) =>
-        (a.isAvailable === b.isAvailable ? 0 : a.isAvailable ? -1 : 1) *
+        (a.available === b.available ? 0 : a.available ? -1 : 1) *
         sortOrder
     );
   };
 
   const sortByBrand = (jobs: ToolRentalListing[]): ToolRentalListing[] => {
     const sortOrder = sortDirection === "asc" ? 1 : -1;
-    return [...jobs].sort((a, b) => a.brand.localeCompare(b.brand) * sortOrder);
+    return [...jobs].sort(
+      (a, b) => a.toolBrand.localeCompare(b.toolBrand) * sortOrder
+    );
   };
 
   const sortByPrice = (jobs: ToolRentalListing[]): ToolRentalListing[] => {
@@ -77,7 +91,8 @@ export const useCustomerToolListings = (diyToolListings: ToolRentalListing[]) =>
     const { value } = e.target;
 
     setSearchTerm(value);
-    if (value.length === 0) setFilteredTools(diyToolListings);
+    if (value.length === 0)
+      setFilteredTools(toolRentalListing ?? ([] as ToolRentalListing[]));
   };
 
   const handleSubmit = () => {

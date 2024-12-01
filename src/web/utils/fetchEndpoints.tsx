@@ -11,6 +11,7 @@ import {
   JobPosting,
   NoLicensePermitVerificationServiceTypes,
 } from "../lib/types/FindWorkPostAJobtypesData";
+import { ToolRentalListing } from "../lib/types/DIYToolsListings";
 
 // Skills
 export const getSkills = () => {
@@ -224,6 +225,21 @@ export const useNoLicensePermitVerificationService = () => {
   return useQuery({
     queryKey: ["no-license-permit-verification-service"],
     queryFn: () => getNoLicensePermitVerificationService().then((data) => data),
+    placeholderData: [],
+  });
+};
+
+// Tools Rental
+export const getToolRentalListing = async (): Promise<ToolRentalListing[]> => {
+  return getWrapper("tool-rental-listing").then((data) => {
+    return data;
+  });
+};
+
+export const useToolRentalListing = () => {
+  return useQuery({
+    queryKey: ["tool-rental-listing"],
+    queryFn: () => getToolRentalListing().then((data) => data),
     placeholderData: [],
   });
 };

@@ -9,20 +9,25 @@ import jobSearchListImage from "../../assets/company-logos-icons/job-search-list
 import { JobPosting } from "../../lib/types/FindWorkPostAJobtypesData";
 import { grayButtonCSS } from "../../assets/common-css/css";
 
+export type imageDetailsTypes = {
+  name: string;
+  image: string;
+};
+
 type Props = {
   openImage: boolean;
   setOpenImage: React.Dispatch<React.SetStateAction<boolean>>;
-  jobDetails: JobPosting | undefined;
+  imageDetails: JobPosting | imageDetailsTypes | undefined;
 };
 
 export const ImagePopup: React.FC<Props> = ({
   openImage,
   setOpenImage,
-  jobDetails,
+  imageDetails,
 }) => {
   return (
     <>
-      {jobDetails && (
+      {imageDetails && (
         <Dialog
           open={openImage}
           onClose={() => setOpenImage(false)}
@@ -40,14 +45,16 @@ export const ImagePopup: React.FC<Props> = ({
             <div className="w-full items-center max-w-md rounded bg-white p-6">
               <DialogTitle className="text-lg font-medium w-full">
                 <h3 className="text-2xl text-[#333] font-extrabold flex-1 mb-4">
-                  {jobDetails?.jobName}
+                  {(imageDetails as JobPosting)?.jobName
+                    ? (imageDetails as JobPosting)?.jobName
+                    : (imageDetails as imageDetailsTypes).name}
                 </h3>
               </DialogTitle>
               <Description className="mt-2 text-sm text-gray-500">
                 <img
                   src={`${
-                    jobDetails?.image?.length > 0
-                      ? jobDetails.image
+                    imageDetails?.image?.length > 0
+                      ? imageDetails.image
                       : jobSearchListImage
                   }`}
                   className="h-auto w-full items-center rounded-full"

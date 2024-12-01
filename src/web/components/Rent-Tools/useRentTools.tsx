@@ -1,8 +1,8 @@
 import { PostAJobFormTypes } from "../../../store/postAJobSlice";
 import { useState } from "react";
 import { useCustomerToolListings } from "../../lib/useCustomerToolListings";
+import { useToolRentalListing } from "../../utils/fetchEndpoints";
 import { ToolRentalListing } from "../../lib/types/DIYToolsListings";
-import { diyToolListings } from "../../lib";
 
 export const isAllPostAJobOrderEmpty = (
   postAJobOrder: PostAJobFormTypes
@@ -20,8 +20,14 @@ export const useRentTools = () => {
     new Date().toISOString().split("T")[1]
   ); // Default to today's date
 
+  const { data: toolRentalListing, isFetching: isFetchingToolRentalListing } =
+    useToolRentalListing();
+
   const { handleOnChange, filteredTools, handleSubmit, handleSort } =
-    useCustomerToolListings(diyToolListings as ToolRentalListing[]);
+    useCustomerToolListings(
+      toolRentalListing ?? ([] as ToolRentalListing[]),
+      isFetchingToolRentalListing
+    );
 
   const hasDatePassed = (dateString: string): boolean => {
     const inputDate = new Date(dateString);
@@ -45,6 +51,7 @@ export const useRentTools = () => {
 
   return {
     rentToolsAction: {
+      filteredTools,
       handleSearch,
       hasDatePassed,
       location,

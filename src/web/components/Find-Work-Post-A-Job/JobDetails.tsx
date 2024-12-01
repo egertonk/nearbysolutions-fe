@@ -28,7 +28,7 @@ type Props = {
   jobDetails: PostAJobFormTypes | JobPosting;
   jobImage?: File;
   setOpenImage?: (value: React.SetStateAction<boolean>) => void;
-  setJobDetails?: (value: React.SetStateAction<JobPosting | undefined>) => void;
+  setImageDetails?: (value: React.SetStateAction<JobPosting | undefined>) => void;
 };
 
 export const JobDetails: React.FC<Props> = ({
@@ -36,7 +36,7 @@ export const JobDetails: React.FC<Props> = ({
   isJob,
   jobImage,
   setOpenImage,
-  setJobDetails,
+  setImageDetails,
 }) => {
   const navigate = useNavigate();
 
@@ -64,13 +64,13 @@ export const JobDetails: React.FC<Props> = ({
 
       <div className="px-3 pb-5">
         <div className="items-center justify-center grid mb-4">
-          {isJob && setOpenImage && setJobDetails ? (
+          {isJob && setOpenImage && setImageDetails ? (
             <a
               href={`${jobSearchListImage}`}
               onClick={(e) => {
                 e.preventDefault(); // Prevent the default behavior of navigating to the link
                 setOpenImage(true);
-                setJobDetails(jobDetails as JobPosting);
+                setImageDetails(jobDetails as JobPosting);
               }}
               rel="noreferrer"
             >
