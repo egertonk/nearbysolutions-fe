@@ -1,5 +1,10 @@
 import { useQuery } from "@tanstack/react-query";
-import { getWrapper, getWrapperSearchTerm, getWrapperWthId } from "./fetchGet";
+import {
+  getWrapper,
+  getWrapperSearchTerm,
+  getWrapperWthId,
+  getWrapperWthIds,
+} from "./fetchGet";
 import {
   SolutionistTypes,
   talentPlaceHolderData,
@@ -11,7 +16,10 @@ import {
   JobPosting,
   NoLicensePermitVerificationServiceTypes,
 } from "../lib/types/FindWorkPostAJobtypesData";
-import { ToolRentalListing } from "../lib/types/DIYToolsListings";
+import {
+  ToolAndCustomerTypes,
+  ToolRentalListing,
+} from "../lib/types/DIYToolsListings";
 
 // Skills
 export const getSkills = () => {
@@ -241,5 +249,26 @@ export const useToolRentalListing = () => {
     queryKey: ["tool-rental-listing"],
     queryFn: () => getToolRentalListing().then((data) => data),
     placeholderData: [],
+  });
+};
+
+export const getToolCustomerWithId = (
+  customerId: number,
+  toolId: number
+): Promise<ToolAndCustomerTypes> => {
+  return getWrapperWthIds("tool-customer", customerId, toolId).then((data) => {
+    return data;
+  });
+};
+
+export const useGetToolRentalListingWithId = (
+  customerId: number,
+  toolId: number
+) => {
+  return useQuery({
+    queryKey: ["tool-customer-with-id"],
+    queryFn: () =>
+      getToolCustomerWithId(customerId, toolId).then((data) => data),
+    placeholderData: {} as ToolAndCustomerTypes,
   });
 };

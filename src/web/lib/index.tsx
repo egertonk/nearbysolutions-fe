@@ -603,6 +603,7 @@ export const diyToolListings: ToolRentalListing[] = [
     toolAddress: "",
     toolCity: "",
     toolState: "",
+    toolZipcode: "",
     toolCountry: "",
     pricePerDay: 4.49,
     available: true,

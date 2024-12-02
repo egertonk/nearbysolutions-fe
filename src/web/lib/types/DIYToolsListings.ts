@@ -1,3 +1,5 @@
+import { CustomerTypes } from "./orderTypes";
+
 export type ToolRentalListing = {
   toolId: string; // Unique identifier for the tool
   toolName: string; // Name of the tool
@@ -6,6 +8,7 @@ export type ToolRentalListing = {
   toolBrand: string; // Brand of the tool
   toolAddress: string; // Address locationof the tool
   toolCity: string; // City location of the tool
+  toolZipcode: string; // Zip code location of the tool
   toolState: string; // State location of the tool
   toolCountry: string; // Country location of the tool
   pricePerDay: number; // Rental price per day
@@ -26,4 +29,11 @@ export type ToolRentalListing = {
   returnDate: string; // Expected return date
   usageInstructions: string; // Instructions for using the tool
   safetyInformation: string; // Safety guidelines when using the tool
+};
+
+export type ToolAndCustomerTypes = {
+  toolId: string; // Unique identifier for the tool
+  customerId: string; // ID of the customer currently renting
+  toolRentalListing: ToolRentalListing; // tool info
+  customer?: CustomerTypes; // customer info
 };

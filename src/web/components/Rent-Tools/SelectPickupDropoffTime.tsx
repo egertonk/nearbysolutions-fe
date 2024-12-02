@@ -62,11 +62,21 @@ export const SelectPickupDropoffTime: React.FC<Props> = ({
 
   return (
     <select value={value} onChange={onChange} className={rentInputCSS}>
-      {timeOptions.map((time, index) => (
-        <option key={index} value={time}>
-          {time}
-        </option>
-      ))}
+      {timeOptions.length === 0 ? (
+        <>
+          <option key="No Time" value="">
+            Select another day
+          </option>
+        </>
+      ) : (
+        <>
+          {timeOptions.map((time, index) => (
+            <option key={index} value={time}>
+              {time}
+            </option>
+          ))}
+        </>
+      )}
     </select>
   );
 };

@@ -11,8 +11,11 @@ import { SearchButton } from "../common-sections/SearchButton";
 import { useRentTools } from "./useRentTools";
 import { ImagePopup } from "../common-sections/ImagePopup";
 import DIYToolsImage from "../../assets/images/DIY-Tools-Renting.jpeg";
+import { useNavigate } from "react-router";
+import { DateAndTimeInputs } from "./DateAndTimeInputs";
 
 export const RentTools: React.FC = () => {
+  const navigate = useNavigate();
   const { rentToolsAction } = useRentTools();
 
   const [openImage, setOpenImage] = useState(false);
@@ -45,33 +48,13 @@ export const RentTools: React.FC = () => {
             type="text"
             placeholder="Product, Category or City"
             value={rentToolsAction.location}
-            onChange={(e) => rentToolsAction.setLocation(e.target.value)}
+            onChange={(e: React.ChangeEvent<HTMLInputElement>) =>
+              rentToolsAction.setLocation(e.target.value)
+            }
             className={rentInputCSS}
           />
 
-          <input
-            type="date"
-            name="startDate"
-            value={rentToolsAction.fromDate}
-            onChange={(e) => rentToolsAction.setFromDate(e.target.value)}
-            className={rentInputCSS}
-            min={new Date().toISOString().split("T")[0]} // Sets the minimum date to today
-          />
-
-          <SelectPickupDropoffTime
-            selectedDate={rentToolsAction.fromDate}
-            value={rentToolsAction.fromTime}
-            onChange={(e) => rentToolsAction.setFromTime(e.target.value)}
-          />
-
-          <input
-            type="date"
-            name="returnDate"
-            value={rentToolsAction.untilDate}
-            onChange={(e) => rentToolsAction.setUntilDate(e.target.value)}
-            className={rentInputCSS}
-            min={new Date(Date.now() + 86400000).toISOString().split("T")[0]} //Data is one day ahead
-          />
+          <DateAndTimeInputs rentToolsAction={rentToolsAction} />
 
           <SelectPickupDropoffTime
             selectedDate={rentToolsAction.untilDate}
@@ -171,7 +154,12 @@ export const RentTools: React.FC = () => {
                       </p>
                     )}
 
-                    <button className="w-full flex items-center justify-center rounded-md bg-purple-900 px-5 py-2.5 text-center text-sm font-medium text-white hover:bg-gray-700 focus:outline-none focus:ring-4 focus:ring-blue-300">
+                    <button
+                      onClick={() =>
+                        navigate(`/rent-order-details?tool=${data.toolId}`)
+                      }
+                      className="w-full flex items-center justify-center rounded-md bg-purple-900 px-5 py-2.5 text-center text-sm font-medium text-white hover:bg-gray-700 focus:outline-none focus:ring-4 focus:ring-blue-300"
+                    >
                       {cart}
                       {rentToolsAction.hasDatePassed(data.nextAvailableDate) ===
                       false

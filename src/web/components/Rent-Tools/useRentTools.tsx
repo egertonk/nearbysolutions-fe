@@ -4,12 +4,6 @@ import { useCustomerToolListings } from "../../lib/useCustomerToolListings";
 import { useToolRentalListing } from "../../utils/fetchEndpoints";
 import { ToolRentalListing } from "../../lib/types/DIYToolsListings";
 
-export const isAllPostAJobOrderEmpty = (
-  postAJobOrder: PostAJobFormTypes
-): boolean => {
-  return Object.values(postAJobOrder).every((value) => value === "");
-};
-
 export const useRentTools = () => {
   const [location, setLocation] = useState<string>("");
   const [fromDate, setFromDate] = useState<string>("");
@@ -29,6 +23,35 @@ export const useRentTools = () => {
       isFetchingToolRentalListing
     );
 
+  // Helper function to add days to a date string
+  const addDays = (dateString: string, days: number): string => {
+    const date = new Date(dateString);
+    date.setDate(date.getDate() + days);
+    return date.toISOString().split("T")[0]; // Format as YYYY-MM-DD
+  };
+
+  // Ensure fromDate is less than untilDate
+  const handleSetFromDate = (date: string) => {
+    setFromDate(date);
+
+    // If fromDate is greater than or equal to untilDate, update untilDate
+    if (untilDate && new Date(date) >= new Date(untilDate)) {
+      const updatedUntilDate = addDays(date, 1); // Set untilDate to one day after fromDate
+      setUntilDate(updatedUntilDate);
+      console.log(`Updated untilDate to ${updatedUntilDate}`);
+    }
+  };
+
+  // Ensure untilDate is always greater than fromDate
+  const handleSetUntilDate = (date: string) => {
+    // Prevent setting untilDate earlier than fromDate
+    if (fromDate && new Date(date) <= new Date(fromDate)) {
+      console.log("Cannot set untilDate earlier than fromDate.");
+      return;
+    }
+    setUntilDate(date);
+  };
+
   const hasDatePassed = (dateString: string): boolean => {
     const inputDate = new Date(dateString);
     const today = new Date();
@@ -46,7 +69,6 @@ export const useRentTools = () => {
       until: `${untilDate} ${untilTime}`,
     });
     // Implement search logic here
-    //   35 MILES RADUIS ONLY
   };
 
   return {
@@ -57,11 +79,11 @@ export const useRentTools = () => {
       location,
       setLocation,
       fromDate,
-      setFromDate,
+      setFromDate: handleSetFromDate, // Use the custom setter for validation
       fromTime,
       setFromTime,
       untilDate,
-      setUntilDate,
+      setUntilDate: handleSetUntilDate, // Use the custom setter for validation
       untilTime,
       setUntilTime,
       selectedDate,
