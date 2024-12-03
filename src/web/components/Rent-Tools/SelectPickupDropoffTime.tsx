@@ -70,6 +70,9 @@ export const SelectPickupDropoffTime: React.FC<Props> = ({
         </>
       ) : (
         <>
+          <option key="default" value="" className="bg-red-900 bold text-white">
+            Select Time
+          </option>
           {timeOptions.map((time, index) => (
             <option key={index} value={time}>
               {time}

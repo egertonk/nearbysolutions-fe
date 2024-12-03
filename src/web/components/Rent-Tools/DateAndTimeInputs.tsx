@@ -4,7 +4,7 @@ import {
   SelectPickupDropoffTime,
 } from "./SelectPickupDropoffTime";
 
-type Props = {
+export type DateAndTimeInputsProps = {
   rentToolsAction: {
     filteredTools: ToolRentalListing[];
     handleSearch: () => void;
@@ -24,9 +24,14 @@ type Props = {
   };
 };
 
-export const DateAndTimeInputs: React.FC<Props> = ({ rentToolsAction }) => {
+export const DateAndTimeInputs: React.FC<DateAndTimeInputsProps> = ({
+  rentToolsAction,
+}) => {
   return (
     <>
+      <label className="text-[13px] bg-white text-black relative px-2 top-[-10px] left-[18px] dateToFrom">
+        From
+      </label>
       <input
         type="date"
         name="startDate"
@@ -44,6 +49,9 @@ export const DateAndTimeInputs: React.FC<Props> = ({ rentToolsAction }) => {
         }
       />
 
+      <label className="text-[13px] bg-white text-black relative px-2 top-[-10px] left-[18px] dateToFrom">
+        To
+      </label>
       <input
         type="date"
         name="returnDate"

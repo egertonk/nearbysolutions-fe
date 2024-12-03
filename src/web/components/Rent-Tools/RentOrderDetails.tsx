@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useState } from "react";
 import { useGetToolRentalListingWithId } from "../../utils/fetchEndpoints";
 import { usePostAJob } from "../Find-Work-Post-A-Job/usePostAJob";
 import { useLocation } from "react-router";
@@ -6,10 +6,26 @@ import DIYToolsImage from "../../assets/images/DIY-Tools-Renting.jpeg";
 import { MainTitle } from "../common-sections/MainTitle";
 import { useRentTools } from "./useRentTools";
 import { DateAndTimeInputs } from "./DateAndTimeInputs";
+import { RootState } from "../../../store";
+import { useDispatch, useSelector } from "react-redux";
+import { PaymentStateProps } from "../../lib/types/PaymentTyoes";
+import { setPaymentState } from "../../../store/paymentSlice";
+import { GeneralBannerInfo } from "../common-sections/GeneralBannerInfo";
+import { PaymentCustomerDetails } from "../Payment-Process/PaymentCustomerDetails";
+import { FormProgressBar } from "../common-sections/FormProgressBar";
+import { ToolBillingDetails } from "./ToolBillingDetails";
+import { ToolRentalDays } from "./ToolRentalDays";
+import { ToolExchangeInfo } from "./ToolExchangeInfo";
+import { ToolBillingTotals } from "./ToolBillingTotals";
 
 export const RentOrderDetails: React.FC = () => {
   const location = useLocation();
   const { rentToolsAction } = useRentTools();
+
+  const [currentStep, setCurrentStep] = useState<number>(0);
+  const [dateTimeError, setDateTimeError] = useState(false);
+  const [isOrderConfirm, setIsOrderConfirm] = useState(false);
+  const dateTimeCSSError = dateTimeError ? "bg-red-300" : "";
 
   const searchParams = new URLSearchParams(location.search);
   const toolId = searchParams.get("tool");
@@ -18,374 +34,199 @@ export const RentOrderDetails: React.FC = () => {
   const { data: customerAndToolInfo, isFetching: isCustomerAndToolFetching } =
     useGetToolRentalListingWithId(2, Number(toolId));
 
-  console.log("customerAndToolInfo ", customerAndToolInfo);
+  const steps = [
+    "Time / Date Setup",
+    "Payment Setup",
+    "Review",
+    "Confirmation",
+  ];
 
-  const orderDetails = {
-    productName: "Rainfall Artwork Tee",
-    productPrice: "$36.00",
-    productDescription:
-      "A foreboding archway leads outside. Heavy rains descend upon the earth. Your destiny awaits. Hold up, are we still talking about t-shirts?",
-    deliveryAddress: {
-      name: "Floyd Miles",
-      address: "7363 Cynthia Pass",
-      city: "Toronto, ON",
-      postalCode: "N3Y 4H8",
-    },
-    shippingUpdates: {
-      email: "f•••@example.com",
-      phone: "1••••••••40",
-    },
-    shippedDate: "March 23, 2021",
-    billingAddress: {
-      name: "Floyd Miles",
-      address: "7363 Cynthia Pass",
-      city: "Toronto, ON",
-      postalCode: "N3Y 4H8",
-    },
-    paymentInfo: {
-      cardType: "VISA",
-      lastFour: "4242",
-      expiryDate: "02/24",
-    },
-    pricing: {
-      subtotal: 72,
-      shipping: 5,
-      tax: 6.16,
-      total: 83.16,
-    },
+  const validateDateTimeSelection = () => {
+    const result =
+      rentToolsAction.fromDate.length > 0 &&
+      rentToolsAction.fromTime.length > 0 &&
+      rentToolsAction.untilDate.length > 0 &&
+      rentToolsAction.untilTime.length > 0;
+    if (result === false) setDateTimeError(true);
+    else setDateTimeError(false);
+    return result;
   };
+
+  // Handler to move to the next step
+  const handleNextStep = () => {
+    if (currentStep < steps.length - 1 && validateDateTimeSelection()) {
+      setCurrentStep(currentStep + 1);
+    }
+  };
+
+  // Handler to move to the previous step
+  const handlePreviousStep = () => {
+    if (currentStep > 0) {
+      setCurrentStep(currentStep - 1);
+    }
+  };
+  const dispatch = useDispatch();
+  const paymentStatus = useSelector(
+    (state: RootState) => state.paymentCheckoutState.paymentCheckoutState
+  );
+
+  // duplcate
+  const handlePaymentInfoEdit = () => {
+    // todo - validate first with handleSubmit
+    const updatedPaymentStatus: PaymentStateProps = {
+      ...paymentStatus,
+      showPaymentInputs: true,
+      showPayment: true,
+      showPaymentInfo: true,
+    };
+    booleanStatus.setIsAccept(true);
+    dispatch(setPaymentState(updatedPaymentStatus));
+  };
+
+  console.log("customerAndToolInfo ", customerAndToolInfo);
 
   if (customerAndToolInfo?.toolRentalListing === undefined) return null;
 
   return (
     <>
-      <MainTitle title={"1. Setup 2. Review 3. Confirmation"} />
+      <MainTitle
+        title={
+          isOrderConfirm ? "Tool Order Confrimation" : "DIY Tools Order Setup"
+        }
+      />
 
-      <div className="mt-4">
-        <DateAndTimeInputs rentToolsAction={rentToolsAction} />
-      </div>
-
-      <div className="p-6 bg-white shadow-md rounded-md">
-        <div className="flex">
-          <div className="w-1/3">
-            <img
-              src={`${
-                customerAndToolInfo?.toolRentalListing?.imageUrls !== undefined
-                  ? customerAndToolInfo?.toolRentalListing?.imageUrls[0]
-                  : DIYToolsImage
-              }`}
-              alt={customerAndToolInfo.toolRentalListing.toolName}
-              className="rounded-md h-68"
-            />
-          </div>
-
-          <div className="w-2/3 pl-4">
-            <h2 className="text-xl font-semibold">
-              {customerAndToolInfo?.toolRentalListing?.toolName}
-            </h2>
-            <p className="text-sm text-gray-600 mt-2">
-              Brand: {customerAndToolInfo.toolRentalListing.toolBrand} -
-              Category: {customerAndToolInfo.toolRentalListing.toolCategory}
-            </p>
-            <h2 className="mt-2">
-              <span className="text-purple-900 font-bold">
-                ${customerAndToolInfo.toolRentalListing.pricePerDay}
-              </span>{" "}
-              (Per Day)
-            </h2>
-            <p className="text-sm text-gray-600 mt-2">
-              {customerAndToolInfo.toolRentalListing.description}
-            </p>
-
-            <div className="grid grid-cols-3 gap-4">
-              <div className="mt-4">
-                <h3 className="text-lg font-semibold">Pickup Date/Time</h3>
-                <p className="text-sm text-gray-600">
-                  {rentToolsAction.fromDate}
-                  <br />
-                  {rentToolsAction.fromTime}
-                </p>
-              </div>
-
-              <div className="mt-4">
-                <h3 className="text-lg font-semibold">Dropoff Date/Time</h3>
-                <p className="text-sm text-gray-600">
-                  {rentToolsAction.untilDate}
-                  <br />
-                  {rentToolsAction.untilTime}
-                </p>
-              </div>
-
-              <div className="mt-4">
-                <h3 className="text-lg font-semibold">Tool Rental Days</h3>
-                <p className="text-sm text-gray-600">
-                  {calculateRentalDays(
-                    rentToolsAction.fromDate,
-                    rentToolsAction.fromTime,
-                    rentToolsAction.untilDate,
-                    rentToolsAction.untilTime
-                  )}
-                </p>
-              </div>
-            </div>
-
-            <div className="grid grid-cols-3 gap-4">
-              <div className="mt-4">
-                <h3 className="text-lg font-semibold">Pickup Address</h3>
-                {customerAndToolInfo.toolRentalListing.toolCountry ===
-                  "United States" ||
-                customerAndToolInfo.toolRentalListing.toolCountry === "USA" ||
-                customerAndToolInfo.toolRentalListing.toolCountry ===
-                  "Canada" ? (
-                  <p className="text-sm text-gray-600">
-                    Egeton During
-                    <br />
-                    {customerAndToolInfo.toolRentalListing.toolAddress}
-                    <br />
-                    {customerAndToolInfo.toolRentalListing.toolCity},{" "}
-                    {customerAndToolInfo.toolRentalListing.toolZipcode}
-                    {customerAndToolInfo.toolRentalListing.toolState},{" "}
-                    {customerAndToolInfo.toolRentalListing.toolCountry}.
-                  </p>
-                ) : (
-                  <p className="text-sm text-gray-600">
-                    Egeton During
-                    <br />
-                    {customerAndToolInfo.toolRentalListing.toolAddress}
-                    <br />
-                    {customerAndToolInfo.toolRentalListing.toolCity},{" "}
-                    {customerAndToolInfo.toolRentalListing.toolCountry}.
-                  </p>
-                )}
-              </div>
-
-              <div className="mt-4">
-                <h3 className="text-lg font-semibold">Dropoff Address</h3>
-                {customerAndToolInfo.toolRentalListing.toolCountry ===
-                  "United States" ||
-                customerAndToolInfo.toolRentalListing.toolCountry === "USA" ||
-                customerAndToolInfo.toolRentalListing.toolCountry ===
-                  "Canada" ? (
-                  <p className="text-sm text-gray-600">
-                    Egeton During
-                    <br />
-                    {customerAndToolInfo.toolRentalListing.toolAddress}
-                    <br />
-                    {customerAndToolInfo.toolRentalListing.toolCity},{" "}
-                    {customerAndToolInfo.toolRentalListing.toolZipcode}
-                    {customerAndToolInfo.toolRentalListing.toolState},{" "}
-                    {customerAndToolInfo.toolRentalListing.toolCountry}.
-                  </p>
-                ) : (
-                  <p className="text-sm text-gray-600">
-                    Egeton During
-                    <br />
-                    {customerAndToolInfo.toolRentalListing.toolAddress}
-                    <br />
-                    {customerAndToolInfo.toolRentalListing.toolCity},{" "}
-                    {customerAndToolInfo.toolRentalListing.toolCountry}.
-                  </p>
-                )}
-              </div>
-
-              <div className="mt-4">
-                <h3 className="text-lg font-semibold">
-                  Tool Provider Contaacts
-                </h3>
-                <p className="text-sm text-gray-600">
-                  Email: egertonduring@yahoo.com
-                  <br />
-                  Phone: 5713301230
-                </p>
-              </div>
-            </div>
-
+      {isOrderConfirm === false ? (
+        <>
+          {currentStep === 0 && (
             <div className="mt-4">
-              <p className="text-sm text-gray-500">
-                Shipped on {orderDetails.shippedDate}
-              </p>
-              <div className="w-full bg-gray-200 rounded-full h-2.5 mt-2">
-                <div
-                  className="bg-purple-600 h-2.5 rounded-full"
-                  style={{ width: "75%" }}
-                />
-              </div>
-              <div className="flex justify-between text-xs text-gray-500 mt-2">
-                <span>Order placed</span>
-                <span>Processing</span>
-                <span>Shipped</span>
-                <span>Delivered</span>
-              </div>
+              <DateAndTimeInputs rentToolsAction={rentToolsAction} />
             </div>
+          )}
 
-            <div className="grid grid-cols-3 gap-4">
-              <div className="mt-4">
-                <h3 className="text-lg font-semibold">Customer Address</h3>
-                {customerAndToolInfo.toolRentalListing.toolCountry ===
-                  "United States" ||
-                customerAndToolInfo.toolRentalListing.toolCountry === "USA" ||
-                customerAndToolInfo.toolRentalListing.toolCountry ===
-                  "Canada" ? (
-                  <p className="text-sm text-gray-600">
-                    {customerAndToolInfo.customer?.firstName}{" "}
-                    {customerAndToolInfo.customer?.lastName}
-                    <br />
-                    {customerAndToolInfo.customer?.address}
-                    <br />
-                    {customerAndToolInfo.customer?.city},{" "}
-                    {customerAndToolInfo.customer?.zip}
-                    {customerAndToolInfo.customer?.state},{" "}
-                    {customerAndToolInfo.customer?.country}.
-                  </p>
+          <FormProgressBar
+            steps={steps}
+            currentStep={currentStep}
+            handlePreviousStep={handlePreviousStep}
+            handleNextStep={handleNextStep}
+          />
+
+          <div className="p-6 bg-white shadow-md rounded-md">
+            <div className="sm:flex">
+              <div className="sm:w-1/3">
+                {currentStep === 1 ? (
+                  <>
+                    <GeneralBannerInfo
+                      title={`Policy`}
+                      description="All payments will be put on hold until you confirm through the
+            contactor onsite. A work pin will be given sent to your email that
+            will be use to confirm job on site"
+                      titleBG={"bg-indigo-500"}
+                    />
+
+                    <PaymentCustomerDetails />
+                  </>
                 ) : (
-                  <p className="text-sm text-gray-600">
-                    {customerAndToolInfo.customer?.firstName}{" "}
-                    {customerAndToolInfo.customer?.lastName}
-                    <br />
-                    {customerAndToolInfo.customer?.address}
-                    <br />
-                    {customerAndToolInfo.customer?.city},{" "}
-                    {customerAndToolInfo.customer?.country}.
-                  </p>
+                  <img
+                    src={`${
+                      customerAndToolInfo?.toolRentalListing?.imageUrls !==
+                      undefined
+                        ? customerAndToolInfo?.toolRentalListing?.imageUrls[0]
+                        : DIYToolsImage
+                    }`}
+                    alt={customerAndToolInfo.toolRentalListing.toolName}
+                    className="rounded-md h-68"
+                  />
                 )}
               </div>
 
-              <div className="mt-6">
-                <h3 className="text-lg font-semibold">
-                  Customer Billing address
-                </h3>
-                <p className="text-sm text-gray-600">
-                  {customerAndToolInfo.toolRentalListing.toolCountry ===
-                    "United States" ||
-                  customerAndToolInfo.toolRentalListing.toolCountry === "USA" ||
-                  customerAndToolInfo.toolRentalListing.toolCountry ===
-                    "Canada" ? (
-                    <p className="text-sm text-gray-600">
-                      {customerAndToolInfo.customer?.firstName}{" "}
-                      {customerAndToolInfo.customer?.lastName}
-                      <br />
-                      {customerAndToolInfo.customer?.address}
-                      <br />
-                      {customerAndToolInfo.customer?.city},{" "}
-                      {customerAndToolInfo.customer?.zip}
-                      {customerAndToolInfo.customer?.state},{" "}
-                      {customerAndToolInfo.customer?.country}.
-                    </p>
-                  ) : (
-                    <p className="text-sm text-gray-600">
-                      {customerAndToolInfo.customer?.firstName}{" "}
-                      {customerAndToolInfo.customer?.lastName}
-                      <br />
-                      {customerAndToolInfo.customer?.address}
-                      <br />
-                      {customerAndToolInfo.customer?.city},{" "}
-                      {customerAndToolInfo.customer?.country}.
-                    </p>
-                  )}
+              <div className="sm:w-2/3 pl-4">
+                <h2 className="text-xl font-semibold">
+                  {customerAndToolInfo?.toolRentalListing?.toolName}
+                </h2>
+                <p className="text-sm text-gray-600 mt-2">
+                  Brand: {customerAndToolInfo.toolRentalListing.toolBrand} -
+                  Category: {customerAndToolInfo.toolRentalListing.toolCategory}
                 </p>
-              </div>
+                <h2 className="mt-2">
+                  <span className="text-purple-900 font-bold">
+                    ${customerAndToolInfo.toolRentalListing.pricePerDay}
+                  </span>{" "}
+                  (Per Day)
+                </h2>
+                <p className="text-sm text-gray-600 mt-2">
+                  {customerAndToolInfo.toolRentalListing.description}
+                </p>
 
-              <div className="mt-4">
-                <h3 className="text-lg font-semibold">
-                  Customer Payment information
-                </h3>
-                <p className="text-sm text-gray-600">
-                  {orderDetails.paymentInfo.cardType} Ending with{" "}
-                  {orderDetails.paymentInfo.lastFour}
-                  <br />
-                  Expires {orderDetails.paymentInfo.expiryDate}
-                </p>
+                <ToolRentalDays
+                  toolActions={{
+                    rentToolsAction: rentToolsAction,
+                  }}
+                  dateTimeCSSError={dateTimeCSSError}
+                />
+
+                {currentStep > 0 && (
+                  <>
+                    <ToolExchangeInfo
+                      customerAndToolInfo={customerAndToolInfo}
+                    />
+
+                    <div className="mt-4">
+                      <div className="bg-gray-600 h-2.5 rounded-full" />
+                    </div>
+
+                    {/* <div className="mt-4">
+                  <p className="text-sm text-gray-500">
+                    Shipped on {orderDetails.shippedDate}
+                  </p>
+                  <div className="w-full bg-gray-200 rounded-full h-2.5 mt-2">
+                    <div
+                      className="bg-purple-600 h-2.5 rounded-full"
+                      style={{ width: "75%" }}
+                    />
+                  </div>
+                  <div className="flex justify-between text-xs text-gray-500 mt-2">
+                    <span>Order placed</span>
+                    <span>Processing</span>
+                    <span>Shipped</span>
+                    <span>Delivered</span>
+                  </div>
+                </div> */}
+
+                    {currentStep > 1 && (
+                      <ToolBillingDetails
+                        customerAndToolInfo={customerAndToolInfo}
+                      />
+                    )}
+                  </>
+                )}
               </div>
             </div>
-          </div>
-        </div>
 
-        <div className="mt-6 border-t pt-4">
-          <div className="flex justify-between text-sm">
-            <span>Subtotal</span>
-            <span>
-              $
-              {(customerAndToolInfo.toolRentalListing.pricePerDay * 5).toFixed(
-                2
-              )}
-            </span>
+            <ToolBillingTotals customerAndToolInfo={customerAndToolInfo} />
+
+            {currentStep === 3 && (
+              <button
+                type="submit"
+                disabled={booleanStatus.isAccept}
+                onClick={() => {
+                  console.log(
+                    "IF SOLUTIONIST update database --- send notification to tool poster with a payment code and instruction--- send confirmation to tool renter and it own code --"
+                  );
+                  setIsOrderConfirm(true);
+                }}
+                className="font-bold mt-2 mb-4 px-6 py-2.5 w-full text-lg text-white rounded bg-purple-600 hover:bg-purple-900 transition-all cursor-pointer"
+              >
+                Confirm Order
+              </button>
+            )}
           </div>
-          <div className="flex justify-between text-sm">
-            <span>Tax</span>
-            <span>
-              ${" "}
-              {(
-                customerAndToolInfo.toolRentalListing.pricePerDay * 5 +
-                5
-              ).toFixed(2)}
-            </span>
-          </div>
-          <div className="flex justify-between text-sm font-bold">
-            <span>Rental total</span>
-            <span>
-              $
-              {(
-                customerAndToolInfo.toolRentalListing.pricePerDay * 5 +
-                5
-              ).toFixed(2)}
-            </span>
-          </div>
-        </div>
-      </div>
+        </>
+      ) : (
+        <span>
+          submit to a database and java return the confirmation path to a new
+          url
+        </span>
+      )}
     </>
   );
 };
-
-function calculateRentalDays(
-  pickupDate: string,
-  pickupTime: string,
-  dropoffDate: string,
-  dropoffTime: string
-): number | string {
-  try {
-    // Parse the pickup and dropoff DateTime strings
-    const pickupDateTime = new Date(
-      `${pickupDate} ${convertTo24HourTime(pickupTime)}`
-    );
-    const dropoffDateTime = new Date(
-      `${dropoffDate} ${convertTo24HourTime(dropoffTime)}`
-    );
-
-    // Check for invalid dates
-    if (isNaN(pickupDateTime.getTime()) || isNaN(dropoffDateTime.getTime())) {
-      return "Invalid date/time. Please adjust the date/time to calculate rental days.";
-    }
-
-    // Ensure dropoff is after pickup
-    if (dropoffDateTime <= pickupDateTime) {
-      return "Dropoff date/time must be after pickup date/time.";
-    }
-
-    // Calculate the time difference in milliseconds
-    const timeDifference = dropoffDateTime.getTime() - pickupDateTime.getTime();
-
-    // Convert the time difference to days
-    const days = timeDifference / (1000 * 60 * 60 * 24);
-
-    // Round up to the next whole number
-    return Math.ceil(days);
-  } catch (error) {
-    return "An error occurred. Please ensure the date/time format is correct.";
-  }
-}
-
-// Helper function to convert 12-hour time to 24-hour time
-function convertTo24HourTime(time: string): string {
-  const [timePart, meridian] = time.split(" ");
-  let [hours, minutes] = timePart.split(":").map(Number);
-
-  if (meridian === "PM" && hours !== 12) {
-    hours += 12;
-  } else if (meridian === "AM" && hours === 12) {
-    hours = 0;
-  }
-
-  return `${hours.toString().padStart(2, "0")}:${minutes
-    .toString()
-    .padStart(2, "0")}`;
-}

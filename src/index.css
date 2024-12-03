@@ -41,3 +41,15 @@ code {
 .creditCard {
   margin-bottom: 10%;
 }
+
+@media (max-width: 768px) {
+  .dateToFrom {
+    display: none;
+  }
+}
+
+@media (max-width: 768px) {
+  .displayBlock {
+    display: block;
+  }
+}

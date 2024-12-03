@@ -56,12 +56,6 @@ export const RentTools: React.FC = () => {
 
           <DateAndTimeInputs rentToolsAction={rentToolsAction} />
 
-          <SelectPickupDropoffTime
-            selectedDate={rentToolsAction.untilDate}
-            value={rentToolsAction.untilTime}
-            onChange={(e) => rentToolsAction.setUntilTime(e.target.value)}
-          />
-
           <SearchButton handleSubmit={rentToolsAction.handleSearch} />
         </p>
       </div>
