@@ -113,6 +113,7 @@ export const RentYourTools: React.FC = () => {
     if (actionName === "Edit") {
       setProductFormData(productList[index]);
       setOpenToolForm(true);
+      setToolEditIndex(index);
     }
   };
 
@@ -198,7 +199,9 @@ export const RentYourTools: React.FC = () => {
     e.preventDefault();
     if (toolEditIndex >= 0) {
       const newList = [...productList]; // Create a copy of the current list
-      newList[0] = productFormData; // Replace the object at index
+      newList[toolEditIndex] = productFormData; // Replace the object at index
+      console.log("productList = ", productList);
+      console.log("newList = ", newList);
       setProductList(newList);
       resetToolForm();
     }
