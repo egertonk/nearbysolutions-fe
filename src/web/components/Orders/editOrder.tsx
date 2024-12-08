@@ -1,5 +1,5 @@
 import { useEffect } from "react";
-import { breakUpDate, compareDates, customerOrderHistory } from "../../lib";
+import { breakUpDate, compareDates } from "../../lib";
 import { useCalenderStates } from "../../lib/useCalenderStates";
 import { DateTimeSelection } from "../customer-calender-time/DateTimeSelection";
 import { MainTitle } from "../common-sections/MainTitle";
@@ -10,17 +10,17 @@ export const EditOrder: React.FC = () => {
 
   const { setUserSelectedDate, setUserSelectedTime } = useCalenderStates();
 
-  const order = customerOrderHistory.find(
-    (data) => data.orderID === 0
-  ) as CustomerFormData; // Todo: use this to get customer previous order to edit
+  // const order = customerOrderHistory.find(
+  //   (data) => data.orderID === 0
+  // ) as CustomerFormData; // Todo: use this to get customer previous order to edit
 
-  const oldDate = breakUpDate(order?.orderDate);
-  const oldDateString = `${oldDate?.month}/${oldDate?.day}/${oldDate?.year}`;
+  // const oldDate = breakUpDate(order?.orderDate);
+  // const oldDateString = `${oldDate?.month}/${oldDate?.day}/${oldDate?.year}`;
   const currentDateString = `${
     today.getUTCMonth() + 1 === 12 ? 1 : today.getUTCMonth() + 1
   }/${today.getDate()}/${today.getFullYear()}`;
 
-  const isDateChangeAllow = compareDates(oldDateString, currentDateString);
+  const isDateChangeAllow = compareDates("oldDateString", currentDateString);
 
   // useEffect(() => {
   //   if (oldDate) {

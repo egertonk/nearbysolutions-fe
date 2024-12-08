@@ -1,4 +1,4 @@
-import { priceWithComma, customerOrderHistory } from "../../lib";
+import { priceWithComma } from "../../lib";
 import { editIconSVG } from "../../assets/svg/svgs";
 import {
   setCustomerOrder,
@@ -22,14 +22,14 @@ export const WorkOrderList: React.FC<Props> = ({
   const customerProfileID = 5353; // api
 
   const handleEdit = (orderNumber: number) => {
-    const foundOrder = customerOrderHistory.find((oldOrder) => {
-      return oldOrder?.orderID?.toString() === orderNumber?.toString();
-    });
+    // const foundOrder = customerOrderHistory.find((oldOrder) => {
+    //   return oldOrder?.orderID?.toString() === orderNumber?.toString();
+    // });
 
-    if (foundOrder !== undefined) {
-      dispatch(setIsEditOrder(true));
-      dispatch(setCustomerOrder(foundOrder));
-    }
+    // if (foundOrder !== undefined) {
+    //   dispatch(setIsEditOrder(true));
+    //   dispatch(setCustomerOrder(foundOrder));
+    // }
     navigate("/edit-order");
   };
 
@@ -37,7 +37,7 @@ export const WorkOrderList: React.FC<Props> = ({
     <>
       <div className="md:py-8 py-5 px-2 rounded-b">
         <div className="justify-center ">
-          {(filteredOrders || customerOrderHistory).map((order) => (
+          {(filteredOrders || []).map((order) => (
             <>
               <div
                 className="mx-auto border-gray-500 border rounded-sm mb-0.5 h-30"

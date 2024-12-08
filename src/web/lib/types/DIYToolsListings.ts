@@ -2,6 +2,7 @@ import { CustomerTypes } from "./orderTypes";
 
 export type ToolRentalListing = {
   toolId: string; // Unique identifier for the tool
+  posterId: number; // Unique identifier for the person who posted the tools (same as customer number)
   toolName: string; // Name of the tool
   description: string; // Short description of the tool
   toolCategory: string; // Category the tool belongs to (e.g., Power Tools, Hand Tools)

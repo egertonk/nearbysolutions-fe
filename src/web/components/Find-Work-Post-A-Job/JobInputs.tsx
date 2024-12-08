@@ -1,4 +1,5 @@
 type Props = {
+  id?: string;
   value: string;
   errorMessage: string;
   labelName: string;
@@ -9,6 +10,7 @@ type Props = {
 };
 
 export const JobInputs: React.FC<Props> = ({
+  id,
   value,
   errorMessage,
   labelName,
@@ -22,6 +24,7 @@ export const JobInputs: React.FC<Props> = ({
           {labelName}
         </label>
         <input
+          id={id}
           type="text"
           name={name}
           className="px-4 py-3.5 bg-white text-black w-full text-sm border-2 border-gray-100 focus:border-blue-500 rounded outline-none"

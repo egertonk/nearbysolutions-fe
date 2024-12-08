@@ -24,7 +24,7 @@ import { HomeIndex } from "./web/components/Home/HomeIndex";
 import { CustomerJobListings } from "./web/components/Find-Work-Post-A-Job/CustomerJobListings";
 import { CustomerToolListings } from "./web/components/DIY-Tool-Rentals/CustomerToolListings";
 import { UserHistory } from "./web/components/Orders/UserHistory";
-import { RentAToolForm } from "./web/components/Rent-Tools/RentAToolForm";
+import { RentYourTools } from "./web/components/Rent-Tools/RentYourTools";
 import { TalentDetailPage } from "./web/components/customer-calender-time/calenderPage";
 import { ThankYouMessage } from "./web/components/thank-you/ThankYouMessage";
 import { RentTools } from "./web/components/Rent-Tools/RentTools";
@@ -67,7 +67,7 @@ function App() {
 
           {/*Rent Tools and List Tools*/}
           <Route path="/DIY-tools-rental" element={<RentTools />} />
-          <Route path="/rent-your-home-tools" element={<RentAToolForm />} />
+          <Route path="/rent-your-home-tools" element={<RentYourTools />} />
           <Route path="/rent-order-details" element={<RentOrderDetails />} />
 
           {/* Payment */}

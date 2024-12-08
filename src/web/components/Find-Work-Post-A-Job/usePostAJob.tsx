@@ -72,31 +72,32 @@ export const usePostAJob = () => {
   const [errors, setErrors] = useState<Partial<FormData>>({});
 
   useEffect(() => {
-    if (customerOrder && isCoutriesFetching === false) {
+    if (customerOrder && !isCoutriesFetching) {
       const updatedPostAJobFormData = {
         ...postAJobOrder,
-        id: postAJobOrder.id ?? "",
+        id: postAJobOrder?.id ?? "",
         jobName: "",
         jobTask: "",
         jobPrice: "",
-        jobZip: customerOrder.customerInfo.zip || "",
-        jobCityLocation: customerOrder.customerInfo.city || "",
+        jobZip: customerOrder.customerInfo?.zip || "",
+        jobCityLocation: customerOrder.customerInfo?.city || "",
         date: "",
         time: "",
-        email: customerOrder.customerInfo.email || "",
-        jobCountry: customerOrder.customerInfo.country || "",
-        jobState: customerOrder.customerInfo.state || "",
+        email: customerOrder.customerInfo?.email || "",
+        jobCountry: customerOrder.customerInfo?.country || "",
+        jobState: customerOrder.customerInfo?.state || "",
         urgencyLevel: "",
         phoneNumber: "",
-        customerName:
-          `${customerOrder.customerInfo.firstName} ${customerOrder.customerInfo.lastName}` ||
-          "",
-        jobAddress: customerOrder.customerInfo.address || "",
+        customerName: `${customerOrder.customerInfo?.firstName || ""} ${
+          customerOrder.customerInfo?.lastName || ""
+        }`.trim(),
+        jobAddress: customerOrder.customerInfo?.address || "",
       };
 
       dispatch(setPostAJobDetails(updatedPostAJobFormData));
     }
-  }, [isCoutriesFetching]);
+  }, [customerOrder, postAJobOrder, isCoutriesFetching, dispatch]);
+
 
   const validCountries = useMemo(() => {
     if (coutries) return coutries?.filter((country) => country?.featureFlag);

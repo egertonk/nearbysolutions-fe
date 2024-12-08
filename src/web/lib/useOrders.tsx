@@ -1,6 +1,5 @@
 import { useEffect, useState } from "react";
 import { CustomerFormData } from "./types/OrderSolutionTypes";
-import { customerOrderHistory } from ".";
 import { setCustomerOrder } from "../../store/customerContractorSlice";
 import { useNavigate } from "react-router";
 import { useDispatch } from "react-redux";
@@ -26,34 +25,34 @@ export const useOrders = (
 
   const [searchId, setSearchId] = useState<number>();
   const [filteredOrders, setFilteredOrders] =
-    useState<CustomerFormData[]>(customerOrderHistory);
+    useState<CustomerFormData[]>([]);
 
   const handleOnChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const { value } = e.target;
     setSearchId(Number(value));
-    if (value.length === 0) setFilteredOrders(customerOrderHistory);
+    if (value.length === 0) setFilteredOrders([]);
   };
 
   const handleSearch = (event: React.ChangeEvent<HTMLInputElement>) => {
     const term = event.target.value;
     setSearchId(Number(term));
     if (term === "") {
-      setFilteredOrders(customerOrderHistory);
+      setFilteredOrders([]);
     } else {
-      const filtered = customerOrderHistory.filter(
-        (order) => order.orderID === Number(term)
-      );
-      setFilteredOrders(filtered);
+      // const filtered = customerOrderHistory.filter(
+      //   (order) => order.orderID === Number(term)
+      // );
+      // setFilteredOrders(filtered);
     }
   };
 
   const handleSubmit = () => {
-    if (customerOrderHistory.length > 0) {
-      const matchJobs = customerOrderHistory.filter(
-        (job) => job.orderID === searchId
-      );
-      setFilteredOrders(matchJobs);
-    }
+    // if (customerOrderHistory.length > 0) {
+    //   const matchJobs = customerOrderHistory.filter(
+    //     (job) => job.orderID === searchId
+    //   );
+    //   setFilteredOrders(matchJobs);
+    // }
   };
 
   const [sortDirections, setSortDirections] = useState<{
@@ -114,14 +113,14 @@ export const useOrders = (
   };
 
   const handleEdit = (orderNumber: number) => {
-    const foundOrder = customerOrderHistory.find((oldOrder) => {
-      return oldOrder?.orderID?.toString() === orderNumber?.toString();
-    });
+    // const foundOrder = customerOrderHistory.find((oldOrder) => {
+    //   return oldOrder?.orderID?.toString() === orderNumber?.toString();
+    // });
 
-    if (foundOrder !== undefined) {
-      // dispatch(setIsEditOrder(true));
-      dispatch(setCustomerOrder(foundOrder));
-    }
+    // if (foundOrder !== undefined) {
+    //   // dispatch(setIsEditOrder(true));
+    //   dispatch(setCustomerOrder(foundOrder));
+    // }
     navigate("/edit-order");
   };
 
@@ -169,17 +168,16 @@ export const useOrders = (
         ? `0${userSelectedDate?.day}`
         : userSelectedDate?.day;
 
-    filterAndSortOrders(
-      customerOrderHistory,
-      `${userSelectedDate?.month}/${extraZero}/${userSelectedDate?.year}`
-    );
+    // filterAndSortOrders(
+    //   customerOrderHistory,
+    //   `${userSelectedDate?.month}/${extraZero}/${userSelectedDate?.year}`
+    // );
   }, []);
 
   return {
     handleSearch,
     handleSubmit,
     handleSort,
-    customerOrderHistory,
     filterAndSortOrders,
     filteredOrders,
     setFilteredOrders,

@@ -1,5 +1,5 @@
 import { useDispatch, useSelector } from "react-redux";
-import { customerOrderHistory, monthNames, priceWithComma } from "../../lib";
+import { monthNames, priceWithComma } from "../../lib";
 import { useCalenderStates } from "../../lib/useCalenderStates";
 import { orderSortList, useOrders } from "../../lib/useOrders";
 import { SortData } from "../common-sections/SortData";

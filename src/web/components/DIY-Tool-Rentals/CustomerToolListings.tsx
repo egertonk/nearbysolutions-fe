@@ -1,5 +1,5 @@
 import React from "react";
-import { diyToolListings, priceWithComma } from "../../lib";
+import { priceWithComma } from "../../lib";
 
 import { MainTitle } from "../common-sections/MainTitle";
 import { SortData } from "../common-sections/SortData";
@@ -18,7 +18,7 @@ export const CustomerToolListings: React.FC = () => {
     "Price",
   ];
   const { handleOnChange, filteredTools, handleSubmit, handleSort } =
-    useCustomerToolListings(diyToolListings);
+    useCustomerToolListings([]);
 
   // todo
   const handleEdit = (orderNumber: number) => {

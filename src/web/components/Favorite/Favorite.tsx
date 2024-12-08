@@ -1,11 +1,10 @@
 import { useState } from "react";
 import { SolutionistCard } from "../solutionist/SolutionistCard";
-import { talentInformation } from "../../lib";
 import { MainTitle } from "../common-sections/MainTitle";
 import { Search } from "../search/Search";
 
 export const Favorite: React.FC = () => {
-  const [searchResults, setSearchResults] = useState(talentInformation); // api call to get user Favorite
+  const [searchResults, setSearchResults] = useState(); // api call to get user Favorite
 
   // use sortType to fetch data and send it to orders
   // Show only customer orders
