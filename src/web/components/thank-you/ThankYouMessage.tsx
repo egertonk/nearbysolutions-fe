@@ -3,7 +3,7 @@ import { useGetPostedJobInfo } from "../Find-Work-Post-A-Job/useGetPostedJobInfo
 import { useCustomerInfo } from "../customer/useCustomerInfo";
 import { MainTitle } from "../common-sections/MainTitle";
 import { ThankYouDetail } from "./ThankYouDetail";
-import { JobAcceptanceAgreement } from "./JobAcceptanceAgreement";
+import { JobAcceptanceAgreement } from "../legal/JobAcceptanceAgreement";
 import { useBooleans } from "../common-sections/useBooleans";
 
 export const ThankYouMessage: React.FC = () => {

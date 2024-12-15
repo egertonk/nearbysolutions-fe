@@ -6,7 +6,7 @@ import { urgencyLevels } from "../../../store/postAJobSlice";
 import { usePostAJob } from "./usePostAJob";
 import { Service } from "../../lib/types/FindWorkPostAJobtypesData";
 import { GeneralBannerInfo } from "../common-sections/GeneralBannerInfo";
-import { JobAcceptanceAgreement } from "../thank-you/JobAcceptanceAgreement";
+import { JobAcceptanceAgreement } from "../legal/JobAcceptanceAgreement";
 
 export const PostAJobForm: React.FC = () => {
   const { postActions, booleanStatus, postData } = usePostAJob();
@@ -24,7 +24,7 @@ export const PostAJobForm: React.FC = () => {
         <>
           <MainTitle title={"Post a Job"} />
 
-          {postData.generalDescription?.length > 0 &&
+          {/* {postData.generalDescription?.length > 0 &&
             postData.postAJobOrder?.jobName.length > 0 && (
               <GeneralBannerInfo
                 title={`General ${postData.postAJobOrder.jobName} 
@@ -32,7 +32,7 @@ export const PostAJobForm: React.FC = () => {
                 description={postData.generalDescription as unknown as string}
                 titleBG={"bg-red-500"}
               />
-            )}
+            )} */}
 
           {"Job Not Listed" === postData.userCategory && (
             <GeneralBannerInfo

@@ -66,6 +66,9 @@ export const products = [
     icon: CursorArrowRaysIcon,
     routeName: "find-work-post-a-job",
   },
+];
+
+export const toolsRentalLMenu = [
   {
     name: "DIY Tools Rental",
     description: "Rent the tools you need for your DIY projects.",
@@ -79,6 +82,17 @@ export const products = [
     href: "rent-your-home-tools",
     icon: CursorArrowRaysIcon,
     routeName: "rent-your-home-tools",
+  },
+];
+
+export const OrderHistory = [
+  {
+    name: "DIY Tools Order Rental History",
+    description:
+      "Track and manage your tool rentals for all your DIY projects.",
+    href: "DIY-tools-order-rental-history",
+    icon: CursorArrowRaysIcon,
+    routeName: "DIY-tools-order-rental-history",
   },
 ];
 

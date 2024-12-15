@@ -17,10 +17,11 @@ import { ToolBillingDetails } from "./ToolBillingDetails";
 import { ToolRentalDays } from "./ToolRentalDays";
 import { ToolExchangeInfo } from "./ToolExchangeInfo";
 import { ToolBillingTotals } from "./ToolBillingTotals";
+import { useBooleans } from "../common-sections/useBooleans";
 
 export const RentOrderDetails: React.FC = () => {
   const location = useLocation();
-  const { rentToolsAction } = useRentTools();
+  const { rentToolsAction } = useRentTools(false);
 
   const [currentStep, setCurrentStep] = useState<number>(0);
   const [dateTimeError, setDateTimeError] = useState(false);
@@ -30,7 +31,13 @@ export const RentOrderDetails: React.FC = () => {
   const searchParams = new URLSearchParams(location.search);
   const toolId = searchParams.get("tool");
 
-  const { postActions, booleanStatus, postData } = usePostAJob();
+  const {
+    isAccept,
+    setIsAccept,
+    isShowTermsAndConditions,
+    setIsShowTermsAndConditions,
+  } = useBooleans();
+
   const { data: customerAndToolInfo, isFetching: isCustomerAndToolFetching } =
     useGetToolRentalListingWithId(2, Number(toolId));
 
@@ -79,7 +86,7 @@ export const RentOrderDetails: React.FC = () => {
       showPayment: true,
       showPaymentInfo: true,
     };
-    booleanStatus.setIsAccept(true);
+    setIsAccept(true);
     dispatch(setPaymentState(updatedPaymentStatus));
   };
 
@@ -207,7 +214,7 @@ export const RentOrderDetails: React.FC = () => {
             {currentStep === 3 && (
               <button
                 type="submit"
-                disabled={booleanStatus.isAccept}
+                disabled={isAccept}
                 onClick={() => {
                   console.log(
                     "IF SOLUTIONIST update database --- send notification to tool poster with a payment code and instruction--- send confirmation to tool renter and it own code --"

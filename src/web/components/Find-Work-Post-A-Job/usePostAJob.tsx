@@ -96,7 +96,7 @@ export const usePostAJob = () => {
 
       dispatch(setPostAJobDetails(updatedPostAJobFormData));
     }
-  }, [customerOrder, postAJobOrder, isCoutriesFetching, dispatch]);
+  }, [customerOrder]);
 
 
   const validCountries = useMemo(() => {

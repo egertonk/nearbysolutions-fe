@@ -1,6 +1,6 @@
-import { TermsConditionSolutionistsAcceptingJobs } from "../legal/TermsConditionSolutionistsAcceptingJobs";
+import { TermsConditionSolutionistsAcceptingJobs } from "./TermsConditionSolutionistsAcceptingJobs";
 import { JobPosting } from "../../lib/types/FindWorkPostAJobtypesData";
-import { TermsConditionSolutionistsPostingJobs } from "../legal/TermsConditionTermsConditionsPostingJob";
+import { TermsConditionSolutionistsPostingJobs } from "./TermsConditionTermsConditionsPostingJob";
 
 type Props = {
   isCustomer: boolean;

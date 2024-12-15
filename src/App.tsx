@@ -10,25 +10,25 @@ import { Solutionist } from "./web/components/solutionist/Solutionist";
 import { Footer } from "./web/components/Footer/footer";
 import { Review } from "./web/components/Reviews/Review";
 import { Favorite } from "./web/components/Favorite/Favorite";
-import { OrderSumary } from "./web/components/Orders/OrderSumary";
+import { OrderSumary } from "./web/components/Order-History/OrderSumary";
 import { DateTimeSelection } from "./web/components/customer-calender-time/DateTimeSelection";
 import { CalenderForm } from "./web/components/customer-calender-time/calenderForm";
 import { Provider } from "react-redux";
 import store from "./store";
 import { Payment } from "./web/components/Payment-Process/Payment";
-import { EditOrder } from "./web/components/Orders/EditOrder";
+import { EditOrder } from "./web/components/Order-History/EditOrder";
 import { ContactUs } from "./web/components/Contact-US/ContactUs";
 import { FindWorkPostAJob } from "./web/components/Find-Work-Post-A-Job/FindWorkPostAJob";
 import { PostAJobForm } from "./web/components/Find-Work-Post-A-Job/PostAJobForm";
 import { HomeIndex } from "./web/components/Home/HomeIndex";
 import { CustomerJobListings } from "./web/components/Find-Work-Post-A-Job/CustomerJobListings";
 import { CustomerToolListings } from "./web/components/DIY-Tool-Rentals/CustomerToolListings";
-import { UserHistory } from "./web/components/Orders/UserHistory";
 import { RentYourTools } from "./web/components/Rent-Tools/RentYourTools";
 import { TalentDetailPage } from "./web/components/customer-calender-time/calenderPage";
 import { ThankYouMessage } from "./web/components/thank-you/ThankYouMessage";
 import { RentTools } from "./web/components/Rent-Tools/RentTools";
 import { RentOrderDetails } from "./web/components/Rent-Tools/RentOrderDetails";
+import { ToolsOrderHistory } from "./web/components/Order-History/ToolsOrderHistory";
 
 function App() {
   return (
@@ -74,7 +74,10 @@ function App() {
           <Route path="/payment" element={<Payment />} />
 
           {/* Customer History */}
-          <Route path="/user-history" element={<UserHistory />} />
+          <Route
+            path="/DIY-tools-order-rental-history"
+            element={<ToolsOrderHistory />}
+          />
           <Route path="/job-listings" element={<CustomerJobListings />} />
           <Route path="/tool-listings" element={<CustomerToolListings />} />
 

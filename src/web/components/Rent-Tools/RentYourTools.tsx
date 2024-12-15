@@ -4,6 +4,8 @@ import { AddProductModal } from "./AddProductModal";
 import { useGetCoutries } from "../../utils/fetchEndpoints";
 import { ToolAddressInformation } from "./ToolAddressInformation";
 import { FormProgressBar } from "../common-sections/FormProgressBar";
+import { RentToolsReview } from "./RentToolsReview";
+import { useBooleans } from "../common-sections/useBooleans";
 
 export type ProductFormDataTypes = {
   toolName: string;
@@ -38,6 +40,13 @@ export const RentYourTools: React.FC = () => {
   const [openToolForm, setOpenToolForm] = useState(false);
   const [toolEditIndex, setToolEditIndex] = useState(-1);
 
+  const {
+    isAccept,
+    setIsAccept,
+    isShowTermsAndConditions,
+    setIsShowTermsAndConditions,
+  } = useBooleans();
+
   const [currentStep, setCurrentStep] = useState<number>(0);
   const steps = ["Tools Address", "Add Tools", "Review", "Confirmation"];
   const [errors, setErrors] = useState<ProductFormErrorTypes>({});
@@ -54,7 +63,8 @@ export const RentYourTools: React.FC = () => {
       toolZipCode: "20136",
       powerSource: "333333333333efffffffffffffffffff fafafa",
       pricePerDay: 0.9,
-      imageUrls: "C:\\fakepath\\Loreto-Passport.jpg",
+      imageUrls:
+        "https://images.unsplash.com/photo-1438761681033-6461ffad8d80?ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&ixlib=rb-1.2.1&auto=format&fit=crop&w=1170&q=80",
       discountPercent: 0,
       usageInstructions: "fafafavvvnn",
       safetyInformation: "affffaffafa",
@@ -219,7 +229,7 @@ export const RentYourTools: React.FC = () => {
     if (currentStep === 1 && productList.length > 0) {
       setCurrentStep(currentStep + 1);
     }
-    if (currentStep === 2 && isToolListingReady) {
+    if (currentStep === 2 && isToolListingReady && isAccept) {
       setCurrentStep(currentStep + 1);
     }
   };
@@ -362,6 +372,17 @@ export const RentYourTools: React.FC = () => {
           setProductFormData={setProductFormData}
           handleToolActions={handleToolActions}
           resetToolForm={resetToolForm}
+        />
+      )}
+
+      {currentStep >= 2 && (
+        <RentToolsReview
+          productList={productList}
+          currentStep={currentStep}
+          isAccept={isAccept}
+          setIsAccept={setIsAccept}
+          isShowTermsAndConditions={isShowTermsAndConditions}
+          setIsShowTermsAndConditions={setIsShowTermsAndConditions}
         />
       )}
     </>

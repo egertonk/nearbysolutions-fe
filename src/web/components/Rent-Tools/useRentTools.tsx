@@ -1,10 +1,19 @@
-import { PostAJobFormTypes } from "../../../store/postAJobSlice";
 import { useState } from "react";
 import { useCustomerToolListings } from "../../lib/useCustomerToolListings";
 import { useToolRentalListing } from "../../utils/fetchEndpoints";
 import { ToolRentalListing } from "../../lib/types/DIYToolsListings";
 
-export const useRentTools = () => {
+export const hasDatePassed = (dateString: string): boolean => {
+  const inputDate = new Date(dateString);
+  const today = new Date();
+
+  // Remove time from today's date for an accurate comparison
+  today.setHours(0, 0, 0, 0);
+
+  return inputDate > today;
+};
+
+export const useRentTools = (isEnabled: boolean) => {
   const [location, setLocation] = useState<string>("");
   const [fromDate, setFromDate] = useState<string>("");
   const [fromTime, setFromTime] = useState<string>("");
@@ -15,7 +24,7 @@ export const useRentTools = () => {
   ); // Default to today's date
 
   const { data: toolRentalListing, isFetching: isFetchingToolRentalListing } =
-    useToolRentalListing();
+    useToolRentalListing(isEnabled);
 
   const { handleOnChange, filteredTools, handleSubmit, handleSort } =
     useCustomerToolListings(
@@ -50,16 +59,6 @@ export const useRentTools = () => {
       return;
     }
     setUntilDate(date);
-  };
-
-  const hasDatePassed = (dateString: string): boolean => {
-    const inputDate = new Date(dateString);
-    const today = new Date();
-
-    // Remove time from today's date for an accurate comparison
-    today.setHours(0, 0, 0, 0);
-
-    return inputDate > today;
   };
 
   const handleSearch = () => {

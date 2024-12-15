@@ -20,6 +20,7 @@ import {
   ToolAndCustomerTypes,
   ToolRentalListing,
 } from "../lib/types/DIYToolsListings";
+import { RentalOrderHistory } from "../lib/types/DIYToolsListings copy";
 
 // Skills
 export const getSkills = () => {
@@ -244,11 +245,12 @@ export const getToolRentalListing = async (): Promise<ToolRentalListing[]> => {
   });
 };
 
-export const useToolRentalListing = () => {
+export const useToolRentalListing = (isEnabled: boolean) => {
   return useQuery({
     queryKey: ["tool-rental-listing"],
     queryFn: () => getToolRentalListing().then((data) => data),
     placeholderData: [],
+    enabled: isEnabled,
   });
 };
 
@@ -270,5 +272,24 @@ export const useGetToolRentalListingWithId = (
     queryFn: () =>
       getToolCustomerWithId(customerId, toolId).then((data) => data),
     placeholderData: {} as ToolAndCustomerTypes,
+  });
+};
+
+// Tool Rental Order History
+export const getToolsRentalHistoryByCustomerId = async (
+  id: number
+): Promise<RentalOrderHistory[]> => {
+  return getWrapperWthId("tools-rental-order-history/customer", id).then(
+    (data) => {
+      return data;
+    }
+  );
+};
+
+export const useToolsRentalHistoryByCustomerId = (id: number) => {
+  return useQuery({
+    queryKey: ["tools-rental-order-history"],
+    queryFn: () => getToolsRentalHistoryByCustomerId(id).then((data) => data),
+    placeholderData: [] as RentalOrderHistory[],
   });
 };

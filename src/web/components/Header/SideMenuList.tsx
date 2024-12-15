@@ -22,7 +22,11 @@ export const SideMenuList: React.FC = () => {
           </div>
           <hr className="my-6 border-gray-400" />
           <ul className="space-y-3">
-            <Link type="button" className={menuItemCSS} to={`/user-history`}>
+            <Link
+              type="button"
+              className={menuItemCSS}
+              to={`/DIY-tools-order-rental-history`}
+            >
               <svg
                 xmlns="http://www.w3.org/2000/svg"
                 fill="currentColor"

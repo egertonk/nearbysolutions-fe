@@ -1,19 +1,28 @@
-import { MainTitle } from "../common-sections/MainTitle";
-import { GeneralBannerInfo } from "../common-sections/GeneralBannerInfo";
+import React from "react";
+import { ProductFormDataTypes } from "./RentYourTools";
+import { hasDatePassed } from "./useRentTools";
 import { cart } from "../../assets/svg/svgs";
-import { GetStars } from "../Reviews/getStars";
-import { rentInputCSS } from "./SelectPickupDropoffTime";
-import { SearchButton } from "../common-sections/SearchButton";
-import { useRentTools } from "./useRentTools";
 import { ImagePopup } from "../common-sections/ImagePopup";
-import DIYToolsImage from "../../assets/images/DIY-Tools-Renting.jpeg";
-import { useNavigate } from "react-router";
-import { DateAndTimeInputs } from "./DateAndTimeInputs";
 import { useImagePopup } from "./useImagePopup";
+import { ToolsLegalAgreement } from "../legal/ToolsLegalAgreement";
 
-export const RentTools: React.FC = () => {
-  const navigate = useNavigate();
-  const { rentToolsAction } = useRentTools(true);
+type RentToolsReviewProps = {
+  currentStep: number;
+  productList: ProductFormDataTypes[];
+  isAccept: boolean;
+  setIsAccept: React.Dispatch<React.SetStateAction<boolean>>;
+  isShowTermsAndConditions: boolean;
+  setIsShowTermsAndConditions: React.Dispatch<React.SetStateAction<boolean>>;
+};
+
+export const RentToolsReview: React.FC<RentToolsReviewProps> = ({
+  productList,
+  currentStep,
+  isAccept,
+  setIsAccept,
+  isShowTermsAndConditions,
+  setIsShowTermsAndConditions,
+}) => {
   const { openImage, setOpenImage, imageDetails, setImageDetails } =
     useImagePopup();
 
@@ -27,59 +36,23 @@ export const RentTools: React.FC = () => {
         />
       )}
 
-      <MainTitle title={"DIY Tools Rental"} />
-      <div className="justify-center mx-auto flex  gap-4 py-4 bg-white rounded-lg">
-        <p className="w-full">
-          <input
-            type="text"
-            placeholder="Product, Category or City"
-            value={rentToolsAction.location}
-            onChange={(e: React.ChangeEvent<HTMLInputElement>) =>
-              rentToolsAction.setLocation(e.target.value)
-            }
-            className={rentInputCSS}
-          />
-
-          <DateAndTimeInputs rentToolsAction={rentToolsAction} />
-
-          <SearchButton handleSubmit={rentToolsAction.handleSearch} />
-        </p>
-      </div>
-      <GeneralBannerInfo
-        title={"Info"}
-        description={
-          "All tools listed for DIY rental are previously used and maintained by their respective owners."
-        }
-        titleBG={"bg-purple-900"}
-      />
-
-      {rentToolsAction.filteredTools.length > 0 && (
+      {productList.length > 0 && (
         <div className="mt-6 grid grid-cols-1 gap-x-6 gap-y-10 sm:grid-cols-2 lg:grid-cols-4 xl:gap-x-8">
-          {rentToolsAction.filteredTools.map(
+          {productList.map(
             (data) =>
-              data.available && (
+              data.nextAvailableDate && (
                 <div className="group relative m-5">
                   <a
                     className="justify-center mx-3 mt-3 flex h-60 rounded-xl cursor-pointer"
                     onClick={() => {
                       setImageDetails({
                         name: data.toolName,
-                        image:
-                          data?.imageUrls === null
-                            ? DIYToolsImage
-                            : data.imageUrls[0],
+                        image: data.imageUrls,
                       });
                       setOpenImage(true);
                     }}
                   >
-                    <img
-                      className="object-cover"
-                      src={`${
-                        data?.imageUrls === null
-                          ? DIYToolsImage
-                          : data.imageUrls[0]
-                      }`}
-                    />
+                    <img className="object-cover" src={`${data.imageUrls}`} />
                     {data.discountPercent * 100 > 0 && (
                       <span className="absolute top-0 left-0 m-2 rounded-full bg-black px-2 text-center text-sm font-medium text-white">
                         {data.discountPercent}% OFF
@@ -125,24 +98,9 @@ export const RentTools: React.FC = () => {
                       </div>
                     </div>
 
-                    {data.rating >= 3 && (
-                      <p className="flex justify-center">
-                        <GetStars starNumber={data.rating} />
-                        <span className="mb-5 mr-2 ml-3 rounded bg-yellow-200 px-2.5 py-0.5 text-md font-semibold text purple">
-                          {data.rating}
-                        </span>
-                      </p>
-                    )}
-
-                    <button
-                      onClick={() =>
-                        navigate(`/rent-order-details?tool=${data.toolId}`)
-                      }
-                      className="w-full flex items-center justify-center rounded-md bg-purple-900 px-5 py-2.5 text-center text-sm font-medium text-white hover:bg-gray-700 focus:outline-none focus:ring-4 focus:ring-blue-300"
-                    >
+                    <button className="w-full flex items-center justify-center rounded-md bg-purple-900 px-5 py-2.5 text-center text-sm font-medium text-white hover:bg-gray-700 focus:outline-none focus:ring-4 focus:ring-blue-300">
                       {cart}
-                      {rentToolsAction.hasDatePassed(data.nextAvailableDate) ===
-                      false
+                      {hasDatePassed(data.nextAvailableDate) === false
                         ? `Rent Now`
                         : `Available On ${data.nextAvailableDate}`}
                     </button>
@@ -151,6 +109,28 @@ export const RentTools: React.FC = () => {
               )
           )}
         </div>
+      )}
+
+      {currentStep === 2 && (
+        <ToolsLegalAgreement
+          isCustomer={false}
+          isAccept={isAccept}
+          setIsAccept={setIsAccept}
+          isShowTermsAndConditions={isShowTermsAndConditions}
+          setIsShowTermsAndConditions={setIsShowTermsAndConditions}
+        />
+      )}
+
+      {currentStep === 3 && (
+        <button
+          type="submit"
+          onClick={() => {
+            console.log("submit tool listing to database ---");
+          }}
+          className="font-bold mt-2 mb-4 px-6 py-2.5 w-full text-lg text-white rounded bg-purple-600 hover:bg-purple-900 transition-all cursor-pointer"
+        >
+          Submit
+        </button>
       )}
     </>
   );
