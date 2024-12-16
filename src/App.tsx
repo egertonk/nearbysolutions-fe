@@ -29,6 +29,7 @@ import { ThankYouMessage } from "./web/components/thank-you/ThankYouMessage";
 import { RentTools } from "./web/components/Rent-Tools/RentTools";
 import { RentOrderDetails } from "./web/components/Rent-Tools/RentOrderDetails";
 import { ToolsOrderHistory } from "./web/components/Order-History/ToolsOrderHistory";
+import { ViewOrderDetails } from "./web/components/Order-History/ViewOrderDetails";
 
 function App() {
   return (
@@ -69,6 +70,9 @@ function App() {
           <Route path="/DIY-tools-rental" element={<RentTools />} />
           <Route path="/rent-your-home-tools" element={<RentYourTools />} />
           <Route path="/rent-order-details" element={<RentOrderDetails />} />
+
+          {/* Order History */}
+          <Route path="/view-order-details" element={<ViewOrderDetails />} />
 
           {/* Payment */}
           <Route path="/payment" element={<Payment />} />

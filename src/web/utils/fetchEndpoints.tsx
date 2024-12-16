@@ -293,3 +293,21 @@ export const useToolsRentalHistoryByCustomerId = (id: number) => {
     placeholderData: [] as RentalOrderHistory[],
   });
 };
+
+export const getToolsRentalHistoryByOrderId = async (
+  id: number
+): Promise<RentalOrderHistory> => {
+  return getWrapperWthId("tools-rental-order-history", id).then(
+    (data) => {
+      return data;
+    }
+  );
+};
+
+export const useToolsRentalHistoryByOrderId = (id: number) => {
+  return useQuery({
+    queryKey: [`order-id-${id}`],
+    queryFn: () => getToolsRentalHistoryByOrderId(id).then((data) => data),
+    placeholderData: {} as RentalOrderHistory,
+  });
+};

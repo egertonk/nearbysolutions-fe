@@ -1,17 +1,39 @@
 import React, { useState } from "react";
-import { useToolsRentalHistoryByCustomerId } from "../../utils/fetchEndpoints";
+import { RentalOrderHistory } from "../../lib/types/DIYToolsListings copy";
+import { useNavigate } from "react-router";
 
-// status: "Order-Confirmed" | "Picked-Up" | "Dropped-Off" | "Completed";
+type OrderStatus =
+  | "Order-Confirmed"
+  | "Picked-Up"
+  | "Dropped-Off"
+  | "Completed";
 
-export const OrderList: React.FC = () => {
-  const { data: toolsRentalHistoryByCustomer } =
-    useToolsRentalHistoryByCustomerId(1); //use customer in after login in
+export const getOrderStatusClass = (
+  orderStatus: OrderStatus | string
+): string => {
+  const statusClasses: Record<OrderStatus | "default", string> = {
+    "Order-Confirmed": "bg-purple-900 text-white",
+    "Picked-Up": "bg-blue-900 text-white",
+    "Dropped-Off": "bg-yellow-100 text-yellow-800",
+    Completed: "bg-green-100 text-green-800",
+    default: "bg-red-100 text-red-800",
+  };
+
+  return statusClasses[orderStatus as OrderStatus] || statusClasses["default"];
+};
+
+type OrderListProps = {
+  orderList: RentalOrderHistory[];
+};
+
+export const OrderList: React.FC<OrderListProps> = ({ orderList }) => {
+  const navigate = useNavigate();
   const [statusFilter, setStatusFilter] = useState<string>("All orders");
   const [sortBy, setSortBy] = useState<string>("date");
 
-  console.log("toolsRentalHistoryByCustomer = ", toolsRentalHistoryByCustomer);
+  console.log("orderList = ", orderList);
   // Filter and sort orders
-  const filteredOrders = toolsRentalHistoryByCustomer
+  const filteredOrders = orderList
     ?.filter((order) =>
       statusFilter === "All orders" ? true : order?.orderStatus === statusFilter
     )
@@ -92,17 +114,9 @@ export const OrderList: React.FC = () => {
                       Status:
                     </p>
                     <span
-                      className={`inline-block px-3 py-1 rounded text-sm font-medium ${
-                        order.orderStatus === "Order-Confirmed"
-                          ? "bg-purple-900 text-white"
-                          : order.orderStatus === "Picked-Up"
-                          ? "bg-blue-900 text-white"
-                          : order.orderStatus === "Dropped-Off"
-                          ? "bg-yellow-100 text-yellow-800"
-                          : order.orderStatus === "Completed"
-                          ? "bg-green-100 text-green-800"
-                          : "bg-red-100 text-red-800"
-                      }`}
+                      className={`inline-block px-3 py-1 rounded text-sm font-medium ${getOrderStatusClass(
+                        order.orderStatus
+                      )}`}
                     >
                       {order.orderStatus}
                     </span>
@@ -110,11 +124,24 @@ export const OrderList: React.FC = () => {
                   {/* Action Buttons */}
                   <div className="mt-4 w-full flex justify-end gap-4 lg:mt-0 lg:w-1/6">
                     {order.orderStatus === "Order-Confirmed" && (
-                      <button className="w-full rounded-lg border border-red-700 px-3 py-2 text-center text-sm font-medium text-red-700 hover:bg-red-700 hover:text-white focus:outline-none focus:ring-4 focus:ring-red-300 dark:border-red-500 dark:text-red-500 dark:hover:bg-red-600 dark:hover:text-white dark:focus:ring-red-900 lg:w-auto">
+                      <button
+                        onClick={() =>
+                          console.log(
+                            "update database, process refund, email owner and renter, update UI data to reflect change",
+                            order?.id
+                          )
+                        }
+                        className="w-full rounded-lg border border-red-700 px-3 py-2 text-center text-sm font-medium text-red-700 hover:bg-red-700 hover:text-white focus:outline-none focus:ring-4 focus:ring-red-300 dark:border-red-500 dark:text-red-500 dark:hover:bg-red-600 dark:hover:text-white dark:focus:ring-red-900 lg:w-auto"
+                      >
                         Cancel Order
                       </button>
                     )}
-                    <button className="w-full inline-flex justify-center rounded-lg  border border-gray-200 bg-white px-3 py-2 text-sm font-medium text-gray-900 hover:bg-gray-100 hover:text-primary-700 focus:z-10 focus:outline-none focus:ring-4 focus:ring-gray-100 dark:border-gray-600 dark:bg-gray-800 dark:text-gray-400 dark:hover:bg-gray-700 dark:hover:text-white dark:focus:ring-gray-700 lg:w-auto">
+                    <button
+                      onClick={() =>
+                        navigate(`/view-order-details?id=${order?.id}`)
+                      }
+                      className="w-full inline-flex justify-center rounded-lg  border border-gray-200 bg-white px-3 py-2 text-sm font-medium text-gray-900 hover:bg-gray-100 hover:text-primary-700 focus:z-10 focus:outline-none focus:ring-4 focus:ring-gray-100 dark:border-gray-600 dark:bg-gray-800 dark:text-gray-400 dark:hover:bg-gray-700 dark:hover:text-white dark:focus:ring-gray-700 lg:w-auto"
+                    >
                       View Details
                     </button>
                   </div>

@@ -19,7 +19,7 @@ export const Footer: React.FC = () => {
 
   return (
     <>
-      <footer className="bg-[#312020] mt-4 py-8 px-4 sm:px-12 font-sans tracking-wide">
+      <footer className="bg-[#312020] mt-4 py-8 px-4 sm:px-12 font-sans tracking-wide inset-x-0 bottom-0">
         <div className="grid grid-cols-1 lg:grid-cols-5 lg:gap-20 gap-8">
           <div className="lg:col-span-2">
             <div className="max-xl:max-w-2xl object-center">

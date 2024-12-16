@@ -3,12 +3,22 @@ import { MainTitle } from "../common-sections/MainTitle";
 import { SearchUI } from "../search/SearchUI";
 import { useOrders } from "../../lib/useOrders";
 import { OrderList } from "./OrderList";
+import { RentalOrderHistory } from "../../lib/types/DIYToolsListings copy";
+import { useToolsRentalHistoryByCustomerId } from "../../utils/fetchEndpoints";
 
 type Props = {
   isOrderSumary?: boolean;
 };
 
 export const ToolsOrderHistory: React.FC<Props> = ({ isOrderSumary }) => {
+  const { data: toolsRentalHistoryByCustomer } =
+    useToolsRentalHistoryByCustomerId(1); //use customer in after login in
+
+  const orderList =
+    toolsRentalHistoryByCustomer !== undefined
+      ? toolsRentalHistoryByCustomer
+      : ([] as RentalOrderHistory[]);
+
   const {
     handleSubmit,
     handleSort,
@@ -27,7 +37,7 @@ export const ToolsOrderHistory: React.FC<Props> = ({ isOrderSumary }) => {
         handleSubmit={handleSubmit}
       />
 
-      <OrderList />
+      <OrderList orderList={orderList} />
 
       <SideMenuList />
     </div>
