@@ -18,6 +18,8 @@ import { ToolRentalDays } from "./ToolRentalDays";
 import { ToolExchangeInfo } from "./ToolExchangeInfo";
 import { ToolBillingTotals } from "./ToolBillingTotals";
 import { useBooleans } from "../common-sections/useBooleans";
+import { useMaps } from "../common-sections/useMaps";
+import { getImageArray } from "../../lib";
 
 export const RentOrderDetails: React.FC = () => {
   const location = useLocation();
@@ -30,7 +32,7 @@ export const RentOrderDetails: React.FC = () => {
 
   const searchParams = new URLSearchParams(location.search);
   const toolId = searchParams.get("tool");
-
+  console.log("searchParams ", searchParams);
   const {
     isAccept,
     setIsAccept,
@@ -39,7 +41,15 @@ export const RentOrderDetails: React.FC = () => {
   } = useBooleans();
 
   const { data: customerAndToolInfo, isFetching: isCustomerAndToolFetching } =
-    useGetToolRentalListingWithId(2, Number(toolId));
+    useGetToolRentalListingWithId(56, Number(toolId));
+
+  const { googleMapsUrl } = useMaps(
+    customerAndToolInfo?.customerInformation?.country ?? "",
+    customerAndToolInfo?.customerInformation?.address ?? "",
+    customerAndToolInfo?.customerInformation?.city ?? "",
+    customerAndToolInfo?.customerInformation?.state ?? "",
+    customerAndToolInfo?.customerInformation?.zip ?? ""
+  );
 
   const steps = [
     "Time / Date Setup",
@@ -90,9 +100,7 @@ export const RentOrderDetails: React.FC = () => {
     dispatch(setPaymentState(updatedPaymentStatus));
   };
 
-  console.log("customerAndToolInfo ", customerAndToolInfo);
-
-  if (customerAndToolInfo?.toolRentalListing === undefined) return null;
+  if (customerAndToolInfo === undefined) return null;
 
   return (
     <>
@@ -133,36 +141,123 @@ export const RentOrderDetails: React.FC = () => {
                     <PaymentCustomerDetails />
                   </>
                 ) : (
-                  <img
-                    src={`${
-                      customerAndToolInfo?.toolRentalListing?.imageUrls !==
-                      undefined
-                        ? customerAndToolInfo?.toolRentalListing?.imageUrls[0]
-                        : DIYToolsImage
-                    }`}
-                    alt={customerAndToolInfo.toolRentalListing.toolName}
-                    className="rounded-md h-68"
-                  />
+                  <>
+                    <img
+                      src={`${
+                        getImageArray(
+                          customerAndToolInfo?.toolRentalDetails?.imageUrl
+                        ).length > 0
+                          ? getImageArray(
+                              customerAndToolInfo?.toolRentalDetails?.imageUrl
+                            )[0]
+                          : DIYToolsImage
+                      }`}
+                      alt={customerAndToolInfo?.toolRentalDetails?.toolName}
+                      className="rounded-md h-68"
+                    />
+                    <div
+                      className="relative w-full h-96 mt-5 display-none-on-mobile {
+"
+                    >
+                      <iframe
+                        className="absolute top-0 left-0 w-full h-full"
+                        width="100%"
+                        height="380px"
+                        frame-Border="0"
+                        style={{ border: 0 }}
+                        src={googleMapsUrl}
+                        allowFullScreen
+                        title="Job Location Map 2"
+                      ></iframe>
+                    </div>
+                  </>
                 )}
               </div>
 
               <div className="sm:w-2/3 pl-4">
                 <h2 className="text-xl font-semibold">
-                  {customerAndToolInfo?.toolRentalListing?.toolName}
+                  {customerAndToolInfo?.toolRentalDetails?.toolName}
                 </h2>
-                <p className="text-sm text-gray-600 mt-2">
-                  Brand: {customerAndToolInfo.toolRentalListing.toolBrand} -
-                  Category: {customerAndToolInfo.toolRentalListing.toolCategory}
-                </p>
-                <h2 className="mt-2">
-                  <span className="text-purple-900 font-bold">
-                    ${customerAndToolInfo.toolRentalListing.pricePerDay}
-                  </span>{" "}
-                  (Per Day)
-                </h2>
-                <p className="text-sm text-gray-600 mt-2">
-                  {customerAndToolInfo.toolRentalListing.description}
-                </p>
+
+                <div className="flex flex-col mt-4">
+                  <div className="-m-1.5 overflow-x-auto">
+                    <div className="p-1.5 min-w-full inline-block align-middle">
+                      <div className="overflow-hidden">
+                        <table className="min-w-full divide-y divide-gray-200 dark:divide-neutral-700 bg-[#f2f2f2;] rounded-xl">
+                          <tbody className="divide-y divide-gray-200 dark:divide-neutral-700">
+                            <tr>
+                              <td className="px-6 py-4 whitespace-nowrap text-sm font-medium text-gray-800 dark:text-neutral-200">
+                                <h2>Price Per Day</h2>
+                              </td>
+                              <td className="px-6 py-4 whitespace-nowrap text-sm text-purple-800 font-bold">
+                                $
+                                {
+                                  customerAndToolInfo?.toolRentalDetails
+                                    ?.pricePerDay
+                                }
+                              </td>
+                            </tr>
+                            <tr>
+                              <td className="px-6 py-4 whitespace-nowrap text-sm font-medium text-gray-800 dark:text-neutral-200">
+                                <h2>Brand</h2>
+                              </td>
+                              <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-800 dark:text-neutral-200">
+                                {
+                                  customerAndToolInfo?.toolRentalDetails
+                                    ?.toolBrand
+                                }
+                              </td>
+                            </tr>
+                            <tr>
+                              <td className="px-6 py-4 whitespace-nowrap text-sm font-medium text-gray-800 dark:text-neutral-200">
+                                <h2>Category</h2>
+                              </td>
+                              <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-800 dark:text-neutral-200">
+                                {
+                                  customerAndToolInfo?.toolRentalDetails
+                                    ?.toolCategory
+                                }
+                              </td>
+                            </tr>
+                            <tr>
+                              <td className="px-6 py-4 whitespace-nowrap text-sm font-medium text-gray-800 dark:text-neutral-200">
+                                <h2>Description</h2>
+                              </td>
+                              <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-800 dark:text-neutral-200">
+                                {
+                                  customerAndToolInfo?.toolRentalDetails
+                                    ?.description
+                                }
+                              </td>
+                            </tr>
+                            <tr>
+                              <td className="px-6 py-4 whitespace-nowrap text-sm font-medium text-gray-800 dark:text-neutral-200">
+                                <h2>Power Source</h2>
+                              </td>
+                              <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-800 dark:text-neutral-200">
+                                {
+                                  customerAndToolInfo?.toolRentalDetails
+                                    ?.powerSource
+                                }
+                              </td>
+                            </tr>
+                            <tr>
+                              <td className="px-6 py-4 whitespace-nowrap text-sm font-medium text-gray-800 dark:text-neutral-200">
+                                <h2>General Safety Information</h2>
+                              </td>
+                              <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-800 dark:text-neutral-200">
+                                {
+                                  customerAndToolInfo?.toolRentalDetails
+                                    ?.safetyInformation
+                                }
+                              </td>
+                            </tr>
+                          </tbody>
+                        </table>
+                      </div>
+                    </div>
+                  </div>
+                </div>
 
                 <ToolRentalDays
                   toolActions={{
@@ -209,7 +304,12 @@ export const RentOrderDetails: React.FC = () => {
               </div>
             </div>
 
-            <ToolBillingTotals customerAndToolInfo={customerAndToolInfo} />
+            <ToolBillingTotals
+              customerAndToolInfo={customerAndToolInfo}
+              toolActions={{
+                rentToolsAction: rentToolsAction,
+              }}
+            />
 
             {currentStep === 3 && (
               <button

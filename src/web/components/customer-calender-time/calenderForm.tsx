@@ -87,10 +87,16 @@ export const CalenderForm: React.FC = () => {
 
       <div className="justify-center -mx-3 mb-1">
         <p className="text-gray-900 dark:text-white text-base font-medium mb-3 text-center font-heading text-purple-800">
-          {`Talent Name: ${customerOrder.customerOrder.talentFirstName} ${customerOrder.customerOrder.talentLastName}`}
+          {`Solutionist Name: ${customerOrder.customerOrder.talentFirstName} ${customerOrder.customerOrder.talentLastName}`}
         </p>
-        <p className="flex justify-center text-gray-900 dark:text-white text-base font-medium mb-3 text-center font-heading">
-          {`Date: ${customerOrder.customerOrder.solutionDateContract.solutionFormattedDate} | Time: ${customerOrder.customerOrder.solutionDateContract.solutionStartTime}`}
+        <p className="text-gray-900 dark:text-white text-base font-medium mb-3 text-center">
+          <span className="font-heading text-purple-800">Solution Date:</span>{" "}
+          {
+            customerOrder.customerOrder.solutionDateContract
+              .solutionFormattedDate
+          }{" "}
+          <span className="font-heading text-purple-800">Time:</span>{" "}
+          {customerOrder.customerOrder.solutionDateContract.solutionStartTime}
         </p>
         <p className="text-gray-900 dark:text-white text-base font-medium mb-3 text-center">
           <span className="font-heading text-purple-800">Job:</span>{" "}
@@ -107,7 +113,7 @@ export const CalenderForm: React.FC = () => {
               ) : (
                 <>
                   <span className="font-heading text-purple-800">
-                    Price Per Hour:{" $"}
+                    Price:{" $"}
                   </span>
                   {customerOrder.customerOrder.solutionPrice}
                 </>

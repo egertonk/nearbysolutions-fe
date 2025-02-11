@@ -1,3 +1,5 @@
+import { CustomerAddressTypes, UserTypes } from "./solutionistTypes";
+
 export type Order =
   | {
       time: string;
@@ -57,17 +59,15 @@ export type TalentInformation = {
 
 export type CustomerFormData = {
   orderID: number;
-  customerInfo: {
-    customerID: number;
-    firstName: string;
-    lastName: string;
-    country: string;
-    address: string;
-    city: string;
-    state: string;
-    zip: string;
-    phoneNumber: string;
-    email: string;
+  customerInfo: UserTypes;
+  customerAddress: CustomerAddressTypes;
+  paymentInfo: {
+    nameOnCard: string;
+    cardNumber: string;
+    cardType: string;
+    expirationDate: string;
+    securityCode: string;
+    postalCode: string;
   };
   solutionDateContract: {
     solutionDate: string;
@@ -93,11 +93,12 @@ export type CustomerFormData = {
     firstName: string;
     lastName: string;
     country: string;
-    address: string;
+    street: string;
     city: string;
     state: string;
-    zip: string;
+    postalCode: string;
     phoneNumber: string;
     email: string;
   };
+  longTermSubscriptionAllow: boolean;
 };

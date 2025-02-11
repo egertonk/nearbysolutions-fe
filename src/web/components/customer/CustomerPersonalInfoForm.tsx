@@ -2,14 +2,18 @@ import React, { useMemo, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { RootState } from "../../../store";
 import { setCustomerOrder } from "../../../store/customerContractorSlice";
-import { customerInfoFields, giftInfoFields } from ".";
-import { useGetCoutries } from "../../utils/fetchEndpoints";
+import {
+  customerAddressFields,
+  customerPeronalFields,
+  giftInfoFields,
+} from ".";
+import { useGetCountries } from "../../utils/fetchEndpoints";
 import { CustomerForm } from "./CustomerForm";
 import { GiftForm } from "./GiftForm";
 
 export const CustomerPersonalInfoForm: React.FC = () => {
   const dispatch = useDispatch();
-  const { data: coutries, isFetching: isCoutriesFetching } = useGetCoutries();
+  const { data: coutries } = useGetCountries();
 
   const states = useSelector((state: RootState) => state);
   const [contractLength, setContractLength] = useState<number>(0);
@@ -20,7 +24,10 @@ export const CustomerPersonalInfoForm: React.FC = () => {
   );
 
   const validCountries = useMemo(() => {
-    if (coutries) return coutries?.filter((country) => country?.featureFlag);
+    if (coutries)
+      return coutries?.filter(
+        (country) => country?.featureFlag && country?.turnOff === null
+      );
     return [];
   }, [coutries]);
 
@@ -34,7 +41,18 @@ export const CustomerPersonalInfoForm: React.FC = () => {
   ) => {
     const { name, value } = e.target;
 
-    if (customerInfoFields.includes(name)) {
+    if (customerAddressFields.includes(name)) {
+      const updatedCustomerFormData = {
+        ...customerOrder,
+        customerAddress: {
+          ...customerOrder.customerAddress,
+          [name]: value,
+        },
+      };
+
+      dispatch(setCustomerOrder(updatedCustomerFormData));
+    }
+    if (customerPeronalFields.includes(name)) {
       const updatedCustomerFormData = {
         ...customerOrder,
         customerInfo: {
@@ -62,7 +80,7 @@ export const CustomerPersonalInfoForm: React.FC = () => {
           [updatedFieldName]: value,
         },
       };
-      console.log(updatedCustomerFormData.giftInformationFor);
+
       dispatch(setCustomerOrder(updatedCustomerFormData));
     }
   };

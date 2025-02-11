@@ -29,7 +29,9 @@ import { ThankYouMessage } from "./web/components/thank-you/ThankYouMessage";
 import { RentTools } from "./web/components/Rent-Tools/RentTools";
 import { RentOrderDetails } from "./web/components/Rent-Tools/RentOrderDetails";
 import { ToolsOrderHistory } from "./web/components/Order-History/ToolsOrderHistory";
-import { ViewOrderDetails } from "./web/components/Order-History/ViewOrderDetails";
+import { RentalToolsOrderHistoryDetails } from "./web/components/Order-History/RentalToolsOrderHistoryDetails";
+import { JobRequestsOrderHistory } from "./web/components/Order-History/JobRequestsOrderHistory";
+import { JobRequestsOrderHistoryDetails } from "./web/components/Order-History/JobRequestsOrderHistoryDetails";
 
 function App() {
   return (
@@ -42,7 +44,7 @@ function App() {
         <Routes>
           <Route path="/home" element={<HomeIndex />} />
 
-          <Route path="home/">
+          <Route path="/home/*">
             <Route path="login" element={<Login />} />
             <Route path="contact-us" element={<ContactUs />} />
           </Route>
@@ -72,7 +74,10 @@ function App() {
           <Route path="/rent-order-details" element={<RentOrderDetails />} />
 
           {/* Order History */}
-          <Route path="/view-order-details" element={<ViewOrderDetails />} />
+          <Route
+            path="/view-order-details"
+            element={<RentalToolsOrderHistoryDetails />}
+          />
 
           {/* Payment */}
           <Route path="/payment" element={<Payment />} />
@@ -81,6 +86,14 @@ function App() {
           <Route
             path="/DIY-tools-order-rental-history"
             element={<ToolsOrderHistory />}
+          />
+          <Route
+            path="/job-requests-order-history"
+            element={<JobRequestsOrderHistory />}
+          />
+          <Route
+            path="/job-requests-order-history/view-order-details"
+            element={<JobRequestsOrderHistoryDetails />}
           />
           <Route path="/job-listings" element={<CustomerJobListings />} />
           <Route path="/tool-listings" element={<CustomerToolListings />} />

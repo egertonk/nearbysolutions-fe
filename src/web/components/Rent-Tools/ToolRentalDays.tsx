@@ -48,7 +48,7 @@ export const ToolRentalDays: React.FC<Props> = ({ toolActions, dateTimeCSSError 
   );
 };
 
-function calculateRentalDays(
+export function calculateRentalDays(
   pickupDate: string,
   pickupTime: string,
   dropoffDate: string,

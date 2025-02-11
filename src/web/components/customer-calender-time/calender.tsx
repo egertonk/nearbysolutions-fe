@@ -7,7 +7,7 @@ import { isVacationValid } from "../../lib/useVacationCheck";
 import { useCalenderStates } from "../../lib/useCalenderStates";
 import { monthNameToNumber } from "../../lib";
 import { getDateStyle } from "../../assets/common-css/css";
-import { SolutionistTypes } from "../../lib/types/solutionistTypes";
+import { SolutionistResponseTypes } from "../../lib/types/solutionistTypes";
 import { DateSelection, WeeksData } from "../../lib/types/CalenderTypes";
 
 type Props = {
@@ -23,7 +23,7 @@ type Props = {
     day: number;
     year: number;
   }) => void;
-  solutionistDeatils: SolutionistTypes | undefined;
+  customerSolutionistDetails: SolutionistResponseTypes;
   weeksArray: WeeksData;
   setWeeksArray: React.Dispatch<React.SetStateAction<WeeksData>>;
 };
@@ -31,7 +31,7 @@ type Props = {
 export const Calender: React.FC<Props> = ({
   currentMonthYear,
   updateStore,
-  solutionistDeatils,
+  customerSolutionistDetails,
   weeksArray,
   setWeeksArray,
 }) => {
@@ -41,7 +41,7 @@ export const Calender: React.FC<Props> = ({
     updateDaySelection,
     getVacationStatus,
     handleCalenderArrows,
-  } = useCalenderStates();
+  } = useCalenderStates(customerSolutionistDetails);
   const { date, dayTitles, getMappedDays } = useCalender();
 
   const { month, year, day } = userSelectedDate;
@@ -144,7 +144,7 @@ export const Calender: React.FC<Props> = ({
                             customerOrder,
                             userSelectedDate,
                             weeksArray,
-                            solutionistDeatils,
+                            customerSolutionistDetails,
                             currentMonthYear,
                             solutionistWorkSettings,
                             days
@@ -160,7 +160,7 @@ export const Calender: React.FC<Props> = ({
                       <div
                         className={`${
                           isVacationValid(
-                            solutionistWorkSettings,
+                            customerSolutionistDetails.solutionistWorkSettings,
                             {
                               day: days.day,
                               month: month || "",
@@ -183,7 +183,7 @@ export const Calender: React.FC<Props> = ({
                               customerOrder,
                               userSelectedDate,
                               weeksArray,
-                              solutionistDeatils,
+                              customerSolutionistDetails,
                               currentMonthYear,
                               solutionistWorkSettings,
                               days

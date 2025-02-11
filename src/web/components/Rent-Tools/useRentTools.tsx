@@ -26,6 +26,7 @@ export const useRentTools = (isEnabled: boolean) => {
   const { data: toolRentalListing, isFetching: isFetchingToolRentalListing } =
     useToolRentalListing(isEnabled);
 
+  console.log("toolRentalListing = ", toolRentalListing);
   const { handleOnChange, filteredTools, handleSubmit, handleSort } =
     useCustomerToolListings(
       toolRentalListing ?? ([] as ToolRentalListing[]),

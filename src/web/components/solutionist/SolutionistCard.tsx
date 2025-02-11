@@ -1,10 +1,10 @@
 import { useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
-import { isFixPriceValid, priceWithComma } from "../../lib";
+import { priceWithComma } from "../../lib";
 import { SocialIcon } from "./socialIcon";
 import {
-  JobTitleTypes,
-  SolutionistTypes,
+  SolutionistResponseTypes,
+  SolutionistSkillTypes,
 } from "../../lib/types/solutionistTypes";
 import { SolutionistCheckMark } from "./SolutionistCheckMark";
 import { SolutionistImageHire } from "./SolutionistImageHire";
@@ -17,23 +17,29 @@ import {
 } from "../customer-calender-time/data-setup";
 
 type Props = {
-  data: SolutionistTypes[];
+  data: SolutionistResponseTypes[];
   isFavoriteValid?: boolean;
+  lastElementRef: (node: HTMLDivElement | null) => void;
 };
 
-export const SolutionistCard: React.FC<Props> = ({ data, isFavoriteValid }) => {
+export const SolutionistCard: React.FC<Props> = ({
+  data,
+  isFavoriteValid,
+  lastElementRef,
+}) => {
+  console.log("data = ", data);
   const dispatch = useDispatch();
   const [id, setId] = useState<Number>(-1);
-  const [jobId, setJobId] = useState<Number>(-1);
+  const [skillId, setSkillId] = useState<Number>(-1);
 
   const customerOrder = useSelector(
     (state: RootState) => state.formData.customerOrder
   );
 
-  const updateSelectedStatus = (selectedJobId: string, userId: number) => {
-    if (selectedJobId !== "select-job") {
+  const updateSelectedStatus = (selectedSkillId: string, userId: number) => {
+    if (selectedSkillId !== "Select Talent Skill") {
       setId(userId);
-      setJobId(Number(selectedJobId));
+      setSkillId(Number(selectedSkillId));
 
       const updatedOrder = {
         ...customerOrder,
@@ -48,34 +54,33 @@ export const SolutionistCard: React.FC<Props> = ({ data, isFavoriteValid }) => {
     }
   };
 
-  const getValue = (jobDetailsObject: JobTitleTypes[]) => {
-    const title = jobDetailsObject?.find((job) => job?.selectedStatus)?.title;
-    return title;
+  const getSkill = (solutionistSkillsData: SolutionistSkillTypes[]) => {
+    return solutionistSkillsData?.find(
+      (skill) => skill?.id === skillId && skill?.name
+    );
   };
 
   const getSelectedJob = (
-    jobDetailsObject: JobTitleTypes[],
+    solutionistSkillsData: SolutionistSkillTypes[],
     userId: number
   ) => {
-    const foundJob = jobDetailsObject?.find(
-      (job) => job?.id === jobId && job?.title
-    );
+    const foundSkill = getSkill(solutionistSkillsData);
 
-    if (userId === id && foundJob?.id === jobId) {
-      return foundJob.title;
+    if (userId === id && foundSkill?.id === skillId) {
+      return foundSkill.name;
     } else {
-      return "Select Job";
+      return "Select Talent Skill";
     }
   };
 
-  const getJobAndPrice = (
-    jobTitlesPrice: JobTitleTypes[],
-    priceCall?: string
+  const getSkillPrice = (solutionistSkillsData: SolutionistSkillTypes[]) => {
+    return getSkill(solutionistSkillsData)?.fixPrice ?? 0;
+  };
+
+  const getSkillDescription = (
+    solutionistSkillsData: SolutionistSkillTypes[]
   ) => {
-    const found = jobTitlesPrice?.find((data) => data?.selectedStatus);
-    if (priceCall === "ratePerHour") return found?.ratePerHour;
-    if (priceCall === "fixPrice") return found?.fixPrice;
-    return found?.title;
+    return getSkill(solutionistSkillsData)?.description ?? "";
   };
 
   // useEffect(() => {
@@ -107,11 +112,12 @@ export const SolutionistCard: React.FC<Props> = ({ data, isFavoriteValid }) => {
           <div
             className="w-full bg-sky-950 rounded-lg shadow-lg overflow-hidden flex flex-col md:flex-row"
             key={`talent-card-${index}`}
+            ref={index === data.length - 1 ? lastElementRef : null} // ✅ Apply ref to last <div>
           >
             <SolutionistImageHire
               index={index}
-              jobId={jobId}
-              disabled={id !== talentData.talent.solutionist.id}
+              skillId={skillId}
+              disabled={id !== talentData.solutionistInformation.id}
               isFavoriteValid={false}
               talentData={talentData}
             />
@@ -120,12 +126,14 @@ export const SolutionistCard: React.FC<Props> = ({ data, isFavoriteValid }) => {
               <div className="grid grid-cols-4 gap-4">
                 <div className="col-span-3">
                   <p className="text-xl text-white font-bold">
-                    {talentData.talent.solutionist.firstName}{" "}
-                    {talentData.talent.solutionist.lastName}
+                    {talentData.solutionistInformation.firstName}{" "}
+                    {talentData.solutionistInformation.lastName}
                   </p>
                 </div>
 
-                {talentData.talent.verifyStatus && <SolutionistCheckMark />}
+                {talentData.solutionistInformation.isVerified && (
+                  <SolutionistCheckMark />
+                )}
               </div>
 
               <div className="w-full">
@@ -139,25 +147,29 @@ export const SolutionistCard: React.FC<Props> = ({ data, isFavoriteValid }) => {
                 <div className="relative" key={`update-card-${index}`}>
                   <select
                     className="w-full border-none text-white bg-sky-950"
-                    id="select-job"
+                    id="Select Talent Skill"
                     onChange={(e) => {
-                      const selectedJobId = e.target.value;
+                      const selectedSkillId = e.target.value;
                       updateSelectedStatus(
-                        selectedJobId,
-                        talentData.talent.solutionist.id
+                        selectedSkillId,
+                        talentData.solutionistInformation.id
                       );
                     }}
-                    value={getValue(talentData.talent.jobTitle)}
+                    value={customerOrder.solutionJob}
                   >
-                    <option value="">
+                    <option
+                      value=""
+                      className="w-full border-red text-purple-600 bg-white"
+                    >
                       {getSelectedJob(
-                        talentData?.talent?.jobTitle,
-                        talentData?.talent?.solutionist.id
+                        talentData?.solutionistSkills,
+                        talentData?.solutionistInformation.id
                       )}
                     </option>
-                    {talentData.talent.jobTitle?.map((details) => (
+
+                    {talentData.solutionistSkills?.map((details) => (
                       <option key={details?.id} value={details?.id}>
-                        {details?.title}
+                        {details.name}
                       </option>
                     ))}
                   </select>
@@ -173,52 +185,31 @@ export const SolutionistCard: React.FC<Props> = ({ data, isFavoriteValid }) => {
                 </div>
               </div>
 
-              {isFixPriceValid(talentData?.talent.jobTitle) ? (
-                <p className="text-base font-normal">
-                  <span className="text-gray-400">Fix Solution Price: </span>{" "}
-                  <span className="text-white">
-                    $
-                    {priceWithComma(
-                      getJobAndPrice(talentData?.talent.jobTitle, "fixPrice") ||
-                        ""
-                    )}
-                  </span>
-                </p>
-              ) : (
-                <p className="text-base font-normal">
-                  <span className="text-gray-400">Rate Per Hour: </span>{" "}
-                  <span className="text-white">
-                    $
-                    {priceWithComma(
-                      getJobAndPrice(
-                        talentData?.talent.jobTitle,
-                        "ratePerHour"
-                      ) || ""
-                    )}
-                  </span>
-                </p>
-              )}
-
-              <p className="text-base leading-relaxed text-gray-500 font-normal">
-                {talentData.talent.talentIntroduction}
+              <p className="text-base font-normal">
+                <span className="text-gray-400">Fix Solution Price: </span>{" "}
+                <span className="text-white">
+                  ${priceWithComma(getSkillPrice(talentData.solutionistSkills))}
+                </span>
               </p>
 
-              <div className="flex justify-start space-x-2">
-                {talentData?.talent.socialMedia?.map(
-                  (socialData, socialIndex) => (
-                    <SocialIcon
-                      key={`social-link-${index}-${socialIndex}`}
-                      socialData={socialData}
-                    />
-                  )
-                )}
+              <p className="text-base leading-relaxed text-gray-200 font-normal">
+                {getSkillDescription(talentData.solutionistSkills)}
+              </p>
+
+              <div className="flex text-white">
+                {talentData?.solutionistSocialMedias?.map((socialData) => (
+                  <SocialIcon
+                    key={`social-link-${socialData.id}`}
+                    socialData={socialData}
+                  />
+                ))}
               </div>
 
-              {/* <hr className="w-48 h-1 mx-auto bg-gray-100 border-0 rounded md:my-4 dark:bg-gray-700"></hr> */}
+              <hr className="w-48 h-1 mx-auto bg-gray-100 border-0 rounded md:my-4 dark:bg-gray-700"></hr>
 
               <SolutionistFavoriteAddAndRemove
                 id={id}
-                jobId={jobId}
+                skillId={skillId}
                 isFavoriteValid={isFavoriteValid ?? false}
                 talentData={talentData}
               />

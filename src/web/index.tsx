@@ -94,6 +94,13 @@ export const OrderHistory = [
     icon: CursorArrowRaysIcon,
     routeName: "DIY-tools-order-rental-history",
   },
+  {
+    name: "Job Requests Order History",
+    description: "View and organize all your job requests effortlessly.",
+    href: "job-requests-order-history",
+    icon: CursorArrowRaysIcon,
+    routeName: "job-requests-order-history",
+  },
 ];
 
 export const callsToAction = [

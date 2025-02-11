@@ -3,9 +3,15 @@ import { JobPosting } from "./types/FindWorkPostAJobtypesData";
 import { useJobPosting } from "../utils/fetchEndpoints";
 import { localHostURL } from "../utils/fetchGet";
 
-export const useFindWorkPostAJob = (sortList: string[]) => {
-  const { data: jobPostings, isFetching: isJobPostingFetching } =
-    useJobPosting();
+export const useFindWorkPostAJob = (
+  sortList: string[],
+  featureName: string
+) => {
+  const isHomePage = featureName === "home-page";
+  const { data: jobPostings, isFetching: isJobPostingFetching } = useJobPosting(
+    isHomePage ? 0 : 0,
+    isHomePage ? 5 : 10
+  );
 
   const [searchTerm, setSearchTerm] = useState<string>("");
   const [filteredJobs, setFilteredJobs] = useState<JobPosting[]>([]);
@@ -60,7 +66,8 @@ export const useFindWorkPostAJob = (sortList: string[]) => {
     const sortByDate = (jobs: JobPosting[]): JobPosting[] => {
       return [...jobs].sort(
         (a, b) =>
-          (new Date(a.date).getTime() - new Date(b.date).getTime()) * sortOrder
+          (new Date(a.jobDate).getTime() - new Date(b.jobDate).getTime()) *
+          sortOrder
       );
     };
 

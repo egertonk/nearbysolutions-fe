@@ -8,6 +8,10 @@ import { PaymentStateProps } from "../../lib/types/PaymentTyoes";
 
 export const CreditCardForm: React.FC = () => {
   const dispatch = useDispatch();
+
+  const customerOrder = useSelector(
+    (state: RootState) => state.formData.customerOrder
+  );
   const paymentStatus = useSelector(
     (state: RootState) => state.paymentCheckoutState.paymentCheckoutState
   );
@@ -35,7 +39,7 @@ export const CreditCardForm: React.FC = () => {
               <div>
                 <p className="font-light">Name</p>
                 <p className="font-medium tracking-widest">
-                  {values.cardName || "Egerton During"}
+                  {customerOrder.paymentInfo.nameOnCard || "(Your Name)"}
                 </p>
               </div>
               <img
@@ -46,7 +50,7 @@ export const CreditCardForm: React.FC = () => {
             <div className="pt-1">
               <p className="font-light">Card Number</p>
               <p className="tracking-more-wider font-medium">
-                {values.cardNumber || "4312 567 7890 7864"}
+                {customerOrder.paymentInfo.cardNumber || "0000 0000 0000 0000"}
               </p>
             </div>
             <div className="pt-4 pr-6 sm:pt-6">
@@ -54,13 +58,13 @@ export const CreditCardForm: React.FC = () => {
                 <div>
                   <p className="text-xs font-light">Valid Thru</p>
                   <p className="text-base font-medium tracking-widest">
-                    {values.cardExpiration || "03/25"}
+                    {customerOrder.paymentInfo.expirationDate || "00/00"}
                   </p>
                 </div>
                 <div>
                   <p className="text-xs font-light">CVV</p>
                   <p className="tracking-more-wider text-sm font-bold">
-                    {values.cardSecurityCode || "025"}
+                    {customerOrder.paymentInfo.securityCode || "000"}
                   </p>
                 </div>
               </div>
@@ -85,11 +89,11 @@ export const CreditCardForm: React.FC = () => {
             <input
               className="shadow-xl appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none "
               type="text"
-              id="cardName"
-              data-testid="cardName"
-              name="cardName"
+              id="nameOnCard"
+              data-testid="nameOnCard"
+              name="nameOnCard"
               placeholder="Cardholder Name"
-              value={values.cardName}
+              value={customerOrder.paymentInfo.nameOnCard}
               onChange={handleChange}
               onFocus={handleFocus}
               //   isValid={errors.cname}
@@ -110,7 +114,7 @@ export const CreditCardForm: React.FC = () => {
               data-testid="cardNumber"
               name="cardNumber"
               placeholder="Card Number"
-              value={values.cardNumber}
+              value={customerOrder.paymentInfo.cardNumber}
               onChange={handleChange}
               onFocus={handleFocus}
               //   isValid={errors.cnumber}
@@ -131,7 +135,7 @@ export const CreditCardForm: React.FC = () => {
               id="cardType"
               data-testid="cardType"
               placeholder="Card Type"
-              value={values.cardType}
+              value={customerOrder.paymentInfo.cardType}
               onChange={handleChange}
               onFocus={handleFocus}
               //   isValid={errors.ctype}
@@ -148,11 +152,11 @@ export const CreditCardForm: React.FC = () => {
             <input
               className="shadow-xl appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none"
               type="text"
-              id="cardExpiration"
-              data-testid="cardExpiration"
-              name="cardExpiration"
+              id="expirationDate"
+              data-testid="expirationDate"
+              name="expirationDate"
               placeholder="Expiration Date"
-              value={values.cardExpiration}
+              value={customerOrder.paymentInfo.expirationDate}
               onChange={handleChange}
               onFocus={handleFocus}
               //   isValid={errors.cexp}
@@ -169,11 +173,11 @@ export const CreditCardForm: React.FC = () => {
             <input
               className="shadow-xl appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none"
               type="number"
-              id="cardSecurityCode"
-              data-testid="cardSecurityCode"
-              name="cardSecurityCode"
+              id="securityCode"
+              data-testid="securityCode"
+              name="securityCode"
               placeholder="Security Code"
-              value={values.cardSecurityCode}
+              value={customerOrder.paymentInfo.securityCode}
               onChange={handleChange}
               onFocus={handleFocus}
               //   isValid={errors.ccvv}
@@ -190,11 +194,11 @@ export const CreditCardForm: React.FC = () => {
             <input
               className="shadow-xl appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none"
               type="text"
-              id="cardPostalCode"
-              data-testid="cardPostalCode"
-              name="cardPostalCode"
+              id="postalCode"
+              data-testid="postalCode"
+              name="postalCode"
               placeholder="Postal Code"
-              value={values.cardPostalCode}
+              value={customerOrder.paymentInfo.postalCode}
               onChange={handleChange}
               onFocus={handleFocus}
               //   isValid={errors.cpostal}

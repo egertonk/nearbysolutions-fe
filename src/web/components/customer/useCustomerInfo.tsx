@@ -1,45 +1,68 @@
 import { useEffect } from "react";
-import { useNavigate } from "react-router";
 import { useDispatch, useSelector } from "react-redux";
 import { useGetCustomerWithId } from "../../utils/fetchEndpoints";
 import { RootState } from "../../../store";
 import { setCustomerOrder } from "../../../store/customerContractorSlice";
-import { setCustomerDetails } from "../../../store/customerDetailsSlice";
+import { orderStates } from "../../../store/defualtStates";
+import { setPostAJobDetails } from "../../../store/postAJobSlice";
 
-export const useCustomerInfo = (isGiftASolution: boolean, id: number) => {
+export const useCustomerInfo = (
+  isGiftASolution: boolean,
+  id: number,
+  isPostAJob?: boolean | false
+) => {
   const dispatch = useDispatch();
 
   const states = useSelector((state: RootState) => state);
   const customerOrder = states.formData.customerOrder;
+  const postAJobOrder = states.postAJobFormDetailsState.postAJobFormDetailsData;
   const { data: customerInfo, isFetching: isCustomerFetching } =
     useGetCustomerWithId(id); // comes from login
 
   useEffect(() => {
     if (customerInfo && isCustomerFetching === false) {
-      dispatch(setCustomerDetails(customerInfo));
+      const address =
+        customerInfo.customerAddress.find((data) => data.permanent) ??
+        orderStates.customerAddress;
+      const customerFullInfo =
+        customerInfo.customerInformation ?? orderStates.customerInfo;
 
       const updatedCustomerFormData = {
         ...customerOrder,
-        customerInfo: {
-          customerID: customerInfo.customerId,
-          firstName: customerInfo.firstName || "",
-          lastName: customerInfo.lastName || "",
-          country: customerInfo.country || "",
-          address: customerInfo.address || "",
-          city: customerInfo.city || "",
-          state: customerInfo.state || "",
-          zip: customerInfo.zip || "",
-          phoneNumber: customerInfo.phoneNumber || "",
-          email: customerInfo.email || "",
-        },
+        customerInfo: customerFullInfo,
+        customerAddress: address,
         giftStatus: isGiftASolution,
       };
-      console.info(updatedCustomerFormData);
+
+      if (isPostAJob) {
+        const updatedPostAJobFormData = {
+          ...postAJobOrder,
+          jobName: "",
+          jobTask: "",
+          jobPrice: "",
+          jobZip: address?.postalCode || "",
+          jobCityLocation: address?.city || "",
+          jobDate: "",
+          time: "",
+          email: customerOrder.customerInfo?.email || "",
+          jobCountry: address?.country || "",
+          jobState: address?.state || "",
+          urgencyLevel: "",
+          phoneNumber: customerFullInfo?.phoneNumber || "",
+          customerName: `${customerFullInfo?.firstName || ""} ${
+            customerFullInfo?.lastName || ""
+          }`.trim(),
+          jobAddress: address.street || "",
+        };
+
+        dispatch(setPostAJobDetails(updatedPostAJobFormData));
+      }
       dispatch(setCustomerOrder(updatedCustomerFormData));
     }
   }, [isCustomerFetching, isGiftASolution]);
 
   return {
     customerInfo,
+    customerOrder,
   };
 };

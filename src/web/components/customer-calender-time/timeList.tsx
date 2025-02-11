@@ -13,8 +13,10 @@ import {
   userTimeSelectedCSS,
 } from "../../assets/common-css/css";
 import { useVacationCheck } from "../../lib/useVacationCheck";
-import { useGetCoutries } from "../../utils/fetchEndpoints";
+import { useGetCountries } from "../../utils/fetchEndpoints";
 import { TimeProps } from "../../lib/types/CalenderTypes";
+import { time } from "console";
+import { SolutionistWorkSettingsTypes } from "../../lib/types/solutionistTypes";
 
 export const TimeList: React.FC<TimeProps> = ({
   requiredData,
@@ -23,16 +25,18 @@ export const TimeList: React.FC<TimeProps> = ({
   filteredOrders,
   ordersGreaterThanTodaysDate,
   weeksArray,
+  customerSolutionistDetails,
 }) => {
   const dispatch = useDispatch();
-  const { data: coutries, isFetching: isCoutriesFetching } = useGetCoutries();
+  const { data: coutries, isFetching: isCoutriesFetching } = useGetCountries();
 
   const customerOrder = useSelector(
     (state: RootState) => state.formData.customerOrder
   );
-  const solutionistWorkSettings = useSelector(
-    (state: RootState) => state.solutionistWorkSettingsState
-  );
+
+  const solutionistWorkSettings =
+    customerSolutionistDetails.solutionistWorkSettings ??
+    ({} as SolutionistWorkSettingsTypes);
 
   const { isTimeSelectionAllow } = useVacationCheck(
     solutionistWorkSettings,
@@ -43,13 +47,15 @@ export const TimeList: React.FC<TimeProps> = ({
 
   // Generate the intervals based on the provided start and end times
   const timeIntervals = generateIntervals(
-    solutionistWorkSettings.businessStartTime.substring(0, 5),
-    solutionistWorkSettings.businessEndTime.substring(0, 5)
+    solutionistWorkSettings?.businessStartTime?.substring(0, 5) ?? "",
+    solutionistWorkSettings?.businessEndTime?.substring(0, 5) ?? ""
   ) as {
     twentyFourHour: string;
     twelveHour: string;
   }[];
-
+  console.log("Timeicker customerSolutionistDetails-------- = ", customerSolutionistDetails);
+  console.log("Timeicker customerOrder-------- = ", customerOrder);
+ 
   const updateStore = (e: React.ChangeEvent<HTMLInputElement>) => {
     const updatedOrder = {
       ...customerOrder,
@@ -70,10 +76,10 @@ export const TimeList: React.FC<TimeProps> = ({
       weeksArray.month === previousDateCheck.dateUpdate.month &&
       weeksArray.year === previousDateCheck.dateUpdate.year;
 
-    if (isCurrentMonthYear) {
+    if (isCurrentMonthYear && timeString) {
       // Parse the time string (e.g., "11:00 AM")
-      const [time, period] = timeString.split(" ");
-      const [hourString, minuteString] = time.split(":");
+      const [time, period] = timeString?.split(" ");
+      const [hourString, minuteString] = time?.split(":");
       let hour = parseInt(hourString, 10);
       const minute = parseInt(minuteString, 10);
 

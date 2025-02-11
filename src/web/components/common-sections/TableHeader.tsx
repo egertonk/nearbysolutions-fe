@@ -2,7 +2,7 @@ import { editIconSVG } from "../../assets/svg/svgs";
 
 type Props = {
   itemindex: number;
-  itemStatus: boolean;
+  itemStatus: string | boolean;
   itemsTotal: number;
   handleEdit: (orderNumber: number) => void;
   isOrder?: boolean;

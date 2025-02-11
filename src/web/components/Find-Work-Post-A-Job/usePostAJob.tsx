@@ -1,9 +1,8 @@
 // import * as nsfwjs from "nsfwjs";
 import { useEffect, useMemo, useState } from "react";
-import { useNavigate } from "react-router";
 import { useDispatch, useSelector } from "react-redux";
 import {
-  useGetCoutries,
+  useGetCountries,
   useNoLicensePermitVerificationService,
 } from "../../utils/fetchEndpoints";
 import { RootState } from "../../../store";
@@ -13,6 +12,7 @@ import {
   NoLicensePermitVerificationServiceTypes,
 } from "../../lib/types/FindWorkPostAJobtypesData";
 import { useBooleans } from "../common-sections/useBooleans";
+import { useCustomerInfo } from "../customer/useCustomerInfo";
 
 export type FormData = {
   jobName: string;
@@ -20,7 +20,7 @@ export type FormData = {
   jobPrice: string;
   jobZip: string;
   jobCityLocation: string;
-  date: string;
+  jobDate: string;
   time: string;
   email: string;
   jobCountry: string;
@@ -33,11 +33,11 @@ export type FormData = {
 
 export const usePostAJob = () => {
   const dispatch = useDispatch();
-  const navigate = useNavigate();
+
+  useCustomerInfo(false, 49, true); // Fetch customer info using 49 for mow
 
   const [openReview, setOpenReview] = useState(false);
   const [userCategory, setUserCategory] = useState("");
-  const [userService, setUserService] = useState("");
   const [jobImage, setJobImage] = useState<File>();
 
   const {
@@ -65,39 +65,10 @@ export const usePostAJob = () => {
 
   const states = useSelector((state: RootState) => state);
 
-  const customerOrder = states.formData.customerOrder;
   const postAJobOrder = states.postAJobFormDetailsState.postAJobFormDetailsData;
-  const { data: coutries, isFetching: isCoutriesFetching } = useGetCoutries();
+  const { data: coutries, isFetching: isCoutriesFetching } = useGetCountries();
 
   const [errors, setErrors] = useState<Partial<FormData>>({});
-
-  useEffect(() => {
-    if (customerOrder && !isCoutriesFetching) {
-      const updatedPostAJobFormData = {
-        ...postAJobOrder,
-        id: postAJobOrder?.id ?? "",
-        jobName: "",
-        jobTask: "",
-        jobPrice: "",
-        jobZip: customerOrder.customerInfo?.zip || "",
-        jobCityLocation: customerOrder.customerInfo?.city || "",
-        date: "",
-        time: "",
-        email: customerOrder.customerInfo?.email || "",
-        jobCountry: customerOrder.customerInfo?.country || "",
-        jobState: customerOrder.customerInfo?.state || "",
-        urgencyLevel: "",
-        phoneNumber: "",
-        customerName: `${customerOrder.customerInfo?.firstName || ""} ${
-          customerOrder.customerInfo?.lastName || ""
-        }`.trim(),
-        jobAddress: customerOrder.customerInfo?.address || "",
-      };
-
-      dispatch(setPostAJobDetails(updatedPostAJobFormData));
-    }
-  }, [customerOrder]);
-
 
   const validCountries = useMemo(() => {
     if (coutries) return coutries?.filter((country) => country?.featureFlag);
@@ -132,7 +103,7 @@ export const usePostAJob = () => {
       jobZip: name === "jobZip" ? value : postAJobOrder.jobZip,
       jobCityLocation:
         name === "jobCityLocation" ? value : postAJobOrder.jobCityLocation,
-      date: name === "date" ? value : postAJobOrder.date,
+      jobDate: name === "jobDate" ? value : postAJobOrder.jobDate,
       time: name === "time" ? value : postAJobOrder.time,
       email: name === "email" ? value : postAJobOrder.email,
       jobCountry: name === "jobCountry" ? value : postAJobOrder.jobCountry,
@@ -165,7 +136,7 @@ export const usePostAJob = () => {
       { key: "jobName", message: "Job Name is required" },
       { key: "jobTask", message: "Job Task is required" },
       { key: "jobCityLocation", message: "Job City Location is required" },
-      { key: "date", message: "Date is required" },
+      { key: "jobDate", message: "Job Date is required" },
       { key: "time", message: "Time is required" },
       { key: "email", message: "Email is required" },
       { key: "jobCountry", message: "Country is required" },
@@ -232,12 +203,12 @@ export const usePostAJob = () => {
     e.preventDefault();
 
     // WE Need cutomer Info before head to payment
-    console.log("Customer MUCH isAccept (TRUE) BE CALLING THE DATABASE");
+    console.log("Customer most isAccept (TRUE) BE CALLING THE DATABASE");
     console.log(
       "Customer selected Job Not LISTED THEN set JobStatus to (FALSE)"
     );
 
-    navigate(`/payment?acceptJob=${postAJobOrder.id}`); //
+    // navigate(`/payment?acceptJob=${postAJobOrder.id}`); //
   };
 
   const handleReview = (e: React.FormEvent) => {

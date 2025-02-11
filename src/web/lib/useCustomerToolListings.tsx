@@ -37,17 +37,6 @@ export const useCustomerToolListings = (
     );
   };
 
-  const sortByAvailability = (
-    jobs: ToolRentalListing[]
-  ): ToolRentalListing[] => {
-    const sortOrder = sortDirection === "asc" ? 1 : -1;
-    return [...jobs].sort(
-      (a, b) =>
-        (a.available === b.available ? 0 : a.available ? -1 : 1) *
-        sortOrder
-    );
-  };
-
   const sortByBrand = (jobs: ToolRentalListing[]): ToolRentalListing[] => {
     const sortOrder = sortDirection === "asc" ? 1 : -1;
     return [...jobs].sort(
@@ -72,9 +61,9 @@ export const useCustomerToolListings = (
     if (sortType === "Category") {
       setFilteredTools(sortByCategory(filteredTools));
     }
-    if (sortType === "Availability") {
-      setFilteredTools(sortByAvailability(filteredTools));
-    }
+    // if (sortType === "Availability") {
+    //   setFilteredTools(sortByAvailability(filteredTools));
+    // }
     if (sortType === "Brand") {
       setFilteredTools(sortByBrand(filteredTools));
     }

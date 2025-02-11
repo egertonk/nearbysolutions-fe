@@ -8,7 +8,7 @@ export type PostAJobFormTypes = {
   jobPrice: string;
   jobZip: string;
   jobCityLocation: string;
-  date: string;
+  jobDate: string;
   time: string;
   email: string;
   jobCountry: string;

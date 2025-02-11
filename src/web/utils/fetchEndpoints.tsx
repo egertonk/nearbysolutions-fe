@@ -1,18 +1,21 @@
-import { useQuery } from "@tanstack/react-query";
+import { useQuery, UseQueryOptions } from "@tanstack/react-query";
 import {
+  getHomePageWrapper,
   getWrapper,
+  getWrapperDataWithIds,
   getWrapperSearchTerm,
   getWrapperWthId,
   getWrapperWthIds,
 } from "./fetchGet";
 import {
-  SolutionistTypes,
-  talentPlaceHolderData,
+  CustommerResponseTypes,
+  SolutionistResponseTypes,
+  UserTypes,
 } from "../lib/types/solutionistTypes";
-import { CustomerDetailsTypes } from "../../store/customerDetailsSlice";
 import { CountryTypes } from "../lib/types/countryTypes";
 import { OrderTypes } from "../lib/types/orderTypes";
 import {
+  FullJobPostingDetails,
   JobPosting,
   NoLicensePermitVerificationServiceTypes,
 } from "../lib/types/FindWorkPostAJobtypesData";
@@ -20,294 +23,178 @@ import {
   ToolAndCustomerTypes,
   ToolRentalListing,
 } from "../lib/types/DIYToolsListings";
-import { RentalOrderHistory } from "../lib/types/DIYToolsListings copy";
+import { FullPaymentDetailsDTO } from "../lib/types/DIYToolsListings copy";
+
+// Generic Fetch Wrapper
+const fetchData = async <T,>(endpoint: string): Promise<T> =>
+  getWrapper(endpoint).then((data) => data);
+
+// Hook Wrapper
+const useFetchData = <T,>(
+  key: string[],
+  fetchFn: () => Promise<T>,
+  placeholder: T
+) => {
+  return useQuery<T, Error, T, string[]>({
+    queryKey: key,
+    queryFn: fetchFn,
+    placeholderData: placeholder as T, // Explicit cast to avoid type inference issues
+  } as UseQueryOptions<T, Error, T, string[]>); // Explicit typing
+};
 
 // Skills
-export const getSkills = () => {
-  return getWrapper("skills").then((data) => {
-    return data;
-  });
-};
-
-export const useGetSkills = () => {
-  return useQuery({
-    queryKey: ["skills"],
-    queryFn: () => getSkills(),
-    placeholderData: [],
-  });
-};
+export const getSkills = () => fetchData("skills");
+export const useGetSkills = () => useFetchData(["skills"], getSkills, []);
 
 // Cart
-export const getCart = (): Promise<{}> => {
-  return getWrapper("cart").then((data) => {
-    return data;
-  });
-};
-
-export const useGetCart = () => {
-  return useQuery({
-    queryKey: ["cart"],
-    queryFn: () => getCart(),
-    placeholderData: [],
-  });
-};
+export const getCart = () => fetchData("cart");
+export const useGetCart = () => useFetchData(["cart"], getCart, {});
 
 // Customer
-export const getCustomer = async (): Promise<CustomerDetailsTypes> => {
-  return getWrapper("customers").then((data) => {
-    return data;
-  });
-};
+export const getCustomer = () => fetchData<UserTypes>("customers");
+export const useGetCustomer = () =>
+  useFetchData(["customer"], getCustomer, {} as UserTypes);
 
-export const useGetCustomer = () => {
-  return useQuery({
-    queryKey: ["customer"],
-    queryFn: () => getCustomer().then((data) => data),
-    placeholderData: {} as CustomerDetailsTypes,
-  });
-};
+export const getCustomerWithId = (userId: number) =>
+  getWrapperWthId("users", userId) as Promise<CustommerResponseTypes>;
+export const useGetCustomerWithId = (userId: number) =>
+  useFetchData(
+    ["customerWithId"],
+    () => getCustomerWithId(userId),
+    {} as CustommerResponseTypes
+  );
 
-export const getCustomerWithId = (
-  userId: number
-): Promise<CustomerDetailsTypes> => {
-  return getWrapperWthId("customers", userId).then((data) => {
-    return data;
-  });
-};
+// Users
+export const getUsers = () => getHomePageWrapper("users/with-skills?size=4");
+export const useGetUsers = () =>
+  useFetchData<SolutionistResponseTypes[]>(["users-with-skills"], getUsers, []);
 
-export const useGetCustomerWithId = (userId: number) => {
-  return useQuery({
-    queryKey: ["customerWithId"],
-    queryFn: () => getCustomerWithId(userId).then((data) => data),
-    placeholderData: {} as CustomerDetailsTypes,
-  });
-};
+export const getSolutionistWithIdAndSkillId = (
+  solutionistId: number,
+  skillId: number
+) => getWrapperDataWithIds("solutionist", solutionistId, skillId);
+export const useGetSolutionistWithIdAndSkillId = (
+  solutionistId: number,
+  skillId: number
+) =>
+  useFetchData(
+    ["Solutionist-With-Id-And-Skill-Id"],
+    () => getSolutionistWithIdAndSkillId(solutionistId, skillId),
+    {} as SolutionistResponseTypes
+  );
 
-// User
-export const getUser = async (): Promise<SolutionistTypes[]> => {
-  return getWrapper("user").then((data) => {
-    return data;
-  });
-};
-
-export const useGetUser = () => {
-  return useQuery({
-    queryKey: ["user"],
-    queryFn: () => getUser().then((data) => data),
-    placeholderData: talentPlaceHolderData,
-  });
-};
-
-// User
-export const getUserWithId = (userId: number): Promise<SolutionistTypes> => {
-  return getWrapperWthId("user", userId).then((data) => {
-    return data;
-  });
-};
-
-export const useGetUserWithId = (userId: number) => {
-  return useQuery({
-    queryKey: ["userWithId"],
-    queryFn: () => getUserWithId(userId).then((data) => data),
-    placeholderData: talentPlaceHolderData[0],
-  });
-};
-
-// Coutries
-export const getCoutries = async (): Promise<CountryTypes[]> => {
-  return getWrapper("country-features").then((data) => {
-    return data;
-  });
-};
-
-export const useGetCoutries = () => {
-  return useQuery({
-    queryKey: ["coutries"],
-    queryFn: () => getCoutries().then((data) => data),
-    placeholderData: [],
-  });
-};
+// Countries
+export const getCountries = () => fetchData<CountryTypes[]>("country-features");
+export const useGetCountries = () =>
+  useFetchData(["countries"], getCountries, []);
 
 // Orders
-export const getOrders = async (): Promise<[]> => {
-  return getWrapper("orders").then((data) => {
-    return data;
-  });
-};
+export const getOrders = () => fetchData<OrderTypes[]>("orders");
+export const useGetOrders = () => useFetchData(["orders"], getOrders, []);
 
-export const useGetOrders = () => {
-  return useQuery({
-    queryKey: ["orders"],
-    queryFn: () => getOrders().then((data) => data),
-    placeholderData: [],
-  });
-};
-
-export const getOrdersWithSolutionistId = (
-  userId: number
-): Promise<OrderTypes[]> => {
-  return getWrapperWthId("orders/contractor", userId).then((data) => {
-    return data;
-  });
-};
-
-export const useGetOrdersWithSolutionistId = (userId: number) => {
-  return useQuery({
-    queryKey: ["rrdersWithSolutionistId"],
-    queryFn: () => getOrdersWithSolutionistId(userId).then((data) => data),
-    placeholderData: [],
-  });
-};
+export const getOrdersWithSolutionistId = (userId: number) =>
+  getWrapperWthId("orders/contractor", userId);
+export const useGetOrdersWithSolutionistId = (userId: number) =>
+  useFetchData(
+    ["ordersWithSolutionistId"],
+    () => getOrdersWithSolutionistId(userId),
+    []
+  );
 
 // Search Term Result
-export const getUserSearchResult = (
-  searchTerm: string
-): Promise<SolutionistTypes[]> => {
-  return getWrapperSearchTerm("skills", searchTerm).then((data) => {
-    return data;
-  });
-};
-
-export const useGetUserSearchResult = (searchTerm: string) => {
-  return useQuery({
-    queryKey: ["search-result"],
-    queryFn: () => getUserSearchResult(searchTerm).then((data) => data),
-    placeholderData: talentPlaceHolderData,
-  });
-};
+export const getUserSearchResult = (searchTerm: string) =>
+  getWrapperSearchTerm("skills", searchTerm);
+export const useGetUserSearchResult = (searchTerm: string) =>
+  useFetchData(["search-result"], () => getUserSearchResult(searchTerm), []);
 
 // Job Posting
-export const getJobPosting = async (): Promise<JobPosting[]> => {
-  return getWrapper("job-postings").then((data) => {
-    return data;
-  });
-};
+export const getJobPosting = (page: number, size: number) =>
+  getHomePageWrapper(
+    `job-postings/valid-listed-jobs?page=${page}&size=${size}`
+  );
+export const useJobPosting = (page: number, size: number) =>
+  useFetchData<JobPosting[]>(
+    ["valid-listed-jobs"],
+    () => getJobPosting(page, size),
+    []
+  );
 
-export const useJobPosting = () => {
-  return useQuery({
-    queryKey: ["job-postings"],
-    queryFn: () => getJobPosting().then((data) => data),
-    placeholderData: [],
-  });
-};
+export const getJobPostingByJobId = (id: number) =>
+  getWrapperWthId("job-postings", id);
+export const useJobPostingByJobId = (id: number) =>
+  useFetchData<JobPosting | FullJobPostingDetails>(
+    ["job-postings-by-job-Id"],
+    () => getJobPostingByJobId(id),
+    {} as JobPosting | FullJobPostingDetails
+  );
 
-export const getJobPostingById = async (id: number): Promise<JobPosting> => {
-  return getWrapperWthId("job-postings", id).then((data) => {
-    return data;
-  });
-};
+export const getJobPostingByCustomerId = (id: number) =>
+  getWrapperWthId("job-postings/customer", id);
+export const useJobPostingByCustomerId = (id: number) =>
+  useFetchData(
+    ["job-posted-by-customer-Id"],
+    () => getJobPostingByCustomerId(id),
+    []
+  );
 
-export const useJobPostingById = (id: number) => {
-  return useQuery({
-    queryKey: ["job-postings-by-Id"],
-    queryFn: () => getJobPostingById(id).then((data) => data),
-    // placeholderData: {},
-  });
-};
-
-export const getJobPostingSearchResult = (
-  searchTerm: string
-): Promise<JobPosting[]> => {
-  return getWrapperSearchTerm("job-postings", searchTerm).then((data) => {
-    return data;
-  });
-};
-
-export const useGetJobPostingSearchResult = (searchTerm: string) => {
-  return useQuery({
-    queryKey: ["job-postings-search-result"],
-    queryFn: () => getJobPostingSearchResult(searchTerm).then((data) => data),
-    placeholderData: [],
-  });
-};
+export const getJobPostingSearchResult = (searchTerm: string) =>
+  getWrapperSearchTerm("job-postings", searchTerm);
+export const useGetJobPostingSearchResult = (searchTerm: string) =>
+  useFetchData(
+    ["job-postings-search-result"],
+    () => getJobPostingSearchResult(searchTerm),
+    []
+  );
 
 // No License Permit Verification Service
-export const getNoLicensePermitVerificationService = async (): Promise<
-  NoLicensePermitVerificationServiceTypes[]
-> => {
-  return getWrapper("no-verification-services").then((data) => {
-    return data;
-  });
-};
+export const getNoLicensePermitVerificationService = () =>
+  fetchData<NoLicensePermitVerificationServiceTypes[]>(
+    "no-verification-services"
+  );
+export const useNoLicensePermitVerificationService = () =>
+  useFetchData(
+    ["no-license-permit-verification-service"],
+    getNoLicensePermitVerificationService,
+    []
+  );
 
-export const useNoLicensePermitVerificationService = () => {
-  return useQuery({
-    queryKey: ["no-license-permit-verification-service"],
-    queryFn: () => getNoLicensePermitVerificationService().then((data) => data),
-    placeholderData: [],
-  });
-};
-
-// Tools Rental
-export const getToolRentalListing = async (): Promise<ToolRentalListing[]> => {
-  return getWrapper("tool-rental-listing").then((data) => {
-    return data;
-  });
-};
-
-export const useToolRentalListing = (isEnabled: boolean) => {
-  return useQuery({
-    queryKey: ["tool-rental-listing"],
-    queryFn: () => getToolRentalListing().then((data) => data),
+// Tool Rentals
+export const getToolRentalListing = () =>
+  fetchData<ToolRentalListing[]>("tools/available");
+export const useToolRentalListing = (isEnabled: boolean) =>
+  useQuery({
+    queryKey: ["tools-available"],
+    queryFn: getToolRentalListing,
     placeholderData: [],
     enabled: isEnabled,
   });
-};
 
 export const getToolCustomerWithId = (
-  customerId: number,
+  userId: number,
   toolId: number
-): Promise<ToolAndCustomerTypes> => {
-  return getWrapperWthIds("tool-customer", customerId, toolId).then((data) => {
-    return data;
-  });
-};
-
-export const useGetToolRentalListingWithId = (
-  customerId: number,
-  toolId: number
-) => {
-  return useQuery({
-    queryKey: ["tool-customer-with-id"],
-    queryFn: () =>
-      getToolCustomerWithId(customerId, toolId).then((data) => data),
-    placeholderData: {} as ToolAndCustomerTypes,
-  });
-};
+): Promise<ToolAndCustomerTypes> => getWrapperWthIds("tools", userId, toolId);
+export const useGetToolRentalListingWithId = (userId: number, toolId: number) =>
+  useFetchData(
+    ["tool-customer-with-toolId"],
+    () => getToolCustomerWithId(userId, toolId),
+    {} as ToolAndCustomerTypes
+  );
 
 // Tool Rental Order History
-export const getToolsRentalHistoryByCustomerId = async (
-  id: number
-): Promise<RentalOrderHistory[]> => {
-  return getWrapperWthId("tools-rental-order-history/customer", id).then(
-    (data) => {
-      return data;
-    }
+export const getToolsRentalHistoryByCustomerId = (id: number) =>
+  getWrapperWthId("tools-rental-order-history/customer", id);
+export const useToolsRentalHistoryByCustomerId = (id: number) =>
+  useFetchData(
+    ["tools-rental-order-history"],
+    () => getToolsRentalHistoryByCustomerId(id),
+    []
   );
-};
 
-export const useToolsRentalHistoryByCustomerId = (id: number) => {
-  return useQuery({
-    queryKey: ["tools-rental-order-history"],
-    queryFn: () => getToolsRentalHistoryByCustomerId(id).then((data) => data),
-    placeholderData: [] as RentalOrderHistory[],
-  });
-};
-
-export const getToolsRentalHistoryByOrderId = async (
-  id: number
-): Promise<RentalOrderHistory> => {
-  return getWrapperWthId("tools-rental-order-history", id).then(
-    (data) => {
-      return data;
-    }
+export const getToolsRentalHistoryByOrderId = (id: number) =>
+  getWrapperWthId("tools-rental-order-history", id);
+export const useToolsRentalHistoryByOrderId = (id: number) =>
+  useFetchData(
+    [`order-id-${id}`],
+    () => getToolsRentalHistoryByOrderId(id),
+    {} as FullPaymentDetailsDTO
   );
-};
-
-export const useToolsRentalHistoryByOrderId = (id: number) => {
-  return useQuery({
-    queryKey: [`order-id-${id}`],
-    queryFn: () => getToolsRentalHistoryByOrderId(id).then((data) => data),
-    placeholderData: {} as RentalOrderHistory,
-  });
-};

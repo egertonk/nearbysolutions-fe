@@ -14,6 +14,8 @@ import { GeneralBannerInfo } from "../common-sections/GeneralBannerInfo";
 import { useGetPostedJobInfo } from "../Find-Work-Post-A-Job/useGetPostedJobInfo";
 import { PostAJobFormTypes } from "../../../store/postAJobSlice";
 import { isAllPostAJobOrderEmpty } from "../Find-Work-Post-A-Job/useResetPostAJob";
+import { PaymentCardDetails } from "./PaymentCardDetails";
+import { PaymentJGiftDetails } from "./PaymentJGiftDetails";
 
 export const Payment: React.FC = () => {
   const navigate = useNavigate();
@@ -26,7 +28,7 @@ export const Payment: React.FC = () => {
     (state: RootState) => state.formData.isEditOrder
   );
 
-  const { postAJobOrder } = useGetPostedJobInfo("acceptJob");
+  const { jobOrderDetails } = useGetPostedJobInfo("acceptJob");
 
   const handleSubmit = (action: string) => {
     // todo - submit to the database
@@ -52,7 +54,9 @@ export const Payment: React.FC = () => {
             : "Review Order"}
         </h1> */}
         <h1 className="font-bold text-3xl md:text-4xl lg:text-5xl font-heading text-purple-800 mb-4">
-          {!isAllPostAJobOrderEmpty(postAJobOrder as unknown as PostAJobFormTypes)
+          {!isAllPostAJobOrderEmpty(
+            jobOrderDetails as unknown as PostAJobFormTypes
+          )
             ? "Future Payment"
             : "Payment"}
         </h1>
@@ -79,10 +83,11 @@ export const Payment: React.FC = () => {
 
         <div className="container mx-auto">
           <div className="flex flex-col md:flex-row md:-mx-3">
-            <PaymentCustomerDetails />
-
-            <PaymentJobDetails />
-
+            <PaymentJobDetails /> <PaymentCustomerDetails />{" "}
+            <PaymentJGiftDetails />
+          </div>
+          <div className="flex flex-col md:flex-row md:-mx-3">
+            <PaymentCardDetails />
             {isEditOrder === false && <PaymentSumary />}
           </div>
         </div>

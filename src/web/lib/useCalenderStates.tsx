@@ -5,17 +5,16 @@ import { useSelector } from "react-redux";
 import { RootState } from "../../store";
 import { isVacationValid } from "./useVacationCheck";
 import { DateSelection, WeeksData } from "./types/CalenderTypes";
+import { SolutionistResponseTypes } from "./types/solutionistTypes";
 
-export const useCalenderStates = () => {
+export const useCalenderStates = (
+  customerSolutionistDetails: SolutionistResponseTypes
+) => {
   const [isUpdateValid, setIsUpdateValid] = useState(false);
   const [showNextMonth, setShowNextMonth] = useState(false);
   const [showPrevMonth, setShowPrevMonth] = useState(false);
   const [userSelectedTime, setUserSelectedTime] = useState("");
   const [formattedDate, setFormattedDate] = useState("");
-
-  const solutionistWorkSettings = useSelector(
-    (state: RootState) => state.solutionistWorkSettingsState
-  );
 
   const {
     year,
@@ -85,7 +84,7 @@ export const useCalenderStates = () => {
 
   const getVacationStatus = (day: number, weeksArray: WeeksData) => {
     return isVacationValid(
-      solutionistWorkSettings,
+      customerSolutionistDetails.solutionistWorkSettings,
       {
         day: day,
         month: userSelectedDate.month,

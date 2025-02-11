@@ -1,4 +1,4 @@
-import { Solutionist, Talent } from "../../lib/types/solutionistTypes";
+import { SolutionistResponseTypes, Talent } from "../../lib/types/solutionistTypes";
 
 export interface CustomerTypes {
   customerId: number;
@@ -24,7 +24,7 @@ export interface CustomerTypes {
 export interface OrderTypes {
   orderId: number;
   customer: CustomerTypes;
-  contractor: Solutionist;
+  contractor: SolutionistResponseTypes;
   talent: Talent;
   orderDate: string;
   orderStatus: string;

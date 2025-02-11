@@ -10,6 +10,8 @@ import DIYToolsImage from "../../assets/images/DIY-Tools-Renting.jpeg";
 import { useNavigate } from "react-router";
 import { DateAndTimeInputs } from "./DateAndTimeInputs";
 import { useImagePopup } from "./useImagePopup";
+import { imageDetailsTypes } from "../../lib/types/FindWorkPostAJobtypesData";
+import { getImageArray } from "../../lib";
 
 export const RentTools: React.FC = () => {
   const navigate = useNavigate();
@@ -17,13 +19,28 @@ export const RentTools: React.FC = () => {
   const { openImage, setOpenImage, imageDetails, setImageDetails } =
     useImagePopup();
 
+  const imageArray: string[] = (imageDetails as imageDetailsTypes)?.image;
+
+  // Ensure imageArray is already a valid array or a JSON string
+  const jsonString = Array.isArray(imageArray)
+    ? JSON.stringify(imageArray)
+    : imageArray;
+
+  // Safely parse JSON if it's a string
+  const extractedImageData: string[] =
+    typeof jsonString === "string" ? JSON.parse(jsonString) : [];
+
   return (
     <>
       {openImage && (
         <ImagePopup
           openImage={openImage}
           setOpenImage={setOpenImage}
-          imageDetails={imageDetails}
+          imageDetails={{
+            name: imageDetails?.name || "",
+            image: extractedImageData,
+          }}
+          featureName="tool"
         />
       )}
 
@@ -57,17 +74,17 @@ export const RentTools: React.FC = () => {
         <div className="mt-6 grid grid-cols-1 gap-x-6 gap-y-10 sm:grid-cols-2 lg:grid-cols-4 xl:gap-x-8">
           {rentToolsAction.filteredTools.map(
             (data) =>
-              data.available && (
+              data.isAvailable && (
                 <div className="group relative m-5">
-                  <a
-                    className="justify-center mx-3 mt-3 flex h-60 rounded-xl cursor-pointer"
+                  <button
+                    className="justify-center mx-3 mt-3 flex h-60 rounded-xl cursor-pointer bg-transparent border-none p-6"
                     onClick={() => {
                       setImageDetails({
                         name: data.toolName,
                         image:
-                          data?.imageUrls === null
-                            ? DIYToolsImage
-                            : data.imageUrls[0],
+                          data?.imageUrl === null
+                            ? [DIYToolsImage]
+                            : data.imageUrl,
                       });
                       setOpenImage(true);
                     }}
@@ -75,17 +92,18 @@ export const RentTools: React.FC = () => {
                     <img
                       className="object-cover"
                       src={`${
-                        data?.imageUrls === null
-                          ? DIYToolsImage
-                          : data.imageUrls[0]
+                        getImageArray(data?.imageUrl).length > 0
+                          ? getImageArray(data?.imageUrl)[0]
+                          : DIYToolsImage
                       }`}
+                      alt={data.toolName}
                     />
                     {data.discountPercent * 100 > 0 && (
                       <span className="absolute top-0 left-0 m-2 rounded-full bg-black px-2 text-center text-sm font-medium text-white">
                         {data.discountPercent}% OFF
                       </span>
                     )}
-                  </a>
+                  </button>
                   <div className=" mt-4 items-center justify-center">
                     <h5 className="text-xl tracking-tight text-white-900 font-bold">
                       {data.toolName}
@@ -141,11 +159,19 @@ export const RentTools: React.FC = () => {
                       className="w-full flex items-center justify-center rounded-md bg-purple-900 px-5 py-2.5 text-center text-sm font-medium text-white hover:bg-gray-700 focus:outline-none focus:ring-4 focus:ring-blue-300"
                     >
                       {cart}
-                      {rentToolsAction.hasDatePassed(data.nextAvailableDate) ===
-                      false
-                        ? `Rent Now`
-                        : `Available On ${data.nextAvailableDate}`}
+                      Rent Now
                     </button>
+                    {/* <button
+                      onClick={() =>
+                        navigate(`/rent-order-details?tool=${data.toolId}`)
+                      }
+                      className="w-full flex items-center justify-center rounded-md bg-purple-900 px-5 py-2.5 text-center text-sm font-medium text-white hover:bg-gray-700 focus:outline-none focus:ring-4 focus:ring-blue-300"
+                    >
+                      {cart}
+                      {data.nextAvailableDate
+                        ? `Rent Now`
+                        : `Available On ${data.nextAvailableDate || ""}`}
+                    </button> */}
                   </div>
                 </div>
               )

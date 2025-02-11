@@ -14,7 +14,7 @@ type Props = {
 export const CustomerJobListings: React.FC<Props> = ({ isOrderSumary }) => {
   const sortList = ["Date", "Time", "Amount", "Status"];
   const { handleSort, filteredJobs, handleOnChange, handleSubmit } =
-    useFindWorkPostAJob(sortList);
+    useFindWorkPostAJob(sortList, "job-listings");
 
   // todo
   const handleEdit = (orderNumber: number) => {
@@ -65,7 +65,7 @@ export const CustomerJobListings: React.FC<Props> = ({ isOrderSumary }) => {
                           <span className="text-base font-semibold">
                             Job Date:
                           </span>{" "}
-                          {job.date}
+                          {job.jobDate}
                         </div>
 
                         <div className="text-sm">

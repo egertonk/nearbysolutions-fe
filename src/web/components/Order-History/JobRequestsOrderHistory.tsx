@@ -2,25 +2,26 @@ import { SideMenuList } from "../Header/SideMenuList";
 import { MainTitle } from "../common-sections/MainTitle";
 import { SearchUI } from "../search/SearchUI";
 import { useOrders } from "../../lib/useOrders";
-import { RentalToolsOrderHistory } from "./RentalToolsOrderHistory";
+import { RentalOrderHistory } from "../../lib/types/DIYToolsListings copy";
 import {
-  FullPaymentDetailsDTO,
-  RentalOrderHistory,
-} from "../../lib/types/DIYToolsListings copy";
-import { useToolsRentalHistoryByCustomerId } from "../../utils/fetchEndpoints";
+  useJobPostingByCustomerId,
+  useToolsRentalHistoryByCustomerId,
+} from "../../utils/fetchEndpoints";
+import { CustomerJopPostingOrderHistory } from "./CustomerJopPostingOrderHistory";
 
 type Props = {
   isOrderSumary?: boolean;
 };
 
-export const ToolsOrderHistory: React.FC<Props> = ({ isOrderSumary }) => {
+export const JobRequestsOrderHistory: React.FC<Props> = ({ isOrderSumary }) => {
   const { data: toolsRentalHistoryByCustomer } =
     useToolsRentalHistoryByCustomerId(1); //use customer in after login in
-
+  const { data: customerRequestedJobList } = useJobPostingByCustomerId(1);
+  console.log("-------------", customerRequestedJobList);
   const orderList =
     toolsRentalHistoryByCustomer !== undefined
       ? toolsRentalHistoryByCustomer
-      : ([] as FullPaymentDetailsDTO[]);
+      : ([] as RentalOrderHistory[]);
 
   const {
     handleSubmit,
@@ -32,7 +33,7 @@ export const ToolsOrderHistory: React.FC<Props> = ({ isOrderSumary }) => {
 
   return (
     <div className="px-4 justify-center dark:bg-gray-700 rounded-b">
-      <MainTitle title={"Tools Order History"} />
+      <MainTitle title={"Job Requests Order History"} />
 
       <SearchUI
         handleOnChange={handleOnChange}
@@ -40,7 +41,7 @@ export const ToolsOrderHistory: React.FC<Props> = ({ isOrderSumary }) => {
         handleSubmit={handleSubmit}
       />
 
-      <RentalToolsOrderHistory orderList={orderList as RentalOrderHistory[]} />
+      <CustomerJopPostingOrderHistory orderList={customerRequestedJobList} />
 
       <SideMenuList />
     </div>

@@ -1,12 +1,14 @@
 import React, { useState } from "react";
 import { SearchUI } from "./SearchUI";
-import { SolutionistTypes } from "../../lib/types/solutionistTypes";
+import { SolutionistResponseTypes } from "../../lib/types/solutionistTypes";
 import { localHostURL } from "../../utils/fetchGet";
 
 type Props = {
-  searchResults: SolutionistTypes[] | [];
-  fallBackData: SolutionistTypes[] | undefined;
-  setSearchResults: React.Dispatch<React.SetStateAction<SolutionistTypes[]>>;
+  searchResults: SolutionistResponseTypes[] | [];
+  fallBackData: SolutionistResponseTypes[] | undefined;
+  setSearchResults: React.Dispatch<
+    React.SetStateAction<SolutionistResponseTypes[]>
+  >;
 };
 
 export const Search: React.FC<Props> = ({
@@ -16,15 +18,15 @@ export const Search: React.FC<Props> = ({
 }) => {
   const [searchTerm, setSearchTerm] = useState("");
 
-  const getAllJobTitles = (talentInfo: SolutionistTypes[] = []) => {
-    return Array.isArray(talentInfo)
-      ? talentInfo.flatMap(
-          (talent) => talent?.talent?.jobTitle?.map((job) => job?.title) || []
-        )
-      : [];
-  };
+  // const getAllJobTitles = (talentInfo: SolutionistDataTypes[] = []) => {
+  //   return Array.isArray(talentInfo)
+  //     ? talentInfo.flatMap(
+  //         (talent) => talent?.talent?.jobTitle?.map((job) => job?.title) || []
+  //       )
+  //     : [];
+  // };
 
-  const jobTitlesArray = getAllJobTitles(searchResults);
+  // const jobTitlesArray = getAllJobTitles(searchResults);
 
   const handleOnChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const { value } = e.target;
@@ -62,7 +64,8 @@ export const Search: React.FC<Props> = ({
     <>
       <SearchUI
         handleOnChange={handleOnChange}
-        jobTitlesArray={jobTitlesArray}
+        // jobTitlesArray={jobTitlesArray}
+        jobTitlesArray={[]}
         handleSubmit={handleSubmit}
       />
     </>

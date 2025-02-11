@@ -33,6 +33,22 @@ export const getWrapper = async (endpointName: string) => {
   }
 };
 
+export const getHomePageWrapper = async (endpointName: string) => {
+  try {
+    const response = await fetch(`${localHostURL}/${endpointName}`, {
+      method: "GET",
+      headers,
+    });
+
+    if (!response.ok) throw new Error("Failed to fetch data");
+
+    const data = await response.json();
+    return data.content;
+  } catch (error) {
+    return error;
+  }
+};
+
 export const getWrapperSearchTerm = async (
   endpointName: string,
   searchTerm: string
@@ -89,12 +105,44 @@ export const getWrapperWthId = async (endpointName: string, userId: number) => {
   }
 };
 
+export const getWrapperDataWithIds = async (
+  endpointName: string,
+  solutionistId: number,
+  skillId: number
+) => {
+  try {
+    const response = await fetch(
+      `${localHostURL}/${endpointName}/${solutionistId}/${skillId}`,
+      {
+        method: "GET",
+        headers,
+      }
+    );
+
+    // Check if the response has a JSON content-type
+    const noJSON = !response.headers
+      .get("content-type")
+      ?.includes("application/json");
+
+    // Check for error status and handle accordingly
+    if (!response.ok) {
+      await handleError(response, noJSON);
+    }
+
+    // If no error, return parsed JSON or text data
+    return noJSON ? await response.text() : await response.json();
+  } catch (error) {
+    // Return or throw the error to be handled by the calling code
+    return error;
+  }
+};
+
 export const getWrapperWthIds = async (
   endpointName: string,
-  customerId: number,
+  userId: number,
   toolId: number
 ) => {
-  const url = `${localHostURL}/${endpointName}?toolId=${toolId}&customerId=${customerId}`;
+  const url = `${localHostURL}/${endpointName}/${toolId}/${userId}`;
   try {
     const response = await fetch(url, {
       method: "GET",

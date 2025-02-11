@@ -3,13 +3,14 @@ import { TimeList } from "./timeList";
 import { RootState } from "../../../store";
 import { TimeProps } from "../../lib/types/CalenderTypes";
 
-export const DatePicker: React.FC<TimeProps> = ({
+export const Timeicker: React.FC<TimeProps> = ({
   requiredData,
   previousDateCheck,
   isTimeChangeAllow,
   filteredOrders,
   ordersGreaterThanTodaysDate,
   weeksArray,
+  customerSolutionistDetails,
 }) => {
   const customerOrder = useSelector(
     (state: RootState) => state.formData.customerOrder
@@ -54,6 +55,7 @@ export const DatePicker: React.FC<TimeProps> = ({
             filteredOrders={filteredOrders}
             ordersGreaterThanTodaysDate={ordersGreaterThanTodaysDate}
             weeksArray={weeksArray}
+            customerSolutionistDetails={customerSolutionistDetails}
           />
         </div>
       </div>

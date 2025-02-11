@@ -1,6 +1,7 @@
 import { useSelector } from "react-redux";
 import { RootState } from "../../../store";
 import { isAllPostAJobOrderEmpty } from "../Find-Work-Post-A-Job/useResetPostAJob";
+import { Address } from "../common-sections/Address";
 
 export const PaymentJobDetails: React.FC = () => {
   const states = useSelector((state: RootState) => state);
@@ -34,20 +35,13 @@ export const PaymentJobDetails: React.FC = () => {
 
             <div>
               <h3 className="font-semibold">Job Location </h3>
-
-              {postAJobOrder.jobCountry === "United States" ||
-              postAJobOrder.jobCountry === "Canada" ? (
-                <span>
-                  {postAJobOrder.jobAddress} {postAJobOrder.jobCityLocation}{" "}
-                  {postAJobOrder.jobState} {postAJobOrder.jobZip}
-                  {postAJobOrder.jobCountry}
-                </span>
-              ) : (
-                <span>
-                  {postAJobOrder.jobAddress} {postAJobOrder.jobCityLocation}{" "}
-                  {postAJobOrder.jobCountry}
-                </span>
-              )}
+              <Address
+                country={customerOrder.customerAddress.country ?? ""}
+                address={customerOrder.customerAddress.street ?? ""}
+                city={customerOrder.customerAddress.city ?? ""}
+                state={customerOrder.customerAddress.state ?? ""}
+                zip={customerOrder.customerAddress.postalCode ?? ""}
+              />
             </div>
 
             <div>
@@ -62,7 +56,7 @@ export const PaymentJobDetails: React.FC = () => {
 
             <div>
               <h3 className="font-semibold">Appointment Job Date</h3>
-              <span>{postAJobOrder.date}</span>
+              <span>{postAJobOrder.jobDate}</span>
             </div>
 
             <div>
@@ -78,10 +72,15 @@ export const PaymentJobDetails: React.FC = () => {
         ) : (
           <div className="grid grid-cols-2 gap-4 content-start mt-5">
             <div>
-              <h3 className="font-semibold">Talent Name</h3>
+              <h3 className="font-semibold">Solutionist Name</h3>
               <span>
                 {customerOrder.talentFirstName} {customerOrder.talentLastName}
               </span>
+            </div>
+
+            <div>
+              <h3 className="font-semibold">Solutionist ID</h3>
+              <span>{customerOrder.talentID}</span>
             </div>
 
             <div>
@@ -110,11 +109,11 @@ export const PaymentJobDetails: React.FC = () => {
 
             <div>
               <h3 className="font-semibold">Job Address</h3>
-              <p>{customerOrder.customerInfo.address}</p>
+              <p>{customerOrder.customerAddress.street}</p>
               <p>
-                {customerOrder.customerInfo.city},{" "}
-                {customerOrder.customerInfo.state},{" "}
-                {customerOrder.customerInfo.zip}.
+                {customerOrder.customerAddress.city},{" "}
+                {customerOrder.customerAddress.state},{" "}
+                {customerOrder.customerAddress.postalCode}.
               </p>
             </div>
           </div>

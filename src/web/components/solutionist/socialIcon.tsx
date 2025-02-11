@@ -1,17 +1,16 @@
 import { getSocialMedia } from "../../lib";
+import { SocialMediaTypes } from "../../lib/types/solutionistTypes";
 
 type Props = {
   key: string;
-  socialData: {
-    name: string;
-    link: string;
-  };
+  socialData: SocialMediaTypes;
 };
 
 export const SocialIcon: React.FC<Props> = ({ socialData }) => {
   return (
-    <div className="relative group inline-block mb-4">
+    <div className="relative group inline-block mb-4 mt-4">
       <a
+        id={socialData.name}
         key={Math.random()}
         target="_blank"
         href={socialData.link}

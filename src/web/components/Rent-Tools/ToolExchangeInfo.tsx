@@ -1,5 +1,6 @@
 import React from "react";
 import { ToolAndCustomerTypes } from "../../lib/types/DIYToolsListings";
+import { Address } from "../common-sections/Address";
 
 type Props = {
   customerAndToolInfo: ToolAndCustomerTypes;
@@ -10,58 +11,32 @@ export const ToolExchangeInfo: React.FC<Props> = ({ customerAndToolInfo }) => {
     <div className="grid grid-cols-3 gap-4 displayBlock">
       <div className="mt-4">
         <h3 className="text-lg font-semibold">Pickup Address</h3>
-        {customerAndToolInfo.toolRentalListing.toolCountry ===
-          "United States" ||
-        customerAndToolInfo.toolRentalListing.toolCountry === "USA" ||
-        customerAndToolInfo.toolRentalListing.toolCountry === "Canada" ? (
-          <p className="text-sm text-gray-600">
-            Egeton During
-            <br />
-            {customerAndToolInfo.toolRentalListing.toolAddress}
-            <br />
-            {customerAndToolInfo.toolRentalListing.toolCity},{" "}
-            {customerAndToolInfo.toolRentalListing.toolZipcode}
-            {customerAndToolInfo.toolRentalListing.toolState},{" "}
-            {customerAndToolInfo.toolRentalListing.toolCountry}.
-          </p>
-        ) : (
-          <p className="text-sm text-gray-600">
-            Egeton During
-            <br />
-            {customerAndToolInfo.toolRentalListing.toolAddress}
-            <br />
-            {customerAndToolInfo.toolRentalListing.toolCity},{" "}
-            {customerAndToolInfo.toolRentalListing.toolCountry}.
-          </p>
-        )}
+        <p className="text-sm text-gray-600">
+          Egeton During
+          <br />
+          <Address
+            country={customerAndToolInfo.toolRentalDetails?.toolCountry ?? ""}
+            address={customerAndToolInfo.toolRentalDetails?.toolAddress ?? ""}
+            city={customerAndToolInfo.toolRentalDetails?.toolCity ?? ""}
+            state={customerAndToolInfo.toolRentalDetails?.toolState ?? ""}
+            zip={customerAndToolInfo.toolRentalDetails?.toolZipcode ?? ""}
+          />
+        </p>
       </div>
 
       <div className="mt-4">
         <h3 className="text-lg font-semibold">Dropoff Address</h3>
-        {customerAndToolInfo.toolRentalListing.toolCountry ===
-          "United States" ||
-        customerAndToolInfo.toolRentalListing.toolCountry === "USA" ||
-        customerAndToolInfo.toolRentalListing.toolCountry === "Canada" ? (
-          <p className="text-sm text-gray-600">
-            Egeton During
-            <br />
-            {customerAndToolInfo.toolRentalListing.toolAddress}
-            <br />
-            {customerAndToolInfo.toolRentalListing.toolCity},{" "}
-            {customerAndToolInfo.toolRentalListing.toolZipcode}
-            {customerAndToolInfo.toolRentalListing.toolState},{" "}
-            {customerAndToolInfo.toolRentalListing.toolCountry}.
-          </p>
-        ) : (
-          <p className="text-sm text-gray-600">
-            Egeton During
-            <br />
-            {customerAndToolInfo.toolRentalListing.toolAddress}
-            <br />
-            {customerAndToolInfo.toolRentalListing.toolCity},{" "}
-            {customerAndToolInfo.toolRentalListing.toolCountry}.
-          </p>
-        )}
+        <p className="text-sm text-gray-600">
+          Egeton During
+          <br />
+          <Address
+            country={customerAndToolInfo.toolRentalDetails?.toolCountry ?? ""}
+            address={customerAndToolInfo.toolRentalDetails?.toolAddress ?? ""}
+            city={customerAndToolInfo.toolRentalDetails?.toolCity ?? ""}
+            state={customerAndToolInfo.toolRentalDetails?.toolState ?? ""}
+            zip={customerAndToolInfo.toolRentalDetails?.toolZipcode ?? ""}
+          />
+        </p>
       </div>
 
       <div className="mt-4">

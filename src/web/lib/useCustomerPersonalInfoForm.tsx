@@ -5,7 +5,10 @@ import { setCustomerOrder } from "../../store/customerContractorSlice";
 import { RootState } from "../../store";
 import { useCalender } from "./useCalender";
 import { orderStates } from "../../store/defualtStates";
-import { JobTitleTypes, SolutionistTypes } from "./types/solutionistTypes";
+import {
+  JobTitleTypes,
+  SolutionistResponseTypes,
+} from "./types/solutionistTypes";
 import { DateSelection } from "./types/CalenderTypes";
 
 export const useCustomerPersonalInfoForm = (
@@ -13,7 +16,7 @@ export const useCustomerPersonalInfoForm = (
   formattedDate?: string,
   userSelectedDate?: DateSelection,
   jobDetails?: JobTitleTypes | undefined,
-  solutionistDeatils?: SolutionistTypes
+  solutionistDeatils?: SolutionistResponseTypes
 ) => {
   const { today } = useCalender();
   const dispatch = useDispatch();
@@ -50,21 +53,88 @@ export const useCustomerPersonalInfoForm = (
       [`${id}`]: value,
     }));
   };
-  console.log("customerOrder22222222 = ", customerOrder);
+
   useEffect(() => {
     const orderData = {
       orderID: customerOrder.orderID,
       customerInfo: {
-        customerID: customerOrder.customerInfo.customerID || 0, // we can generated it later and it should never be null
-        firstName: customerOrder.customerInfo.firstName || "",
-        lastName: customerOrder.customerInfo.lastName || "",
-        country: customerOrder.customerInfo.country || "",
-        address: customerOrder.customerInfo.address || "",
-        city: customerOrder.customerInfo.city || "",
-        state: customerOrder.customerInfo.state || "",
-        zip: customerOrder.customerInfo.zip || "",
-        phoneNumber: customerOrder.customerInfo.phoneNumber || "5713301230",
+        id: customerOrder.customerInfo.id || -1,
+        name: customerOrder.customerInfo.name || "",
         email: customerOrder.customerInfo.email || "",
+        password: customerOrder.customerInfo.password || "",
+        role: customerOrder.customerInfo.role || "",
+        username: customerOrder.customerInfo.username || "",
+        passwordHash: customerOrder.customerInfo.passwordHash || "",
+        phoneNumber: customerOrder.customerInfo.phoneNumber || "",
+        profilePicture: customerOrder.customerInfo.profilePicture || "",
+        dateOfBirth: customerOrder.customerInfo.dateOfBirth || "", // Use ISO 8601 date format
+        location: customerOrder.customerInfo.location || "",
+        createdAt: customerOrder.customerInfo.createdAt || "", // Use ISO 8601 date-time format
+        updatedAt: customerOrder.customerInfo.updatedAt || "", // Use ISO 8601 date-time format
+        termsAccepted: customerOrder.customerInfo.termsAccepted || false,
+        privacyPolicyAccepted:
+          customerOrder.customerInfo.privacyPolicyAccepted || false,
+        middleName: customerOrder.customerInfo.middleName || "",
+        lastName: customerOrder.customerInfo.lastName || "",
+        firstName: customerOrder.customerInfo.firstName || "",
+        fullName: customerOrder.customerInfo.fullName || "",
+        isVerified: customerOrder.customerInfo.isVerified || false,
+        verificationToken: customerOrder.customerInfo.verificationToken || "",
+        resetPasswordToken: customerOrder.customerInfo.resetPasswordToken || "",
+        resetPasswordExpiration:
+          customerOrder.customerInfo.resetPasswordExpiration || "",
+        lastLogin: customerOrder.customerInfo.lastLogin || "",
+        loginAttempts: customerOrder.customerInfo.loginAttempts || 0,
+        isLocked: customerOrder.customerInfo.isLocked || false,
+        notificationPreferences:
+          customerOrder.customerInfo.notificationPreferences || "",
+        preferredTheme: customerOrder.customerInfo.preferredTheme || "",
+        gender: customerOrder.customerInfo.gender || "",
+        nationality: customerOrder.customerInfo.nationality || "",
+        permissions: customerOrder.customerInfo.permissions || "",
+        roleLevel: customerOrder.customerInfo.roleLevel || 0,
+        lastLoginIp: customerOrder.customerInfo.lastLoginIp || "",
+        deviceInfo: customerOrder.customerInfo.deviceInfo || "",
+        subscriptionType: customerOrder.customerInfo.subscriptionType || "",
+        subscriptionStatus: customerOrder.customerInfo.subscriptionStatus || "",
+        subscriptionStartDate:
+          customerOrder.customerInfo.subscriptionStartDate || "",
+        subscriptionEndDate:
+          customerOrder.customerInfo.subscriptionEndDate || "",
+        referralCode: customerOrder.customerInfo.referralCode || "",
+        referredBy: customerOrder.customerInfo.referredBy || "",
+        isDeleted: customerOrder.customerInfo.isDeleted || false,
+        deletedAt: customerOrder.customerInfo.deletedAt || "",
+      },
+      customerAddress: {
+        id: customerOrder.customerAddress.id || -1,
+        userId: Number(customerOrder.customerAddress.userId) || -1,
+        street: customerOrder.customerAddress.street || "",
+        addressLine2: customerOrder.customerAddress.addressLine2 || null,
+        city: customerOrder.customerAddress.city || "",
+        state: customerOrder.customerAddress.state || "",
+        region: customerOrder.customerAddress.region || "",
+        postalCode: customerOrder.customerAddress.postalCode || "",
+        country: customerOrder.customerAddress.country || "",
+        latitude: customerOrder.customerAddress.latitude || 0,
+        longitude: customerOrder.customerAddress.longitude || 0,
+        addressType: customerOrder.customerAddress.addressType || "",
+        label: customerOrder.customerAddress.label || "",
+        isDefault: customerOrder.customerAddress.isDefault || false,
+        isVerified: customerOrder.customerAddress.isVerified || false,
+        permanent: customerOrder.customerAddress.permanent || false,
+        createdAt: customerOrder.customerAddress.createdAt || "",
+        updatedAt: customerOrder.customerAddress.updatedAt || "",
+      },
+      paymentInfo: {
+        nameOnCard: `${customerOrder.customerInfo.firstName ?? ""} ${
+          customerOrder.customerInfo.lastName ?? ""
+        }`,
+        cardNumber: "4312 567 7890 7864",
+        cardType: "MasterCard",
+        expirationDate: "03/25",
+        securityCode: "025",
+        postalCode: customerOrder.customerAddress.postalCode || "",
       },
       solutionDateContract: {
         solutionDate:
@@ -90,9 +160,11 @@ export const useCustomerPersonalInfoForm = (
       solutionTask: customerOrder.solutionTask || "",
       solutionJob: jobDetails?.title || customerOrder.solutionJob || "",
       selectedTalent: jobDetails?.title || "",
-      talentID: solutionistDeatils?.talent?.solutionist.id || 0, // it should never be null
-      talentFirstName: solutionistDeatils?.talent?.solutionist.firstName || "",
-      talentLastName: solutionistDeatils?.talent?.solutionist?.lastName || "",
+      talentID: solutionistDeatils?.solutionistInformation.id || 0, // it should never be null
+      talentFirstName:
+        solutionistDeatils?.solutionistInformation.firstName || "",
+      talentLastName:
+        solutionistDeatils?.solutionistInformation?.lastName || "",
       solutionPrice:
         (jobDetails?.isFixPrice
           ? jobDetails.fixPrice
@@ -108,15 +180,17 @@ export const useCustomerPersonalInfoForm = (
         firstName: customerOrder.giftInformationFor.firstName || "",
         lastName: customerOrder.giftInformationFor.lastName || "",
         country: customerOrder.giftInformationFor.country || "",
-        address: customerOrder.giftInformationFor.address || "",
+        street: customerOrder.giftInformationFor.street || "",
         city: customerOrder.giftInformationFor.city || "",
         state: customerOrder.giftInformationFor.state || "",
-        zip: customerOrder.giftInformationFor.zip || "",
+        postalCode: customerOrder.giftInformationFor.postalCode || "",
         phoneNumber: customerOrder.giftInformationFor.phoneNumber || "",
         email: customerOrder.giftInformationFor.email || "",
       },
+      longTermSubscriptionAllow:
+        customerOrder.longTermSubscriptionAllow || false,
     };
-    console.log("orderData1111111 = ", orderData);
+
     dispatch(setCustomerOrder(orderData));
   }, []);
 

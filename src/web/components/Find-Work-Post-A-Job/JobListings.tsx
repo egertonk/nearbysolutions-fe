@@ -32,19 +32,20 @@ export const JobListings: React.FC<Props> = ({ customerJobsArray }) => {
           openImage={openImage}
           setOpenImage={setOpenImage}
           imageDetails={imageDetails}
+          featureName="job"
         />
       )}
 
       <div className="grid grid-cols-1 lg:grid-cols-5 gap-4 ">
-        {customerJobsArray.map(
+        {customerJobsArray?.map(
           (jobData, index) =>
-            jobData.jobAcceptedByCustomer &&
+            jobData.jobAcceptedByPoster &&
             jobData.jobStatus && (
               <div
                 key={`job-${index}`}
                 className="hover:bg-purple-50 bg-white shadow-[0_2px_15px_-6px_rgba(0,0,0,0.2)] w-full max-w-sm rounded-lg font-[sans-serif] overflow-hidden mx-auto flex-col"
               >
-                <JobAlertMessage jobDate={jobData.date} />
+                <JobAlertMessage jobDate={jobData.jobDate} />
                 <JobDetails
                   isJob
                   jobDetails={jobData}

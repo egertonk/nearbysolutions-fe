@@ -8,7 +8,9 @@ import {
 export const isAllPostAJobOrderEmpty = (
   postAJobOrder: PostAJobFormTypes
 ): boolean => {
-  return Object.values(postAJobOrder).every((value) => value === "");
+  return postAJobOrder
+    ? Object?.values(postAJobOrder)?.every((value) => value === "")
+    : false;
 };
 
 export const useResetPostAJob = () => {

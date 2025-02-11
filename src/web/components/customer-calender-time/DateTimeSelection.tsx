@@ -5,10 +5,10 @@ import { orderSortList, useOrders } from "../../lib/useOrders";
 import { SortData } from "../common-sections/SortData";
 import { TableHeader } from "../common-sections/TableHeader";
 import { Calender } from "./calender";
-import { DatePicker } from "./datePicker";
+import { Timeicker } from "./timeicker";
 import { RootState } from "../../../store";
 import { setCustomerOrder } from "../../../store/customerContractorSlice";
-import { SolutionistTypes } from "../../lib/types/solutionistTypes";
+import { SolutionistResponseTypes } from "../../lib/types/solutionistTypes";
 import { defaultWeeksData, extractDateParts } from "./data-setup";
 import { useState } from "react";
 import { DateSelection, WeeksData } from "../../lib/types/CalenderTypes";
@@ -16,13 +16,13 @@ import { OrderTypes } from "../../lib/types/orderTypes";
 
 type Props = {
   solutionistOrders: OrderTypes[] | [];
-  solutionistDeatils: SolutionistTypes | undefined;
+  customerSolutionistDetails: SolutionistResponseTypes;
   isTimeChangeAllow?: boolean;
   isDateChangeAllow?: boolean;
 };
 
 export const DateTimeSelection: React.FC<Props> = ({
-  solutionistDeatils,
+  customerSolutionistDetails,
   solutionistOrders,
 }) => {
   const dispatch = useDispatch();
@@ -46,7 +46,7 @@ export const DateTimeSelection: React.FC<Props> = ({
     currentYearSelection,
     date,
     isCurrentMonth,
-  } = useCalenderStates();
+  } = useCalenderStates(customerSolutionistDetails);
 
   const ordersGreaterThanTodaysDate = Array.isArray(solutionistOrders)
     ? solutionistOrders.filter((data) => {
@@ -109,7 +109,6 @@ export const DateTimeSelection: React.FC<Props> = ({
 
     const solutionDate = `${defaultValueDate?.month}/${extraZero}/${defaultValueDate?.year}`;
     const dateSelectedByUser = extractDateParts(solutionDate || "");
-    console.log("defaultValueDate ", defaultValueDate);
     const userDate = new Date(
       `${dateSelectedByUser?.month} ${dateSelectedByUser?.day}, ${dateSelectedByUser?.year}`
     );
@@ -147,12 +146,12 @@ export const DateTimeSelection: React.FC<Props> = ({
           dateSelectedByUser !== null ? dateSelectedByUser : defaultDateSelected
         }
         updateStore={updateStore}
-        solutionistDeatils={solutionistDeatils}
+        customerSolutionistDetails={customerSolutionistDetails}
         weeksArray={weeksArray}
         setWeeksArray={setWeeksArray}
       />
 
-      <DatePicker
+      <Timeicker
         requiredData={{
           date,
           userSelectedDate:
@@ -166,6 +165,7 @@ export const DateTimeSelection: React.FC<Props> = ({
         filteredOrders={filteredOrders}
         ordersGreaterThanTodaysDate={ordersGreaterThanTodaysDate}
         weeksArray={weeksArray}
+        customerSolutionistDetails={customerSolutionistDetails}
       />
 
       {filteredOrders.length > 0 && (
@@ -196,7 +196,7 @@ export const DateTimeSelection: React.FC<Props> = ({
                       key={`3-${index}`}
                     >
                       <div className="w-full md:w-60 text-center md:text-left mr-2">
-                        {customerID === order.customerInfo.customerID && (
+                        {customerID === order.customerInfo.id && (
                           <>
                             <div className="text-sm">
                               <span className="text-base font-semibold">
@@ -220,20 +220,20 @@ export const DateTimeSelection: React.FC<Props> = ({
                           {order.solutionDateContract.solutionStartTime}
                         </div>
 
-                        {customerID === order.customerInfo.customerID ? (
+                        {customerID === order.customerInfo.id ? (
                           <div className="text-sm">
                             <span className="text-base font-semibold">
                               Location:
                             </span>{" "}
-                            {`${order.customerInfo.address}`}
-                            <p>{`${order.customerInfo.city}, ${order.customerInfo.state}, ${order.customerInfo.zip}.`}</p>
+                            {`${order.customerAddress.street}`}
+                            <p>{`${order.customerAddress.city}, ${order.customerAddress.state}, ${order.customerAddress.postalCode}.`}</p>
                           </div>
                         ) : (
                           <div className="text-sm">
                             <span className="text-base font-semibold">
                               Location:
                             </span>{" "}
-                            {`${order.customerInfo.city}, ${order.customerInfo.state}.`}
+                            {`${order.customerAddress.city}, ${order.customerAddress.state}.`}
                           </div>
                         )}
                       </div>
@@ -253,7 +253,7 @@ export const DateTimeSelection: React.FC<Props> = ({
                           {order.selectedTalent}
                         </div>
 
-                        {customerID === order.customerInfo.customerID && (
+                        {customerID === order.customerInfo.id && (
                           <>
                             <div className="text-sm">
                               <span className="text-base font-semibold">

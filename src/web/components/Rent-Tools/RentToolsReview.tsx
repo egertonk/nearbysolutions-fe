@@ -33,6 +33,7 @@ export const RentToolsReview: React.FC<RentToolsReviewProps> = ({
           openImage={openImage}
           setOpenImage={setOpenImage}
           imageDetails={imageDetails}
+          featureName="tool"
         />
       )}
 
@@ -47,7 +48,7 @@ export const RentToolsReview: React.FC<RentToolsReviewProps> = ({
                     onClick={() => {
                       setImageDetails({
                         name: data.toolName,
-                        image: data.imageUrls,
+                        image: [data.imageUrls],
                       });
                       setOpenImage(true);
                     }}

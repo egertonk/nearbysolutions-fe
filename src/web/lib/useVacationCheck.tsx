@@ -1,6 +1,6 @@
 import { monthNameToNumber } from ".";
-import { SolutionistWorkSetting } from "../../store/solutionistWorkSettingsSlice";
 import { DateSelection, weeksArrayTypes } from "./types/CalenderTypes";
+import { SolutionistWorkSettingsTypes } from "./types/solutionistTypes";
 
 export const calculateDaysBetweenDates = (
   startDate: string,
@@ -18,13 +18,13 @@ export const calculateDaysBetweenDates = (
 };
 
 export const isVacationValid = (
-  solutionistWorkSettings: SolutionistWorkSetting,
+  solutionistWorkSettings: SolutionistWorkSettingsTypes,
   userSelectedDate: DateSelection,
   weeksArray?: weeksArrayTypes
 ) => {
-  const startDate = solutionistWorkSettings.vacationStartDate;
-  const endDate = solutionistWorkSettings.vacationEndDate;
-  const daysBetweenArray = calculateDaysBetweenDates(startDate, endDate);
+  const startDate = solutionistWorkSettings?.vacationStartDate;
+  const endDate = solutionistWorkSettings?.vacationEndDate;
+  const daysBetweenArray = calculateDaysBetweenDates(startDate ?? "", endDate ?? "");
 
   const calenderDate = `${userSelectedDate.day}/${userSelectedDate.month}/${userSelectedDate.year}`;
   const [splitDay, splitMonth, splitear] = calenderDate.split("/");
@@ -52,7 +52,7 @@ export const isVacationValid = (
 };
 
 export const useVacationCheck = (
-  solutionistWorkSettings: SolutionistWorkSetting,
+  solutionistWorkSettings: SolutionistWorkSettingsTypes,
   userSelectedDate: DateSelection
 ) => {
   const isTimeSelectionAllow = isVacationValid(

@@ -1,5 +1,6 @@
 import React from "react";
 import { ToolAndCustomerTypes } from "../../lib/types/DIYToolsListings";
+import { Address } from "../common-sections/Address";
 
 type Props = {
   customerAndToolInfo: ToolAndCustomerTypes;
@@ -47,63 +48,33 @@ export const ToolBillingDetails: React.FC<Props> = ({
     <div className="grid grid-cols-3 gap-4 displayBlock">
       <div className="mt-4">
         <h3 className="text-lg font-semibold">Customer Address</h3>
-        {customerAndToolInfo.toolRentalListing.toolCountry ===
-          "United States" ||
-        customerAndToolInfo.toolRentalListing.toolCountry === "USA" ||
-        customerAndToolInfo.toolRentalListing.toolCountry === "Canada" ? (
-          <p className="text-sm text-gray-600">
-            {customerAndToolInfo.customer?.firstName}{" "}
-            {customerAndToolInfo.customer?.lastName}
-            <br />
-            {customerAndToolInfo.customer?.address}
-            <br />
-            {customerAndToolInfo.customer?.city},{" "}
-            {customerAndToolInfo.customer?.zip}
-            {customerAndToolInfo.customer?.state},{" "}
-            {customerAndToolInfo.customer?.country}.
-          </p>
-        ) : (
-          <p className="text-sm text-gray-600">
-            {customerAndToolInfo.customer?.firstName}{" "}
-            {customerAndToolInfo.customer?.lastName}
-            <br />
-            {customerAndToolInfo.customer?.address}
-            <br />
-            {customerAndToolInfo.customer?.city},{" "}
-            {customerAndToolInfo.customer?.country}.
-          </p>
-        )}
+        <p className="text-sm text-gray-600">
+          {customerAndToolInfo.customerInformation?.firstName}{" "}
+          {customerAndToolInfo.customerInformation?.lastName}
+          <br />
+          <Address
+            country={customerAndToolInfo.customerInformation?.country ?? ""}
+            address={customerAndToolInfo.customerInformation?.address ?? ""}
+            city={customerAndToolInfo.customerInformation?.city ?? ""}
+            state={customerAndToolInfo.customerInformation?.state ?? ""}
+            zip={customerAndToolInfo.customerInformation?.zip ?? ""}
+          />
+        </p>
       </div>
 
       <div className="mt-6">
         <h3 className="text-lg font-semibold">Customer Billing address</h3>
         <p className="text-sm text-gray-600">
-          {customerAndToolInfo.toolRentalListing.toolCountry ===
-            "United States" ||
-          customerAndToolInfo.toolRentalListing.toolCountry === "USA" ||
-          customerAndToolInfo.toolRentalListing.toolCountry === "Canada" ? (
-            <p className="text-sm text-gray-600">
-              {customerAndToolInfo.customer?.firstName}{" "}
-              {customerAndToolInfo.customer?.lastName}
-              <br />
-              {customerAndToolInfo.customer?.address}
-              <br />
-              {customerAndToolInfo.customer?.city},{" "}
-              {customerAndToolInfo.customer?.zip}
-              {customerAndToolInfo.customer?.state},{" "}
-              {customerAndToolInfo.customer?.country}.
-            </p>
-          ) : (
-            <p className="text-sm text-gray-600">
-              {customerAndToolInfo.customer?.firstName}{" "}
-              {customerAndToolInfo.customer?.lastName}
-              <br />
-              {customerAndToolInfo.customer?.address}
-              <br />
-              {customerAndToolInfo.customer?.city},{" "}
-              {customerAndToolInfo.customer?.country}.
-            </p>
-          )}
+          {customerAndToolInfo.customerInformation?.firstName}{" "}
+          {customerAndToolInfo.customerInformation?.lastName}
+          <br />
+          <Address
+            country={customerAndToolInfo.customerInformation?.country ?? ""}
+            address={customerAndToolInfo.customerInformation?.address ?? ""}
+            city={customerAndToolInfo.customerInformation?.city ?? ""}
+            state={customerAndToolInfo.customerInformation?.state ?? ""}
+            zip={customerAndToolInfo.customerInformation?.zip ?? ""}
+          />
         </p>
       </div>
 

@@ -6,16 +6,17 @@ import { SortData } from "../common-sections/SortData";
 import { useFindWorkPostAJob } from "../../lib/useFindWorkPostAJob";
 import { useCustomerInfo } from "../customer/useCustomerInfo";
 
-export const FindWorkPostAJob: React.FC = () => {
-  const sortList = ["Date", "Time", "Amount"];
-  const { handleOnChange, handleSubmit, handleSort, filteredJobs } =
-    useFindWorkPostAJob(sortList);
+export const sortList = ["Date", "Time", "Amount"];
 
-  useCustomerInfo(false,1);
+export const FindWorkPostAJob: React.FC = () => {
+  const { handleOnChange, handleSubmit, handleSort, filteredJobs } =
+    useFindWorkPostAJob(sortList, "find-work");
+
+  useCustomerInfo(false, 49); // Fetch customer info using 49 for mow
 
   return (
     <>
-      <MainTitle title={"Customer Job Requests"} />
+      <MainTitle title="Customer Job Requests" />
       <SearchUI
         handleOnChange={handleOnChange}
         handleSubmit={handleSubmit}

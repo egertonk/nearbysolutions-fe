@@ -14,7 +14,7 @@ export const useImagePopup = () => {
   const [openImage, setOpenImage] = useState(false);
   const [imageDetails, setImageDetails] = useState<{
     name: string | "";
-    image: string | "";
+    image: string[] | [] ;
   }>();
 
   return {

@@ -10,6 +10,7 @@ import { CustomerInputs } from "./CustomerInputs";
 import { CustomerFormData } from "../../lib/types/OrderSolutionTypes";
 import { CountryTypes } from "../../lib/types/countryTypes";
 import { StateAndTerritorySelector } from "../common-sections/StateAndTerritorySelector";
+import { isUSCanadaAddress } from "../common-sections/Address";
 
 type GiftInputTypes = {
   customerOrder: CustomerFormData;
@@ -75,8 +76,8 @@ export const GiftForm: React.FC<GiftInputTypes> = ({
 
         <div className="relative flex items-center m-1">
           <CustomerInputs
-            id="giftInformationFor.address"
-            value={customerOrder.giftInformationFor.address}
+            id="giftInformationFor.street"
+            value={customerOrder.giftInformationFor.street}
             placeHolder="Enter address for gift reciever"
             updateInfo={updateGiftInfo}
           />
@@ -114,8 +115,7 @@ export const GiftForm: React.FC<GiftInputTypes> = ({
           </select>
         </div>
 
-        {(customerOrder.giftInformationFor.country === "United States" ||
-          customerOrder.giftInformationFor.country === "Canada") && (
+        {isUSCanadaAddress(customerOrder.giftInformationFor.country) && (
           <>
             <div className="relative flex items-center m-1">
               <StateAndTerritorySelector
@@ -127,8 +127,8 @@ export const GiftForm: React.FC<GiftInputTypes> = ({
             </div>
             <div className="relative flex items-center m-1">
               <CustomerInputs
-                id="giftInformationFor.zip"
-                value={customerOrder.giftInformationFor.zip}
+                id="giftInformationFor.postalCode"
+                value={customerOrder.giftInformationFor.postalCode}
                 placeHolder="Enter zip code for gift reciever"
                 updateInfo={updateGiftInfo}
               />

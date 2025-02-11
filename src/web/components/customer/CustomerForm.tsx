@@ -12,6 +12,8 @@ import { CustomerInputs } from "./CustomerInputs";
 import { CustomerFormData } from "../../lib/types/OrderSolutionTypes";
 import { CountryTypes } from "../../lib/types/countryTypes";
 import { StateAndTerritorySelector } from "../common-sections/StateAndTerritorySelector";
+import { customerFormFieldNames } from ".";
+import { isUSCanadaAddress } from "../common-sections/Address";
 
 type CustomerInputTypes = {
   customerOrder: CustomerFormData;
@@ -97,7 +99,7 @@ export const CustomerForm: React.FC<CustomerInputTypes> = ({
       <div className="grid lg:grid-cols-3 items-center gap-4 p-2 shadow-[0_2px_10px_-3px_rgba(6,81,237,0.3)] rounded-lg mt-8 w-full">
         <div className="relative flex items-center m-1">
           <CustomerInputs
-            id="firstName"
+            id={customerFormFieldNames.firstName}
             value={customerOrder.customerInfo.firstName}
             placeHolder="Enter your First Name"
             updateInfo={updateCustomerInfo}
@@ -107,7 +109,7 @@ export const CustomerForm: React.FC<CustomerInputTypes> = ({
 
         <div className="relative flex items-center m-1">
           <CustomerInputs
-            id="lastName"
+            id={customerFormFieldNames.lastName}
             value={customerOrder.customerInfo.lastName}
             placeHolder="Enter your Last Name"
             updateInfo={updateCustomerInfo}
@@ -117,7 +119,7 @@ export const CustomerForm: React.FC<CustomerInputTypes> = ({
 
         <div className="relative flex items-center m-1">
           <CustomerInputs
-            id="email"
+            id={customerFormFieldNames.email}
             value={customerOrder.customerInfo.email}
             placeHolder="Enter your email"
             updateInfo={updateCustomerInfo}
@@ -127,7 +129,7 @@ export const CustomerForm: React.FC<CustomerInputTypes> = ({
 
         <div className="relative flex items-center m-1">
           <CustomerInputs
-            id="phoneNumber"
+            id={customerFormFieldNames.phoneNumber}
             value={customerOrder.customerInfo.phoneNumber}
             placeHolder="Enter your Phone Number"
             updateInfo={updateCustomerInfo}
@@ -137,8 +139,8 @@ export const CustomerForm: React.FC<CustomerInputTypes> = ({
 
         <div className="relative flex items-center m-1">
           <CustomerInputs
-            id="address"
-            value={customerOrder.customerInfo.address}
+            id={customerFormFieldNames.street}
+            value={customerOrder.customerAddress.street}
             placeHolder="Enter your Home Address"
             updateInfo={updateCustomerInfo}
           />
@@ -147,8 +149,8 @@ export const CustomerForm: React.FC<CustomerInputTypes> = ({
 
         <div className="relative flex items-center m-1">
           <CustomerInputs
-            id="city"
-            value={customerOrder.customerInfo.city}
+            id={customerFormFieldNames.city}
+            value={customerOrder.customerAddress.city}
             placeHolder="Enter your City"
             updateInfo={updateCustomerInfo}
           />
@@ -158,40 +160,43 @@ export const CustomerForm: React.FC<CustomerInputTypes> = ({
         <div className="relative flex items-center m-1">
           <select
             className={`${customerInputCSS} ${
-              customerOrder.customerInfo.country.length === 0 && errorCss
+              customerOrder.customerAddress.country.length === 0 && errorCss
             }`}
-            id="country"
-            name="country"
-            value={customerOrder.customerInfo.country}
+            id={customerFormFieldNames.country}
+            name={customerFormFieldNames.country}
+            value={customerOrder.customerAddress.country}
             onChange={updateCustomerInfo}
           >
             <option className="h-20" value="">
               Select your Country
             </option>
             {validCountries?.map((countryData) => (
-              <option className="h-20" value={`${countryData.countryName}`}>
+              <option
+                className="h-20"
+                value={`${countryData.countryName}`}
+                key={countryData.countryName}
+              >
                 {countryData.countryName}
               </option>
             ))}
           </select>
         </div>
 
-        {(customerOrder.customerInfo.country === "United States" ||
-          customerOrder.customerInfo.country === "Canada") && (
+        {isUSCanadaAddress(customerOrder.customerAddress.country) && (
           <>
             <div className="relative flex items-center m-1">
               <StateAndTerritorySelector
                 className={customerInputCSS}
-                name={"state"}
-                value={customerOrder.customerInfo.state}
+                name={customerFormFieldNames.state}
+                value={customerOrder.customerAddress.state || ""}
                 onChange={updateCustomerInfo}
               />
             </div>
 
             <div className="relative flex items-center m-1">
               <CustomerInputs
-                id="zip"
-                value={customerOrder.customerInfo.zip}
+                id={customerFormFieldNames.postalCode}
+                value={customerOrder.customerAddress.postalCode || ""}
                 placeHolder="Enter your Zip Code"
                 updateInfo={updateCustomerInfo}
               />
@@ -200,14 +205,14 @@ export const CustomerForm: React.FC<CustomerInputTypes> = ({
           </>
         )}
 
-        {customerOrder.fixPriceStatus === false && (
+        {customerOrder.longTermSubscriptionAllow && (
           <LongTermContract
             dates={dates}
             setContractLength={setContractLength}
           />
         )}
       </div>{" "}
-      {showFutureApp && (
+      {showFutureApp && customerOrder.longTermSubscriptionAllow && (
         <div className="items-center gap-4 p-2 shadow-[0_2px_10px_-3px_rgba(6,81,237,0.3)] rounded-lg mt-8 w-full">
           <p className="text-purple-900 dark:text-purple text-base font-medium mt-3 text-center">
             Future Appointments{" "}

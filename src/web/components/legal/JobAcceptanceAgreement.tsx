@@ -10,12 +10,12 @@ type Props = {
     isShowTermsAndConditions: boolean;
     setIsShowTermsAndConditions: React.Dispatch<React.SetStateAction<boolean>>;
   };
-  postAJobOrder?: JobPosting;
+  jobOrder?: JobPosting;
 };
 
 export const JobAcceptanceAgreement: React.FC<Props> = ({
   isCustomer,
-  postAJobOrder,
+  jobOrder,
   booleanStatus,
 }) => {
   return (
@@ -37,6 +37,7 @@ export const JobAcceptanceAgreement: React.FC<Props> = ({
           }}
           className="w-4 h-4 text-blue-600 bg-gray-100 border-gray-300 rounded focus:ring-blue-500 dark:focus:ring-blue-600 dark:ring-offset-gray-800 focus:ring-2 dark:bg-gray-700 dark:border-gray-600"
         />
+
         <label
           htmlFor="link-checkbox"
           className={`${"ms-2 text-white text-lg font-medium dark:text-gray-300"}`}
@@ -81,6 +82,9 @@ export const JobAcceptanceAgreement: React.FC<Props> = ({
             console.log(
               "IF SOLUTIONIST update database --- send notification to job poster with a payment code and instruction--- send confirmation to solutionist and it own code --"
             );
+            booleanStatus.setIsShowTermsAndConditions(
+              !booleanStatus.isShowTermsAndConditions
+            );
           }}
           className="font-bold mt-2 mb-4 px-6 py-2.5 w-full text-lg text-white rounded bg-gray-600 hover:bg-gray-900 transition-all"
         >
@@ -92,17 +96,16 @@ export const JobAcceptanceAgreement: React.FC<Props> = ({
         <>
           <p className="mt-4 text-lg mb-4 text-white">
             Please feel free to reach out to{" "}
-            <strong>{postAJobOrder && postAJobOrder.customerName}</strong>{" "}
-            directly at{" "}
+            <strong>{jobOrder && jobOrder.customerName}</strong> directly at{" "}
             <a
               className="text-purple-400 font-bold "
-              href={`mailto:${postAJobOrder && postAJobOrder.email}`}
+              href={`mailto:${jobOrder && jobOrder.email}`}
             >
-              {postAJobOrder && postAJobOrder.email}
+              {jobOrder && jobOrder.email}
             </a>{" "}
             or{" "}
             <span className="text-purple-400 font-bold ">
-              {postAJobOrder && postAJobOrder.phoneNumber}
+              {jobOrder && jobOrder.phoneNumber}
             </span>{" "}
             if you have any questions or require additional details about the
             job.

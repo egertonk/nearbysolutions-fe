@@ -1,27 +1,27 @@
 import { Link } from "react-router-dom";
 import { addTalentSVG, removeTalentSVG } from "../../assets/svg/svgs";
-import { SolutionistTypes } from "../../lib/types/solutionistTypes";
+import { SolutionistResponseTypes } from "../../lib/types/solutionistTypes";
 
 type Props = {
   id: Number;
-  jobId: Number;
+  skillId: Number;
   isFavoriteValid: boolean;
-  talentData: SolutionistTypes;
+  talentData: SolutionistResponseTypes;
 };
 
 export const SolutionistFavoriteAddAndRemove: React.FC<Props> = ({
   id,
-  jobId,
+  skillId,
   isFavoriteValid,
   talentData,
 }) => {
   return (
     <div className="grid grid-cols-4 gap-4 mb-0">
       <div className="col-span-3">
-        {(id === talentData.talent.solutionist.id || id === -1) && (
+        {(id === talentData.solutionistInformation.id || id === -1) && (
           <Link
             className="px-4 py-2 text-sm text-white bg-purple-600"
-            to={`/talent-detail-page?talentId=${talentData?.talent?.solutionist?.id}&jobId=${jobId}`}
+            to={`/talent-detail-page?solutionistId=${talentData?.solutionistInformation?.id}&skillId=${skillId}`}
           >
             Hire
           </Link>

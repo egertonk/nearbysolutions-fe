@@ -30,8 +30,8 @@ export const useTimeIntervals = () => {
   // Function to generate 30-minute interval times in 24-hour and 12-hour formats
   const generateIntervals = (start: string, end: string) => {
     const intervals = [];
-    const [startHour, startMinute] = start.split(":").map(Number);
-    const [endHour, endMinute] = end.split(":").map(Number);
+    const [startHour, startMinute] = start?.split(":").map(Number);
+    const [endHour, endMinute] = end?.split(":").map(Number);
     const startDate = new Date(2024, 0, 1, startHour, startMinute); // Use a fixed date
     const endDate = new Date(2024, 0, 1, endHour, endMinute);
 
@@ -44,7 +44,7 @@ export const useTimeIntervals = () => {
       const minute = time.getMinutes();
       const hourString = hour.toString().padStart(2, "0");
       const minuteString = minute.toString().padStart(2, "0");
-      intervals.push({
+      intervals?.push({
         twentyFourHour: `${hourString}:${minuteString}`,
         twelveHour: `${(hour % 12 || 12)
           .toString()

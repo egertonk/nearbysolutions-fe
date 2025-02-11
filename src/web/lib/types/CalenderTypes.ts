@@ -1,5 +1,6 @@
 import { CustomerFormData } from "./OrderSolutionTypes";
 import { OrderTypes } from "./orderTypes";
+import { SolutionistResponseTypes } from "./solutionistTypes";
 
 export type DateSelection = {
   day: number;
@@ -26,6 +27,7 @@ export type TimeProps = {
   filteredOrders: CustomerFormData[];
   ordersGreaterThanTodaysDate: OrderTypes[] | [];
   weeksArray: WeeksData;
+  customerSolutionistDetails: SolutionistResponseTypes;
 };
 
 export type weeksArrayTypes = {

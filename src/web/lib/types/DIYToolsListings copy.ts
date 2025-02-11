@@ -2,9 +2,6 @@ export type RentalOrderHistory = {
   id: number;
   customerId: number;
   paymentStatus: string;
-  paymentMethod: string;
-  cardholderName: string;
-  last4Digits: string;
   transactionId: string;
   amountPaid: number;
   toolName: string;
@@ -12,16 +9,13 @@ export type RentalOrderHistory = {
   toolCategory: string;
   toolPricePerDay: number;
   toolRentalDays: number;
-  toolSubtotal: number;
-  toolTax: number;
-  toolTotal: number;
-  pickupDateTime: string; // ISO string format
+  pickupDateTime: string; // ISO Date-Time string
   pickupAddressName: string;
   pickupAddressStreet: string;
   pickupAddressCity: string;
   pickupAddressState: string;
   pickupAddressCountry: string;
-  dropoffDateTime: string; // ISO string format
+  dropoffDateTime: string; // ISO Date-Time string
   dropoffAddressName: string;
   dropoffAddressStreet: string;
   dropoffAddressCity: string;
@@ -30,33 +24,54 @@ export type RentalOrderHistory = {
   providerName: string;
   providerEmail: string;
   providerPhone: string;
-  createdAt: string; // ISO string format
-  updatedAt: string; // ISO string format
-  orderStatus: "Order-Confirmed" | "Picked-Up" | "Dropped-Off" | "Completed";
-  image?: string; // Optional field for image URL
+  createdAt: string; // ISO Date-Time string
+  updatedAt: string; // ISO Date-Time string
+  orderStatus: string;
+  image?: string;
   description: string;
-  fromDate: string; // ISO date format
-  fromTime: string; // ISO time format
-  untilDate: string; // ISO date format
-  untilTime: string; // ISO time format
+  fromDate: string; // ISO Date string
+  fromTime: string; // Time string
+  untilDate: string; // ISO Date string
+  untilTime: string; // Time string
   toolZipcode: string;
   discountPrice: number;
   discountPercent: number;
   toolId: number;
-
-  // New Fields for Owner and Renter Details
   ownerFullName: string;
   renterFullName: string;
   ownerEmail: string;
   renterEmail: string;
   ownerPhoneNumber: string;
   renterPhoneNumber: string;
-
-  // New Fields for Renter Address
   renterAddressName: string;
   renterAddressStreet: string;
   renterAddressCity: string;
   renterZipCode: string;
   renterAddressState: string;
   renterAddressCountry: string;
+};
+
+export type PaymentDetails = {
+  paymentId: number;
+  rentalOrderHistoryId: number;
+  customerId: number;
+  cardholderName: string;
+  cardNumberLast4: string;
+  cardExpiry: string; // Format MM/YYYY
+  cvv: string;
+  paymentMethod: string;
+  billingAddress: string;
+  billingPhone: string;
+  amountDue: number;
+  amountPaid: number;
+  taxAmount: number;
+  currency: string;
+  paymentStatus: string;
+  createdAt: string; // ISO Date-Time string
+  updatedAt: string; // ISO Date-Time string
+};
+
+export type FullPaymentDetailsDTO = {
+  rentalDetails: RentalOrderHistory;
+  paymentDetails: PaymentDetails;
 };

@@ -1,34 +1,70 @@
-import { handleError } from "./fetchErrors";
+import { useMutation, useQueryClient } from "@tanstack/react-query";
 
-const localHostURL = "http://localhost:8080/api/";
-
+const localHostURL = "http://localhost:3000"; // Update with your actual API URL
 const headers = {
   "Content-Type": "application/json",
   "Access-Control-Allow-Origin": "*",
   "Access-Control-Allow-Methods": "GET,POST,PATCH,OPTIONS",
 };
 
-export const getWrapper = async (endpointName: string) => {
+export const useAdddMutation = () => {
+  const queryClient = useQueryClient();
+
+  const useAddd = useMutation({
+    mutationFn: ({
+      endpointName,
+      body,
+    }: {
+      endpointName: string;
+      body: object;
+    }) => addd(endpointName, body),
+    onSuccess: () => {
+      queryClient.invalidateQueries({ queryKey: ["fafa"] });
+    },
+    onError: (error) => {
+      console.error("Mutation Error:", error);
+    },
+  });
+
+  return {
+    useAddd,
+  };
+};
+
+export const addd = async (endpointName: string, body: object) => {
+  return await postWrapper(endpointName, body);
+};
+
+export const postWrapper = async (endpointName: string, body: object) => {
   try {
     const response = await fetch(`${localHostURL}/${endpointName}`, {
-      method: "GET",
+      method: "POST",
       headers,
+      mode: "cors",
+      body: JSON.stringify(body),
     });
 
-    // Check if the response has a JSON content-type
     const noJSON = !response.headers
       .get("content-type")
       ?.includes("application/json");
 
-    // Check for error status and handle accordingly
     if (!response.ok) {
       await handleError(response, noJSON);
     }
 
-    // If no error, return parsed JSON or text data
     return noJSON ? await response.text() : await response.json();
   } catch (error) {
-    // Return or throw the error to be handled by the calling code
-    return error;
+    console.error("Post Wrapper Error:", error);
+    throw error;
   }
+};
+
+// Helper function for handling errors
+const handleError = async (response: Response, noJSON: boolean) => {
+  const errorData = noJSON ? await response.text() : await response.json();
+  throw new Error(
+    `Error ${response.status}: ${
+      response.statusText
+    }. Response: ${JSON.stringify(errorData)}`
+  );
 };

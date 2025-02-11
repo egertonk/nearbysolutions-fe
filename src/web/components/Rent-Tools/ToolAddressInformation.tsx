@@ -3,6 +3,7 @@ import { ProductFormDataTypes, ProductFormErrorTypes } from "./RentYourTools";
 import { JobInputs } from "../Find-Work-Post-A-Job/JobInputs";
 import { StateAndTerritorySelector } from "../common-sections/StateAndTerritorySelector";
 import { CountryTypes } from "../../lib/types/countryTypes";
+import { isUSCanadaAddress } from "../common-sections/Address";
 
 type ToolAddressInformationProps = {
   productFormData: ProductFormDataTypes;
@@ -88,8 +89,7 @@ export const ToolAddressInformation: React.FC<ToolAddressInformationProps> = ({
         )}
       </div>
 
-      {(productFormData.toolCountry === "United States" ||
-        productFormData.toolCountry === "Canada") && (
+      {isUSCanadaAddress(productFormData.toolCountry) && (
         <>
           <div className="relative flex items-center">
             <label className="text-[13px] bg-white text-black absolute px-2 top-[-10px] left-[18px]">

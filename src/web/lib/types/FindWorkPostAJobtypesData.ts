@@ -1,7 +1,26 @@
-type AttachmentType = {
-  type: string; // e.g., "image", "pdf"
-  url: string; // URL of the attachment
-  description: string; // Description of the attachment
+import { PaymentDetails } from "./DIYToolsListings copy";
+
+export type imageDetailsTypes = {
+  name: string;
+  image: string[];
+};
+
+export type JobDetailTypes = {
+  id: string;
+  jobName: string;
+  jobTask: string;
+  jobPrice: string;
+  jobZip: string;
+  jobCityLocation: string;
+  jobDate: string;
+  time: string;
+  email: string;
+  jobCountry: string;
+  jobState: string;
+  urgencyLevel: string;
+  phoneNumber: string;
+  customerName: string;
+  jobAddress: string;
 };
 
 export type JobPosting = {
@@ -13,34 +32,44 @@ export type JobPosting = {
   jobZip: string;
   jobCityLocation: string;
   jobAddress: string;
-  date: string;
-  time: string;
-  urgencyLevel: "Low" | "Medium" | "High";
+  jobDate: string; // ISO 8601 Date format (YYYY-MM-DD)
+  time: string; // Time in HH:MM:SS format
+  urgencyLevel: "Low" | "Medium" | "High"; // Define as an enum if applicable
   expectedDuration: string;
-  materialsProvided: string;
+  materialsProvided: "Yes" | "No"; // Consider using a boolean instead
   email: string;
-  jobCountry: string;
-  jobState: string;
   phoneNumber: string;
   customerName: string;
-  preferredCommunicationMethod: "Email" | "Phone" | "Text Message";
-  jobStatus: boolean;
-  jobAcceptedByCustomer: boolean;
-  jobAcceptedBySolutionist: boolean;
-  paymentMethod:
+  preferredCommunicationMethod: "Email" | "Phone" | "Text";
+  experienceLevel: "Beginner" | "Intermediate" | "Expert";
+  providerGenderPreference: "None" | "Male" | "Female";
+  paymentMethodOnFile:
     | "Cash"
     | "Credit Card"
     | "PayPal"
     | "Bank Transfer"
     | "Digital Payment"; // Accepted payment method
-  experienceLevel: string;
-  providerGenderPreference: "None" | "Male" | "Female";
-  paymentMethodOnFile: string;
   paymentStatus: boolean;
   cancellationPolicy: string;
   specialInstructions: string;
   accessibilityInformation: string;
-  image: string; // One Imaage
+  poster_id: number;
+  jobCountry: string;
+  jobState: string;
+  jobAcceptedBySolutionist: boolean;
+  jobAcceptedByPoster: boolean;
+  paymentId: number;
+  jobStatus: "Pending" | "Under Review" | "Completed" | "Cancelled"; // Add more statuses as needed
+  createdAt: string; // ISO 8601 Date-time format
+  updatedAt: string; // ISO 8601 Date-time format
+  images: string[]; // Array of image URLs
+  jobCategory: string;
+  jobCategoryServices: string;
+};
+
+export type FullJobPostingDetails = {
+  jobPosting: JobPosting;
+  paymentDetails: PaymentDetails;
 };
 
 export type NoLicensePermitVerificationServiceTypes = {

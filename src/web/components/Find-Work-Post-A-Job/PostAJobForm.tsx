@@ -24,7 +24,7 @@ export const PostAJobForm: React.FC = () => {
         <>
           <MainTitle title={"Post a Job"} />
 
-          {/* {postData.generalDescription?.length > 0 &&
+          {postData.generalDescription?.length > 0 &&
             postData.postAJobOrder?.jobName.length > 0 && (
               <GeneralBannerInfo
                 title={`General ${postData.postAJobOrder.jobName} 
@@ -32,7 +32,7 @@ export const PostAJobForm: React.FC = () => {
                 description={postData.generalDescription as unknown as string}
                 titleBG={"bg-red-500"}
               />
-            )} */}
+            )}
 
           {"Job Not Listed" === postData.userCategory && (
             <GeneralBannerInfo
@@ -247,16 +247,18 @@ export const PostAJobForm: React.FC = () => {
                 </label>
                 <input
                   type="date"
-                  name="date"
+                  name="jobDate"
                   className="px-4 py-3 bg-[#f0f1f2] text-black w-full text-sm outline-[#007bff] rounded"
-                  value={postData.postAJobOrder.date}
+                  value={postData.postAJobOrder.jobDate}
                   onChange={postActions.handleChange}
                   min={
                     new Date(Date.now() + 86400000).toISOString().split("T")[0]
                   } //Data is one day ahead
                 />
-                {postData.errors.date && (
-                  <p className="text-red-500 text-xs">{postData.errors.date}</p>
+                {postData.errors.jobDate && (
+                  <p className="text-red-500 text-xs">
+                    {postData.errors.jobDate}
+                  </p>
                 )}
               </div>
 

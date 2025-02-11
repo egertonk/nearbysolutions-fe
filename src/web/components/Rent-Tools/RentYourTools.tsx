@@ -1,11 +1,12 @@
 import { useMemo, useState } from "react";
 import { MainTitle } from "../common-sections/MainTitle";
 import { AddProductModal } from "./AddProductModal";
-import { useGetCoutries } from "../../utils/fetchEndpoints";
 import { ToolAddressInformation } from "./ToolAddressInformation";
 import { FormProgressBar } from "../common-sections/FormProgressBar";
 import { RentToolsReview } from "./RentToolsReview";
 import { useBooleans } from "../common-sections/useBooleans";
+import { CountryTypes } from "../../lib/types/countryTypes";
+import { useGetCountries } from "../../utils/fetchEndpoints";
 
 export type ProductFormDataTypes = {
   toolName: string;
@@ -31,7 +32,7 @@ export type ProductFormErrorTypes = {
 };
 
 export const RentYourTools: React.FC = () => {
-  const { data: coutries } = useGetCoutries();
+  const { data: coutries } = useGetCountries();
   const validCountries = useMemo(() => {
     return coutries?.filter((country) => country.featureFlag) || [];
   }, [coutries]);

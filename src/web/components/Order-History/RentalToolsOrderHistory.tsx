@@ -26,7 +26,7 @@ type OrderListProps = {
   orderList: RentalOrderHistory[];
 };
 
-export const OrderList: React.FC<OrderListProps> = ({ orderList }) => {
+export const RentalToolsOrderHistory: React.FC<OrderListProps> = ({ orderList }) => {
   const navigate = useNavigate();
   const [statusFilter, setStatusFilter] = useState<string>("All orders");
   const [sortBy, setSortBy] = useState<string>("date");

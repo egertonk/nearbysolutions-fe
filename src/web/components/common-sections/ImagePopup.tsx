@@ -1,4 +1,9 @@
 import React from "react";
+import { Swiper, SwiperSlide } from "swiper/react";
+import { Navigation, Pagination, Autoplay } from "swiper/modules";
+import "swiper/css";
+import "swiper/css/navigation";
+import "swiper/css/pagination";
 import {
   Description,
   Dialog,
@@ -6,25 +11,27 @@ import {
   DialogTitle,
 } from "@headlessui/react";
 import jobSearchListImage from "../../assets/images/customer-job-requests.jpeg";
-import { JobPosting } from "../../lib/types/FindWorkPostAJobtypesData";
+import {
+  imageDetailsTypes,
+  JobPosting,
+} from "../../lib/types/FindWorkPostAJobtypesData";
 import { grayButtonCSS } from "../../assets/common-css/css";
-
-export type imageDetailsTypes = {
-  name: string;
-  image: string;
-};
 
 type Props = {
   openImage: boolean;
   setOpenImage: React.Dispatch<React.SetStateAction<boolean>>;
   imageDetails: JobPosting | imageDetailsTypes | undefined;
+  featureName: string;
 };
 
 export const ImagePopup: React.FC<Props> = ({
   openImage,
   setOpenImage,
   imageDetails,
+  featureName,
 }) => {
+  const imageArray: string[] = (imageDetails as imageDetailsTypes)?.image;
+
   return (
     <>
       {imageDetails && (
@@ -34,13 +41,11 @@ export const ImagePopup: React.FC<Props> = ({
           className="relative z-50"
           key={Math.random()}
         >
-          {/* Backdrop */}
           <div
             className="fixed inset-0 bg-black bg-opacity-45"
             aria-hidden="true"
           />
 
-          {/* Dialog Panel */}
           <DialogPanel className="fixed inset-0 flex items-center justify-center p-4">
             <div className="w-full items-center max-w-md rounded bg-white p-6">
               <DialogTitle className="text-lg font-medium w-full">
@@ -51,21 +56,45 @@ export const ImagePopup: React.FC<Props> = ({
                 </h3>
               </DialogTitle>
               <Description className="mt-2 text-sm text-gray-500">
-                <img
-                  src={`${
-                    imageDetails?.image?.length > 0
-                      ? imageDetails.image
-                      : jobSearchListImage
-                  }`}
-                  className="h-auto w-full items-center rounded-full"
-                  alt="job"
-                />
-                <button
-                  className={`cursor-pointer ${grayButtonCSS}`}
-                  onClick={() => setOpenImage(false)}
-                >
-                  Close
-                </button>
+                {imageArray.length > 0 ? (
+                  <Swiper
+                    modules={[Navigation, Pagination, Autoplay]}
+                    spaceBetween={20}
+                    slidesPerView={1} // Only one image per view
+                    navigation
+                    pagination={{ clickable: true }}
+                    autoplay={{ delay: 3000 }}
+                    className="rounded-lg"
+                  >
+                    {imageArray.map((image, index) => (
+                      <SwiperSlide
+                        key={`${featureName}--${index}`}
+                        className="p-4"
+                      >
+                        <img
+                          className="w-full h-60 object-cover rounded-lg"
+                          src={image}
+                          alt={`${featureName}-${index}`}
+                        />
+                      </SwiperSlide>
+                    ))}
+                  </Swiper>
+                ) : (
+                  <img
+                    className="h-auto w-full items-center rounded-full"
+                    src={jobSearchListImage}
+                    alt={featureName + ` image`}
+                  />
+                )}
+
+                <div className="button-container">
+                  <button
+                    className={`cursor-pointer ${grayButtonCSS}`}
+                    onClick={() => setOpenImage(false)}
+                  >
+                    Close
+                  </button>
+                </div>
               </Description>
             </div>
           </DialogPanel>

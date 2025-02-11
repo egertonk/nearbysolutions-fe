@@ -70,7 +70,7 @@ export const WorkOrderList: React.FC<Props> = ({
                       <div className="text-base font-semibold">
                         Talent: {order.solutionJob}
                       </div>
-                      {customerProfileID === order.customerInfo.customerID && (
+                      {customerProfileID === order.customerInfo.id && (
                         <>
                           <div className="text-sm">
                             <span className="text-purple font-semibold">
@@ -117,7 +117,7 @@ export const WorkOrderList: React.FC<Props> = ({
                         Task Location
                       </div>
                       <div className="text-center text-sm font-semibold text-blue-800">
-                        {order.customerInfo.city}, {order.customerInfo.state}
+                        {order.customerAddress.city}, {order.customerAddress.state}
                       </div>
                     </div>
 

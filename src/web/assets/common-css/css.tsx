@@ -1,5 +1,8 @@
 import { SolutionistWorkSetting } from "../../../store/solutionistWorkSettingsSlice";
-import { SolutionistTypes } from "../../lib/types/solutionistTypes";
+import {
+  AvailableDaysTypes,
+  SolutionistResponseTypes,
+} from "../../lib/types/solutionistTypes";
 import {
   DayKeys,
   dayWithShortNames,
@@ -54,79 +57,85 @@ export const getDateStyle = (
   customerOrder: CustomerFormData,
   userSelectedDate: DateSelection,
   weeksArray: WeeksData,
-  solutionistDeatils: SolutionistTypes | undefined,
+  customerSolutionistDetails: SolutionistResponseTypes,
   currentMonthYear: {
     showMonth: string;
     showYear: number;
   },
   solutionistWorkSettings: SolutionistWorkSetting,
   days: { day: number; dayTitle: string }
-) => {
+): string => {
+  // Destructure current month/year and user-selected date
   const { showMonth, showYear } = currentMonthYear;
   const { month, year, day } = userSelectedDate;
 
+  // Parse solutionist's available days
+  const availableDays = (() => {
+    const availableDaysJSON =
+      customerSolutionistDetails?.solutionistWorkSettings?.availableDays;
+    if (!availableDaysJSON) return [];
+    try {
+      const parsedDays = JSON.parse(availableDaysJSON as string);
+      return parsedDays?.days || [];
+    } catch {
+      return [];
+    }
+  })();
+
+  // Convert solution date to Date object
   const solutionDate = new Date(
     customerOrder.solutionDateContract.solutionDate
   );
-
   const systemDate = new Date();
 
-  const sameMonth = month === weeksArray?.month && year === weeksArray?.year;
-
-  const availableDays =
-    solutionistDeatils?.talent?.solutionistWorkSettings?.[0]?.availableDays ||
-    "";
-
+  // Determine current system and calendar month numbers
   const systemMonthNumber =
-    monthNameToNumberMarch[monthNames[systemDate.getMonth()]?.substring(0, 3)];
+    monthNameToNumberMarch[monthNames[systemDate.getMonth()].substring(0, 3)];
   const currentMonthNumber =
     monthNameToNumberMarch[weeksArray?.month?.substring(0, 3)];
 
-  const currentCalendarVacationCheck = {
-    day: days.day,
-    month: showMonth,
-    year: showYear,
-  };
-  const dayKey = days.dayTitle;
+  // Helper: Check if a day is available
+  const isDayAvailable = availableDays.includes(
+    dayWithShortNames[days.dayTitle as DayKeys]
+  );
 
+  // Helper: Vacation validation
+  const isVacation = isVacationValid(
+    customerSolutionistDetails.solutionistWorkSettings,
+    { day: days.day, month: showMonth, year: showYear },
+    weeksArray
+  );
+
+  // Helper: Check if same month and year
+  const isSameMonthAndYear =
+    month === weeksArray?.month && year === weeksArray?.year;
+
+  // Return styles based on conditions
+  if (!isDayAvailable && availableDays.length > 0) {
+    return disablePastDatesTime; // Gray-out unavailable days
+  }
+  if (isVacation) {
+    return vacationCSS; // Vacation days
+  }
+  if (day === days.day && isSameMonthAndYear) {
+    return selectedCSS; // Highlight selected day
+  }
+  if (solutionDate.getDate() === days.day && isSameMonthAndYear) {
+    return selectedCSS; // Highlight solution date
+  }
+  if (weeksArray?.year === year && systemMonthNumber < currentMonthNumber) {
+    return ""; // Valid future dates
+  }
   if (
-    availableDays.includes(dayWithShortNames[dayKey as DayKeys]) === false &&
-    availableDays?.length > 0
-  ) {
-    console.log("1--contractor availableDays");
-    return disablePastDatesTime;
-  } else if (
-    isVacationValid(
-      solutionistWorkSettings,
-      currentCalendarVacationCheck,
-      weeksArray
-    )
-  ) {
-    console.log("1--");
-    return vacationCSS;
-  } else if (day === days.day && sameMonth) {
-    console.log("2--");
-    return selectedCSS;
-  } else if (solutionDate.getDate() === days.day && sameMonth) {
-    console.log("3--");
-    return selectedCSS;
-  } else if (
-    weeksArray?.year === year &&
-    systemMonthNumber < currentMonthNumber
-  ) {
-    console.log("4--");
-    return "";
-  } else if (
     systemMonthNumber === currentMonthNumber &&
     systemDate.getDate() > days.day
   ) {
-    console.log("5--");
-    return disablePastDatesTime;
-  } else if (
-    weeksArray?.year === year &&
-    systemMonthNumber > currentMonthNumber
-  ) {
-    console.log("6--");
-    return disablePastDatesTime;
+    return disablePastDatesTime; // Disable past days
   }
+  if (weeksArray?.year === year && systemMonthNumber > currentMonthNumber) {
+    return disablePastDatesTime; // Disable future invalid dates
+  }
+
+  // Default return
+  return "";
 };

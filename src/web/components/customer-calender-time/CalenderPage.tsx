@@ -5,7 +5,7 @@ import { DateTimeSelection } from "./DateTimeSelection";
 import { MainTitle } from "../common-sections/MainTitle";
 import {
   useGetOrdersWithSolutionistId,
-  useGetUserWithId,
+  useGetSolutionistWithIdAndSkillId,
 } from "../../utils/fetchEndpoints";
 import { RootState } from "../../../store";
 import { CustomerFormData } from "../../lib/types/OrderSolutionTypes";
@@ -14,6 +14,7 @@ import {
   setAllSolutionistWorkSettings,
   SolutionistWorkSetting,
 } from "../../../store/solutionistWorkSettingsSlice";
+import { SolutionistResponseTypes } from "../../lib/types/solutionistTypes";
 
 export const TalentDetailPage: React.FC = () => {
   const location = useLocation();
@@ -24,56 +25,59 @@ export const TalentDetailPage: React.FC = () => {
     (state: RootState) => state.formData.customerOrder
   );
 
+  console.log("customerOrder = ", customerOrder);
   const searchParams = new URLSearchParams(location.search);
-  const talentId = searchParams.get("talentId"); // Access `talentId` directly
-  const jobId = searchParams.get("jobId"); // Access `jobId` directly
+  const solutionistId = searchParams.get("solutionistId"); // Access `solutionistId` directly
+  const skillId = searchParams.get("skillId"); // Access `jobId` directly
   const isCalenderReady = !(
     customerOrder.solutionDateContract.solutionStartTime.length > 0 &&
     customerOrder.solutionDateContract.solutionDate.length > 0
   );
 
-  const { data: solutionistDeatils, isFetching } = useGetUserWithId(
-    Number(talentId)
-  );
+  const { data: customerSolutionistDetails, isFetching } =
+    useGetSolutionistWithIdAndSkillId(Number(solutionistId), Number(skillId));
   const { data: solutionistOrders } = useGetOrdersWithSolutionistId(
-    Number(talentId)
+    Number(solutionistId)
   );
 
   useEffect(() => {
-    const jobDetails = solutionistDeatils?.talent?.jobTitle.find(
-      (job) => job?.id === Number(jobId)
-    );
-
     const updatedOrder: CustomerFormData = {
       ...customerOrder,
-      solutionJob: jobDetails?.title || "",
-      selectedTalent: jobDetails?.title || "",
-      talentID: solutionistDeatils?.talent?.solutionist.id || 0,
-      talentFirstName: solutionistDeatils?.talent?.solutionist.firstName || "",
-      talentLastName: solutionistDeatils?.talent?.solutionist?.lastName || "",
-      solutionPrice:
-        (jobDetails?.isFixPrice
-          ? jobDetails.fixPrice
-          : jobDetails?.ratePerHour) || 0,
+      solutionJob: customerSolutionistDetails?.solutionistSkills
+        ? customerSolutionistDetails?.solutionistSkills[0]?.name
+        : "",
+      selectedTalent: customerSolutionistDetails?.solutionistSkills
+        ? customerSolutionistDetails?.solutionistSkills[0]?.name
+        : "",
+      talentID: customerSolutionistDetails?.solutionistInformation
+        ? customerSolutionistDetails?.solutionistInformation.id
+        : 0,
+      talentFirstName: customerSolutionistDetails?.solutionistInformation
+        ? customerSolutionistDetails?.solutionistInformation.firstName
+        : "",
+      talentLastName: customerSolutionistDetails?.solutionistInformation
+        ? customerSolutionistDetails?.solutionistInformation.lastName
+        : "",
+      solutionPrice: customerSolutionistDetails?.solutionistSkills
+        ? customerSolutionistDetails?.solutionistSkills[0]?.fixPrice
+        : 0,
+      solutionPriceDiscountPercentage: 0,
+      longTermSubscriptionAllow:
+        customerSolutionistDetails?.solutionistWorkSettings
+          ?.longTermSubscriptionAllow ?? false,
     };
-
     dispatch(setCustomerOrder(updatedOrder));
-    dispatch(
-      setAllSolutionistWorkSettings(
-        solutionistDeatils?.talent
-          ?.solutionistWorkSettings[0] as SolutionistWorkSetting
-      )
-    );
   }, [isFetching]);
 
   return (
     <>
-      {/* <StepperProgress /> */}
       <MainTitle title="Select Date and Time" />
 
       <div className="flex flex-col lg:flex-row justify-center">
         <DateTimeSelection
-          solutionistDeatils={solutionistDeatils}
+          customerSolutionistDetails={
+            customerSolutionistDetails as unknown as SolutionistResponseTypes
+          }
           solutionistOrders={solutionistOrders ?? []}
         />
       </div>
@@ -92,14 +96,13 @@ export const TalentDetailPage: React.FC = () => {
       <hr className="w-full h-1 mx-auto my-4 bg-purple-300 border-0 rounded md:my-10 dark:bg-gray-700"></hr>
 
       {/* {Contractor jobs and slideshow} */}
-      <div className="flex flex-col lg:flex-row justify-center">
+      {/* <div className="flex flex-col lg:flex-row justify-center">
         <div
           id="default-carousel"
           className="relative w-full md:py-8 py-5 px-5 "
           data-carousel="slide"
         >
           <div className="relative h-48 overflow-hidden rounded-lg md:h-96">
-            {/* {use hidden to show picture or not} */}
             <div className="duration-700 ease-in-out" data-carousel-item>
               <img
                 src="https://images.unsplash.com/photo-1438761681033-6461ffad8d80?ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&ixlib=rb-1.2.1&auto=format&fit=crop&w=1170&q=80"
@@ -199,7 +202,7 @@ export const TalentDetailPage: React.FC = () => {
             </span>
           </button>
         </div>
-      </div>
+      </div> */}
     </>
   );
 };

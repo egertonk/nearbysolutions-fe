@@ -41,16 +41,7 @@ export const PaymentSumary: React.FC = () => {
                         Job Price
                       </dt>
                       <dd className="text-base font-medium text-gray-900 dark:text-white">
-                        ${postAJobOrder.jobPrice}
-                      </dd>
-                    </dl>
-
-                    <dl className="flex items-center justify-between gap-4 py-3">
-                      <dt className="text-base font-normal text-gray-500 dark:text-gray-400">
-                        Subtotal
-                      </dt>
-                      <dd className="text-base font-medium text-gray-900 dark:text-white">
-                        ${postAJobOrder.jobPrice}
+                        ${customerOrder.solutionPrice}
                       </dd>
                     </dl>
 
@@ -59,8 +50,17 @@ export const PaymentSumary: React.FC = () => {
                         Tax
                       </dt>
                       <dd className="text-base font-medium text-gray-900 dark:text-white">
-                        $5
+                        ${(customerOrder.solutionPrice * 0.05).toFixed(2)}
                         {/* later calculate the tax and add to total */}
+                      </dd>
+                    </dl>
+
+                    <dl className="flex items-center justify-between gap-4 py-3">
+                      <dt className="text-base font-normal text-gray-500 dark:text-gray-400">
+                        Subtotal
+                      </dt>
+                      <dd className="text-base font-medium text-gray-900 dark:text-white">
+                        ${getToral(Number(customerOrder.solutionPrice), 5)}
                       </dd>
                     </dl>
 
@@ -69,7 +69,7 @@ export const PaymentSumary: React.FC = () => {
                         Total (Payment On Hold)
                       </dt>
                       <dd className="text-base font-bold text-gray-900 dark:text-white">
-                        ${getToral(Number(postAJobOrder.jobPrice), 5)}
+                        ${getToral(Number(customerOrder.solutionPrice), 5)}
                       </dd>
                     </dl>
                   </>
