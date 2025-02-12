@@ -2,12 +2,13 @@ import { useEffect, useState } from "react";
 import { JobPosting } from "./types/FindWorkPostAJobtypesData";
 import { useJobPosting } from "../utils/fetchEndpoints";
 import { localHostURL } from "../utils/fetchGet";
+import { isFeature } from "../components/common-sections/InfiniteScroll ";
 
 export const useFindWorkPostAJob = (
   sortList: string[],
   featureName: string
 ) => {
-  const isHomePage = featureName === "home-page";
+  const isHomePage = isFeature(featureName);
   const { data: jobPostings, isFetching: isJobPostingFetching } = useJobPosting(
     isHomePage ? 0 : 0,
     isHomePage ? 5 : 10

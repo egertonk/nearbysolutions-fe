@@ -1,6 +1,10 @@
 import { useState, useEffect, useRef, useCallback } from "react";
 import { SolutionistResponseTypes } from "../../lib/types/solutionistTypes";
 
+export const isFeature = (featureName: string): boolean => {
+  return featureName === "home-page";
+};
+
 export const useInfiniteScroll = (apiUrl: string) => {
   const [items, setItems] = useState<SolutionistResponseTypes[]>([]);
   const [page, setPage] = useState<number>(0);

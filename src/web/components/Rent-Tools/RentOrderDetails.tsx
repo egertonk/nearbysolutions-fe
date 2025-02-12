@@ -23,7 +23,7 @@ import { getImageArray } from "../../lib";
 
 export const RentOrderDetails: React.FC = () => {
   const location = useLocation();
-  const { rentToolsAction } = useRentTools(false);
+  const { rentToolsAction } = useRentTools(false, "");
 
   const [currentStep, setCurrentStep] = useState<number>(0);
   const [dateTimeError, setDateTimeError] = useState(false);

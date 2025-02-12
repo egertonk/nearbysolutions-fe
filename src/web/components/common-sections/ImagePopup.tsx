@@ -56,7 +56,7 @@ export const ImagePopup: React.FC<Props> = ({
                 </h3>
               </DialogTitle>
               <Description className="mt-2 text-sm text-gray-500">
-                {imageArray.length > 0 ? (
+                {imageArray?.length > 0 ? (
                   <Swiper
                     modules={[Navigation, Pagination, Autoplay]}
                     spaceBetween={20}

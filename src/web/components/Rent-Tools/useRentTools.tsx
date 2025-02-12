@@ -2,6 +2,7 @@ import { useState } from "react";
 import { useCustomerToolListings } from "../../lib/useCustomerToolListings";
 import { useToolRentalListing } from "../../utils/fetchEndpoints";
 import { ToolRentalListing } from "../../lib/types/DIYToolsListings";
+import { isFeature } from "../common-sections/InfiniteScroll ";
 
 export const hasDatePassed = (dateString: string): boolean => {
   const inputDate = new Date(dateString);
@@ -13,7 +14,7 @@ export const hasDatePassed = (dateString: string): boolean => {
   return inputDate > today;
 };
 
-export const useRentTools = (isEnabled: boolean) => {
+export const useRentTools = (isEnabled: boolean, featureName: string) => {
   const [location, setLocation] = useState<string>("");
   const [fromDate, setFromDate] = useState<string>("");
   const [fromTime, setFromTime] = useState<string>("");
@@ -23,8 +24,10 @@ export const useRentTools = (isEnabled: boolean) => {
     new Date().toISOString().split("T")[1]
   ); // Default to today's date
 
+  const isHomePage = isFeature(featureName);
+
   const { data: toolRentalListing, isFetching: isFetchingToolRentalListing } =
-    useToolRentalListing(isEnabled);
+    useToolRentalListing(isEnabled, isHomePage ? 0 : 0, isHomePage ? 5 : 10);
 
   console.log("toolRentalListing = ", toolRentalListing);
   const { handleOnChange, filteredTools, handleSubmit, handleSort } =

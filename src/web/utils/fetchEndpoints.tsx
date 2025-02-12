@@ -65,7 +65,7 @@ export const useGetCustomerWithId = (userId: number) =>
   );
 
 // Users
-export const getUsers = () => getHomePageWrapper("users/with-skills?size=4");
+export const getUsers = () => getHomePageWrapper("users/with-skills?size=5");
 export const useGetUsers = () =>
   useFetchData<SolutionistResponseTypes[]>(["users-with-skills"], getUsers, []);
 
@@ -159,12 +159,16 @@ export const useNoLicensePermitVerificationService = () =>
   );
 
 // Tool Rentals
-export const getToolRentalListing = () =>
-  fetchData<ToolRentalListing[]>("tools/available");
-export const useToolRentalListing = (isEnabled: boolean) =>
-  useQuery({
+export const getToolRentalListing = (page: number, size: number) =>
+  getHomePageWrapper(`tools/available?page=${page}&size=${size}`);
+export const useToolRentalListing = (
+  isEnabled: boolean,
+  page: number,
+  size: number
+) =>
+  useQuery<ToolRentalListing[]>({
     queryKey: ["tools-available"],
-    queryFn: getToolRentalListing,
+    queryFn: () => getToolRentalListing(page, size),
     placeholderData: [],
     enabled: isEnabled,
   });
