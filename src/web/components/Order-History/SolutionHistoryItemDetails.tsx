@@ -4,17 +4,26 @@ import { OrderHistoryItemDetails } from "./Common/OrderHistoryItemDetails copy";
 import { HistoryDetailsButton } from "./Common/HistoryDetailsButton";
 
 type Props = {
+  index: number;
+  arrayLength: number;
   content: ToolOrderHistory;
   showViewDetailsButton: boolean;
+  lastElementRef: (node: HTMLDivElement | null) => void;
 };
 
 export const SolutionHistoryItemDetails: React.FC<Props> = ({
+  index,
+  arrayLength,
   content,
   showViewDetailsButton,
+  lastElementRef,
 }) => {
   return (
     <>
-      <div className="mt-4 md:mt-6 flex flex-col md:flex-row justify-start items-start md:items-center md:space-x-6 xl:space-x-8 w-full">
+      <div
+        className="mt-4 md:mt-6 flex flex-col md:flex-row justify-start items-start md:items-center md:space-x-6 xl:space-x-8 w-full"
+        ref={index === arrayLength - 1 ? lastElementRef : null}
+      >
         <div className="w-full md:w-40">
           <img
             className="w-full hidden md:block"

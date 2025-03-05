@@ -1,4 +1,3 @@
-import { ChevronLeftIcon, ChevronRightIcon } from "@heroicons/react/20/solid";
 import { Search } from "../search/Search";
 import { SolutionistCard } from "./SolutionistCard";
 import { useEffect, useState } from "react";
@@ -11,6 +10,8 @@ import {
 import { useCustomerInfo } from "../customer/useCustomerInfo";
 import { useResetPostAJob } from "../Find-Work-Post-A-Job/useResetPostAJob";
 import { useInfiniteScroll } from "../common-sections/InfiniteScroll ";
+import { InfiniteScrollMessages } from "../common-sections/InfiniteScrollMessages";
+import { localHostURL } from "../../utils/fetchGet";
 export const Solutionist: React.FC = () => {
   const location = useLocation();
 
@@ -22,7 +23,7 @@ export const Solutionist: React.FC = () => {
     lastElementRef,
     showScrollButton,
     scrollToTop,
-  } = useInfiniteScroll("http://localhost:8080/api/users/with-skills");
+  } = useInfiniteScroll(`${localHostURL}/users/with-skills`);
 
   const MAX_TALENT = 1;
   const [data, setData] = useState([] as SolutionistTypes[]);
@@ -69,35 +70,22 @@ export const Solutionist: React.FC = () => {
           <Search
             setSearchResults={setSearchResults}
             searchResults={searchResults}
-            fallBackData={users}
+            fallBackData={users as unknown as SolutionistResponseTypes[]}
           />
 
           <div className="grid grid-cols-1 lg:grid-cols-4 gap-4">
-            <SolutionistCard data={users} lastElementRef={lastElementRef} />
+            <SolutionistCard
+              data={users as unknown as SolutionistResponseTypes[]}
+              lastElementRef={lastElementRef}
+            />
           </div>
 
-          <div className="max-w-lg mx-auto p-4 relative">
-            {loading && (
-              <p className="text-center mt-4 font-bold text-lg font-heading text-purple-800 bg-clip-text bg-gradient-to-r from-pink-500 to-violet-500 ">
-                Loading more...
-              </p>
-            )}
-            {!hasMore && (
-              <p className="font-bold text-lg font-heading text-purple-800 bg-clip-text bg-gradient-to-r from-pink-500 to-violet-500">
-                No more solutionists to load.
-              </p>
-            )}
-
-            {/* ✅ Back to Top Button */}
-            {showScrollButton && (
-              <button
-                onClick={scrollToTop}
-                className="fixed bottom-5 right-5 bg-purple-500 text-white p-3 rounded-full shadow-md hover:bg-purple-700 transition"
-              >
-                Top
-              </button>
-            )}
-          </div>
+          <InfiniteScrollMessages
+            loading={loading}
+            hasMore={hasMore}
+            showScrollButton={showScrollButton}
+            scrollToTop={scrollToTop}
+          />
         </section>
       </div>
     </>

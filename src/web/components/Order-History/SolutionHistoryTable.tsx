@@ -1,22 +1,27 @@
 import { orderSortList } from "../../lib/useOrders";
-import { ToolOrderHistoryWithPagination } from "../../lib/types/DIYToolsListings";
+import { ToolOrderHistory } from "../../lib/types/DIYToolsListings";
 import { SortData } from "../common-sections/SortData";
 import { SolutionHistoryItemDetails } from "./SolutionHistoryItemDetails";
+import { InfiniteScrollMessages } from "../common-sections/InfiniteScrollMessages";
 
 type Props = {
-  toolsRentalHistoryByCustomer: ToolOrderHistoryWithPagination | undefined;
+  toolsRentalHistoryByCustomer: ToolOrderHistory[] | undefined;
+  loading: boolean;
+  hasMore: boolean;
+  lastElementRef: (node: HTMLDivElement | null) => void;
+  showScrollButton: boolean;
+  scrollToTop: () => void;
 };
 
 export const SolutionHistoryTable: React.FC<Props> = ({
   toolsRentalHistoryByCustomer,
+  loading,
+  hasMore,
+  lastElementRef,
+  showScrollButton,
+  scrollToTop,
 }) => {
-  console.log(
-    toolsRentalHistoryByCustomer?.content?.length,
-    "-------------",
-    toolsRentalHistoryByCustomer?.content
-  );
-
-  if (toolsRentalHistoryByCustomer?.content === undefined) return null;
+  if (toolsRentalHistoryByCustomer === undefined) return null;
 
   function handleSort(sortType: string): void {
     throw new Error("Function not implemented.");
@@ -30,13 +35,23 @@ export const SolutionHistoryTable: React.FC<Props> = ({
 
       <div className="flex-row min-h-screen justify-center items-center md:mx-8 md:px-64">
         {toolsRentalHistoryByCustomer &&
-          toolsRentalHistoryByCustomer?.content?.map((order) => (
+          toolsRentalHistoryByCustomer?.map((order) => (
             <SolutionHistoryItemDetails
+              index={toolsRentalHistoryByCustomer.indexOf(order)}
+              arrayLength={toolsRentalHistoryByCustomer.length ?? 0}
               content={order}
               showViewDetailsButton={false}
+              lastElementRef={lastElementRef}
             />
           ))}
       </div>
+
+      <InfiniteScrollMessages
+        loading={loading}
+        hasMore={hasMore}
+        showScrollButton={showScrollButton}
+        scrollToTop={scrollToTop}
+      />
     </>
   );
 };

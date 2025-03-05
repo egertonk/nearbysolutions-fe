@@ -1,25 +1,17 @@
-import { SideMenuList } from "../Header/SideMenuList";
-import { MainTitle } from "../common-sections/MainTitle";
-import { SearchUI } from "../search/SearchUI";
-import { orderSortList, useOrders } from "../../lib/useOrders";
-import { RentalOrderHistory } from "../../lib/types/DIYToolsListings copy";
-import {
-  useJobPostingByCustomerId,
-  useToolsRentalHistoryByCustomerId,
-} from "../../utils/fetchEndpoints";
-import {
-  CustomerJopPostingOrderHistory,
-  getPaymentOrderStatusClass,
-} from "./CustomerJopPostingOrderHistory";
-import {
-  ToolOrderHistory,
-  ToolOrderHistoryWithPagination,
-} from "../../lib/types/DIYToolsListings";
+import { orderSortList } from "../../lib/useOrders";
+import { getPaymentOrderStatusClass } from "./CustomerJopPostingOrderHistory";
+import { ToolOrderHistory } from "../../lib/types/DIYToolsListings";
 import { ToolHistoryItemDetails } from "./ToolHistoryItemDetails";
 import { SortData } from "../common-sections/SortData";
+import { InfiniteScrollMessages } from "../common-sections/InfiniteScrollMessages";
 
 type Props = {
-  toolsRentalHistoryByCustomer: ToolOrderHistoryWithPagination | undefined;
+  toolsRentalHistoryByCustomer: ToolOrderHistory[] | undefined;
+  loading: boolean;
+  hasMore: boolean;
+  lastElementRef: (node: HTMLDivElement | null) => void;
+  showScrollButton: boolean;
+  scrollToTop: () => void;
 };
 
 export const calculateOriginalPrice = (
@@ -39,30 +31,19 @@ export const calculateFinalPrice = (
 
 export const ToolHistoryTable: React.FC<Props> = ({
   toolsRentalHistoryByCustomer,
+  loading,
+  hasMore,
+  showScrollButton,
+  scrollToTop,
+  lastElementRef,
 }) => {
-  // const { data: toolsRentalHistoryByCustomer } =
-  //   useToolsRentalHistoryByCustomerId(1); //use customer in after login in
-  // const { data: customerRequestedJobList } = useJobPostingByCustomerId(1);
-  // console.log("-------------", customerRequestedJobList);
-  // const orderList =
-  //   toolsRentalHistoryByCustomer !== undefined
-  //     ? toolsRentalHistoryByCustomer
-  //     : ([] as RentalOrderHistory[]);
-
-  // const {
-  //   handleSubmit,
-  //   handleSort,
-  //   filteredOrders,
-  //   handleOnChange,
-  //   handleEdit,
-  // } = useOrders();
   console.log(
-    toolsRentalHistoryByCustomer?.content?.length,
+    toolsRentalHistoryByCustomer?.length,
     "-------------",
-    toolsRentalHistoryByCustomer?.content
+    toolsRentalHistoryByCustomer
   );
 
-  if (toolsRentalHistoryByCustomer?.content === undefined) return null;
+  if (toolsRentalHistoryByCustomer === undefined) return null;
 
   function handleSort(sortType: string): void {
     throw new Error("Function not implemented.");
@@ -76,13 +57,23 @@ export const ToolHistoryTable: React.FC<Props> = ({
 
       <div className="flex-row min-h-screen justify-center items-center md:mx-8 md:px-64">
         {toolsRentalHistoryByCustomer &&
-          toolsRentalHistoryByCustomer?.content?.map((order) => (
+          toolsRentalHistoryByCustomer?.map((order) => (
             <ToolHistoryItemDetails
+              index={toolsRentalHistoryByCustomer.indexOf(order)}
+              arrayLength={toolsRentalHistoryByCustomer.length ?? 0}
+              lastElementRef={lastElementRef}
               content={order}
               showViewDetailsButton={false}
             />
           ))}
       </div>
+
+      <InfiniteScrollMessages
+        loading={loading}
+        hasMore={hasMore}
+        showScrollButton={showScrollButton}
+        scrollToTop={scrollToTop}
+      />
 
       <main className="flex-1 overflow-x-hidden overflow-y-auto bg-gray-200">
         <div className="container px-6 py-8 mx-auto">
@@ -251,7 +242,7 @@ export const ToolHistoryTable: React.FC<Props> = ({
                 </thead>
                 <tbody className="flex-1 sm:flex-none">
                   {toolsRentalHistoryByCustomer &&
-                    toolsRentalHistoryByCustomer?.content?.map((order) => (
+                    toolsRentalHistoryByCustomer?.map((order) => (
                       <tr className="flex flex-col flex-no wrap sm:table-row mb-2 sm:mb-0">
                         <td className="border-grey-light border hover:bg-gray-100 p-3">
                           {order.toolName}
@@ -358,7 +349,7 @@ export const ToolHistoryTable: React.FC<Props> = ({
                   </thead>
 
                   {toolsRentalHistoryByCustomer &&
-                    toolsRentalHistoryByCustomer?.content?.map((order) => (
+                    toolsRentalHistoryByCustomer?.map((order) => (
                       <tbody className="bg-white">
                         <tr>
                           <td className="px-6 py-4 whitespace-no-wrap border-b border-gray-200">

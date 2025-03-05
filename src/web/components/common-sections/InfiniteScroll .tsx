@@ -1,12 +1,14 @@
 import { useState, useEffect, useRef, useCallback } from "react";
 import { SolutionistResponseTypes } from "../../lib/types/solutionistTypes";
+import { ToolOrderHistoryWithPagination } from "../../lib/types/DIYToolsListings";
 
 export const isFeature = (featureName: string): boolean => {
   return featureName === "home-page";
 };
 
 export const useInfiniteScroll = (apiUrl: string) => {
-  const [items, setItems] = useState<SolutionistResponseTypes[]>([]);
+  const [items, setItems] = useState<
+    SolutionistResponseTypes[] | ToolOrderHistoryWithPagination[]>([]);
   const [page, setPage] = useState<number>(0);
   const [loading, setLoading] = useState<boolean>(false);
   const [hasMore, setHasMore] = useState<boolean>(true);
