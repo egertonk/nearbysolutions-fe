@@ -12,6 +12,7 @@ import { useImagePopup } from "../Rent-Tools/useImagePopup";
 import { HomeSectionHeader } from "./HomeSectionHeader";
 import { imageDetailsTypes } from "../../lib/types/FindWorkPostAJobtypesData";
 import { ImagePopup } from "../common-sections/ImagePopup";
+import { StripePayment } from "../Payment-Process/StripePayment";
 
 export const HomeIndex: React.FC = () => {
   const { rentToolsAction } = useRentTools(true, "home-page");
@@ -34,6 +35,8 @@ export const HomeIndex: React.FC = () => {
 
   return (
     <>
+      <StripePayment />
+      ///// todo
       {openImage && (
         <ImagePopup
           openImage={openImage}
@@ -45,9 +48,7 @@ export const HomeIndex: React.FC = () => {
           featureName="tool"
         />
       )}
-
       <MainTitle title={"Nearby Solution Services"} />
-
       <div className="grid grid-flow-col gap-4 p-4 mt-4 mb-4 h-auto bg-purple-800 text-white">
         <div className="row-span-2">
           <div className="max-md:order-1">
@@ -88,7 +89,6 @@ export const HomeIndex: React.FC = () => {
           </div>
         </div>
       </div>
-
       <div className="grid grid-flow-col grid-rows-2 gap-4 px-4 m-1">
         <HomeSectionHeader
           sectionName={"Our Solutionists"}
@@ -96,13 +96,10 @@ export const HomeIndex: React.FC = () => {
           addedSection={null}
         />
       </div>
-
       <div className="grid grid-cols-1 lg:grid-cols-5 gap-2 mb-4">
         <SolutionistCard data={users || []} lastElementRef={() => {}} />
       </div>
-
       <hr className="w-full h-1 mx-auto  bg-purple-300 border-0 rounded-sm dark:bg-purple-800"></hr>
-
       <div className="grid grid-flow-col grid-rows-2 gap-4 px-4 m-1">
         <HomeSectionHeader
           sectionName={"Find Work"}
@@ -113,11 +110,8 @@ export const HomeIndex: React.FC = () => {
           }}
         />
       </div>
-
       <JobListings customerJobsArray={filteredJobs} />
-
       <hr className="w-full h-1 mx-auto  bg-purple-300 border-0 rounded-sm dark:bg-purple-800 mt-4"></hr>
-
       <div className="grid grid-flow-col grid-rows-2 gap-4 px-4 m-1">
         <HomeSectionHeader
           sectionName={"DIY Tools Rental"}
@@ -128,7 +122,6 @@ export const HomeIndex: React.FC = () => {
           }}
         />
       </div>
-
       <ToolsListing
         rentToolsAction={rentToolsAction}
         setImageDetails={setImageDetails}

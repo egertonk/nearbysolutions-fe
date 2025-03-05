@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useState, ChangeEvent } from "react";
 import { MainTitle } from "../common-sections/MainTitle";
 import {
   envelopIconSVG,
@@ -11,6 +11,13 @@ import { CompanyProfileCard } from "./CompanyProfileCard";
 import { ConfirmationPage } from "./ConfirmationPage";
 import { errorCss, inputCSS } from "../../assets/common-css/css";
 
+/** Inquiry Options */
+const INQUIRY_OPTIONS = [
+  { id: "generalInquiry", label: "General Inquiry" },
+  { id: "technicalSupport", label: "Technical Support" },
+  { id: "websiteFeedback", label: "Website Feedback" },
+];
+
 export const ContactUs: React.FC = () => {
   const [showConfirmationPage, setShowConfirmationPage] = useState(false);
   const [formData, setFormData] = useState<ContactFormData>({
@@ -19,7 +26,7 @@ export const ContactUs: React.FC = () => {
     phoneNo: "",
     email: "",
     message: "",
-    inquiryType: "generalInquiry", // Default radio button value
+    inquiryType: "generalInquiry",
   });
 
   const [errors, setErrors] = useState<FormErrorS>({
@@ -27,261 +34,241 @@ export const ContactUs: React.FC = () => {
     lastName: "",
     phoneNo: "",
     email: "",
-    message: "",
+    message: ""
   });
 
+  /** 🔹 Handle Input Change (Text & Radio) */
   const handleChange = (
-    e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>
+    e: ChangeEvent<HTMLInputElement | HTMLTextAreaElement>
   ) => {
     const { name, value } = e.target;
-    setFormData({
-      ...formData,
-      [name]: value,
-    });
-    if (value.length > 0)
-      setErrors({
-        ...errors,
-        [name]: "",
-      });
+    setFormData((prev) => ({ ...prev, [name]: value }));
+    setErrors((prev) => ({ ...prev, [name]: "" })); // Clear error if valid
   };
 
-  const handleRadioChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-    setFormData({
-      ...formData,
-      inquiryType: e.target.value,
-    });
-  };
-
-  const validateFormData = () => {
-    const errors: FormErrorS = {
+  /** 🔹 Form Validation */
+  const validateFormData = (): boolean => {
+    const newErrors: FormErrorS = {
       firstName: "",
       lastName: "",
       phoneNo: "",
       email: "",
-      message: "",
+      message: ""
     };
-
-    // Validate first name
-    if (!formData.firstName.trim()) {
-      errors.firstName = "First name is required";
-    }
-    if (formData.firstName.trim()) {
-      errors.firstName = "";
-    }
-
-    // Validate last name
-    if (!formData.lastName.trim()) {
-      errors.lastName = "Last name is required";
-    }
-    if (formData.lastName.trim()) {
-      errors.lastName = "";
-    }
-
-    // Validate phone number (example validation)
     const phonePattern = /^[0-9+\- ]+$/;
-    if (!formData.phoneNo.match(phonePattern)) {
-      errors.phoneNo = "Invalid phone number";
-    }
-    if (formData.phoneNo.match(phonePattern)) {
-      errors.phoneNo = "";
-    }
-
-    // Validate email (example validation)
     const emailPattern = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
-    if (!formData.email.match(emailPattern)) {
-      errors.email = "Invalid email address";
-    }
-    if (formData.email.match(emailPattern)) {
-      errors.email = "";
+
+    [
+      { field: "firstName", message: "First name is required" },
+      { field: "lastName", message: "Last name is required" },
+      { field: "message", message: "Message is required" },
+    ].forEach(({ field, message }) => {
+      if (!formData[field as keyof ContactFormData]?.trim()) {
+        newErrors[field as keyof FormErrorS] = message;
+      }
+    });
+
+    if (!phonePattern.test(formData.phoneNo)) {
+      newErrors.phoneNo = "Invalid phone number";
     }
 
-    // Validate message
-    if (!formData.message.trim()) {
-      errors.message = "Message is required";
-    }
-    if (formData.message.trim()) {
-      errors.message = "";
+    if (!emailPattern.test(formData.email)) {
+      newErrors.email = "Invalid email address";
     }
 
-    setErrors(errors);
+    setErrors(newErrors);
+    return Object.keys(newErrors).length === 0;
   };
 
+  /** 🔹 Handle Form Submission */
   const handleSubmit = () => {
-    validateFormData();
-    if (
-      formData.email.length > 0 &&
-      formData.firstName.length > 0 &&
-      formData.lastName.length > 0 &&
-      formData.message.length > 0 &&
-      formData.phoneNo.length > 0
-    ) {
-      // send message for email to be sent
-      setShowConfirmationPage(true);
-    }
+    if (validateFormData()) setShowConfirmationPage(true);
   };
 
-  return (
+  return showConfirmationPage ? (
+    <ConfirmationPage formData={formData} />
+  ) : (
     <>
-      {showConfirmationPage ? (
-        <ConfirmationPage formData={formData} />
-      ) : (
-        <>
-          <MainTitle title="Contact Us" />
-          <div className="max-w-6xl mx-auto bg-white my-6 font-[sans-serif] text-[#011c2b]">
-            <div className="text-center px-6">
-              <p className="text-sm text-gray-400 mt-3">
-                Have some big idea for Nearby Solutions or and need help?
-              </p>
-            </div>
-            <div className="grid lg:grid-cols-3 items-center gap-4 p-2 shadow-[0_2px_10px_-3px_rgba(6,81,237,0.3)] rounded-lg mt-8">
-              <CompanyProfileCard />
+      <MainTitle title="Contact Us" />
+      <div className="max-w-6xl mx-auto bg-white my-6 font-sans text-[#011c2b]">
+        <div className="text-center px-6">
+          <p className="text-sm text-gray-400 mt-3">
+            Have some big idea for Nearby Solutions or need help?
+          </p>
+        </div>
 
-              <div className="p-6 rounded-xl lg:col-span-2">
-                <form>
-                  <div className="grid sm:grid-cols-2 gap-8">
-                    <div className="block relative flex items-center">
-                      <input
-                        type="text"
-                        name="firstName"
-                        value={formData.firstName}
-                        onChange={handleChange}
-                        placeholder="First Name"
-                        className={`${inputCSS} ${
-                          errors?.firstName?.length > 0 && errorCss
-                        }`}
-                      />
-                      {personIconSVG}
-                    </div>
+        <div className="grid lg:grid-cols-3 items-center gap-4 p-2 shadow-md rounded-lg mt-8">
+          <CompanyProfileCard />
 
-                    <div className="relative flex items-center">
-                      <input
-                        type="text"
-                        name="lastName"
-                        value={formData.lastName}
-                        onChange={handleChange}
-                        placeholder="Last Name"
-                        className={`${inputCSS} ${
-                          errors?.lastName?.length > 0 && errorCss
-                        }`}
-                      />
-                      {personIconSVG}
-                    </div>
-                    <div className="relative flex items-center">
-                      <input
-                        type="text"
-                        name="phoneNo"
-                        value={formData.phoneNo}
-                        onChange={handleChange}
-                        placeholder="Phone Number"
-                        className={`${inputCSS} ${
-                          errors?.phoneNo?.length > 0 && errorCss
-                        }`}
-                      />
-                      {phoneIconSVG}
-                    </div>
-                    <div className="relative flex items-center">
-                      <input
-                        type="email"
-                        name="email"
-                        value={formData.email}
-                        onChange={handleChange}
-                        placeholder="Email"
-                        className={`${inputCSS} ${
-                          errors?.email?.length > 0 && errorCss
-                        }`}
-                      />
-                      {envelopIconSVG}
-                    </div>
-                    <div className="relative flex items-center sm:col-span-2">
-                      <textarea
-                        name="message"
-                        value={formData.message}
-                        onChange={handleChange}
-                        rows={5}
-                        placeholder="Message"
-                        className={`${inputCSS} ${
-                          errors?.message?.length > 0 && errorCss
-                        }`}
-                        defaultValue={""}
-                      />
-                      {envelopIconSVG}
-                    </div>
-                    <div className="col-span-full">
-                      <h6 className="text-sm text-gray-400">Select Subject</h6>
-                      <div className="flex max-lg:flex-col lg:space-x-6 max-lg:space-y-6">
-                        <div className="flex items-center mt-3">
-                          <input
-                            id="radio1"
-                            type="radio"
-                            name="inquiryType"
-                            value="generalInquiry"
-                            checked={formData.inquiryType === "generalInquiry"}
-                            onChange={handleRadioChange}
-                            className="hidden peer"
-                          />
-                          <label
-                            htmlFor="radio1"
-                            className="relative p-0.5 flex items-center justify-center shrink-0 peer-checked:before:hidden before:block before:absolute before:w-full before:h-full before:bg-white w-5 h-5 cursor-pointer border-2 border-[#011c2b] rounded-full overflow-hidden"
-                          >
-                            <span className="border-[4px] border-[#011c2b] rounded-full w-full h-full" />
-                          </label>
-                          <p className="text-sm ml-3">General Inquiry</p>
-                        </div>
-                        <div className="flex items-center mt-3">
-                          <input
-                            id="radio2"
-                            type="radio"
-                            name="inquiryType"
-                            value="technicalSupport"
-                            checked={
-                              formData.inquiryType === "technicalSupport"
-                            }
-                            onChange={handleRadioChange}
-                            className="hidden peer"
-                          />
-                          <label
-                            htmlFor="radio2"
-                            className="relative p-0.5 flex items-center justify-center shrink-0 peer-checked:before:hidden before:block before:absolute before:w-full before:h-full before:bg-white w-5 h-5 cursor-pointer border-2 border-[#011c2b] rounded-full overflow-hidden"
-                          >
-                            <span className="border-[4px] border-[#011c2b] rounded-full w-full h-full" />
-                          </label>
-                          <p className="text-sm ml-3">Technical Support</p>
-                        </div>
-                        <div className="flex items-center mt-3">
-                          <input
-                            id="radio3"
-                            type="radio"
-                            name="inquiryType"
-                            value="websiteFeedback"
-                            checked={formData.inquiryType === "websiteFeedback"}
-                            onChange={handleRadioChange}
-                            className="hidden peer"
-                          />
-                          <label
-                            htmlFor="radio3"
-                            className="relative p-0.5 flex items-center justify-center shrink-0 peer-checked:before:hidden before:block before:absolute before:w-full before:h-full before:bg-white w-5 h-5 cursor-pointer border-2 border-[#011c2b] rounded-full overflow-hidden"
-                          >
-                            <span className="border-[4px] border-[#011c2b] rounded-full w-full h-full" />
-                          </label>
-                          <p className="text-sm ml-3">Website Feedback</p>
-                        </div>
-                      </div>
-                    </div>
-                  </div>
-                  <button
-                    type="button"
-                    className="mt-12 flex items-center justify-center text-sm lg:ml-auto max-lg:w-full rounded px-4 py-2.5 font-semibold bg-[#011c2b] text-white hover:bg-[#011c2bf3]"
-                    onClick={handleSubmit}
-                  >
-                    {messageIconSVG}
-                    Send Message
-                  </button>
-                </form>
+          {/* Contact Form */}
+          <div className="p-6 rounded-xl lg:col-span-2">
+            <form>
+              <div className="grid sm:grid-cols-2 gap-8">
+                <InputField
+                  name="firstName"
+                  value={formData.firstName}
+                  placeholder="First Name"
+                  onChange={handleChange}
+                  icon={personIconSVG}
+                  error={errors.firstName}
+                />
+                <InputField
+                  name="lastName"
+                  value={formData.lastName}
+                  placeholder="Last Name"
+                  onChange={handleChange}
+                  icon={personIconSVG}
+                  error={errors.lastName}
+                />
+                <InputField
+                  name="phoneNo"
+                  value={formData.phoneNo}
+                  placeholder="Phone Number"
+                  onChange={handleChange}
+                  icon={phoneIconSVG}
+                  error={errors.phoneNo}
+                />
+                <InputField
+                  name="email"
+                  value={formData.email}
+                  placeholder="Email"
+                  onChange={handleChange}
+                  icon={envelopIconSVG}
+                  error={errors.email}
+                />
+                <TextAreaField
+                  name="message"
+                  value={formData.message}
+                  placeholder="Message"
+                  onChange={handleChange}
+                  icon={envelopIconSVG}
+                  error={errors.message}
+                />
               </div>
-            </div>
-          </div>{" "}
-        </>
-      )}
+
+              {/* Inquiry Type Selection */}
+              <h6 className="text-sm text-gray-400 mt-6">Select Subject</h6>
+              <div className="flex flex-wrap gap-6 mt-3">
+                {INQUIRY_OPTIONS.map(({ id, label }) => (
+                  <RadioInput
+                    key={id}
+                    id={id}
+                    name="inquiryType"
+                    value={id}
+                    label={label}
+                    checked={formData.inquiryType === id}
+                    onChange={handleChange}
+                  />
+                ))}
+              </div>
+
+              {/* Submit Button */}
+              <button
+                type="button"
+                className="mt-12 flex items-center justify-center text-sm w-full lg:w-auto rounded px-4 py-2.5 font-semibold bg-[#011c2b] text-white hover:bg-[#011c2bf3]"
+                onClick={handleSubmit}
+              >
+                {messageIconSVG} Send Message
+              </button>
+            </form>
+          </div>
+        </div>
+      </div>
     </>
   );
 };
+
+/** 📌 Reusable Input Field Component */
+type InputProps = {
+  name: string;
+  value: string;
+  placeholder: string;
+  onChange: (e: ChangeEvent<HTMLInputElement>) => void;
+  icon: JSX.Element;
+  error?: string;
+};
+const InputField: React.FC<InputProps> = ({
+  name,
+  value,
+  placeholder,
+  onChange,
+  icon,
+  error,
+}) => (
+  <div className="relative flex items-center">
+    <input
+      type="text"
+      name={name}
+      value={value}
+      onChange={onChange}
+      placeholder={placeholder}
+      className={`${inputCSS} ${error ? errorCss : ""}`}
+    />
+    {icon}
+  </div>
+);
+
+/** 📌 Reusable Text Area Field */
+type TextAreaProps = {
+  name: string;
+  value: string;
+  placeholder: string;
+  onChange: (e: ChangeEvent<HTMLTextAreaElement>) => void;
+  icon: JSX.Element;
+  error?: string;
+};
+const TextAreaField: React.FC<TextAreaProps> = ({
+  name,
+  value,
+  placeholder,
+  onChange,
+  icon,
+  error,
+}) => (
+  <div className="relative flex items-center sm:col-span-2">
+    <textarea
+      name={name}
+      value={value}
+      onChange={onChange}
+      rows={5}
+      placeholder={placeholder}
+      className={`${inputCSS} ${error ? errorCss : ""}`}
+    />
+    {icon}
+  </div>
+);
+
+/** 📌 Reusable Radio Button Component */
+type RadioProps = {
+  id: string;
+  name: string;
+  value: string;
+  label: string;
+  checked: boolean;
+  onChange: (e: ChangeEvent<HTMLInputElement>) => void;
+};
+const RadioInput: React.FC<RadioProps> = ({
+  id,
+  name,
+  value,
+  label,
+  checked,
+  onChange,
+}) => (
+  <div className="flex items-center">
+    <input
+      id={id}
+      type="radio"
+      name={name}
+      value={value}
+      checked={checked}
+      onChange={onChange}
+      className="hidden peer"
+    />
+    <label
+      htmlFor={id}
+      className="cursor-pointer border-2 border-[#011c2b] rounded-full w-5 h-5 flex items-center justify-center peer-checked:bg-[#011c2b]"
+    />
+    <p className="text-sm ml-3">{label}</p>
+  </div>
+);

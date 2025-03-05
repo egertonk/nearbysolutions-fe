@@ -5,7 +5,6 @@ import {
   setCustomerOrder,
   setIsError,
 } from "../../../store/customerContractorSlice";
-import { CustomerFormData } from "../../lib/types/OrderSolutionTypes";
 import { useNavigate } from "react-router";
 import { MainTitle } from "../common-sections/MainTitle";
 
@@ -13,54 +12,55 @@ export const CalenderForm: React.FC = () => {
   const dispatch = useDispatch();
   const navigate = useNavigate();
   const states = useSelector((state: RootState) => state);
-  const customerOrder = states.formData;
-  const isEditOrder = states.formData.isEditOrder;
-  const isGiftASolution = states.formData.customerOrder.giftStatus;
+  const { customerOrder, isEditOrder } = states.formData;
+  const {
+    giftStatus,
+    solutionTask,
+    solutionJob,
+    solutionPrice,
+    fixPriceStatus,
+    solutionDateContract,
+    talentFirstName,
+    talentLastName,
+  } = customerOrder;
+
+  const excludedFields = new Set([
+    "giftFor_fullName",
+    "giftStatus",
+    "longTermContract",
+    "orderID",
+    "customerInfo",
+    "solutionDateContract",
+    "solutionTask",
+    "solutionJob",
+    "solutionStartTime",
+    "selectedTalent",
+    "talentID",
+    "talentFirstName",
+    "talentLastName",
+    "solutionPrice",
+    "fixPriceStatus",
+    "solutionPriceDiscountPercentage",
+    "orderDate",
+  ]);
 
   const validateForm = () => {
-    const excludedFieldsForCustomer = [
-      "giftFor_fullName",
-      "giftStatus",
-      "longTermContract",
-      "orderID", // Delete from here to down
-      "customerInfo",
-      "solutionDateContract",
-      "solutionTask",
-      "solutionJob",
-      "solutionStartTime",
-      "selectedTalent",
-      "talentID",
-      "talentFirstName",
-      "talentLastName",
-      "solutionPrice",
-      "fixPriceStatus",
-      "solutionPriceDiscountPercentage",
-      "orderDate",
-    ];
+    const isCustomerOrderReady = Object.entries(customerOrder).every(
+      ([key, value]) =>
+        excludedFields.has(key) || Boolean(value?.toString().trim())
+    );
 
-    const isCustomerOrderReady = Object.entries(
-      customerOrder.customerOrder
-    ).every(([key, value]) => {
-      if (!excludedFieldsForCustomer.includes(key)) {
-        return value?.toString()?.length > 0;
-      }
-      return true;
-    });
+    const isGiftReady =
+      !giftStatus ||
+      Object.values(customerOrder.giftInformationFor).every((value) =>
+        Boolean(value?.toString().trim())
+      );
 
-    let isGiftASolutionReady = true;
-    if (isGiftASolution)
-      isGiftASolutionReady = Object.entries(
-        states.formData.customerOrder.giftInformationFor
-      ).every(([key, value]) => {
-        return value?.toString()?.length > 0;
-      });
-
-    return isGiftASolutionReady && isCustomerOrderReady;
+    return isCustomerOrderReady && isGiftReady;
   };
 
   const handleSubmit = () => {
     if (validateForm()) {
-      // submit to database and navig
       navigate("/payment");
     } else {
       dispatch(setIsError(true));
@@ -68,78 +68,51 @@ export const CalenderForm: React.FC = () => {
   };
 
   const updateStore = (e: React.ChangeEvent<HTMLTextAreaElement>) => {
-    const { name, value } = e.target;
-    const updatedOrder: CustomerFormData = {
-      ...customerOrder.customerOrder,
-      [name]: value,
-    };
-
-    dispatch(setCustomerOrder(updatedOrder));
+    dispatch(
+      setCustomerOrder({
+        ...customerOrder,
+        [e.target.name]: e.target.value,
+      })
+    );
   };
 
   return (
     <>
       <MainTitle
-        title={`${
-          isGiftASolution ? "Infomation Gift Form" : "Customer Infomation Form"
-        }`}
+        title={
+          giftStatus ? "Information Gift Form" : "Customer Information Form"
+        }
       />
 
-      <div className="justify-center -mx-3 mb-1">
-        <p className="text-gray-900 dark:text-white text-base font-medium mb-3 text-center font-heading text-purple-800">
-          {`Solutionist Name: ${customerOrder.customerOrder.talentFirstName} ${customerOrder.customerOrder.talentLastName}`}
+      <div className="justify-center -mx-3 mb-1 text-center">
+        <p className="text-base font-medium text-purple-800">
+          <span className="font-semibold">Solutionist Name:</span>{" "}
+          {talentFirstName} {talentLastName}
         </p>
-        <p className="text-gray-900 dark:text-white text-base font-medium mb-3 text-center">
-          <span className="font-heading text-purple-800">Solution Date:</span>{" "}
-          {
-            customerOrder.customerOrder.solutionDateContract
-              .solutionFormattedDate
-          }{" "}
-          <span className="font-heading text-purple-800">Time:</span>{" "}
-          {customerOrder.customerOrder.solutionDateContract.solutionStartTime}
+        <p className="text-base font-medium">
+          <span className="font-semibold text-purple-800">Solution Date:</span>{" "}
+          {solutionDateContract.solutionFormattedDate}
+          <span className="ml-2 font-semibold text-purple-800">Time:</span>{" "}
+          {solutionDateContract.solutionStartTime}
         </p>
-        <p className="text-gray-900 dark:text-white text-base font-medium mb-3 text-center">
-          <span className="font-heading text-purple-800">Job:</span>{" "}
-          {customerOrder.customerOrder.solutionJob}{" "}
-          {isEditOrder ? (
-            <>
-              {customerOrder.customerOrder.fixPriceStatus === false ? (
-                <>
-                  <span className="font-heading text-purple-800">
-                    Fix Price:{" $"}
-                  </span>
-                  {customerOrder.customerOrder.solutionPrice}
-                </>
-              ) : (
-                <>
-                  <span className="font-heading text-purple-800">
-                    Price:{" $"}
-                  </span>
-                  {customerOrder.customerOrder.solutionPrice}
-                </>
-              )}
-            </>
-          ) : (
-            <>
-              <span className="font-heading text-purple-800">
-                {customerOrder.customerOrder.fixPriceStatus
-                  ? "Fix Price: $"
-                  : "Price Per Hour: $"}
-              </span>
-              {customerOrder.customerOrder.solutionPrice}
-            </>
-          )}
+        <p className="text-base font-medium">
+          <span className="font-semibold text-purple-800">Job:</span>{" "}
+          {solutionJob}{" "}
+          <span className="font-semibold text-purple-800">
+            {fixPriceStatus ? "Fix Price: $" : "Price Per Hour: $"}
+          </span>
+          {solutionPrice}
         </p>
       </div>
 
-      <div className="flex flex-wrap w-50 justify-center">
+      <div className="flex flex-wrap justify-center">
         <div>
           <CustomerPersonalInfoForm />
 
           <div className="w-full px-3 pt-4">
             <label
               htmlFor="solutionTask"
-              className="block mb-2 text-sm font-medium text-gray-900 dark:text-white"
+              className="block mb-2 text-sm font-medium text-gray-900"
             >
               Talent Job Task
             </label>
@@ -147,25 +120,24 @@ export const CalenderForm: React.FC = () => {
               id="solutionTask"
               rows={4}
               name="solutionTask"
-              className="block p-2.5 w-full text-sm text-gray-900 bg-gray-50 rounded-lg border border-gray-300 focus:ring-blue-500 focus:border-blue-500 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
-              placeholder="Write out your solution... Example: Change my car front breaks"
-              defaultValue={customerOrder.customerOrder.solutionTask}
+              className="block p-2.5 w-full text-sm text-gray-900 bg-gray-50 rounded-lg border border-gray-300 focus:ring-blue-500 focus:border-blue-500"
+              placeholder="Write out your solution... Example: Change my car front brakes"
+              defaultValue={solutionTask}
               maxLength={100}
-              onChange={(e) => updateStore(e)}
+              onChange={updateStore}
             />
-            {customerOrder.isError &&
-              customerOrder.customerOrder.solutionTask?.length === 0 && (
-                <p className="text-red-500 text-xs italic">
-                  Please provide a short Task.
-                </p>
-              )}
+            {states.formData.isError && !solutionTask && (
+              <p className="text-red-500 text-xs italic">
+                Please provide a short Task.
+              </p>
+            )}
           </div>
 
           <div className="w-full px-3 pt-4">
             <button
-              className="mt-5 align-middle select-none font-sans font-bold text-center uppercase transition-all disabled:opacity-50 disabled:shadow-none disabled:pointer-events-none text-xs py-3 px-6 rounded-lg bg-purple-900 text-white shadow-md shadow-gray-900/10 hover:shadow-lg hover:shadow-gray-900/20 focus:opacity-[0.85] focus:shadow-none active:opacity-[0.85] active:shadow-none block w-full"
+              className="mt-5 w-full text-xs py-3 px-6 rounded-lg bg-purple-900 text-white font-bold uppercase shadow-md hover:shadow-lg focus:opacity-85"
               type="button"
-              onClick={() => handleSubmit()}
+              onClick={handleSubmit}
             >
               {isEditOrder ? "Update" : "Submit"}
             </button>
@@ -174,9 +146,9 @@ export const CalenderForm: React.FC = () => {
           {isEditOrder && (
             <div className="w-full px-3 pt-4">
               <button
-                className="mt-5 align-middle select-none font-sans font-bold text-center uppercase transition-all disabled:opacity-50 disabled:shadow-none disabled:pointer-events-none text-xs py-3 px-6 rounded-lg bg-red-900 text-white shadow-md shadow-gray-900/10 hover:shadow-lg hover:shadow-gray-900/20 focus:opacity-[0.85] focus:shadow-none active:opacity-[0.85] active:shadow-none block w-full"
+                className="mt-5 w-full text-xs py-3 px-6 rounded-lg bg-red-900 text-white font-bold uppercase shadow-md hover:shadow-lg focus:opacity-85"
                 type="button"
-                onClick={() => handleSubmit()}
+                onClick={handleSubmit}
               >
                 Cancel Edit
               </button>

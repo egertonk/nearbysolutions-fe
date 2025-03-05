@@ -1,28 +1,23 @@
-type Props = {
+type AddressProps = {
   country: string;
   address: string;
   city: string;
-  state: string;
-  zip: string;
+  state?: string; // Optional for non-US/Canada addresses
+  zip?: string; // Optional for non-US/Canada addresses
 };
 
-export const Address: React.FC<Props> = ({
+export const Address: React.FC<AddressProps> = ({
   country,
   address,
   city,
   state,
   zip,
-}) => {
-  return isUSCanadaAddress(country)? (
-    <span>
-      {address}, {city}, {state}, {zip}, {country}
-    </span>
-  ) : (
-    <span>
-      {address}, {city}, {country}
-    </span>
-  );
-};
+}) => (
+  <span>
+    {address}, {city}
+    {isUSCanadaAddress(country) ? `, ${state}, ${zip}` : ""}, {country}
+  </span>
+);
 
 export const isUSCanadaAddress = (country: string): boolean =>
-  country === "United States" || country === "Canada";
+  ["United States", "Canada"].includes(country);

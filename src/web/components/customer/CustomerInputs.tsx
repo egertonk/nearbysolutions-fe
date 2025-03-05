@@ -1,31 +1,31 @@
-import { useSelector } from "react-redux";
 import { customerInputCSS, errorCss } from "../../assets/common-css/css";
-import { RootState } from "../../../store";
 
-type CustomerInputTypes = {
+type CustomerInputProps = {
   id: string;
   value: string;
-  placeHolder: string;
-  updateInfo: (
+  placeholder: string;
+  onChange: (
     e: React.ChangeEvent<HTMLInputElement | HTMLSelectElement>
   ) => void;
 };
 
-export const CustomerInputs: React.FC<CustomerInputTypes> = ({
+export const CustomerInput: React.FC<CustomerInputProps> = ({
   id,
   value,
-  placeHolder,
-  updateInfo,
+  placeholder,
+  onChange,
 }) => {
+  const isError = value.trim().length === 0; // Ensures spaces aren't counted
+
   return (
     <input
-      className={`${customerInputCSS} ${value.length === 0 && errorCss}`}
       id={id}
       name={id}
       type="text"
-      placeholder={placeHolder}
+      placeholder={placeholder}
       value={value}
-      onChange={updateInfo}
+      onChange={onChange}
+      className={`${customerInputCSS} ${isError ? errorCss : ""}`}
     />
   );
 };

@@ -87,19 +87,26 @@ export const toolsRentalLMenu = [
 
 export const OrderHistory = [
   {
+    name: "Solution Order History",
+    description: "Track and manage your requested solutions.",
+    href: "history/solution",
+    icon: CursorArrowRaysIcon,
+    routeName: "history/solution",
+  },
+  {
     name: "DIY Tools Order Rental History",
     description:
       "Track and manage your tool rentals for all your DIY projects.",
-    href: "DIY-tools-order-rental-history",
+    href: "history/DIY-tools-order-rental",
     icon: CursorArrowRaysIcon,
-    routeName: "DIY-tools-order-rental-history",
+    routeName: "history/DIY-tools-order-rental",
   },
   {
     name: "Job Requests Order History",
     description: "View and organize all your job requests effortlessly.",
-    href: "job-requests-order-history",
+    href: "history/job-requests-order",
     icon: CursorArrowRaysIcon,
-    routeName: "job-requests-order-history",
+    routeName: "history/job-requests-order",
   },
 ];
 

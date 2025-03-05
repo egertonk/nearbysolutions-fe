@@ -13,36 +13,27 @@ export const FormProgressBar: React.FC<Props> = ({
   handlePreviousStep,
   handleNextStep,
 }) => {
+  // Calculate progress width based on step index
+  const progressWidth = `${((currentStep + 1) / steps.length) * 100}%`;
+
   return (
     <div className="m-4">
-      <div className="w-full bg-gray-200 rounded-full h-2.5 mt-2">
-        {steps.map((step, index) => (
-          <div
-            key={`${step}`}
-            className={`${
-              currentStep === index
-                ? "bg-purple-600 h-2.5 rounded-full" // Highlight the current step
-                : ""
-            }`}
-            style={
-              currentStep === 0
-                ? { width: "25%" }
-                : currentStep === 1
-                ? { width: "50%" }
-                : currentStep === 2
-                ? { width: "75%" }
-                : { width: "100%" }
-            }
-          />
-        ))}
+      {/* Progress Bar */}
+      <div className="w-full bg-gray-200 rounded-full h-2.5 mt-2 relative">
+        <div
+          className="bg-purple-600 h-2.5 rounded-full transition-all duration-300"
+          style={{ width: progressWidth }}
+        />
       </div>
+
+      {/* Step Labels */}
       <div className="flex justify-between text-xs text-gray-500 mt-2">
         {steps.map((step, index) => (
           <span
             key={index}
             className={`${
               currentStep === index
-                ? "text-purple-600 font-semibold" // Highlight the current step
+                ? "text-purple-600 font-semibold"
                 : "text-gray-500"
             }`}
           >
@@ -51,23 +42,18 @@ export const FormProgressBar: React.FC<Props> = ({
         ))}
       </div>
 
+      {/* Navigation Buttons */}
       <div className="mt-4 flex justify-between">
         <button
           onClick={handlePreviousStep}
-          className={`px-4 py-2 bg-gray-200 text-sm ${
-            currentStep === 0 ? "opacity-50 cursor-not-allowed" : ""
-          }`}
+          className="px-4 py-2 bg-gray-200 text-sm disabled:opacity-50 disabled:cursor-not-allowed"
           disabled={currentStep === 0}
         >
           Previous
         </button>
         <button
           onClick={handleNextStep}
-          className={`px-4 py-2 bg-purple-600 text-white text-sm ${
-            currentStep === steps.length - 1
-              ? "opacity-50 cursor-not-allowed"
-              : ""
-          }`}
+          className="px-4 py-2 bg-purple-600 text-white text-sm disabled:opacity-50 disabled:cursor-not-allowed"
           disabled={currentStep === steps.length - 1}
         >
           Next

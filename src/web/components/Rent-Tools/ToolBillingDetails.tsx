@@ -47,7 +47,7 @@ export const ToolBillingDetails: React.FC<Props> = ({
   return (
     <div className="grid grid-cols-3 gap-4 displayBlock">
       <div className="mt-4">
-        <h3 className="text-lg font-semibold">Customer Address</h3>
+        <h3 className="text-lg font-semibold">Customer Name / Address</h3>
         <p className="text-sm text-gray-600">
           {customerAndToolInfo.customerInformation?.firstName}{" "}
           {customerAndToolInfo.customerInformation?.lastName}
@@ -63,18 +63,13 @@ export const ToolBillingDetails: React.FC<Props> = ({
       </div>
 
       <div className="mt-6">
-        <h3 className="text-lg font-semibold">Customer Billing address</h3>
+        <h3 className="text-lg font-semibold">Customer Other Infomation</h3>
         <p className="text-sm text-gray-600">
-          {customerAndToolInfo.customerInformation?.firstName}{" "}
-          {customerAndToolInfo.customerInformation?.lastName}
-          <br />
-          <Address
-            country={customerAndToolInfo.customerInformation?.country ?? ""}
-            address={customerAndToolInfo.customerInformation?.address ?? ""}
-            city={customerAndToolInfo.customerInformation?.city ?? ""}
-            state={customerAndToolInfo.customerInformation?.state ?? ""}
-            zip={customerAndToolInfo.customerInformation?.zip ?? ""}
-          />
+          <h3 className="font-semibold">Phone</h3>
+          <span>{customerAndToolInfo.customerInformation?.phoneNumber}</span>
+
+          <h3 className="font-semibold">Email</h3>
+          <span>{customerAndToolInfo.customerInformation?.email}</span>
         </p>
       </div>
 

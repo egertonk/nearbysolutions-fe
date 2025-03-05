@@ -8,12 +8,12 @@ import {
 import { customerInputCSS, errorCss } from "../../assets/common-css/css";
 import { dayNames, monthNames } from "../../lib";
 import { LongTermContract } from "../common-sections/LongTermContract";
-import { CustomerInputs } from "./CustomerInputs";
 import { CustomerFormData } from "../../lib/types/OrderSolutionTypes";
 import { CountryTypes } from "../../lib/types/countryTypes";
 import { StateAndTerritorySelector } from "../common-sections/StateAndTerritorySelector";
 import { customerFormFieldNames } from ".";
 import { isUSCanadaAddress } from "../common-sections/Address";
+import { CustomerInput } from "./CustomerInputs";
 
 type CustomerInputTypes = {
   customerOrder: CustomerFormData;
@@ -98,61 +98,61 @@ export const CustomerForm: React.FC<CustomerInputTypes> = ({
     <>
       <div className="grid lg:grid-cols-3 items-center gap-4 p-2 shadow-[0_2px_10px_-3px_rgba(6,81,237,0.3)] rounded-lg mt-8 w-full">
         <div className="relative flex items-center m-1">
-          <CustomerInputs
+          <CustomerInput
             id={customerFormFieldNames.firstName}
             value={customerOrder.customerInfo.firstName}
-            placeHolder="Enter your First Name"
-            updateInfo={updateCustomerInfo}
+            placeholder="Enter your First Name"
+            onChange={updateCustomerInfo}
           />
           {personIconSVG}
         </div>
 
         <div className="relative flex items-center m-1">
-          <CustomerInputs
+          <CustomerInput
             id={customerFormFieldNames.lastName}
             value={customerOrder.customerInfo.lastName}
-            placeHolder="Enter your Last Name"
-            updateInfo={updateCustomerInfo}
+            placeholder="Enter your Last Name"
+            onChange={updateCustomerInfo}
           />
           {personIconSVG}
         </div>
 
         <div className="relative flex items-center m-1">
-          <CustomerInputs
+          <CustomerInput
             id={customerFormFieldNames.email}
             value={customerOrder.customerInfo.email}
-            placeHolder="Enter your email"
-            updateInfo={updateCustomerInfo}
+            placeholder="Enter your email"
+            onChange={updateCustomerInfo}
           />
           {envelopIconSVG}
         </div>
 
         <div className="relative flex items-center m-1">
-          <CustomerInputs
+          <CustomerInput
             id={customerFormFieldNames.phoneNumber}
             value={customerOrder.customerInfo.phoneNumber}
-            placeHolder="Enter your Phone Number"
-            updateInfo={updateCustomerInfo}
+            placeholder="Enter your Phone Number"
+            onChange={updateCustomerInfo}
           />
           {phoneIconSVG}
         </div>
 
         <div className="relative flex items-center m-1">
-          <CustomerInputs
+          <CustomerInput
             id={customerFormFieldNames.street}
             value={customerOrder.customerAddress.street}
-            placeHolder="Enter your Home Address"
-            updateInfo={updateCustomerInfo}
+            placeholder="Enter your Home Address"
+            onChange={updateCustomerInfo}
           />
           {locationDropSVG}
         </div>
 
         <div className="relative flex items-center m-1">
-          <CustomerInputs
+          <CustomerInput
             id={customerFormFieldNames.city}
             value={customerOrder.customerAddress.city}
-            placeHolder="Enter your City"
-            updateInfo={updateCustomerInfo}
+            placeholder="Enter your City"
+            onChange={updateCustomerInfo}
           />
           {phoneIconSVG}
         </div>
@@ -182,7 +182,7 @@ export const CustomerForm: React.FC<CustomerInputTypes> = ({
           </select>
         </div>
 
-        {isUSCanadaAddress(customerOrder.customerAddress.country) && (
+        {isUSCanadaAddress(customerOrder?.customerAddress?.country ?? "") && (
           <>
             <div className="relative flex items-center m-1">
               <StateAndTerritorySelector
@@ -194,11 +194,11 @@ export const CustomerForm: React.FC<CustomerInputTypes> = ({
             </div>
 
             <div className="relative flex items-center m-1">
-              <CustomerInputs
+              <CustomerInput
                 id={customerFormFieldNames.postalCode}
                 value={customerOrder.customerAddress.postalCode || ""}
-                placeHolder="Enter your Zip Code"
-                updateInfo={updateCustomerInfo}
+                placeholder="Enter your Zip Code"
+                onChange={updateCustomerInfo}
               />
               {phoneIconSVG}
             </div>

@@ -16,23 +16,25 @@ export const ToolsLegalAgreement: React.FC<Props> = ({
   isShowTermsAndConditions,
   setIsShowTermsAndConditions,
 }) => {
+  const toggleTermsAndConditions = () => {
+    if (isShowTermsAndConditions && !isAccept) {
+      setIsShowTermsAndConditions(!isShowTermsAndConditions);
+    }
+    setIsAccept(!isAccept);
+  };
+
   return (
     <div className="bg-[#081449] shadow-lg shadow-indigo-500/40 px-4 py-5 sm:px-6 m-4 w-68">
-      <div className="text-lg text-gray-900 ">
+      <div className="text-lg text-gray-900">
         <input
           id="link-checkbox"
           type="checkbox"
-          value=""
-          onClick={() => {
-            if (isShowTermsAndConditions && isAccept === false)
-              setIsShowTermsAndConditions(!isShowTermsAndConditions);
-            setIsAccept(!isAccept);
-          }}
+          onClick={toggleTermsAndConditions}
           className="w-4 h-4 text-blue-600 bg-gray-100 border-gray-300 rounded focus:ring-blue-500 dark:focus:ring-blue-600 dark:ring-offset-gray-800 focus:ring-2 dark:bg-gray-700 dark:border-gray-600"
         />
         <label
           htmlFor="link-checkbox"
-          className={`${"ms-2 text-white text-lg font-medium dark:text-gray-300"}`}
+          className="ms-2 text-white text-lg font-medium dark:text-gray-300"
         >
           I agree with the{" "}
           <button
@@ -58,53 +60,22 @@ export const ToolsLegalAgreement: React.FC<Props> = ({
         </p>
       </div>
 
-      {isCustomer && isShowTermsAndConditions && (
-        <TermsConditionForToolRenters />
-      )}
+      {isShowTermsAndConditions &&
+        (isCustomer ? (
+          <TermsConditionForToolRenters />
+        ) : (
+          <TermsConditionForToolOwners />
+        ))}
 
-      {isCustomer === false && isShowTermsAndConditions && (
-        <TermsConditionForToolOwners />
-      )}
-
-      {isCustomer && isAccept === false && (
+      {isCustomer && !isAccept && (
         <button
           type="submit"
-          disabled={isAccept === false}
           onClick={() => setIsAccept(true)}
           className="font-bold mt-2 mb-4 px-6 py-2.5 w-full text-lg text-white rounded bg-gray-600 hover:bg-gray-900 transition-all"
         >
           Accept
         </button>
       )}
-
-      {/* {isCustomer === false && (
-        <>
-          <p className="mt-4 text-lg mb-4 text-white">
-            Please feel free to reach out to{" "}
-            <strong>{postAJobOrder && postAJobOrder.customerName}</strong>{" "}
-            directly at{" "}
-            <a
-              className="text-purple-400 font-bold "
-              href={`mailto:${postAJobOrder && postAJobOrder.email}`}
-            >
-              {postAJobOrder && postAJobOrder.email}
-            </a>{" "}
-            or{" "}
-            <span className="text-purple-400 font-bold ">
-              {postAJobOrder && postAJobOrder.phoneNumber}
-            </span>{" "}
-            if you have any questions or require additional details about the
-            job.
-          </p>
-
-          <p className="mt-2 text-lg mb-4 text-white">Best regards,</p>
-          <p className="mt-2 text-lg mb-4 text-white">
-            <strong>
-              The <span className="text-purple-400">Nearby Solutions</span> Team
-            </strong>
-          </p>
-        </>
-      )} */}
     </div>
   );
 };

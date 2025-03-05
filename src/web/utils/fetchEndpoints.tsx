@@ -6,6 +6,7 @@ import {
   getWrapperSearchTerm,
   getWrapperWthId,
   getWrapperWthIds,
+  getWrapperWthUserIdAndOrderId,
 } from "./fetchGet";
 import {
   CustommerResponseTypes,
@@ -21,9 +22,16 @@ import {
 } from "../lib/types/FindWorkPostAJobtypesData";
 import {
   ToolAndCustomerTypes,
+  ToolOrderHistoryDetails,
+  ToolOrderHistoryWithPagination,
   ToolRentalListing,
 } from "../lib/types/DIYToolsListings";
 import { FullPaymentDetailsDTO } from "../lib/types/DIYToolsListings copy";
+import {
+  emptyToolOrderHistoryDetails,
+  emptyToolOrderHistoryWithPagination,
+  emptyToolRentalListing,
+} from "../lib/default-data/ToolemptyData";
 
 // Generic Fetch Wrapper
 const fetchData = async <T,>(endpoint: string): Promise<T> =>
@@ -107,6 +115,28 @@ export const getUserSearchResult = (searchTerm: string) =>
 export const useGetUserSearchResult = (searchTerm: string) =>
   useFetchData(["search-result"], () => getUserSearchResult(searchTerm), []);
 
+// Search tools
+export const getUserToolsSearchResult = (
+  searchTerm: string,
+  page: number,
+  size: number
+) =>
+  getHomePageWrapper(
+    `tools/search?keyword=${encodeURIComponent(
+      searchTerm
+    )}&page=${page}&size=${size}`
+  );
+export const useGetUserToolsSearchResult = (
+  searchTerm: string,
+  page: number,
+  size: number
+) =>
+  useFetchData<ToolRentalListing[]>(
+    ["search-result"],
+    () => getUserToolsSearchResult(searchTerm, page, size),
+    [emptyToolRentalListing]
+  );
+
 // Job Posting
 export const getJobPosting = (page: number, size: number) =>
   getHomePageWrapper(
@@ -169,7 +199,7 @@ export const useToolRentalListing = (
   useQuery<ToolRentalListing[]>({
     queryKey: ["tools-available"],
     queryFn: () => getToolRentalListing(page, size),
-    placeholderData: [],
+    placeholderData: [emptyToolRentalListing],
     enabled: isEnabled,
   });
 
@@ -185,13 +215,32 @@ export const useGetToolRentalListingWithId = (userId: number, toolId: number) =>
   );
 
 // Tool Rental Order History
-export const getToolsRentalHistoryByCustomerId = (id: number) =>
-  getWrapperWthId("tools-rental-order-history/customer", id);
+export const getToolsRentalHistoryByCustomerId = (
+  id: number
+): Promise<ToolOrderHistoryWithPagination> =>
+  getWrapperWthId("order-history/renter", id);
 export const useToolsRentalHistoryByCustomerId = (id: number) =>
   useFetchData(
-    ["tools-rental-order-history"],
+    ["order-history"],
     () => getToolsRentalHistoryByCustomerId(id),
-    []
+    emptyToolOrderHistoryWithPagination
+  );
+
+export const getToolsOrderDetailsByCustomer = (
+  userId: number,
+  id: number,
+  posterId: number
+): Promise<ToolOrderHistoryDetails> =>
+  getWrapperWthUserIdAndOrderId("order-history", id, userId, posterId);
+export const useToolsOrderDetailsBuCustomer = (
+  userId: number,
+  id: number,
+  posterId: number
+) =>
+  useFetchData(
+    ["order-history-customer-details"],
+    () => getToolsOrderDetailsByCustomer(userId, id, posterId),
+    emptyToolOrderHistoryDetails
   );
 
 export const getToolsRentalHistoryByOrderId = (id: number) =>

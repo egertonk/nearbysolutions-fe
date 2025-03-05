@@ -9,12 +9,13 @@ import {
 } from "../../lib/types/DIYToolsListings copy";
 import { useToolsRentalHistoryByCustomerId } from "../../utils/fetchEndpoints";
 import { ToolHistoryTable } from "./ToolHistoryTable";
+import { SolutionHistoryTable } from "./SolutionHistoryTable";
 
 type Props = {
   isOrderSumary?: boolean;
 };
 
-export const ToolsOrderHistory: React.FC<Props> = ({ isOrderSumary }) => {
+export const SolutionOrderHistory: React.FC<Props> = ({ isOrderSumary }) => {
   const { data: toolsRentalHistoryByCustomer } =
     useToolsRentalHistoryByCustomerId(52); //use customer in after login in
   console.log("toolsRentalHistoryByCustomer", toolsRentalHistoryByCustomer);
@@ -33,9 +34,9 @@ export const ToolsOrderHistory: React.FC<Props> = ({ isOrderSumary }) => {
 
   return (
     <div className="px-4 justify-center dark:bg-gray-700 rounded-b">
-      <MainTitle title={"Tools Order History"} />
+      <MainTitle title={"Solution Order History"} />
 
-      <ToolHistoryTable
+      <SolutionHistoryTable
         toolsRentalHistoryByCustomer={toolsRentalHistoryByCustomer}
       />
       {/* <SearchUI

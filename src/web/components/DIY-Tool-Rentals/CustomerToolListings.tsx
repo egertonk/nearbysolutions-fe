@@ -49,7 +49,7 @@ export const CustomerToolListings: React.FC = () => {
               >
                 <div className="rounded-t auto-cols-max items-center">
                   <TableHeader
-                    itemindex={index}
+                    itemIndex={index}
                     itemStatus={tool.isAvailable}
                     itemsTotal={filteredTools.length}
                     handleEdit={handleEdit}

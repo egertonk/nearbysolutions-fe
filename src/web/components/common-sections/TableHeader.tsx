@@ -1,66 +1,61 @@
 import { editIconSVG } from "../../assets/svg/svgs";
 
 type Props = {
-  itemindex: number;
+  itemIndex: number;
   itemStatus: string | boolean;
   itemsTotal: number;
   handleEdit: (orderNumber: number) => void;
   isOrder?: boolean;
-  isJobListtings?: boolean;
+  isJobListings?: boolean;
   isRentalToolListings?: boolean;
   appSection?: string;
 };
 
 export const TableHeader: React.FC<Props> = ({
   itemStatus,
-  itemindex,
+  itemIndex,
   itemsTotal,
   handleEdit,
   isOrder,
-  isJobListtings,
+  isJobListings,
   isRentalToolListings,
   appSection,
 }) => {
-  let status = "";
-  if (isRentalToolListings) status = itemStatus ? "Listed" : "In Use";
-  if (isOrder || isJobListtings) status = itemStatus ? "Active" : "Completed";
+  const status = isRentalToolListings
+    ? itemStatus
+      ? "Listed"
+      : "In Use"
+    : isOrder || isJobListings
+    ? itemStatus
+      ? "Active"
+      : "Completed"
+    : "";
 
   return (
     <div
-      className="columns-3 flex justify-between"
-      key={`header-${Math.random()}`}
+      className="flex justify-between items-center"
+      key={`header-${itemIndex}`}
     >
-      <div className="text-purple-600 w-15 font-bold">
-        {itemindex + 1} of {itemsTotal}
+      <div className="text-purple-600 font-bold">
+        {itemIndex + 1} of {itemsTotal}
       </div>
 
-      <div className=" justify-end">
-        <div
-          className={`p-1 w-20 ml-1 my-1 uppercase text-xs font-semibold text-yellow-100 ${
-            itemStatus ? "bg-green-600" : "bg-purple-600"
-          }`}
+      <div
+        className={`p-1 w-20 ml-1 my-1 uppercase text-xs font-semibold text-yellow-100 ${
+          itemStatus ? "bg-green-600" : "bg-purple-600"
+        }`}
+      >
+        {status}
+      </div>
+
+      {appSection !== "dateSearch" && itemStatus && (
+        <button
+          onClick={() => handleEdit(itemIndex)}
+          className="hover:text-purple-500 text-base w-5 flex font-medium text-gray rounded-full ml-4"
+          key={`edit-icon-${itemIndex}`}
         >
-          {status}
-        </div>
-      </div>
-
-      {appSection !== "dateSearch" && (
-        <div className="justify-end">
-          {itemStatus ? (
-            <button
-              onClick={() => handleEdit(5353)}
-              className="hover:text-purple-500 text-base w-5 flex font-medium text-gray rounded-full ml-4"
-              key={`edit-icon-${Math.random()}`}
-            >
-              {editIconSVG}
-            </button>
-          ) : (
-            <button
-              className="text-base w-5 flex font-medium text-gray rounded-full ml-4 cursor-default"
-              key={`empty-icon-${Math.random()}`}
-            ></button>
-          )}
-        </div>
+          {editIconSVG}
+        </button>
       )}
     </div>
   );

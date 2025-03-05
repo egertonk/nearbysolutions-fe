@@ -42,7 +42,7 @@ export const RentToolsReview: React.FC<RentToolsReviewProps> = ({
           {productList.map(
             (data) =>
               data.nextAvailableDate && (
-                <div className="group relative m-5">
+                <div key={data.toolName} className="group relative m-5">
                   <a
                     className="justify-center mx-3 mt-3 flex h-60 rounded-xl cursor-pointer"
                     onClick={() => {
@@ -53,57 +53,48 @@ export const RentToolsReview: React.FC<RentToolsReviewProps> = ({
                       setOpenImage(true);
                     }}
                   >
-                    <img className="object-cover" src={`${data.imageUrls}`} />
-                    {data.discountPercent * 100 > 0 && (
+                    <img
+                      className="object-cover"
+                      src={data.imageUrls}
+                      alt={data.toolName}
+                    />
+                    {data.discountPercent > 0 && (
                       <span className="absolute top-0 left-0 m-2 rounded-full bg-black px-2 text-center text-sm font-medium text-white">
                         {data.discountPercent}% OFF
                       </span>
                     )}
                   </a>
-                  <div className=" mt-4 items-center justify-center">
+                  <div className="mt-4 text-center">
                     <h5 className="text-xl tracking-tight text-white-900 font-bold">
                       {data.toolName}
                     </h5>
-
-                    {data.toolBrand.length > 0 && (
-                      <p>Brand Name: {data.toolBrand}</p>
-                    )}
-                    {data.toolCategory.length > 0 && (
-                      <p>Catergory: {data.toolCategory}</p>
-                    )}
-
-                    <div className="ml-4 mr-4 mb-5 flex items-center justify-between">
-                      <p>
-                        <span className="text-3xl font-bold text-white-900">
-                          {data.discountPercent * 100 > 0 ? (
-                            <>
-                              $
-                              {(
-                                data.pricePerDay -
-                                data.pricePerDay * (data.discountPercent / 100)
-                              ).toFixed(2)}
-                            </>
-                          ) : (
-                            <>${data.pricePerDay}</>
-                          )}
-                        </span>
-                        {data.discountPercent * 100 > 0 && (
-                          <span className="text-sm text-white-900 line-through">
-                            ${data.pricePerDay}
-                          </span>
+                    {data.toolBrand && <p>Brand: {data.toolBrand}</p>}
+                    {data.toolCategory && <p>Category: {data.toolCategory}</p>}
+                    <div className="mt-4 flex justify-between items-center">
+                      <p className="text-3xl font-bold text-white-900">
+                        {data.discountPercent > 0 ? (
+                          <>
+                            $
+                            {(
+                              data.pricePerDay *
+                              (1 - data.discountPercent / 100)
+                            ).toFixed(2)}
+                          </>
+                        ) : (
+                          <>${data.pricePerDay}</>
                         )}
                       </p>
-
-                      <div className="flex items-center font-bold">
-                        Price Per Day
-                      </div>
+                      {data.discountPercent > 0 && (
+                        <span className="text-sm text-white-900 line-through">
+                          ${data.pricePerDay}
+                        </span>
+                      )}
                     </div>
-
-                    <button className="w-full flex items-center justify-center rounded-md bg-purple-900 px-5 py-2.5 text-center text-sm font-medium text-white hover:bg-gray-700 focus:outline-none focus:ring-4 focus:ring-blue-300">
+                    <button className="w-full mt-3 flex items-center justify-center rounded-md bg-purple-900 px-5 py-2.5 text-center text-sm font-medium text-white hover:bg-gray-700">
                       {cart}
-                      {hasDatePassed(data.nextAvailableDate) === false
-                        ? `Rent Now`
-                        : `Available On ${data.nextAvailableDate}`}
+                      {hasDatePassed(data.nextAvailableDate)
+                        ? `Available On ${data.nextAvailableDate}`
+                        : `Rent Now`}
                     </button>
                   </div>
                 </div>
@@ -125,9 +116,7 @@ export const RentToolsReview: React.FC<RentToolsReviewProps> = ({
       {currentStep === 3 && (
         <button
           type="submit"
-          onClick={() => {
-            console.log("submit tool listing to database ---");
-          }}
+          onClick={() => console.log("submit tool listing to database")}
           className="font-bold mt-2 mb-4 px-6 py-2.5 w-full text-lg text-white rounded bg-purple-600 hover:bg-purple-900 transition-all cursor-pointer"
         >
           Submit

@@ -1,10 +1,8 @@
 import { MainTitle } from "../common-sections/MainTitle";
 import { GeneralBannerInfo } from "../common-sections/GeneralBannerInfo";
 import { rentInputCSS } from "./SelectPickupDropoffTime";
-import { SearchButton } from "../common-sections/SearchButton";
 import { useRentTools } from "./useRentTools";
 import { ImagePopup } from "../common-sections/ImagePopup";
-import { DateAndTimeInputs } from "./DateAndTimeInputs";
 import { useImagePopup } from "./useImagePopup";
 import { imageDetailsTypes } from "../../lib/types/FindWorkPostAJobtypesData";
 import { ToolsListing } from "./ToolsListing";
@@ -25,6 +23,7 @@ export const RentTools: React.FC = () => {
   const extractedImageData: string[] =
     typeof jsonString === "string" ? JSON.parse(jsonString) : [];
 
+  console.log("rentToolsAction  ", rentToolsAction);
   return (
     <>
       {openImage && (
@@ -40,21 +39,22 @@ export const RentTools: React.FC = () => {
       )}
 
       <MainTitle title={"DIY Tools Rental"} />
+
       <div className="justify-center mx-auto flex  gap-4 py-4 bg-white rounded-lg">
         <p className="w-full">
           <input
             type="text"
             placeholder="Product, Category or City"
-            value={rentToolsAction.location}
+            value={rentToolsAction.searchTerm}
             onChange={(e: React.ChangeEvent<HTMLInputElement>) =>
-              rentToolsAction.setLocation(e.target.value)
+              rentToolsAction.setSearchTerm(e.target.value)
             }
             className={rentInputCSS}
           />
 
-          <DateAndTimeInputs rentToolsAction={rentToolsAction} />
+          {/* <DateAndTimeInputs rentToolsAction={rentToolsAction} />
 
-          <SearchButton handleSubmit={rentToolsAction.handleSearch} />
+          <SearchButton handleSubmit={rentToolsAction.handleSearch} /> */}
         </p>
       </div>
       <GeneralBannerInfo

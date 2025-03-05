@@ -1,4 +1,4 @@
-import { useEffect, useState } from "react";
+import { useEffect, useMemo, useState } from "react";
 import { ToolRentalListing } from "./types/DIYToolsListings";
 
 export const useCustomerToolListings = (
@@ -10,9 +10,13 @@ export const useCustomerToolListings = (
   );
   const [sortDirection, setSortDirection] = useState<string>("asc");
 
-  useEffect(() => {
+  // useEffect(() => {
+  //   if (toolRentalListing.length > 0) setFilteredTools(toolRentalListing);
+  // }, [isFetchingToolRentalListing]);
+
+  useMemo(() => {
     if (toolRentalListing.length > 0) setFilteredTools(toolRentalListing);
-  }, [isFetchingToolRentalListing]);
+  }, [toolRentalListing]);
 
   const sortByToolName = (jobs: ToolRentalListing[]): ToolRentalListing[] => {
     const sortOrder = sortDirection === "asc" ? 1 : -1;

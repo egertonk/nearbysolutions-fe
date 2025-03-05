@@ -1,36 +1,5 @@
 import { CustomerTypes } from "./orderTypes";
-
-// export type ToolRentalListing = {
-//   toolId: string; // Unique identifier for the tool
-//   posterId: number; // Unique identifier for the person who posted the tools (same as customer number)
-//   toolName: string; // Name of the tool
-//   description: string; // Short description of the tool
-//   toolCategory: string; // Category the tool belongs to (e.g., Power Tools, Hand Tools)
-//   toolBrand: string; // Brand of the tool
-//   toolAddress: string; // Address locationof the tool
-//   toolCity: string; // City location of the tool
-//   toolZipcode: string; // Zip code location of the tool
-//   toolState: string; // State location of the tool
-//   toolCountry: string; // Country location of the tool
-//   pricePerDay: number; // Rental price per day
-//   available: boolean; // Availability status
-//   nextAvailableDate: string; // Next date the tool will be available (optional for always available tools)
-//   rating: number; // Average rating of the tool
-//   numberOfReviews: number; // Total number of reviews
-//   powerSource: string; // Power source, if applicable (e.g., Corded, Battery-powered)
-//   imageUrls: string[]; // Array of image URLs for the tool
-//   customerId: string; // ID of the customer currently renting
-//   renterId: string; // ID of the person renting out the tool
-//   isShippingValid: boolean; // Indicates if shipping is available
-//   shippingInformation: {
-//     shippingCost: number; // Cost of shipping
-//     estimatedDelivery: string; // Estimated delivery time
-//   };
-//   discountPercent: number; // Discount percentage
-//   returnDate: string; // Expected return date
-//   usageInstructions: string; // Instructions for using the tool
-//   safetyInformation: string; // Safety guidelines when using the tool
-// };
+import { UserTypes } from "./solutionistTypes";
 
 export type ToolRentalListing = {
   toolId: number;
@@ -64,4 +33,61 @@ export type ToolRentalListing = {
 export type ToolAndCustomerTypes = {
   toolRentalDetails: ToolRentalListing; // tool info
   customerInformation?: CustomerTypes; // customer info
+};
+
+export type OrderStatus = "Pending" | "Completed" | "Cancelled" | "Processing";
+export type PaymentStatus = "Paid" | "Unpaid" | "Refunded";
+export type ShippingStatus =
+  | "Pending"
+  | "Processing"
+  | "Shipped"
+  | "Delivered"
+  | "Returned"
+  | "Pickup"
+  | "Not_Required";
+
+export interface ToolOrderHistory {
+  calculateOriginalPrice(finalPrice: number, discountPercent: number): number;
+  id: number | 0;
+  renterId: number | 0;
+  posterId: number | 0;
+  toolId: number | 0;
+  createdAt: string | ""; // ISO Date String (e.g., "2025-02-24T03:49:51.898181")
+  rentStartDate: string | ""; // ISO Date String
+  rentEndDate: string | ""; // ISO Date String
+  returnDate?: string | ""; // ISO Date String (nullable)
+  pricePerDay: number | 0;
+  totalPrice: number | 0;
+  finalPrice: number | 0;
+  orderStatus: OrderStatus;
+  paymentStatus: PaymentStatus;
+  shippingStatus: ShippingStatus;
+  shippingCost: number | 0;
+  discountPercent: number | 0;
+  isShippingValid: boolean | false;
+  toolZipcode: string | "";
+  toolName: string | "";
+  toolCategory?: string | "";
+  toolBrand?: string | "";
+  toolAddress?: string | "";
+  toolCity?: string | "";
+  toolState?: string | "";
+  toolCountry?: string | "";
+  description?: string | "";
+  powerSource?: string | "";
+  rentalDays: number | 0;
+  imageUrls: string | ""; // Array of URLs
+  discountPrice: number | 0;
+  subtotal: number | 0;
+  tax: number | 0;
+}
+
+export type ToolOrderHistoryWithPagination = {
+  content: ToolOrderHistory[];
+};
+
+export type ToolOrderHistoryDetails = {
+  customerInformation: UserTypes;
+  toolOrderHistory: ToolOrderHistory;
+  posterDetails: UserTypes;
 };

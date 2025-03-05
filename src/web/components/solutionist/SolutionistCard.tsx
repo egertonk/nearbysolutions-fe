@@ -137,6 +137,10 @@ export const SolutionistCard: React.FC<Props> = ({
               </div>
 
               <div className="w-full">
+                <span className="text-white mb-2">
+                  {talentData.solutionistSkills[0]?.name ?? ""}{" "}
+                  {talentData.solutionistSkills.length >= 2 ? "..." : ""}
+                </span>
                 <label
                   htmlFor="Talent"
                   className="block mb-2 text-sm font-medium text-white"

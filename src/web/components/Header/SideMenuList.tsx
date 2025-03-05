@@ -25,7 +25,7 @@ export const SideMenuList: React.FC = () => {
             <Link
               type="button"
               className={menuItemCSS}
-              to={`/DIY-tools-order-rental-history`}
+              to={`/history/DIY-tools-order-rental`}
             >
               <svg
                 xmlns="http://www.w3.org/2000/svg"

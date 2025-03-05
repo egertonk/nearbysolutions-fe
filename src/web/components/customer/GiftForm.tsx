@@ -6,11 +6,11 @@ import {
   phoneIconSVG,
 } from "../../assets/svg/svgs";
 import { customerInputCSS, errorCss } from "../../assets/common-css/css";
-import { CustomerInputs } from "./CustomerInputs";
 import { CustomerFormData } from "../../lib/types/OrderSolutionTypes";
 import { CountryTypes } from "../../lib/types/countryTypes";
 import { StateAndTerritorySelector } from "../common-sections/StateAndTerritorySelector";
 import { isUSCanadaAddress } from "../common-sections/Address";
+import { CustomerInput } from "./CustomerInputs";
 
 type GiftInputTypes = {
   customerOrder: CustomerFormData;
@@ -35,61 +35,61 @@ export const GiftForm: React.FC<GiftInputTypes> = ({
 
       <div className="grid lg:grid-cols-3 items-center gap-4 p-2 shadow-[0_2px_10px_-3px_rgba(6,81,237,0.3)] rounded-lg mt-8 w-full">
         <div className="relative flex items-center m-1">
-          <CustomerInputs
+          <CustomerInput
             id="giftInformationFor.firstName"
             value={customerOrder.giftInformationFor.firstName}
-            placeHolder="Enter first name for gift reciever"
-            updateInfo={updateGiftInfo}
+            placeholder="Enter first name for gift reciever"
+            onChange={updateGiftInfo}
           />
           {personIconSVG}
         </div>
 
         <div className="relative flex items-center m-1">
-          <CustomerInputs
+          <CustomerInput
             id="giftInformationFor.lastName"
             value={customerOrder.giftInformationFor.lastName}
-            placeHolder="Enter last name for gift reciever"
-            updateInfo={updateGiftInfo}
+            placeholder="Enter last name for gift reciever"
+            onChange={updateGiftInfo}
           />
           {personIconSVG}
         </div>
 
         <div className="relative flex items-center m-1">
-          <CustomerInputs
+          <CustomerInput
             id="giftInformationFor.email"
             value={customerOrder.giftInformationFor.email}
-            placeHolder="Enter email for gift reciever"
-            updateInfo={updateGiftInfo}
+            placeholder="Enter email for gift reciever"
+            onChange={updateGiftInfo}
           />
           {envelopIconSVG}
         </div>
 
         <div className="relative flex items-center m-1">
-          <CustomerInputs
+          <CustomerInput
             id="giftInformationFor.phoneNumber"
             value={customerOrder.giftInformationFor.phoneNumber}
-            placeHolder="Enter phone number for gift reciever"
-            updateInfo={updateGiftInfo}
+            placeholder="Enter phone number for gift reciever"
+            onChange={updateGiftInfo}
           />
           {phoneIconSVG}
         </div>
 
         <div className="relative flex items-center m-1">
-          <CustomerInputs
+          <CustomerInput
             id="giftInformationFor.street"
             value={customerOrder.giftInformationFor.street}
-            placeHolder="Enter address for gift reciever"
-            updateInfo={updateGiftInfo}
+            placeholder="Enter address for gift reciever"
+            onChange={updateGiftInfo}
           />
           {locationDropSVG}
         </div>
 
         <div className="relative flex items-center m-1">
-          <CustomerInputs
+          <CustomerInput
             id="giftInformationFor.city"
             value={customerOrder.giftInformationFor.city}
-            placeHolder="Enter city for gift reciever"
-            updateInfo={updateGiftInfo}
+            placeholder="Enter city for gift reciever"
+            onChange={updateGiftInfo}
           />
           {phoneIconSVG}
         </div>
@@ -126,11 +126,11 @@ export const GiftForm: React.FC<GiftInputTypes> = ({
               />
             </div>
             <div className="relative flex items-center m-1">
-              <CustomerInputs
+              <CustomerInput
                 id="giftInformationFor.postalCode"
                 value={customerOrder.giftInformationFor.postalCode}
-                placeHolder="Enter zip code for gift reciever"
-                updateInfo={updateGiftInfo}
+                placeholder="Enter zip code for gift reciever"
+                onChange={updateGiftInfo}
               />
               {phoneIconSVG}
             </div>

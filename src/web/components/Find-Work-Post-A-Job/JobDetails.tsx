@@ -97,7 +97,7 @@ export const JobDetails: React.FC<Props> = ({
         </p>
         <p className="items-center justify-center grid mb-4">
           Location: {jobDetails.jobCityLocation},{" "}
-          {isUSCanadaAddress(jobDetails.jobCountry) && (
+          {isUSCanadaAddress(jobDetails?.jobCountry || "") && (
             <>Zip: {jobDetails.jobZip}</>
           )}{" "}
           {jobDetails.jobCountry}

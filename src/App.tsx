@@ -32,6 +32,12 @@ import { ToolsOrderHistory } from "./web/components/Order-History/ToolsOrderHist
 import { RentalToolsOrderHistoryDetails } from "./web/components/Order-History/RentalToolsOrderHistoryDetails";
 import { JobRequestsOrderHistory } from "./web/components/Order-History/JobRequestsOrderHistory";
 import { JobRequestsOrderHistoryDetails } from "./web/components/Order-History/JobRequestsOrderHistoryDetails";
+import {
+  Return,
+  StripePayment,
+} from "./web/components/Payment-Process/StripePayment";
+import { OrderDetails } from "./web/components/Order-History/OrderDetails";
+import { SolutionOrderHistory } from "./web/components/Order-History/SolutionOrderHistory";
 
 function App() {
   return (
@@ -43,6 +49,9 @@ function App() {
 
         <Routes>
           <Route path="/home" element={<HomeIndex />} />
+
+          <Route path="/checkout" element={<StripePayment />} />
+          <Route path="/return" element={<Return />} />
 
           <Route path="/home/*">
             <Route path="login" element={<Login />} />
@@ -83,18 +92,23 @@ function App() {
           <Route path="/payment" element={<Payment />} />
 
           {/* Customer History */}
-          <Route
-            path="/DIY-tools-order-rental-history"
-            element={<ToolsOrderHistory />}
-          />
-          <Route
-            path="/job-requests-order-history"
-            element={<JobRequestsOrderHistory />}
-          />
-          <Route
-            path="/job-requests-order-history/view-order-details"
-            element={<JobRequestsOrderHistoryDetails />}
-          />
+          <Route path="/history/*">
+            <Route
+              path="DIY-tools-order-rental"
+              element={<ToolsOrderHistory />}
+            />
+            <Route path="solution" element={<SolutionOrderHistory />} />
+            <Route path="order-details" element={<OrderDetails />} />
+            <Route
+              path="job-requests-order"
+              element={<JobRequestsOrderHistory />}
+            />
+            <Route
+              path="history/job-requests-order/view-order-details"
+              element={<JobRequestsOrderHistoryDetails />}
+            />
+          </Route>
+
           <Route path="/job-listings" element={<CustomerJobListings />} />
           <Route path="/tool-listings" element={<CustomerToolListings />} />
 

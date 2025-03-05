@@ -1,5 +1,4 @@
-// Common items for Customer
-
+// ✅ Common fields for Customer (Immutable Tuples for Safety)
 export const customerAddressFields = [
   "addressLine2",
   "addressType",
@@ -9,39 +8,39 @@ export const customerAddressFields = [
   "region",
   "state",
   "street",
-];
+] as const;
 
-export const customerPeronalFields = [
+export const customerPersonalFields = [
   "firstName",
   "lastName",
   "email",
   "phoneNumber",
-];
+] as const;
 
 export const customerFormFieldNames = {
-  addressLine2: customerAddressFields[0],
-  addressType: customerAddressFields[1],
-  city: customerAddressFields[2],
-  country: customerAddressFields[3],
-  postalCode: customerAddressFields[4],
-  region: customerAddressFields[5],
-  state: customerAddressFields[6],
-  street: customerAddressFields[7],
-  firstName: customerPeronalFields[0],
-  lastName: customerPeronalFields[1],
-  email: customerPeronalFields[2],
-  phoneNumber: customerPeronalFields[3],
-};
+  addressLine2: "addressLine2",
+  addressType: "addressType",
+  city: "city",
+  country: "country",
+  postalCode: "postalCode",
+  region: "region",
+  state: "state",
+  street: "street",
+  firstName: "firstName",
+  lastName: "lastName",
+  email: "email",
+  phoneNumber: "phoneNumber",
+} as const;
 
-export const giftInfoFields = [
+export const giftInfoFields: ReadonlyArray<string> = [
   customerFormFieldNames.firstName,
   customerFormFieldNames.lastName,
   customerFormFieldNames.email,
   customerFormFieldNames.phoneNumber,
   customerFormFieldNames.state,
   customerFormFieldNames.postalCode,
-  "customerID",
+  "customerID", // This is an extra field
   customerFormFieldNames.country,
   customerFormFieldNames.city,
   customerFormFieldNames.street,
-]; 
+];

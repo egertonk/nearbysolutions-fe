@@ -1,6 +1,6 @@
 import React from "react";
 
-const statesAndTerritories = [
+const statesAndTerritories: string[] = [
   "Alabama",
   "Alaska",
   "Arizona",
@@ -59,35 +59,33 @@ const statesAndTerritories = [
   "U.S. Virgin Islands",
 ];
 
-type GiftInputTypes = {
-  className: React.HTMLAttributes<HTMLSelectElement> | string;
-  name: React.SelectHTMLAttributes<HTMLSelectElement> | string;
+type Props = {
+  className?: string;
+  name: string;
   value: string;
-  onChange: (
-    e: React.ChangeEvent<HTMLInputElement | HTMLSelectElement>
-  ) => void;
+  onChange: (e: React.ChangeEvent<HTMLSelectElement>) => void;
 };
 
-export const StateAndTerritorySelector: React.FC<GiftInputTypes> = ({
-  className,
+export const StateAndTerritorySelector: React.FC<Props> = ({
+  className = "",
   name,
   value,
   onChange,
-}) => {
-  return (
-    <select
-      className={`${className}`}
-      id={`${name}`}
-      name={`${name}`}
-      value={value}
-      onChange={onChange}
-    >
-      <option>Select State or Territory</option>
-      {statesAndTerritories.map((location, index) => (
-        <option key={index} value={location}>
-          {location}
-        </option>
-      ))}
-    </select>
-  );
-};
+}) => (
+  <select
+    className={className}
+    id={name}
+    name={name}
+    value={value}
+    onChange={onChange}
+  >
+    <option value="" disabled>
+      Select State or Territory
+    </option>
+    {statesAndTerritories.map((location) => (
+      <option key={location} value={location}>
+        {location}
+      </option>
+    ))}
+  </select>
+);

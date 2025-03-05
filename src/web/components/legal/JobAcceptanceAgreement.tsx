@@ -2,14 +2,16 @@ import { TermsConditionSolutionistsAcceptingJobs } from "./TermsConditionSolutio
 import { JobPosting } from "../../lib/types/FindWorkPostAJobtypesData";
 import { TermsConditionSolutionistsPostingJobs } from "./TermsConditionTermsConditionsPostingJob";
 
+type BooleanStatus = {
+  isAccept: boolean;
+  setIsAccept: React.Dispatch<React.SetStateAction<boolean>>;
+  isShowTermsAndConditions: boolean;
+  setIsShowTermsAndConditions: React.Dispatch<React.SetStateAction<boolean>>;
+};
+
 type Props = {
   isCustomer: boolean;
-  booleanStatus: {
-    isAccept: boolean;
-    setIsAccept: React.Dispatch<React.SetStateAction<boolean>>;
-    isShowTermsAndConditions: boolean;
-    setIsShowTermsAndConditions: React.Dispatch<React.SetStateAction<boolean>>;
-  };
+  booleanStatus: BooleanStatus;
   jobOrder?: JobPosting;
 };
 
@@ -18,29 +20,27 @@ export const JobAcceptanceAgreement: React.FC<Props> = ({
   jobOrder,
   booleanStatus,
 }) => {
+  const toggleTermsAndConditions = () => {
+    if (booleanStatus.isShowTermsAndConditions && !booleanStatus.isAccept) {
+      booleanStatus.setIsShowTermsAndConditions(
+        !booleanStatus.isShowTermsAndConditions
+      );
+    }
+    booleanStatus.setIsAccept(!booleanStatus.isAccept);
+  };
+
   return (
     <div className="bg-[#081449] shadow-lg shadow-indigo-500/40 px-4 py-5 sm:px-6 m-4 w-68">
-      <div className="text-lg text-gray-900 ">
+      <div className="text-lg text-gray-900">
         <input
           id="link-checkbox"
           type="checkbox"
-          value=""
-          onClick={() => {
-            if (
-              booleanStatus.isShowTermsAndConditions &&
-              booleanStatus.isAccept === false
-            )
-              booleanStatus.setIsShowTermsAndConditions(
-                !booleanStatus.isShowTermsAndConditions
-              );
-            booleanStatus.setIsAccept(!booleanStatus.isAccept);
-          }}
+          onClick={toggleTermsAndConditions}
           className="w-4 h-4 text-blue-600 bg-gray-100 border-gray-300 rounded focus:ring-blue-500 dark:focus:ring-blue-600 dark:ring-offset-gray-800 focus:ring-2 dark:bg-gray-700 dark:border-gray-600"
         />
-
         <label
           htmlFor="link-checkbox"
-          className={`${"ms-2 text-white text-lg font-medium dark:text-gray-300"}`}
+          className="ms-2 text-white text-lg font-medium dark:text-gray-300"
         >
           I agree with the{" "}
           <button
@@ -66,21 +66,20 @@ export const JobAcceptanceAgreement: React.FC<Props> = ({
         </p>
       </div>
 
-      {isCustomer && booleanStatus.isShowTermsAndConditions && (
-        <TermsConditionSolutionistsPostingJobs />
-      )}
+      {booleanStatus.isShowTermsAndConditions &&
+        (isCustomer ? (
+          <TermsConditionSolutionistsPostingJobs />
+        ) : (
+          <TermsConditionSolutionistsAcceptingJobs />
+        ))}
 
-      {isCustomer === false && booleanStatus.isShowTermsAndConditions && (
-        <TermsConditionSolutionistsAcceptingJobs />
-      )}
-
-      {isCustomer === false && (
+      {!isCustomer && (
         <button
           type="submit"
           disabled={!booleanStatus.isAccept}
           onClick={() => {
             console.log(
-              "IF SOLUTIONIST update database --- send notification to job poster with a payment code and instruction--- send confirmation to solutionist and it own code --"
+              "IF SOLUTIONIST update database --- send notification to job poster with a payment code and instruction--- send confirmation to solutionist and its own code --"
             );
             booleanStatus.setIsShowTermsAndConditions(
               !booleanStatus.isShowTermsAndConditions
@@ -92,25 +91,24 @@ export const JobAcceptanceAgreement: React.FC<Props> = ({
         </button>
       )}
 
-      {isCustomer === false && (
+      {!isCustomer && jobOrder && (
         <>
           <p className="mt-4 text-lg mb-4 text-white">
             Please feel free to reach out to{" "}
-            <strong>{jobOrder && jobOrder.customerName}</strong> directly at{" "}
+            <strong>{jobOrder.customerName}</strong> directly at{" "}
             <a
               className="text-purple-400 font-bold "
-              href={`mailto:${jobOrder && jobOrder.email}`}
+              href={`mailto:${jobOrder.email}`}
             >
-              {jobOrder && jobOrder.email}
+              {jobOrder.email}
             </a>{" "}
             or{" "}
             <span className="text-purple-400 font-bold ">
-              {jobOrder && jobOrder.phoneNumber}
+              {jobOrder.phoneNumber}
             </span>{" "}
             if you have any questions or require additional details about the
             job.
           </p>
-
           <p className="mt-2 text-lg mb-4 text-white">Best regards,</p>
           <p className="mt-2 text-lg mb-4 text-white">
             <strong>

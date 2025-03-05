@@ -2,11 +2,7 @@ import React, { useMemo, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { RootState } from "../../../store";
 import { setCustomerOrder } from "../../../store/customerContractorSlice";
-import {
-  customerAddressFields,
-  customerPeronalFields,
-  giftInfoFields,
-} from ".";
+import { customerAddressFields, customerPersonalFields, giftInfoFields } from ".";
 import { useGetCountries } from "../../utils/fetchEndpoints";
 import { CustomerForm } from "./CustomerForm";
 import { GiftForm } from "./GiftForm";
@@ -41,7 +37,19 @@ export const CustomerPersonalInfoForm: React.FC = () => {
   ) => {
     const { name, value } = e.target;
 
-    if (customerAddressFields.includes(name)) {
+    if (
+      customerAddressFields.includes(
+        name as
+          | "addressLine2"
+          | "addressType"
+          | "city"
+          | "country"
+          | "postalCode"
+          | "region"
+          | "state"
+          | "street"
+      )
+    ) {
       const updatedCustomerFormData = {
         ...customerOrder,
         customerAddress: {
@@ -52,7 +60,11 @@ export const CustomerPersonalInfoForm: React.FC = () => {
 
       dispatch(setCustomerOrder(updatedCustomerFormData));
     }
-    if (customerPeronalFields.includes(name)) {
+    if (
+      customerPersonalFields.includes(
+        name as "firstName" | "lastName" | "email" | "phoneNumber"
+      )
+    ) {
       const updatedCustomerFormData = {
         ...customerOrder,
         customerInfo: {

@@ -1,8 +1,8 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { useCustomerToolListings } from "../../lib/useCustomerToolListings";
-import { useToolRentalListing } from "../../utils/fetchEndpoints";
 import { ToolRentalListing } from "../../lib/types/DIYToolsListings";
 import { isFeature } from "../common-sections/InfiniteScroll ";
+import { headers, localHostURL } from "../../utils/fetchGet";
 
 export const hasDatePassed = (dateString: string): boolean => {
   const inputDate = new Date(dateString);
@@ -15,7 +15,7 @@ export const hasDatePassed = (dateString: string): boolean => {
 };
 
 export const useRentTools = (isEnabled: boolean, featureName: string) => {
-  const [location, setLocation] = useState<string>("");
+  const [searchTerm, setSearchTerm] = useState<string>("");
   const [fromDate, setFromDate] = useState<string>("");
   const [fromTime, setFromTime] = useState<string>("");
   const [untilDate, setUntilDate] = useState<string>("");
@@ -23,18 +23,43 @@ export const useRentTools = (isEnabled: boolean, featureName: string) => {
   const [selectedDate, setSelectedDate] = useState<string>(
     new Date().toISOString().split("T")[1]
   ); // Default to today's date
-
+  const [toolRentalListing, setToolRentalListing] = useState<
+    ToolRentalListing[]
+  >([]);
   const isHomePage = isFeature(featureName);
-
-  const { data: toolRentalListing, isFetching: isFetchingToolRentalListing } =
-    useToolRentalListing(isEnabled, isHomePage ? 0 : 0, isHomePage ? 5 : 10);
 
   console.log("toolRentalListing = ", toolRentalListing);
   const { handleOnChange, filteredTools, handleSubmit, handleSort } =
     useCustomerToolListings(
       toolRentalListing ?? ([] as ToolRentalListing[]),
-      isFetchingToolRentalListing
+      true
     );
+
+  useEffect(() => {
+    console.log("searchTerm = ", searchTerm);
+    const fetchData = async () => {
+      const endpointName = `tools/search?keyword=${encodeURIComponent(
+        searchTerm
+      )}&page=${isHomePage ? 0 : 0}&size=${isHomePage ? 5 : 10}`;
+
+      try {
+        const response = await fetch(`${localHostURL}/${endpointName}`, {
+          method: "GET",
+          headers,
+        });
+
+        if (!response.ok) throw new Error("Failed to fetch data");
+
+        const data = await response.json();
+        console.log("data.content = ", data.content);
+        setToolRentalListing(data.content);
+      } catch (error) {
+        setToolRentalListing([]);
+      }
+    };
+
+    fetchData();
+  }, [searchTerm]);
 
   // Helper function to add days to a date string
   const addDays = (dateString: string, days: number): string => {
@@ -65,22 +90,12 @@ export const useRentTools = (isEnabled: boolean, featureName: string) => {
     setUntilDate(date);
   };
 
-  const handleSearch = () => {
-    console.log({
-      location,
-      from: `${fromDate} ${fromTime}`,
-      until: `${untilDate} ${untilTime}`,
-    });
-    // Implement search logic here
-  };
-
   return {
     rentToolsAction: {
       filteredTools,
-      handleSearch,
       hasDatePassed,
-      location,
-      setLocation,
+      searchTerm,
+      setSearchTerm,
       fromDate,
       setFromDate: handleSetFromDate, // Use the custom setter for validation
       fromTime,

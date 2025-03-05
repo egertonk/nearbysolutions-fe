@@ -7,10 +7,9 @@ import {
 export type DateAndTimeInputsProps = {
   rentToolsAction: {
     filteredTools: ToolRentalListing[];
-    handleSearch: () => void;
     hasDatePassed: (dateString: string) => boolean;
-    location: string;
-    setLocation: React.Dispatch<React.SetStateAction<string>>;
+    searchTerm: string;
+    setSearchTerm: React.Dispatch<React.SetStateAction<string>>;
     fromDate: string;
     setFromDate: (date: string) => void;
     fromTime: string;

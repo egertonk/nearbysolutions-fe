@@ -1,5 +1,5 @@
 import { createSlice, PayloadAction } from "@reduxjs/toolkit";
-import { SolutionistWorkSettingsStates } from "./defualtStates";
+import { solutionistWorkSettingsStates } from "./defualtStates";
 
 export interface SolutionistWorkSetting {
   id: number;
@@ -16,8 +16,7 @@ export interface SolutionistWorkSetting {
   twelveHoursStatus: boolean;
 }
 
-export const initialState: SolutionistWorkSetting =
-  SolutionistWorkSettingsStates;
+export const initialState: SolutionistWorkSetting = solutionistWorkSettingsStates;
 
 const solutionistWorkSettingsSlice = createSlice({
   name: "solutionistWorkSettingsSlice",

@@ -53,9 +53,7 @@ export const TimeList: React.FC<TimeProps> = ({
     twentyFourHour: string;
     twelveHour: string;
   }[];
-  console.log("Timeicker customerSolutionistDetails-------- = ", customerSolutionistDetails);
-  console.log("Timeicker customerOrder-------- = ", customerOrder);
- 
+
   const updateStore = (e: React.ChangeEvent<HTMLInputElement>) => {
     const updatedOrder = {
       ...customerOrder,

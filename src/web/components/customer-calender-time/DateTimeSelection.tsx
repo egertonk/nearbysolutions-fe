@@ -183,7 +183,7 @@ export const DateTimeSelection: React.FC<Props> = ({
                     key={`2-${index}`}
                   >
                     <TableHeader
-                      itemindex={index}
+                      itemIndex={index}
                       itemStatus={order.orderStatus}
                       isOrder={true}
                       itemsTotal={filteredOrders.length}

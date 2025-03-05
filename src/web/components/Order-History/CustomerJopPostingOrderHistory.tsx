@@ -46,7 +46,8 @@ type PaymentOrderStatus =
   | "Processing"
   | "Paid"
   | "Refunded"
-  | "Cancelled";
+  | "Cancelled"
+  | "Completed";
 
 // Pending > default
 // Failed > default
@@ -60,7 +61,8 @@ export const getPaymentOrderStatusClass = (
     Refunded: "bg-blue-900 text-white",
     Processing: "bg-yellow-100 text-yellow-800",
     Paid: "bg-green-100 text-green-800",
-    Cancelled: "bg-black-100 text-white",
+    Cancelled: "bg-red-100 text-red-800",
+    Completed: "bg-green-100 text-green-800",
     default: "bg-red-100 text-red-800",
   };
 
@@ -254,7 +256,7 @@ export const CustomerJopPostingOrderHistory: React.FC<OrderListProps> = ({
                     <button
                       onClick={() =>
                         navigate(
-                          `/job-requests-order-history/view-order-details?jobId=${order.jobPosting?.id}`
+                          `/history/job-requests-order/view-order-details?jobId=${order.jobPosting?.id}`
                         )
                       }
                       className="w-full inline-flex justify-center rounded-lg  border border-gray-200 bg-white px-3 py-2 text-sm font-medium text-gray-900 hover:bg-gray-100 hover:text-primary-700 focus:z-10 focus:outline-none focus:ring-4 focus:ring-gray-100 dark:border-gray-600 dark:bg-gray-800 dark:text-gray-400 dark:hover:bg-gray-700 dark:hover:text-white dark:focus:ring-gray-700 lg:w-auto"

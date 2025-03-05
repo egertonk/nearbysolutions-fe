@@ -2,7 +2,7 @@ import { handleError } from "./fetchErrors";
 
 export const localHostURL = "http://localhost:8080/api";
 
-const headers = {
+export const headers = {
   "Content-Type": "application/json",
   "Access-Control-Allow-Origin": "*",
   "Access-Control-Allow-Methods": "GET,POST,PATCH,OPTIONS",
@@ -86,6 +86,39 @@ export const getWrapperWthId = async (endpointName: string, userId: number) => {
       method: "GET",
       headers,
     });
+
+    // Check if the response has a JSON content-type
+    const noJSON = !response.headers
+      .get("content-type")
+      ?.includes("application/json");
+
+    // Check for error status and handle accordingly
+    if (!response.ok) {
+      await handleError(response, noJSON);
+    }
+
+    // If no error, return parsed JSON or text data
+    return noJSON ? await response.text() : await response.json();
+  } catch (error) {
+    // Return or throw the error to be handled by the calling code
+    return error;
+  }
+};
+
+export const getWrapperWthUserIdAndOrderId = async (
+  endpointName: string,
+  id: number,
+  userId: number,
+  posterId: number
+) => {
+  try {
+    const response = await fetch(
+      `${localHostURL}/${endpointName}/${id}/${userId}/${posterId}`,
+      {
+        method: "GET",
+        headers,
+      }
+    );
 
     // Check if the response has a JSON content-type
     const noJSON = !response.headers

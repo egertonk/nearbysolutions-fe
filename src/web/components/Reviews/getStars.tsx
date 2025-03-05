@@ -16,15 +16,18 @@ export const GetStars: React.FC<Props> = ({ starNumber }) => {
   };
 
   return (
-    <>
-      <p className="leading-normal text-gray-300 text-md" key={`${Math.random()}`}>
-        <div className="flex items-center  mb-5">
-          {getStars(starNumber)?.map((star) => yellowStar)}
+    <div
+      className="leading-normal text-gray-300 text-md flex items-center mb-5"
+      key={`stars-${starNumber}`}
+    >
+      {getStars(starNumber)?.map((star, index) => (
+        <span key={`yellow-star-${index}`}>{yellowStar}</span>
+      ))}
 
-          {MAX_STARS - starNumber <= 5 &&
-            getStars(MAX_STARS - starNumber).map((star) => whiteStar)}
-        </div>
-      </p>
-    </>
+      {MAX_STARS - starNumber <= 5 &&
+        getStars(MAX_STARS - starNumber).map((star, index) => (
+          <span key={`white-star-${index}`}>{whiteStar}</span>
+        ))}
+    </div>
   );
 };

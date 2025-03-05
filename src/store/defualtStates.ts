@@ -8,17 +8,17 @@ export const paymentStatusStates = {
   showSelectPayment: true,
 };
 
-export const SolutionistWorkSettingsStates = {
+export const solutionistWorkSettingsStates = {
   id: 0,
-  businessStartTime: "", // Format: "HH:MM:SS"
-  businessEndTime: "", // Format: "HH:MM:SS"
+  businessStartTime: "",
+  businessEndTime: "",
   oneBlockedStatus: false,
   jobASAPStatus: false,
   onlineStatus: false,
-  availableDays: "", // JSON string representing an array of days
+  availableDays: "",
   vacationStatus: false,
-  vacationStartDate: "", // Format: "YYYY-MM-DD"
-  vacationEndDate: "", // Format: "YYYY-MM-DD"
+  vacationStartDate: "",
+  vacationEndDate: "",
   twentyFourHoursStatus: false,
   twelveHoursStatus: false,
 };
@@ -33,10 +33,10 @@ export const customerDetails = {
   passwordHash: "",
   phoneNumber: "",
   profilePicture: "",
-  dateOfBirth: "", // Use ISO 8601 date format
+  dateOfBirth: "",
   location: "",
-  createdAt: "", // Use ISO 8601 date-time format
-  updatedAt: "", // Use ISO 8601 date-time format
+  createdAt: "",
+  updatedAt: "",
   termsAccepted: false,
   privacyPolicyAccepted: false,
   middleName: "",
@@ -112,7 +112,7 @@ export const orderStates = {
   solutionTask: "",
   solutionJob: "",
   selectedTalent: "",
-  talentID: 0, // it should never be null
+  talentID: 0,
   talentFirstName: "",
   talentLastName: "",
   solutionPrice: 0,

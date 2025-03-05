@@ -5,7 +5,6 @@ import { SideMenuList } from "../Header/SideMenuList";
 import { priceWithComma } from "../../lib";
 import { TableHeader } from "../common-sections/TableHeader";
 import { SearchUI } from "../search/SearchUI";
-import { useJobPosting } from "../../utils/fetchEndpoints";
 
 type Props = {
   isOrderSumary?: boolean;
@@ -49,11 +48,11 @@ export const CustomerJobListings: React.FC<Props> = ({ isOrderSumary }) => {
                     key={`2-${index}`}
                   >
                     <TableHeader
-                      itemindex={index}
+                      itemIndex={index}
                       itemStatus={job.jobStatus}
                       itemsTotal={filteredJobs.length}
                       handleEdit={handleEdit}
-                      isJobListtings={true}
+                      isJobListings={true}
                     />
 
                     <div

@@ -2,28 +2,12 @@ import React from "react";
 import { cart } from "../../assets/svg/svgs";
 import DIYToolsImage from "../../assets/images/DIY-Tools-Renting.jpeg";
 import { GetStars } from "../Reviews/getStars";
-import { ToolRentalListing } from "../../lib/types/DIYToolsListings";
 import { getImageArray } from "../../lib";
 import { useNavigate } from "react-router";
+import { DateAndTimeInputsProps } from "./DateAndTimeInputs";
 
 type ToolsListingProps = {
-  rentToolsAction: {
-    filteredTools: ToolRentalListing[];
-    handleSearch: () => void;
-    hasDatePassed: (dateString: string) => boolean;
-    location: string;
-    setLocation: React.Dispatch<React.SetStateAction<string>>;
-    fromDate: string;
-    setFromDate: (date: string) => void;
-    fromTime: string;
-    setFromTime: React.Dispatch<React.SetStateAction<string>>;
-    untilDate: string;
-    setUntilDate: (date: string) => void;
-    untilTime: string;
-    setUntilTime: React.Dispatch<React.SetStateAction<string>>;
-    selectedDate: string;
-    setSelectedDate: React.Dispatch<React.SetStateAction<string>>;
-  };
+  rentToolsAction: DateAndTimeInputsProps["rentToolsAction"];
   setOpenImage: (value: React.SetStateAction<boolean>) => void;
   setImageDetails: React.Dispatch<
     React.SetStateAction<
@@ -48,9 +32,9 @@ export const ToolsListing: React.FC<ToolsListingProps> = ({
       {rentToolsAction.filteredTools.length > 0 && (
         <div className="mt-6 grid grid-cols-1 gap-2 sm:grid-cols-5 lg:grid-cols-5 ">
           {rentToolsAction.filteredTools.map(
-            (data) =>
+            (data, index) =>
               data.isAvailable && (
-                <div className="group relative m-5">
+                <div className="group relative m-5" key={`tool-${index}`}>
                   <button
                     className="items-center justify-center mb-4 h-60 rounded-xl cursor-pointer bg-transparent border-none p-6"
                     onClick={() => {
@@ -119,12 +103,15 @@ export const ToolsListing: React.FC<ToolsListingProps> = ({
                     </div>
 
                     {data.rating >= 3 && (
-                      <p className="flex justify-center">
+                      <div
+                        className="flex justify-center"
+                        key={`${index}-rating`}
+                      >
                         <GetStars starNumber={data.rating} />
                         <span className="mb-5 mr-2 ml-3 rounded bg-yellow-200 px-2.5 py-0.5 text-md font-semibold text purple">
                           {data.rating}
                         </span>
-                      </p>
+                      </div>
                     )}
 
                     <button
