@@ -1,17 +1,23 @@
-import { orderSortList } from "../../lib/useOrders";
 import { getPaymentOrderStatusClass } from "./CustomerJopPostingOrderHistory";
 import { ToolOrderHistory } from "../../lib/types/DIYToolsListings";
 import { ToolHistoryItemDetails } from "./ToolHistoryItemDetails";
 import { SortData } from "../common-sections/SortData";
 import { InfiniteScrollMessages } from "../common-sections/InfiniteScrollMessages";
 
-type Props = {
-  toolsRentalHistoryByCustomer: ToolOrderHistory[] | undefined;
+export type HistorySharedProps = {
   loading: boolean;
   hasMore: boolean;
   lastElementRef: (node: HTMLDivElement | null) => void;
   showScrollButton: boolean;
   scrollToTop: () => void;
+  sortList: string[];
+  filterName: string;
+  setFilterName: React.Dispatch<React.SetStateAction<string | undefined>>;
+};
+
+type Props = {
+  toolsRentalHistoryByCustomer: ToolOrderHistory[] | undefined;
+  historyProp: HistorySharedProps;
 };
 
 export const calculateOriginalPrice = (
@@ -31,48 +37,42 @@ export const calculateFinalPrice = (
 
 export const ToolHistoryTable: React.FC<Props> = ({
   toolsRentalHistoryByCustomer,
-  loading,
-  hasMore,
-  showScrollButton,
-  scrollToTop,
-  lastElementRef,
+  historyProp,
 }) => {
-  console.log(
-    toolsRentalHistoryByCustomer?.length,
-    "-------------",
-    toolsRentalHistoryByCustomer
-  );
-
   if (toolsRentalHistoryByCustomer === undefined) return null;
 
-  function handleSort(sortType: string): void {
-    throw new Error("Function not implemented.");
-  }
+  const handleSort = (name: string) => historyProp.setFilterName(name);
 
   return (
     <>
       <div className="flex justify-center space-x-8 items-start w-full ">
-        <SortData sortList={orderSortList} handleSort={handleSort} />
+        <SortData sortList={historyProp.sortList} handleSort={handleSort} />
       </div>
 
       <div className="flex-row min-h-screen justify-center items-center md:mx-8 md:px-64">
         {toolsRentalHistoryByCustomer &&
+        toolsRentalHistoryByCustomer.length > 0 ? (
           toolsRentalHistoryByCustomer?.map((order) => (
             <ToolHistoryItemDetails
               index={toolsRentalHistoryByCustomer.indexOf(order)}
               arrayLength={toolsRentalHistoryByCustomer.length ?? 0}
-              lastElementRef={lastElementRef}
+              lastElementRef={historyProp.lastElementRef}
               content={order}
               showViewDetailsButton={false}
             />
-          ))}
+          ))
+        ) : (
+          <>
+            <div>No {historyProp.filterName} Orders!</div>
+          </>
+        )}
       </div>
 
       <InfiniteScrollMessages
-        loading={loading}
-        hasMore={hasMore}
-        showScrollButton={showScrollButton}
-        scrollToTop={scrollToTop}
+        loading={historyProp.loading}
+        hasMore={historyProp.hasMore}
+        showScrollButton={historyProp.showScrollButton}
+        scrollToTop={historyProp.scrollToTop}
       />
 
       <main className="flex-1 overflow-x-hidden overflow-y-auto bg-gray-200">

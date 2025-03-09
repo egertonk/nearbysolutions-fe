@@ -213,3 +213,18 @@ export const getSocialMedia = (name: string) => {
     (socialMedia) => socialMedia.name.toLowerCase() === name.toLowerCase()
   );
 };
+
+export const calculateOriginalPrice = (
+  finalPrice: number,
+  discount: number
+): number => {
+  if (discount >= 100) return 0; // Avoid division by zero
+  return finalPrice / (1 - discount / 100);
+};
+
+export const calculateFinalPrice = (
+  price: number,
+  discount: number
+): number => {
+  return price * (1 - discount / 100);
+};

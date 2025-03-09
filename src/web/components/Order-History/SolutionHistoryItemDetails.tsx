@@ -1,7 +1,10 @@
+import jobSearchListImage from "../../assets/images/customer-job-requests.jpeg";
 import { ToolOrderHistory } from "../../lib/types/DIYToolsListings";
 import { getPaymentOrderStatusClass } from "./CustomerJopPostingOrderHistory";
-import { OrderHistoryItemDetails } from "./Common/OrderHistoryItemDetails copy";
+import { OrderHistoryItemDetails } from "./Common/OrderHistoryItemDetails";
 import { HistoryDetailsButton } from "./Common/HistoryDetailsButton";
+import { getValidImage } from "../common-sections/useImageLoader";
+import { useEffect, useState } from "react";
 
 type Props = {
   index: number;
@@ -18,6 +21,12 @@ export const SolutionHistoryItemDetails: React.FC<Props> = ({
   showViewDetailsButton,
   lastElementRef,
 }) => {
+  const [imageSrc, setImageSrc] = useState<string>(jobSearchListImage);
+
+  useEffect(() => {
+    getValidImage(content?.imageUrls).then(setImageSrc);
+  }, [content?.imageUrls]);
+  console.log("---ss------", imageSrc);
   return (
     <>
       <div
@@ -27,11 +36,7 @@ export const SolutionHistoryItemDetails: React.FC<Props> = ({
         <div className="w-full md:w-40">
           <img
             className="w-full hidden md:block"
-            src={
-              content?.imageUrls !== undefined
-                ? JSON?.parse(content?.imageUrls)[0]
-                : ""
-            }
+            src={imageSrc}
             alt={content.toolName}
           />
         </div>

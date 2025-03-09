@@ -1,49 +1,68 @@
-import { SideMenuList } from "../Header/SideMenuList";
 import { MainTitle } from "../common-sections/MainTitle";
-import { SearchUI } from "../search/SearchUI";
-import { useOrders } from "../../lib/useOrders";
-import { RentalOrderHistory } from "../../lib/types/DIYToolsListings copy";
-import {
-  useJobPostingByCustomerId,
-  useToolsRentalHistoryByCustomerId,
-} from "../../utils/fetchEndpoints";
-import { CustomerJopPostingOrderHistory } from "./CustomerJopPostingOrderHistory";
+import { useInfiniteScroll } from "../common-sections/InfiniteScroll ";
+import { localHostURL } from "../../utils/fetchGet";
+import { JobPosting } from "../../lib/types/FindWorkPostAJobtypesData";
+import { JobPostingHistoryTable } from "./JobPostingHistoryTable";
+import { useState } from "react";
 
 type Props = {
   isOrderSumary?: boolean;
 };
 
 export const JobRequestsOrderHistory: React.FC<Props> = ({ isOrderSumary }) => {
-  const { data: toolsRentalHistoryByCustomer } =
-    useToolsRentalHistoryByCustomerId(1); //use customer in after login in
-  const { data: customerRequestedJobList } = useJobPostingByCustomerId(1);
-  console.log("-------------", customerRequestedJobList);
-  const orderList =
-    toolsRentalHistoryByCustomer !== undefined
-      ? toolsRentalHistoryByCustomer
-      : ([] as RentalOrderHistory[]);
+  const [filterName, setFilterName] = useState<string>();
+  const uniqueJobStatuses = [
+    "All",
+    "Listed",
+    "Pending",
+    "Under Review",
+    "Completed",
+    "Cancelled",
+    "Solutionist Assigned",
+  ];
+
+  const getNmae = (name: string) => {
+    switch (name) {
+      case "Under Review":
+        return "UnderReview";
+      case "Solutionist Assigned":
+        return "SolutionistAssigned";
+      default:
+        return name;
+    }
+  };
 
   const {
-    handleSubmit,
-    handleSort,
-    filteredOrders,
-    handleOnChange,
-    handleEdit,
-  } = useOrders();
+    items: jobOrderHistory,
+    loading,
+    hasMore,
+    lastElementRef,
+    showScrollButton,
+    scrollToTop,
+  } = useInfiniteScroll(
+    `${localHostURL}/job-postings/history/${53}/${getNmae(
+      filterName ?? "All"
+    )}`,
+    filterName
+  ); //use customer in after login in
 
   return (
     <div className="px-4 justify-center dark:bg-gray-700 rounded-b">
       <MainTitle title={"Job Requests Order History"} />
 
-      <SearchUI
-        handleOnChange={handleOnChange}
-        filteredOrders={filteredOrders}
-        handleSubmit={handleSubmit}
+      <JobPostingHistoryTable
+        jobPostingHistoryForPoster={jobOrderHistory as unknown as JobPosting[]}
+        historyProp={{
+          loading,
+          hasMore,
+          lastElementRef,
+          showScrollButton,
+          scrollToTop,
+          sortList: uniqueJobStatuses,
+          filterName: filterName ?? "",
+          setFilterName,
+        }}
       />
-
-      <CustomerJopPostingOrderHistory orderList={customerRequestedJobList} />
-
-      <SideMenuList />
     </div>
   );
 };

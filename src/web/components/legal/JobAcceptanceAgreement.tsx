@@ -90,33 +90,6 @@ export const JobAcceptanceAgreement: React.FC<Props> = ({
           Accept
         </button>
       )}
-
-      {!isCustomer && jobOrder && (
-        <>
-          <p className="mt-4 text-lg mb-4 text-white">
-            Please feel free to reach out to{" "}
-            <strong>{jobOrder.customerName}</strong> directly at{" "}
-            <a
-              className="text-purple-400 font-bold "
-              href={`mailto:${jobOrder.email}`}
-            >
-              {jobOrder.email}
-            </a>{" "}
-            or{" "}
-            <span className="text-purple-400 font-bold ">
-              {jobOrder.phoneNumber}
-            </span>{" "}
-            if you have any questions or require additional details about the
-            job.
-          </p>
-          <p className="mt-2 text-lg mb-4 text-white">Best regards,</p>
-          <p className="mt-2 text-lg mb-4 text-white">
-            <strong>
-              The <span className="text-purple-400">Nearby Solutions</span> Team
-            </strong>
-          </p>
-        </>
-      )}
     </div>
   );
 };

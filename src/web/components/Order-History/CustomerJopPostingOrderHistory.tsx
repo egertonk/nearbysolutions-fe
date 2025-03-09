@@ -47,7 +47,11 @@ type PaymentOrderStatus =
   | "Paid"
   | "Refunded"
   | "Cancelled"
-  | "Completed";
+  | "Completed"
+  | "Accepted"
+  | "Solutionist Assigned"
+  | "Listed"
+  | "In Progress";
 
 // Pending > default
 // Failed > default
@@ -64,6 +68,10 @@ export const getPaymentOrderStatusClass = (
     Cancelled: "bg-red-100 text-red-800",
     Completed: "bg-green-100 text-green-800",
     default: "bg-red-100 text-red-800",
+    Accepted: "bg-green-100 text-green-800",
+    "Solutionist Assigned": "bg-green-100 text-green-800",
+    Listed: "bg-cyan-100 text-green-800",
+    "In Progress": "bg-gray-100 text-green-800",
   };
 
   return (

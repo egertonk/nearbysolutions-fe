@@ -35,7 +35,7 @@ export const HomeIndex: React.FC = () => {
 
   return (
     <>
-      <StripePayment />
+      {/* <StripePayment /> */}
       ///// todo
       {openImage && (
         <ImagePopup

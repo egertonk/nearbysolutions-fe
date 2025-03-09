@@ -19,7 +19,7 @@ export const SortData: React.FC<Props> = ({ handleSort, sortList }) => {
 
   return (
     <div className="relative flex justify-end mb-2 -mt-4">
-      <div className="relative w-36 text-end m-4">
+      <div className="relative w-48 m-1 text-end m-4">
         {/* Dropdown Button */}
         <button
           className="text-black px-6 py-1 flex items-center justify-between w-full bg-white border border-gray-300 rounded-lg shadow-md hover:bg-gray-100"
@@ -35,7 +35,7 @@ export const SortData: React.FC<Props> = ({ handleSort, sortList }) => {
             {sortList.map((name, index) => (
               <li
                 key={index}
-                className="flex justify-center items-center text-sm text-gray-700 hover:bg-gray-100 py-3 px-6 cursor-pointer"
+                className="flex justify-center items-center text-sm text-gray-700 hover:bg-gray-100 py-3 px-0 cursor-pointer"
                 onClick={() => selectSortOption(name)}
               >
                 {name}

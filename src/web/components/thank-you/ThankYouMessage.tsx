@@ -86,6 +86,33 @@ export const ThankYouMessage: React.FC = () => {
           jobOrder={jobOrder}
         />
       ) : null}
+
+      {isShowTermsAndConditions && jobOrder && (
+         <div className="bg-[#081449] shadow-lg shadow-indigo-500/40 px-4 py-5 sm:px-6 m-4 w-68">
+          <p className="mt-4 text-lg mb-4 text-white">
+            Please feel free to reach out to{" "}
+            <strong>{jobOrder.customerName}</strong> directly at{" "}
+            <a
+              className="text-purple-400 font-bold "
+              href={`mailto:${jobOrder.email}`}
+            >
+              {jobOrder.email}
+            </a>{" "}
+            {/* or{" "}
+            <span className="text-purple-400 font-bold ">
+              {jobOrder.phoneNumber}
+            </span>{" "} */}
+            if you have any questions or require additional details about the
+            job.
+          </p>
+          <p className="mt-2 text-lg mb-4 text-white">Best regards,</p>
+          <p className="mt-2 text-lg mb-4 text-white">
+            <strong>
+              The <span className="text-purple-400">Nearby Solutions</span> Team
+            </strong>
+          </p>
+        </div>
+      )}
     </>
   );
 };
