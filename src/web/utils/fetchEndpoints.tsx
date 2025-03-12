@@ -16,8 +16,11 @@ import {
 import { CountryTypes } from "../lib/types/countryTypes";
 import { OrderTypes } from "../lib/types/orderTypes";
 import {
+  defaultJobOrderHistory,
+  emptyJobPostingOrderHistoryDetails,
   FullJobPostingDetails,
   JobPosting,
+  JobPostingOrderHistoryDetails,
   NoLicensePermitVerificationServiceTypes,
 } from "../lib/types/FindWorkPostAJobtypesData";
 import {
@@ -175,6 +178,29 @@ export const useGetJobPostingSearchResult = (searchTerm: string) =>
     () => getJobPostingSearchResult(searchTerm),
     []
   );
+
+export const getJobPostingOrderDetailsByCustomer = (
+  solutionistId: number,
+  orderId: number,
+  posterId: number
+): Promise<JobPostingOrderHistoryDetails> =>
+  getWrapperWthUserIdAndOrderId(
+    "job-postings-order-history",
+    orderId,
+    solutionistId,
+    posterId
+  );
+export const useJobPostingOrderDetailsBuCustomer = (
+  solutionistId: number,
+  orderId: number,
+  posterId: number
+) =>
+  useFetchData(
+    ["job-postings-customer-details"],
+    () => getJobPostingOrderDetailsByCustomer(solutionistId, orderId, posterId),
+    emptyJobPostingOrderHistoryDetails
+  );
+
 
 // No License Permit Verification Service
 export const getNoLicensePermitVerificationService = () =>

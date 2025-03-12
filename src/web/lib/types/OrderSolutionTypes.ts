@@ -102,3 +102,45 @@ export type CustomerFormData = {
   };
   longTermSubscriptionAllow: boolean;
 };
+
+export type SolutionJobOrderHistory = {
+  id: number;
+  solutionistId: number;
+  solutionistName: string;
+  solutionistEmail: string;
+  solutionistPhone: string;
+  solutionistImageUrl: string;
+  solutionistRoleLevel: string;
+  solutionistExperience: string;
+  appointmentDate: string; // ISO Date string: "YYYY-MM-DD"
+  scheduleTime: string; // ISO Time string: "HH:mm:ss"
+  jobSelection: string;
+  jobTask: string | null;
+  jobAddress: string;
+
+  customerId: number;
+  customerName: string;
+  customerEmail: string;
+  customerPhone: string;
+  customerAddress: string;
+  customerPreferredCommunication: string;
+  customerSubscriptionStatus: string;
+
+  cardholderName: string;
+  cardType: string;
+  lastFourDigits: string;
+  paymentStatus: "Pending" | "Completed" | "On Hold";
+
+  jobPrice: number;
+  tax: number;
+  subtotal: number;
+  total: number;
+  status: "Placed" | "Processing" | "Completed" | "Cancelled";
+
+  createdAt: string; // ISO DateTime string
+  updatedAt: string; // ISO DateTime string
+};
+
+export type SolutionJobOrderHistoryWithPagination = {
+  content: SolutionJobOrderHistory[];
+};

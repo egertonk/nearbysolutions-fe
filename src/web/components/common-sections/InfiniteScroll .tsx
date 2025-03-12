@@ -2,6 +2,7 @@ import { useState, useEffect, useRef, useCallback } from "react";
 import { SolutionistResponseTypes } from "../../lib/types/solutionistTypes";
 import { ToolOrderHistoryWithPagination } from "../../lib/types/DIYToolsListings";
 import { JobPosting } from "../../lib/types/FindWorkPostAJobtypesData";
+import { SolutionJobOrderHistoryWithPagination } from "../../lib/types/OrderSolutionTypes";
 
 export const isFeature = (featureName: string): boolean => {
   return featureName === "home-page";
@@ -9,7 +10,10 @@ export const isFeature = (featureName: string): boolean => {
 
 export const useInfiniteScroll = (apiUrl: string, filterName?: string) => {
   const [items, setItems] = useState<
-    SolutionistResponseTypes[] | ToolOrderHistoryWithPagination[] | JobPosting[]
+    | SolutionistResponseTypes[]
+    | ToolOrderHistoryWithPagination[]
+    | JobPosting[]
+    | SolutionJobOrderHistoryWithPagination[]
   >([]);
   const [page, setPage] = useState<number>(0);
   const [previousPage, setPreviousPage] = useState<number>(-1);

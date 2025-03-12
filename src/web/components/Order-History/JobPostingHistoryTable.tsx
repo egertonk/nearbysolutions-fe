@@ -3,6 +3,7 @@ import { InfiniteScrollMessages } from "../common-sections/InfiniteScrollMessage
 import { JobPosting } from "../../lib/types/FindWorkPostAJobtypesData";
 import { JobPostingHistoryItemDetails } from "./JobPostingHistoryItemDetails";
 import { HistorySharedProps } from "./ToolHistoryTable";
+import { NoDataMessage } from "./Common/NoDataMessage";
 
 type Props = {
   jobPostingHistoryForPoster: JobPosting[] | undefined;
@@ -24,7 +25,7 @@ export const JobPostingHistoryTable: React.FC<Props> = ({
       </div>
 
       <div className="flex-row min-h-screen justify-center items-center md:mx-8 md:px-64">
-        {jobPostingHistoryForPoster &&
+        {jobPostingHistoryForPoster && jobPostingHistoryForPoster.length > 0 ? (
           jobPostingHistoryForPoster?.map((order) => (
             <JobPostingHistoryItemDetails
               index={jobPostingHistoryForPoster.indexOf(order)}
@@ -33,7 +34,10 @@ export const JobPostingHistoryTable: React.FC<Props> = ({
               content={order}
               showViewDetailsButton={false}
             />
-          ))}
+          ))
+        ) : (
+          <NoDataMessage name={historyProp.filterName} />
+        )}
       </div>
 
       <InfiniteScrollMessages

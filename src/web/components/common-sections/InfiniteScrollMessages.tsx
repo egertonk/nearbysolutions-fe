@@ -18,11 +18,11 @@ export const InfiniteScrollMessages: React.FC<Props> = ({
           Loading more...
         </p>
       )}
-      {!hasMore && (
+      {/* {!hasMore && (
         <p className="font-bold text-lg font-heading text-purple-800 bg-clip-text bg-gradient-to-r from-pink-500 to-violet-500">
           No more data to load.
         </p>
-      )}
+      )} */}
 
       {/* ✅ Back to Top Button */}
       {showScrollButton && (

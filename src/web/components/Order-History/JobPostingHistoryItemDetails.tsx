@@ -1,15 +1,19 @@
 import jobSearchListImage from "../../assets/images/customer-job-requests.jpeg";
-import { JobPosting } from "../../lib/types/FindWorkPostAJobtypesData";
+import {
+  JobOrderHistory,
+  JobPosting,
+} from "../../lib/types/FindWorkPostAJobtypesData";
 import { getPaymentOrderStatusClass } from "./CustomerJopPostingOrderHistory";
 import { OrderHistoryItemDetails } from "./Common/OrderHistoryItemDetails";
 import { HistoryDetailsButton } from "./Common/HistoryDetailsButton";
 import { useEffect, useState } from "react";
 import { getValidImage } from "../common-sections/useImageLoader";
+import { HistoryImageTag } from "./Common/HistoryImageTag";
 
 type Props = {
   index?: number;
   arrayLength?: number;
-  content: JobPosting;
+  content: JobOrderHistory | JobPosting;
   showViewDetailsButton: boolean;
   lastElementRef?: (node: HTMLDivElement | null) => void;
 };
@@ -34,18 +38,21 @@ export const JobPostingHistoryItemDetails: React.FC<Props> = ({
       key={Math.random()}
     >
       <div className="w-full md:w-40">
-        <img
-          className="w-full hidden md:block"
-          src={imageSrc}
-          alt={content.jobName}
-        />
+        <HistoryImageTag imageSrc={imageSrc} name={content.jobName} />
       </div>
 
-      <div className="border-b border-gray-200 md:flex-row flex-col flex justify-between items-start w-full pb-8 space-y-4 md:space-y-0">
-        <div className="w-full flex flex-col justify-start items-start space-y-8">
-          <h3 className="text-xl dark:text-white xl:text-2xl font-semibold leading-6 text-gray-800">
+      <div className="border-b border-gray-200 md:flex-row flex-col flex justify-between items-start w-full pb-8 md:space-y-0">
+        <div className="w-full flex flex-col justify-start items-start space-y-4 mb-4">
+          <h3 className="text-xl dark:text-white font-semibold leading-6 text-gray-800">
             {content.jobName}{" "}
-            {showViewDetailsButton === false && <>(Order #{content.id})</>}
+            {showViewDetailsButton === false && (
+              <>
+                (Order #
+                {(content as JobOrderHistory).orderId ??
+                  (content as JobPosting).id}
+                )
+              </>
+            )}
           </h3>
 
           <div className="flex justify-start items-start flex-col space-y-2">
@@ -62,7 +69,11 @@ export const JobPostingHistoryItemDetails: React.FC<Props> = ({
                 />
                 <OrderHistoryItemDetails
                   name="Job Time"
-                  value={content.time ?? ""}
+                  value={
+                    (content as JobOrderHistory).jobTime ??
+                    (content as JobPosting).time ??
+                    ""
+                  }
                 />
                 <OrderHistoryItemDetails
                   name="Job Category"
@@ -89,7 +100,11 @@ export const JobPostingHistoryItemDetails: React.FC<Props> = ({
             />
             <OrderHistoryItemDetails
               name="Job Time"
-              value={content.time ?? ""}
+              value={
+                (content as JobOrderHistory).jobTime ??
+                (content as JobPosting).time ??
+                ""
+              }
             />
 
             {showViewDetailsButton && (
@@ -117,7 +132,12 @@ export const JobPostingHistoryItemDetails: React.FC<Props> = ({
               </div>
 
               <HistoryDetailsButton
-                url={`/history/order-details?orderId=${content.id}&id=${content.solutionistId}&poster=${content.posterId}`}
+                url={`/history/job-request-order-details?orderId=${
+                  (content as JobOrderHistory).orderId ??
+                  (content as JobPosting).id
+                }&solutionist=${content.solutionistId}&poster=${
+                  content.posterId
+                }`}
               />
             </div>
           </div>

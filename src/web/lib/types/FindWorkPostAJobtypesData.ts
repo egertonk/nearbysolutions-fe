@@ -1,4 +1,6 @@
+import { emptyUser } from "../default-data/SolutionistEmtyData";
 import { PaymentDetails } from "./DIYToolsListings copy";
+import { UserTypes } from "./solutionistTypes";
 
 export type imageDetailsTypes = {
   name: string;
@@ -136,6 +138,11 @@ export type JobOrderHistory = {
   createdAt: string; // ISO Date-Time string (YYYY-MM-DDTHH:mm:ss.sssZ)
   updatedAt: string; // ISO Date-Time string (YYYY-MM-DDTHH:mm:ss.sssZ)
   images: string; // Array of image URLs
+  discountPrice: number;
+  discountPercent: number;
+  subtotal: number;
+  tax: number;
+  grandTotal: number;
 };
 
 // Default values object
@@ -178,4 +185,22 @@ export const defaultJobOrderHistory: JobOrderHistory = {
   createdAt: new Date().toISOString(), // Defaults to current timestamp
   updatedAt: new Date().toISOString(), // Defaults to current timestamp
   images: "",
+  discountPrice: 0,
+  discountPercent: 0,
+  subtotal: 0,
+  tax: 0,
+  grandTotal: 0,
 };
+
+export type JobPostingOrderHistoryDetails = {
+  posterDetails: UserTypes;
+  jobPostingOrderDetails: JobOrderHistory;
+  solutionistDetails: UserTypes;
+};
+
+export const emptyJobPostingOrderHistoryDetails: JobPostingOrderHistoryDetails =
+  {
+    posterDetails: emptyUser,
+    jobPostingOrderDetails: defaultJobOrderHistory,
+    solutionistDetails: emptyUser,
+  };

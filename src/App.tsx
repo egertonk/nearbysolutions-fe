@@ -11,7 +11,6 @@ import { Footer } from "./web/components/Footer/footer";
 import { Review } from "./web/components/Reviews/Review";
 import { Favorite } from "./web/components/Favorite/Favorite";
 import { OrderSumary } from "./web/components/Order-History/OrderSumary";
-import { DateTimeSelection } from "./web/components/customer-calender-time/DateTimeSelection";
 import { CalenderForm } from "./web/components/customer-calender-time/calenderForm";
 import { Provider } from "react-redux";
 import store from "./store";
@@ -36,8 +35,9 @@ import {
   Return,
   StripePayment,
 } from "./web/components/Payment-Process/StripePayment";
-import { OrderDetails } from "./web/components/Order-History/OrderDetails";
 import { SolutionOrderHistory } from "./web/components/Order-History/SolutionOrderHistory";
+import { ToolRentalOrderDetails } from "./web/components/Order-History/ToolRentalOrderDetails";
+import { JobRequestOrderDetails } from "./web/components/Order-History/JobRequestOrderDetails";
 
 function App() {
   return (
@@ -98,14 +98,21 @@ function App() {
               element={<ToolsOrderHistory />}
             />
             <Route path="solution" element={<SolutionOrderHistory />} />
-            <Route path="order-details" element={<OrderDetails />} />
+            <Route
+              path="order-details"
+              element={<JobRequestsOrderHistoryDetails />}
+            />
             <Route
               path="job-requests-order"
               element={<JobRequestsOrderHistory />}
             />
             <Route
-              path="history/job-requests-order/view-order-details"
-              element={<JobRequestsOrderHistoryDetails />}
+              path="tool-rental-order-details"
+              element={<ToolRentalOrderDetails />}
+            />
+            <Route
+              path="job-request-order-details"
+              element={<JobRequestOrderDetails />}
             />
           </Route>
 

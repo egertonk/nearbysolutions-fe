@@ -30,8 +30,6 @@ export const ToolsOrderHistory: React.FC<Props> = ({ isOrderSumary }) => {
     filterName
   ); //use customer in after login in
 
-  console.log("toolsRentalHistory", toolsRentalHistory);
-
   return (
     <div className="px-4 justify-center dark:bg-gray-700 rounded-b">
       <MainTitle title={"Tools Order History"} />

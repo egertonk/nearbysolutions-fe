@@ -1,15 +1,16 @@
 import jobSearchListImage from "../../assets/images/customer-job-requests.jpeg";
-import { ToolOrderHistory } from "../../lib/types/DIYToolsListings";
 import { getPaymentOrderStatusClass } from "./CustomerJopPostingOrderHistory";
 import { OrderHistoryItemDetails } from "./Common/OrderHistoryItemDetails";
 import { HistoryDetailsButton } from "./Common/HistoryDetailsButton";
 import { getValidImage } from "../common-sections/useImageLoader";
 import { useEffect, useState } from "react";
+import { SolutionJobOrderHistory } from "../../lib/types/OrderSolutionTypes";
+import { HistoryImageTag } from "./Common/HistoryImageTag";
 
 type Props = {
   index: number;
   arrayLength: number;
-  content: ToolOrderHistory;
+  content: SolutionJobOrderHistory;
   showViewDetailsButton: boolean;
   lastElementRef: (node: HTMLDivElement | null) => void;
 };
@@ -21,12 +22,6 @@ export const SolutionHistoryItemDetails: React.FC<Props> = ({
   showViewDetailsButton,
   lastElementRef,
 }) => {
-  const [imageSrc, setImageSrc] = useState<string>(jobSearchListImage);
-
-  useEffect(() => {
-    getValidImage(content?.imageUrls).then(setImageSrc);
-  }, [content?.imageUrls]);
-  console.log("---ss------", imageSrc);
   return (
     <>
       <div
@@ -34,16 +29,16 @@ export const SolutionHistoryItemDetails: React.FC<Props> = ({
         ref={index === arrayLength - 1 ? lastElementRef : null}
       >
         <div className="w-full md:w-40">
-          <img
-            className="w-full hidden md:block"
-            src={imageSrc}
-            alt={content.toolName}
+          <HistoryImageTag
+            imageSrc={content?.solutionistImageUrl ?? jobSearchListImage}
+            name={content.solutionistName}
           />
         </div>
-        <div className="border-b border-gray-200 md:flex-row flex-col flex justify-between items-start w-full pb-8 space-y-4 md:space-y-0">
-          <div className="w-full flex flex-col justify-start items-start space-y-8">
-            <h3 className="text-xl dark:text-white xl:text-2xl font-semibold leading-6 text-gray-800">
-              {content.toolName}{" "}
+
+        <div className="border-b border-gray-200 md:flex-row flex-col flex justify-between items-start w-full pb-8 md:space-y-0">
+          <div className="w-full flex flex-col justify-start items-start space-y-4 mb-4">
+            <h3 className="text-xl dark:text-white font-semibold leading-6 text-gray-800">
+              {content.jobSelection}{" "}
               {showViewDetailsButton === false && <>(Order #{content.id})</>}
             </h3>
 
@@ -56,43 +51,28 @@ export const SolutionHistoryItemDetails: React.FC<Props> = ({
               {showViewDetailsButton && (
                 <>
                   <OrderHistoryItemDetails
-                    name="Category"
-                    value={content.toolCategory ?? ""}
+                    name="Job Task"
+                    value={content.jobTask ?? ""}
                   />
                   <OrderHistoryItemDetails
-                    name="Tool Brand"
-                    value={content.toolBrand ?? ""}
+                    name="Job Price"
+                    value={`$${content.jobPrice ?? 0}`}
                   />
                   <OrderHistoryItemDetails
-                    name="Rental Days"
-                    value={content.rentalDays ?? 0}
-                  />
-                  <OrderHistoryItemDetails
-                    name="Price Per Day"
-                    value={`$${content.pricePerDay ?? 0}`}
-                  />
-                  <OrderHistoryItemDetails
-                    name="Power Source"
-                    value={content.powerSource ?? ""}
+                    name="Job Address"
+                    value={`$${content.jobAddress ?? 0}`}
                   />
                 </>
               )}
 
               <OrderHistoryItemDetails
-                name="Rental Start Date"
-                value={content?.rentStartDate?.split("T")[0] ?? ""}
+                name="Appointment Date"
+                value={content?.appointmentDate?.split("T")[0] ?? ""}
               />
               <OrderHistoryItemDetails
-                name="Rental End Date"
-                value={content?.rentEndDate?.split("T")[0] ?? ""}
+                name="Schedule Time"
+                value={content?.scheduleTime?.split("T")[0] ?? ""}
               />
-
-              {showViewDetailsButton && (
-                <OrderHistoryItemDetails
-                  name="Description"
-                  value={content?.description ?? ""}
-                />
-              )}
             </div>
           </div>
 
@@ -100,19 +80,19 @@ export const SolutionHistoryItemDetails: React.FC<Props> = ({
             <div className="flex md:justify-end justify-center space-x-8 items-start w-full ">
               <div className="grid grid-cols-3 gap-2 text-white text-sm text-center font-bold leading-6">
                 <div className="p-2 rounded-lg shadow-lg bg-purple-600">
-                  Paid: ${content.finalPrice?.toFixed(2)}
+                  Paid: ${content.jobPrice?.toFixed(2)}
                 </div>
 
                 <div
                   className={`${getPaymentOrderStatusClass(
-                    content.orderStatus
+                    content.status
                   )} p-2 rounded-lg shadow-lg`}
                 >
-                  {content.orderStatus}
+                  {content.status}
                 </div>
 
                 <HistoryDetailsButton
-                  url={`/history/order-details?orderId=${content.id}&id=${content.renterId}&poster=${content.posterId}`}
+                  url={`/history/order-details?orderId=${content.id}&solutionist=${content.solutionistId}&customer=${content.customerId}`}
                 />
               </div>
             </div>

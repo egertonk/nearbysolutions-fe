@@ -40,7 +40,7 @@ export const JobRequestsOrderHistory: React.FC<Props> = ({ isOrderSumary }) => {
     showScrollButton,
     scrollToTop,
   } = useInfiniteScroll(
-    `${localHostURL}/job-postings/history/${53}/${getNmae(
+    `${localHostURL}/job-postings-order-history/${53}/${getNmae(
       filterName ?? "All"
     )}`,
     filterName

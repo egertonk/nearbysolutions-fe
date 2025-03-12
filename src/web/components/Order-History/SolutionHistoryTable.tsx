@@ -1,56 +1,50 @@
-import { orderSortList } from "../../lib/useOrders";
-import { ToolOrderHistory } from "../../lib/types/DIYToolsListings";
 import { SortData } from "../common-sections/SortData";
 import { SolutionHistoryItemDetails } from "./SolutionHistoryItemDetails";
 import { InfiniteScrollMessages } from "../common-sections/InfiniteScrollMessages";
+import { HistorySharedProps } from "./ToolHistoryTable";
+import { NoDataMessage } from "./Common/NoDataMessage";
+import { SolutionJobOrderHistory } from "../../lib/types/OrderSolutionTypes";
 
 type Props = {
-  toolsRentalHistoryByCustomer: ToolOrderHistory[] | undefined;
-  loading: boolean;
-  hasMore: boolean;
-  lastElementRef: (node: HTMLDivElement | null) => void;
-  showScrollButton: boolean;
-  scrollToTop: () => void;
+  SolutionHistoryByCustomer: SolutionJobOrderHistory[] | undefined;
+  historyProp: HistorySharedProps;
 };
 
 export const SolutionHistoryTable: React.FC<Props> = ({
-  toolsRentalHistoryByCustomer,
-  loading,
-  hasMore,
-  lastElementRef,
-  showScrollButton,
-  scrollToTop,
+  SolutionHistoryByCustomer,
+  historyProp,
 }) => {
-  if (toolsRentalHistoryByCustomer === undefined) return null;
+  if (SolutionHistoryByCustomer === undefined) return null;
 
-  function handleSort(sortType: string): void {
-    throw new Error("Function not implemented.");
-  }
+  const handleSort = (name: string) => historyProp.setFilterName(name);
 
   return (
     <>
       <div className="flex justify-center space-x-8 items-start w-full ">
-        <SortData sortList={orderSortList} handleSort={handleSort} />
+        <SortData sortList={historyProp.sortList} handleSort={handleSort} />
       </div>
 
       <div className="flex-row min-h-screen justify-center items-center md:mx-8 md:px-64">
-        {toolsRentalHistoryByCustomer &&
-          toolsRentalHistoryByCustomer?.map((order) => (
+        {SolutionHistoryByCustomer && SolutionHistoryByCustomer.length > 0 ? (
+          SolutionHistoryByCustomer?.map((order) => (
             <SolutionHistoryItemDetails
-              index={toolsRentalHistoryByCustomer.indexOf(order)}
-              arrayLength={toolsRentalHistoryByCustomer.length ?? 0}
+              index={SolutionHistoryByCustomer.indexOf(order)}
+              arrayLength={SolutionHistoryByCustomer.length ?? 0}
+              lastElementRef={historyProp.lastElementRef}
               content={order}
               showViewDetailsButton={false}
-              lastElementRef={lastElementRef}
             />
-          ))}
+          ))
+        ) : (
+          <NoDataMessage name={historyProp.filterName} />
+        )}
       </div>
 
       <InfiniteScrollMessages
-        loading={loading}
-        hasMore={hasMore}
-        showScrollButton={showScrollButton}
-        scrollToTop={scrollToTop}
+        loading={historyProp.loading}
+        hasMore={historyProp.hasMore}
+        showScrollButton={historyProp.showScrollButton}
+        scrollToTop={historyProp.scrollToTop}
       />
     </>
   );

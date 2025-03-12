@@ -18,10 +18,9 @@ export const JobRequestsOrderHistoryDetails: React.FC = () => {
   const { data: jobOrderDetails } = useJobPostingByJobId(Number(jobId));
   console.log("jobId = ", jobId);
   console.log("jobOrderDetails = ", jobOrderDetails);
-  const orderDetails =
-    (jobOrderDetails !== undefined
-      ? jobOrderDetails
-      : ({})) as FullJobPostingDetails;
+  const orderDetails = (
+    jobOrderDetails !== undefined ? jobOrderDetails : {}
+  ) as FullJobPostingDetails;
 
   console.log("orderDetailss ", orderDetails);
   if (
@@ -33,7 +32,7 @@ export const JobRequestsOrderHistoryDetails: React.FC = () => {
   return (
     <div className="mx-auto max-w-screen-xl px-4 2xl:px-0">
       <MainTitle title={`Order #${orderDetails?.jobPosting?.id} Details `} />
-
+      dddddddddddddd
       <div className="p-6 mt-5 bg-gray-50 shadow-lg rounded-lg">
         <div className="sm:flex">
           <div className="sm:w-1/3">

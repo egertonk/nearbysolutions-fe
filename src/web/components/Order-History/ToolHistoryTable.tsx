@@ -3,6 +3,7 @@ import { ToolOrderHistory } from "../../lib/types/DIYToolsListings";
 import { ToolHistoryItemDetails } from "./ToolHistoryItemDetails";
 import { SortData } from "../common-sections/SortData";
 import { InfiniteScrollMessages } from "../common-sections/InfiniteScrollMessages";
+import { NoDataMessage } from "./Common/NoDataMessage";
 
 export type HistorySharedProps = {
   loading: boolean;
@@ -62,9 +63,7 @@ export const ToolHistoryTable: React.FC<Props> = ({
             />
           ))
         ) : (
-          <>
-            <div>No {historyProp.filterName} Orders!</div>
-          </>
+          <NoDataMessage name={historyProp.filterName} />
         )}
       </div>
 
