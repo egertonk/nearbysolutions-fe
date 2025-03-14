@@ -13,7 +13,8 @@ type Props = {
 
 export const SolutionOrderHistory: React.FC<Props> = ({ isOrderSumary }) => {
   const [filterName, setFilterName] = useState<string>();
-  const uniqueToolRentalStatuses = [
+  const uniqueSolutionStatuses = [
+    "All",
     "Pending",
     "Completed",
     "Cancelled",
@@ -21,18 +22,18 @@ export const SolutionOrderHistory: React.FC<Props> = ({ isOrderSumary }) => {
   ];
 
   const {
-    items: toolsRentalHistory,
+    items: solutionHistory,
     loading,
     hasMore,
     lastElementRef,
     showScrollButton,
     scrollToTop,
   } = useInfiniteScroll(
-    `${localHostURL}/solution-job-order-history/solutionist/${52}`,
+    `${localHostURL}/solution-job-order-history/customer/${53}/${
+      filterName ?? "All"
+    }`,
     filterName
   ); //use customer in after login in
-
-  console.log("toolsRentalHistory", toolsRentalHistory);
 
   return (
     <div className={historyMainPage}>
@@ -40,7 +41,7 @@ export const SolutionOrderHistory: React.FC<Props> = ({ isOrderSumary }) => {
 
       <SolutionHistoryTable
         SolutionHistoryByCustomer={
-          toolsRentalHistory as unknown as SolutionJobOrderHistory[]
+          solutionHistory as unknown as SolutionJobOrderHistory[]
         }
         historyProp={{
           loading,
@@ -48,7 +49,7 @@ export const SolutionOrderHistory: React.FC<Props> = ({ isOrderSumary }) => {
           lastElementRef,
           showScrollButton,
           scrollToTop,
-          sortList: uniqueToolRentalStatuses,
+          sortList: uniqueSolutionStatuses,
           filterName: filterName ?? "",
           setFilterName,
         }}
