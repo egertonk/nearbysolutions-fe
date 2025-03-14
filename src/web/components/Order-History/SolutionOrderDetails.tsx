@@ -40,7 +40,7 @@ export const SolutionOrderDetails: React.FC = () => {
       <div className="px-4 md:px-6 2xl:px-20 2xl:container 2xl:mx-auto">
         <div className="mt-10 flex flex-col xl:flex-row jusitfy-center items-stretch w-full xl:space-x-8 space-y-4 md:space-y-6 xl:space-y-0">
           <div className="flex flex-col justify-start items-start w-full space-y-4 md:space-y-6 xl:space-y-8">
-            <div className="flex flex-col justify-start items-start dark:bg-gray-800 bg-gray-50 px-4 py-4 md:py-6 md:p-6 xl:p-8 w-full">
+            <div className="flex flex-col justify-start items-start dark:bg-violet-800 bg-violet-50 px-4 py-4 md:py-6 md:p-6 xl:p-8 w-full">
               <p className="text-lg md:text-xl dark:text-white font-semibold leading-6 xl:leading-5 text-purple-800">
                 Solution Details
               </p>
@@ -55,7 +55,7 @@ export const SolutionOrderDetails: React.FC = () => {
             </div>
 
             <div className="flex justify-center flex-col md:flex-row flex-col items-stretch w-full space-y-4 md:space-y-0 md:space-x-6 xl:space-x-8">
-              <div className="flex flex-col px-4 py-6 md:p-6 xl:p-8 w-full bg-gray-50 dark:bg-gray-800 space-y-6">
+              <div className="flex flex-col px-4 py-6 md:p-6 xl:p-8 w-full bg-violet-50 dark:bg-violet-800 space-y-6">
                 <h3 className="text-xl dark:text-white font-semibold leading-5 text-purple-800">
                   Summary
                 </h3>
@@ -120,7 +120,7 @@ export const SolutionOrderDetails: React.FC = () => {
               </div>
             </div>
           </div>
-          <div className="bg-gray-50 dark:bg-gray-800 w-full h-full xl:w-96 flex justify-between items-center md:items-start px-4 py-6 md:p-6 xl:p-8 flex-col">
+          <div className="bg-violet-50 dark:bg-violet-800 w-full h-full xl:w-96 flex justify-between items-center md:items-start px-4 py-6 md:p-6 xl:p-8 flex-col">
             <h3 className="text-xl dark:text-white font-semibold leading-5 text-purple-800">
               Customer
             </h3>

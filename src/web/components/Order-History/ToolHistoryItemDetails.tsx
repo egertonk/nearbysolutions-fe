@@ -5,6 +5,7 @@ import { getValidImage } from "../common-sections/useImageLoader";
 import { useEffect, useState } from "react";
 import { HistoryImageTag } from "./Common/HistoryImageTag";
 import { HistoryTableStatus } from "./Common/HistoryTableStatus";
+import { formatDate } from "../common-sections/useDateAndTimeFormat";
 
 type Props = {
   index?: number;
@@ -47,7 +48,7 @@ export const ToolHistoryItemDetails: React.FC<Props> = ({
             <div className="flex justify-start items-start flex-col space-y-2">
               <OrderHistoryItemDetails
                 name="Order Date"
-                value={content?.createdAt?.split("T")[0] ?? ""}
+                value={formatDate(content?.createdAt, "en-US")}
               />
 
               {showViewDetailsButton && (
@@ -77,11 +78,11 @@ export const ToolHistoryItemDetails: React.FC<Props> = ({
 
               <OrderHistoryItemDetails
                 name="Rental Start Date"
-                value={content?.rentStartDate?.split("T")[0] ?? ""}
+                value={formatDate(content?.rentStartDate, "en-US")}
               />
               <OrderHistoryItemDetails
                 name="Rental End Date"
-                value={content?.rentEndDate?.split("T")[0] ?? ""}
+                value={formatDate(content?.rentEndDate, "en-US")}
               />
 
               {showViewDetailsButton && (

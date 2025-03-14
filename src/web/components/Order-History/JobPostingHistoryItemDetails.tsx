@@ -9,6 +9,8 @@ import { useEffect, useState } from "react";
 import { getValidImage } from "../common-sections/useImageLoader";
 import { HistoryImageTag } from "./Common/HistoryImageTag";
 import { getPaymentOrderStatusClass } from "./Common/Index";
+import { formatDate } from "date-fns";
+import { useDateAndTimeFormat } from "../common-sections/useDateAndTimeFormat";
 
 type Props = {
   index?: number;
@@ -26,6 +28,12 @@ export const JobPostingHistoryItemDetails: React.FC<Props> = ({
   showViewDetailsButton,
 }) => {
   const [imageSrc, setImageSrc] = useState<string>(jobSearchListImage);
+
+  const { formattedDate, formattedTime } = useDateAndTimeFormat(
+    content?.jobDate ?? "",
+    (content as JobOrderHistory).jobTime ?? (content as JobPosting).time ?? "",
+    "en-US"
+  );
 
   useEffect(() => {
     getValidImage(content?.images).then(setImageSrc);
@@ -67,58 +75,47 @@ export const JobPostingHistoryItemDetails: React.FC<Props> = ({
           <div className="flex justify-start items-start flex-col space-y-2">
             <OrderHistoryItemDetails
               name="Order Date"
-              value={content?.createdAt?.split("T")[0] ?? ""}
+              value={
+                formatDate(
+                  new Date(content?.createdAt ?? ""),
+                  "MMMM d, yyyy"
+                ) ?? ""
+              }
             />
 
             {showViewDetailsButton && (
               <>
                 <OrderHistoryItemDetails
-                  name="Job Date"
-                  value={content?.jobDate?.split("T")[0] ?? ""}
-                />
-                <OrderHistoryItemDetails
-                  name="Job Time"
-                  value={
-                    (content as JobOrderHistory).jobTime ??
-                    (content as JobPosting).time ??
-                    ""
-                  }
-                />
-                <OrderHistoryItemDetails
-                  name="Job Category"
+                  name="Category"
                   value={content.jobCategory ?? ""}
                 />
                 <OrderHistoryItemDetails
-                  name="Job Category Services"
+                  name="Category Services"
                   value={content.jobCategoryServices ?? ""}
                 />
                 <OrderHistoryItemDetails
-                  name="Job Task"
+                  name="Task"
                   value={content.jobTask ?? ""}
                 />
                 <OrderHistoryItemDetails
-                  name="Job Description"
+                  name="Description"
                   value={content.jobDescription ?? ""}
                 />
               </>
             )}
 
             <OrderHistoryItemDetails
-              name="Job Date"
-              value={content?.jobDate?.split("T")[0] ?? ""}
+              name="Appointment Date"
+              value={formattedDate}
             />
             <OrderHistoryItemDetails
-              name="Job Time"
-              value={
-                (content as JobOrderHistory).jobTime ??
-                (content as JobPosting).time ??
-                ""
-              }
+              name="Appointment Time"
+              value={formattedTime}
             />
 
             {showViewDetailsButton && (
               <OrderHistoryItemDetails
-                name="Job Description"
+                name="Description"
                 value={content?.jobDescription ?? ""}
               />
             )}

@@ -3,6 +3,10 @@ import { OrderHistoryItemDetails } from "./Common/OrderHistoryItemDetails";
 import { SolutionJobOrderHistory } from "../../lib/types/OrderSolutionTypes";
 import { HistoryImageTag } from "./Common/HistoryImageTag";
 import { HistoryTableStatus } from "./Common/HistoryTableStatus";
+import {
+  formatDate,
+  useDateAndTimeFormat,
+} from "../common-sections/useDateAndTimeFormat";
 
 type Props = {
   index?: number;
@@ -26,11 +30,17 @@ export const SolutionHistoryItemDetails: React.FC<Props> = ({
   });
   const url = `/history/customer-Solution order-details?${params.toString()}`;
 
+  const { formattedDate, formattedTime } = useDateAndTimeFormat(
+    content?.appointmentDate ?? "",
+    content?.scheduleTime ?? "",
+    "en-US"
+  );
+
   return (
     <>
       <div
         className="mt-4 md:mt-6 flex flex-col md:flex-row justify-start items-start md:items-center md:space-x-6 xl:space-x-8 w-full"
-        ref={index === arrayLength ?? 0 - 1 ? lastElementRef : null}
+        ref={index === (arrayLength ?? 0) - 1 ? lastElementRef : null}
       >
         <div className="w-full md:w-40">
           <HistoryImageTag
@@ -49,21 +59,21 @@ export const SolutionHistoryItemDetails: React.FC<Props> = ({
             <div className="flex justify-start items-start flex-col space-y-2">
               <OrderHistoryItemDetails
                 name="Order Date"
-                value={content?.createdAt?.split("T")[0] ?? ""}
+                value={formatDate(content?.createdAt, "en-US")}
               />
 
               {showViewDetailsButton && (
                 <>
                   <OrderHistoryItemDetails
-                    name="Job Task"
+                    name="Task"
                     value={content.jobTask ?? ""}
                   />
                   <OrderHistoryItemDetails
-                    name="Job Price"
+                    name="Price"
                     value={`$${content.jobPrice ?? 0}`}
                   />
                   <OrderHistoryItemDetails
-                    name="Job Address"
+                    name="Address"
                     value={`$${content.jobAddress ?? 0}`}
                   />
                 </>
@@ -71,11 +81,11 @@ export const SolutionHistoryItemDetails: React.FC<Props> = ({
 
               <OrderHistoryItemDetails
                 name="Appointment Date"
-                value={content?.appointmentDate?.split("T")[0] ?? ""}
+                value={formattedDate}
               />
               <OrderHistoryItemDetails
-                name="Schedule Time"
-                value={content?.scheduleTime?.split("T")[0] ?? ""}
+                name="Appointment Time"
+                value={formattedTime}
               />
             </div>
           </div>

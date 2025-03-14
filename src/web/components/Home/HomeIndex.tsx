@@ -10,25 +10,15 @@ import { ToolsListing } from "../Rent-Tools/ToolsListing";
 import { useRentTools } from "../Rent-Tools/useRentTools";
 import { useImagePopup } from "../Rent-Tools/useImagePopup";
 import { HomeSectionHeader } from "./HomeSectionHeader";
-import { imageDetailsTypes } from "../../lib/types/FindWorkPostAJobtypesData";
 import { ImagePopup } from "../common-sections/ImagePopup";
-import { StripePayment } from "../Payment-Process/StripePayment";
+import { hr, parseImageArray } from "../../lib";
 
 export const HomeIndex: React.FC = () => {
   const { rentToolsAction } = useRentTools(true, "home-page");
   const { openImage, setOpenImage, imageDetails, setImageDetails } =
     useImagePopup();
 
-  const imageArray: string[] = (imageDetails as imageDetailsTypes)?.image;
-
-  // Ensure imageArray is already a valid array or a JSON string
-  const jsonString = Array.isArray(imageArray)
-    ? JSON.stringify(imageArray)
-    : imageArray;
-
-  // Safely parse JSON if it's a string
-  const extractedImageData: string[] =
-    typeof jsonString === "string" ? JSON.parse(jsonString) : [];
+  const extractedImageData = parseImageArray(imageDetails);
 
   const { data: users } = useGetUsers();
   const { filteredJobs } = useFindWorkPostAJob(sortList, "home-page");
@@ -99,7 +89,7 @@ export const HomeIndex: React.FC = () => {
       <div className="grid grid-cols-1 lg:grid-cols-5 gap-2 mb-4">
         <SolutionistCard data={users || []} lastElementRef={() => {}} />
       </div>
-      <hr className="w-full h-1 mx-auto  bg-purple-300 border-0 rounded-sm dark:bg-purple-800"></hr>
+      {hr}
       <div className="grid grid-flow-col grid-rows-2 gap-4 px-4 m-1">
         <HomeSectionHeader
           sectionName={"Find Work"}
@@ -111,7 +101,7 @@ export const HomeIndex: React.FC = () => {
         />
       </div>
       <JobListings customerJobsArray={filteredJobs} />
-      <hr className="w-full h-1 mx-auto  bg-purple-300 border-0 rounded-sm dark:bg-purple-800 mt-4"></hr>
+      {hr}
       <div className="grid grid-flow-col grid-rows-2 gap-4 px-4 m-1">
         <HomeSectionHeader
           sectionName={"DIY Tools Rental"}

@@ -17,6 +17,7 @@ import {
   youtube,
   whatsapp,
 } from "../assets/svg/svgs";
+import { imageDetailsTypes } from "./types/FindWorkPostAJobtypesData";
 import { JobTitleTypes } from "./types/solutionistTypes";
 
 export const monthNames = [
@@ -228,3 +229,26 @@ export const calculateFinalPrice = (
 ): number => {
   return price * (1 - discount / 100);
 };
+
+/**
+ * Extracts and parses image data safely from the imageDetails object.
+ * Handles both array and JSON string formats.
+ */
+export const parseImageArray = (imageDetails?: imageDetailsTypes): string[] => {
+  const imageArray: string[] = imageDetails?.image ?? [];
+
+  // Convert array to string if necessary
+  const jsonString = Array.isArray(imageArray)
+    ? JSON.stringify(imageArray)
+    : imageArray;
+
+  // Safely parse JSON string to array
+  const extractedImageData: string[] =
+    typeof jsonString === "string" ? JSON.parse(jsonString) : [];
+
+  return extractedImageData;
+};
+
+export const hr = (
+  <hr className="w-full h-1 mx-auto  bg-purple-300 border-0 rounded-sm dark:bg-purple-800 mt-4"></hr>
+);

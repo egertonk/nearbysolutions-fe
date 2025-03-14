@@ -5,6 +5,12 @@ import { InfiniteScrollMessages } from "../common-sections/InfiniteScrollMessage
 import { NoDataMessage } from "./Common/NoDataMessage";
 import { historyItemDetails, historySort } from "./Common/Order-History-CSS";
 import { getPaymentOrderStatusClass } from "./Common/Index";
+import { HomeSectionHeader } from "../Home/HomeSectionHeader";
+import { ToolsListing } from "../Rent-Tools/ToolsListing";
+import { useRentTools } from "../Rent-Tools/useRentTools";
+import { useImagePopup } from "../Rent-Tools/useImagePopup";
+import { ImagePopup } from "../common-sections/ImagePopup";
+import { hr, parseImageArray } from "../../lib";
 
 export type HistorySharedProps = {
   loading: boolean;
@@ -41,9 +47,18 @@ export const ToolHistoryTable: React.FC<Props> = ({
   toolsRentalHistoryByCustomer,
   historyProp,
 }) => {
+  const { rentToolsAction } = useRentTools(true, "home-page");
+  const { openImage, setOpenImage, imageDetails, setImageDetails } =
+    useImagePopup();
+
   if (toolsRentalHistoryByCustomer === undefined) return null;
 
   const handleSort = (name: string) => historyProp.setFilterName(name);
+
+  const isToolOrderAvailable =
+    toolsRentalHistoryByCustomer && toolsRentalHistoryByCustomer.length > 0;
+
+  const extractedImageData = parseImageArray(imageDetails);
 
   return (
     <>
@@ -51,9 +66,8 @@ export const ToolHistoryTable: React.FC<Props> = ({
         <SortData sortList={historyProp.sortList} handleSort={handleSort} />
       </div>
 
-      <div className={historyItemDetails}>
-        {toolsRentalHistoryByCustomer &&
-        toolsRentalHistoryByCustomer.length > 0 ? (
+      <div className={isToolOrderAvailable ? historyItemDetails : ""}>
+        {isToolOrderAvailable ? (
           toolsRentalHistoryByCustomer?.map((order) => (
             <ToolHistoryItemDetails
               index={toolsRentalHistoryByCustomer.indexOf(order)}
@@ -64,7 +78,39 @@ export const ToolHistoryTable: React.FC<Props> = ({
             />
           ))
         ) : (
-          <NoDataMessage name={historyProp.filterName} />
+          <>
+            {openImage && (
+              <ImagePopup
+                openImage={openImage}
+                setOpenImage={setOpenImage}
+                imageDetails={{
+                  name: imageDetails?.name || "",
+                  image: extractedImageData,
+                }}
+                featureName="tool"
+              />
+            )}
+
+            <NoDataMessage name={historyProp.filterName} />
+
+            {hr}
+
+            <div className="grid grid-flow-col grid-rows-2 gap-4 px-4 m-1">
+              <HomeSectionHeader
+                sectionName={"DIY Tools Rental"}
+                path={"/DIY-tools-rental"}
+                addedSection={{
+                  name: "Rent Your Home Tools",
+                  linkPath: "/rent-your-home-tools",
+                }}
+              />
+            </div>
+            <ToolsListing
+              rentToolsAction={rentToolsAction}
+              setImageDetails={setImageDetails}
+              setOpenImage={setOpenImage}
+            />
+          </>
         )}
       </div>
 
