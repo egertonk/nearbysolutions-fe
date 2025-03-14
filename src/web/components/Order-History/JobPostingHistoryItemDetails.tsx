@@ -3,12 +3,12 @@ import {
   JobOrderHistory,
   JobPosting,
 } from "../../lib/types/FindWorkPostAJobtypesData";
-import { getPaymentOrderStatusClass } from "./CustomerJopPostingOrderHistory";
 import { OrderHistoryItemDetails } from "./Common/OrderHistoryItemDetails";
 import { HistoryDetailsButton } from "./Common/HistoryDetailsButton";
 import { useEffect, useState } from "react";
 import { getValidImage } from "../common-sections/useImageLoader";
 import { HistoryImageTag } from "./Common/HistoryImageTag";
+import { getPaymentOrderStatusClass } from "./Common/Index";
 
 type Props = {
   index?: number;
@@ -30,6 +30,15 @@ export const JobPostingHistoryItemDetails: React.FC<Props> = ({
   useEffect(() => {
     getValidImage(content?.images).then(setImageSrc);
   }, [content?.images]);
+
+  const params = new URLSearchParams({
+    orderId: `${
+      (content as JobOrderHistory).orderId ?? (content as JobPosting).id
+    }`,
+    solutionist: `${content.solutionistId}`,
+    poster: `${content.posterId}`,
+  });
+  const url = `/history/job-request-order-details?${params.toString()}`;
 
   return (
     <div
@@ -131,14 +140,7 @@ export const JobPostingHistoryItemDetails: React.FC<Props> = ({
                 {content.jobStatus}
               </div>
 
-              <HistoryDetailsButton
-                url={`/history/job-request-order-details?orderId=${
-                  (content as JobOrderHistory).orderId ??
-                  (content as JobPosting).id
-                }&solutionist=${content.solutionistId}&poster=${
-                  content.posterId
-                }`}
-              />
+              <HistoryDetailsButton url={url} />
             </div>
           </div>
         )}

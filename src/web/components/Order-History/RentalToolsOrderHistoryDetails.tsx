@@ -4,8 +4,8 @@ import { FullPaymentDetailsDTO } from "../../lib/types/DIYToolsListings copy";
 import { useToolsRentalHistoryByOrderId } from "../../utils/fetchEndpoints";
 import { useLocation } from "react-router";
 import { MainTitle } from "../common-sections/MainTitle";
-import { getOrderStatusClass } from "./RentalToolsOrderHistory";
 import { Address } from "../common-sections/Address";
+import { getOrderStatusClass } from "./Common/Index";
 
 export const RentalToolsOrderHistoryDetails: React.FC = () => {
   const location = useLocation();
@@ -101,12 +101,8 @@ export const RentalToolsOrderHistoryDetails: React.FC = () => {
                     address={
                       orderDetails.rentalDetails.renterAddressStreet ?? ""
                     }
-                    city={
-                      orderDetails.rentalDetails.renterAddressCity ?? ""
-                    }
-                    state={
-                      orderDetails.rentalDetails.renterAddressState ?? ""
-                    }
+                    city={orderDetails.rentalDetails.renterAddressCity ?? ""}
+                    state={orderDetails.rentalDetails.renterAddressState ?? ""}
                     zip={orderDetails.rentalDetails.renterZipCode ?? ""}
                   />
                 </p>
@@ -147,12 +143,8 @@ export const RentalToolsOrderHistoryDetails: React.FC = () => {
                   country={
                     orderDetails.rentalDetails.dropoffAddressCountry ?? ""
                   }
-                  address={
-                    orderDetails.rentalDetails.pickupAddressStreet ?? ""
-                  }
-                  city={
-                    orderDetails.rentalDetails.pickupAddressCity ?? ""
-                  }
+                  address={orderDetails.rentalDetails.pickupAddressStreet ?? ""}
+                  city={orderDetails.rentalDetails.pickupAddressCity ?? ""}
                   state={orderDetails.rentalDetails.pickupAddressState ?? ""}
                   zip={orderDetails.rentalDetails.toolZipcode ?? ""}
                 />
@@ -167,12 +159,8 @@ export const RentalToolsOrderHistoryDetails: React.FC = () => {
                   address={
                     orderDetails.rentalDetails.dropoffAddressStreet ?? ""
                   }
-                  city={
-                    orderDetails.rentalDetails.dropoffAddressCity ?? ""
-                  }
-                  state={
-                    orderDetails.rentalDetails.dropoffAddressState ?? ""
-                  }
+                  city={orderDetails.rentalDetails.dropoffAddressCity ?? ""}
+                  state={orderDetails.rentalDetails.dropoffAddressState ?? ""}
                   zip={orderDetails.rentalDetails.toolZipcode ?? ""}
                 />
               </div>

@@ -4,6 +4,7 @@ import { useInfiniteScroll } from "../common-sections/InfiniteScroll ";
 import { ToolOrderHistory } from "../../lib/types/DIYToolsListings";
 import { localHostURL } from "../../utils/fetchGet";
 import { useState } from "react";
+import { historyMainPage } from "./Common/Order-History-CSS";
 
 type Props = {
   isOrderSumary?: boolean;
@@ -12,6 +13,7 @@ type Props = {
 export const ToolsOrderHistory: React.FC<Props> = ({ isOrderSumary }) => {
   const [filterName, setFilterName] = useState<string>();
   const uniqueToolRentalStatuses = [
+    "All",
     "Pending",
     "Completed",
     "Cancelled",
@@ -26,12 +28,12 @@ export const ToolsOrderHistory: React.FC<Props> = ({ isOrderSumary }) => {
     showScrollButton,
     scrollToTop,
   } = useInfiniteScroll(
-    `${localHostURL}/order-history/renter/${52}/${filterName ?? "All"}`,
+    `${localHostURL}/tools-order-history/renter/${52}/${filterName ?? "All"}`,
     filterName
   ); //use customer in after login in
 
   return (
-    <div className="px-4 justify-center dark:bg-gray-700 rounded-b">
+    <div className={historyMainPage}>
       <MainTitle title={"Tools Order History"} />
       <ToolHistoryTable
         toolsRentalHistoryByCustomer={

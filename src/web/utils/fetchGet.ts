@@ -105,35 +105,53 @@ export const getWrapperWthId = async (endpointName: string, userId: number) => {
   }
 };
 
-export const getWrapperWthUserIdAndOrderId = async (
-  endpointName: string,
-  id: number,
-  userId: number,
-  posterId: number
-) => {
+// export const getWrapperWithPayload = async (
+//   endpointName: string,
+//   id: number,
+//   userId: number,
+//   posterId: number
+// ) => {
+//   try {
+//     const response = await fetch(`${localHostURL}/${endpointName}`, {
+//       method: "GET",
+//       headers,
+//       body: JSON.stringify({
+//         orderId: id,
+//         userId,
+//         posterId,
+//       }),
+//     });
+//     console.log("Response:", response);
+//     const noJSON = !response.headers
+//       .get("content-type")
+//       ?.includes("application/json");
+
+//     if (!response.ok) {
+//       await handleError(response, noJSON);
+//     }
+
+//     return noJSON ? await response.text() : await response.json();
+//   } catch (error) {
+//     return error;
+//   }
+// };
+export const getWrapperWithPayload = async (endpointName: string) => {
+  const url = `${localHostURL}/${endpointName}`;
+
   try {
-    const response = await fetch(
-      `${localHostURL}/${endpointName}/${id}/${userId}/${posterId}`,
-      {
-        method: "GET",
-        headers,
-      }
-    );
+    const response = await fetch(url, {
+      method: "GET",
+      headers,
+    });
 
-    // Check if the response has a JSON content-type
-    const noJSON = !response.headers
-      .get("content-type")
-      ?.includes("application/json");
-
-    // Check for error status and handle accordingly
     if (!response.ok) {
-      await handleError(response, noJSON);
+      throw new Error(`HTTP error! status: ${response.status}`);
     }
 
-    // If no error, return parsed JSON or text data
-    return noJSON ? await response.text() : await response.json();
+    const data = await response.json();
+    return data;
   } catch (error) {
-    // Return or throw the error to be handled by the calling code
+    console.error("Error fetching data:", error);
     return error;
   }
 };

@@ -4,6 +4,8 @@ import { localHostURL } from "../../utils/fetchGet";
 import { JobPosting } from "../../lib/types/FindWorkPostAJobtypesData";
 import { JobPostingHistoryTable } from "./JobPostingHistoryTable";
 import { useState } from "react";
+import { uniqueJobStatuses } from "./Common/Index";
+import { historyMainPage } from "./Common/Order-History-CSS";
 
 type Props = {
   isOrderSumary?: boolean;
@@ -11,15 +13,6 @@ type Props = {
 
 export const JobRequestsOrderHistory: React.FC<Props> = ({ isOrderSumary }) => {
   const [filterName, setFilterName] = useState<string>();
-  const uniqueJobStatuses = [
-    "All",
-    "Listed",
-    "Pending",
-    "Under Review",
-    "Completed",
-    "Cancelled",
-    "Solutionist Assigned",
-  ];
 
   const getNmae = (name: string) => {
     switch (name) {
@@ -47,7 +40,7 @@ export const JobRequestsOrderHistory: React.FC<Props> = ({ isOrderSumary }) => {
   ); //use customer in after login in
 
   return (
-    <div className="px-4 justify-center dark:bg-gray-700 rounded-b">
+    <div className={historyMainPage}>
       <MainTitle title={"Job Requests Order History"} />
 
       <JobPostingHistoryTable

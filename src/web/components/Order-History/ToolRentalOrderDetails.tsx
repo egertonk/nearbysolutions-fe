@@ -40,7 +40,7 @@ export const ToolRentalOrderDetails: React.FC = () => {
           <div className="flex flex-col justify-start items-start w-full space-y-4 md:space-y-6 xl:space-y-8">
             <div className="flex flex-col justify-start items-start dark:bg-gray-800 bg-gray-50 px-4 py-4 md:py-6 md:p-6 xl:p-8 w-full">
               <p className="text-lg md:text-xl dark:text-white font-semibold leading-6 xl:leading-5 text-purple-800">
-                Product Details
+                Tool Details
               </p>
 
               <ToolHistoryItemDetails

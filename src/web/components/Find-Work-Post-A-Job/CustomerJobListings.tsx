@@ -5,6 +5,7 @@ import { SideMenuList } from "../Header/SideMenuList";
 import { priceWithComma } from "../../lib";
 import { TableHeader } from "../common-sections/TableHeader";
 import { SearchUI } from "../search/SearchUI";
+import { historyMainPage } from "../Order-History/Common/Order-History-CSS";
 
 type Props = {
   isOrderSumary?: boolean;
@@ -21,7 +22,7 @@ export const CustomerJobListings: React.FC<Props> = ({ isOrderSumary }) => {
   };
 
   return (
-    <div className="px-4 justify-center dark:bg-gray-700 rounded-b">
+    <div className={historyMainPage}>
       <MainTitle title="Job Listings" />
 
       <SearchUI

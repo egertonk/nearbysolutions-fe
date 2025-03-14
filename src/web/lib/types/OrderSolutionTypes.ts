@@ -1,3 +1,4 @@
+import { emptyUser } from "../default-data/SolutionistEmtyData";
 import { CustomerAddressTypes, UserTypes } from "./solutionistTypes";
 
 export type Order =
@@ -118,6 +119,12 @@ export type SolutionJobOrderHistory = {
   jobTask: string | null;
   jobAddress: string;
 
+  solutionCountry: string;
+  solutionCity: string;
+  solutionAddress: string;
+  solutionState: string;
+  solutionZipcode: string;
+
   customerId: number;
   customerName: string;
   customerEmail: string;
@@ -136,6 +143,10 @@ export type SolutionJobOrderHistory = {
   subtotal: number;
   total: number;
   status: "Placed" | "Processing" | "Completed" | "Cancelled";
+  discountPercent: number;
+  discountPrice: number;
+  totalPrice: number;
+  grandTotal: number;
 
   createdAt: string; // ISO DateTime string
   updatedAt: string; // ISO DateTime string
@@ -143,4 +154,64 @@ export type SolutionJobOrderHistory = {
 
 export type SolutionJobOrderHistoryWithPagination = {
   content: SolutionJobOrderHistory[];
+};
+
+export const defaultSolutionJobOrderHistory: SolutionJobOrderHistory = {
+  id: 0,
+  solutionistId: 0,
+  solutionistName: "",
+  solutionistEmail: "",
+  solutionistPhone: "",
+  solutionistRoleLevel: "",
+  solutionistExperience: "",
+  solutionistImageUrl: "",
+  appointmentDate: "",
+  scheduleTime: "",
+  jobSelection: "",
+  jobTask: null,
+  jobAddress: "",
+
+  solutionCountry: "",
+  solutionCity: "",
+  solutionAddress: "",
+  solutionState: "",
+  solutionZipcode: "",
+
+  customerId: 0,
+  customerName: "",
+  customerEmail: "",
+  customerPhone: "",
+  customerAddress: "",
+  customerPreferredCommunication: "",
+  customerSubscriptionStatus: "",
+
+  cardholderName: "",
+  cardType: "",
+  lastFourDigits: "",
+  paymentStatus: "Pending",
+
+  jobPrice: 0,
+  tax: 0,
+  subtotal: 0,
+  total: 0,
+  status: "Placed",
+  discountPercent: 0,
+  discountPrice: 0,
+  totalPrice: 0,
+  grandTotal: 0,
+
+  createdAt: "",
+  updatedAt: "",
+};
+
+export type SolutionOrderHistoryDetails = {
+  customerDetails: UserTypes;
+  solutionOrderDetails: SolutionJobOrderHistory;
+  solutionistDetails: UserTypes;
+};
+
+export const emptySolutionOrderHistoryDetails: SolutionOrderHistoryDetails = {
+  customerDetails: emptyUser,
+  solutionOrderDetails: defaultSolutionJobOrderHistory,
+  solutionistDetails: emptyUser,
 };

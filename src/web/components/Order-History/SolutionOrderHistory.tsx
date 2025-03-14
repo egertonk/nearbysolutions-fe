@@ -3,11 +3,9 @@ import { SolutionHistoryTable } from "./SolutionHistoryTable";
 import { useInfiniteScroll } from "../common-sections/InfiniteScroll ";
 import { localHostURL } from "../../utils/fetchGet";
 import { useState } from "react";
-import {
-  SolutionJobOrderHistory,
-  SolutionJobOrderHistoryWithPagination,
-} from "../../lib/types/OrderSolutionTypes";
+import { SolutionJobOrderHistory } from "../../lib/types/OrderSolutionTypes";
 import ImageUploader from "../common-sections/ImageUploader ";
+import { historyMainPage } from "./Common/Order-History-CSS";
 
 type Props = {
   isOrderSumary?: boolean;
@@ -37,7 +35,7 @@ export const SolutionOrderHistory: React.FC<Props> = ({ isOrderSumary }) => {
   console.log("toolsRentalHistory", toolsRentalHistory);
 
   return (
-    <div className="px-4 justify-center dark:bg-gray-700 rounded-b">
+    <div className={historyMainPage}>
       <MainTitle title={"Solution Order History"} />
 
       <SolutionHistoryTable
@@ -56,15 +54,6 @@ export const SolutionOrderHistory: React.FC<Props> = ({ isOrderSumary }) => {
         }}
       />
       <ImageUploader />
-      {/* <SearchUI
-        handleOnChange={handleOnChange}
-        filteredOrders={filteredOrders}
-        handleSubmit={handleSubmit}
-      />
-
-      <RentalToolsOrderHistory orderList={orderList as RentalOrderHistory[]} />
-
-      <SideMenuList /> */}
     </div>
   );
 };

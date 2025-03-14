@@ -1,83 +1,12 @@
 import React, { useState } from "react";
 import { useNavigate } from "react-router";
 import { FullJobPostingDetails } from "../../lib/types/FindWorkPostAJobtypesData";
-
-export const jobOrderStatusNames = [
-  "Listed",
-  "Solutionist Assigned",
-  "Completed",
-  "Under Review",
-];
-
-type JobOrderStatus =
-  | "Listed"
-  | "Solutionist Assigned"
-  | "Completed"
-  | "Under Review";
-
-export const getOrderStatusClass = (
-  orderStatus: JobOrderStatus | string
-): string => {
-  const statusClasses: Record<JobOrderStatus | "default", string> = {
-    Listed: "bg-purple-900 text-white",
-    "Solutionist Assigned": "bg-blue-900 text-white",
-    "Under Review": "bg-yellow-100 text-yellow-800",
-    Completed: "bg-green-100 text-green-800",
-    default: "bg-red-100 text-red-800",
-  };
-
-  return (
-    statusClasses[orderStatus as JobOrderStatus] || statusClasses["default"]
-  );
-};
-
-export const paymentStatusNames = [
-  "On-Hold",
-  "Pending",
-  "Processing",
-  "Paid",
-  "Refunded",
-  "Cancelled",
-];
-
-type PaymentOrderStatus =
-  | "On-Hold"
-  | "Pending"
-  | "Processing"
-  | "Paid"
-  | "Refunded"
-  | "Cancelled"
-  | "Completed"
-  | "Accepted"
-  | "Solutionist Assigned"
-  | "Listed"
-  | "In Progress";
-
-// Pending > default
-// Failed > default
-
-export const getPaymentOrderStatusClass = (
-  orderStatus: PaymentOrderStatus | string
-): string => {
-  const statusClasses: Record<PaymentOrderStatus | "default", string> = {
-    "On-Hold": "bg-purple-900 text-white",
-    Pending: "bg-purple-900 text-white",
-    Refunded: "bg-blue-900 text-white",
-    Processing: "bg-yellow-100 text-yellow-800",
-    Paid: "bg-green-100 text-green-800",
-    Cancelled: "bg-red-100 text-red-800",
-    Completed: "bg-green-100 text-green-800",
-    default: "bg-red-100 text-red-800",
-    Accepted: "bg-green-100 text-green-800",
-    "Solutionist Assigned": "bg-green-100 text-green-800",
-    Listed: "bg-cyan-100 text-green-800",
-    "In Progress": "bg-gray-100 text-green-800",
-  };
-
-  return (
-    statusClasses[orderStatus as PaymentOrderStatus] || statusClasses["default"]
-  );
-};
+import {
+  getOrderStatusClass,
+  getPaymentOrderStatusClass,
+  jobOrderStatusNames,
+  paymentStatusNames,
+} from "./Common/Index";
 
 type OrderListProps = {
   orderList: FullJobPostingDetails[] | undefined;
@@ -93,7 +22,6 @@ export const CustomerJopPostingOrderHistory: React.FC<OrderListProps> = ({
   const [sortBy, setSortBy] = useState<string>("date");
   const [isPaymentFiltered, setIsPaymentFiltered] = useState<boolean>(true);
 
-  console.log("orderList = ", orderList);
   // Filter and sort orders
   const filteredPaymentOrders = orderList
     ?.filter((order) =>

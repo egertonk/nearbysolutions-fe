@@ -7,6 +7,7 @@ import { SideMenuList } from "../Header/SideMenuList";
 import { TableHeader } from "../common-sections/TableHeader";
 import { SearchUI } from "../search/SearchUI";
 import { useCustomerToolListings } from "../../lib/useCustomerToolListings";
+import { historyMainPage } from "../Order-History/Common/Order-History-CSS";
 
 export const CustomerToolListings: React.FC = () => {
   const sortList = [
@@ -26,7 +27,7 @@ export const CustomerToolListings: React.FC = () => {
   };
 
   return (
-    <div className="px-4 justify-center dark:bg-gray-700 rounded-b">
+    <div className={historyMainPage}>
       <MainTitle title="Rental Tool Listings" />
 
       <SearchUI

@@ -1,11 +1,10 @@
 import jobSearchListImage from "../../assets/images/customer-job-requests.jpeg";
 import { ToolOrderHistory } from "../../lib/types/DIYToolsListings";
-import { getPaymentOrderStatusClass } from "./CustomerJopPostingOrderHistory";
 import { OrderHistoryItemDetails } from "./Common/OrderHistoryItemDetails";
-import { HistoryDetailsButton } from "./Common/HistoryDetailsButton";
 import { getValidImage } from "../common-sections/useImageLoader";
 import { useEffect, useState } from "react";
 import { HistoryImageTag } from "./Common/HistoryImageTag";
+import { HistoryTableStatus } from "./Common/HistoryTableStatus";
 
 type Props = {
   index?: number;
@@ -95,25 +94,11 @@ export const ToolHistoryItemDetails: React.FC<Props> = ({
           </div>
 
           {showViewDetailsButton === false && (
-            <div className="flex md:justify-end justify-center space-x-8 items-start w-full ">
-              <div className="grid grid-cols-3 gap-2 text-white text-sm text-center font-bold leading-6">
-                <div className="p-2 rounded-lg shadow-lg bg-purple-600">
-                  Paid: ${content.finalPrice?.toFixed(2)}
-                </div>
-
-                <div
-                  className={`${getPaymentOrderStatusClass(
-                    content.orderStatus
-                  )} p-2 rounded-lg shadow-lg`}
-                >
-                  {content.orderStatus}
-                </div>
-
-                <HistoryDetailsButton
-                  url={`/history/tool-rental-order-details?orderId=${content.id}&id=${content.renterId}&poster=${content.posterId}`}
-                />
-              </div>
-            </div>
+            <HistoryTableStatus
+              price={content.finalPrice}
+              status={content.orderStatus}
+              url={`/history/tool-rental-order-details?orderId=${content.id}&id=${content.renterId}&poster=${content.posterId}`}
+            />
           )}
         </div>
       </div>

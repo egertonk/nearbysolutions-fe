@@ -1,18 +1,15 @@
 import jobSearchListImage from "../../assets/images/customer-job-requests.jpeg";
-import { getPaymentOrderStatusClass } from "./CustomerJopPostingOrderHistory";
 import { OrderHistoryItemDetails } from "./Common/OrderHistoryItemDetails";
-import { HistoryDetailsButton } from "./Common/HistoryDetailsButton";
-import { getValidImage } from "../common-sections/useImageLoader";
-import { useEffect, useState } from "react";
 import { SolutionJobOrderHistory } from "../../lib/types/OrderSolutionTypes";
 import { HistoryImageTag } from "./Common/HistoryImageTag";
+import { HistoryTableStatus } from "./Common/HistoryTableStatus";
 
 type Props = {
-  index: number;
-  arrayLength: number;
+  index?: number;
+  arrayLength?: number;
   content: SolutionJobOrderHistory;
   showViewDetailsButton: boolean;
-  lastElementRef: (node: HTMLDivElement | null) => void;
+  lastElementRef?: (node: HTMLDivElement | null) => void;
 };
 
 export const SolutionHistoryItemDetails: React.FC<Props> = ({
@@ -22,11 +19,18 @@ export const SolutionHistoryItemDetails: React.FC<Props> = ({
   showViewDetailsButton,
   lastElementRef,
 }) => {
+  const params = new URLSearchParams({
+    orderId: `${content.id}`,
+    solutionist: `${content.solutionistId}`,
+    customer: `${content.customerId}`,
+  });
+  const url = `/history/customer-Solution order-details?${params.toString()}`;
+
   return (
     <>
       <div
         className="mt-4 md:mt-6 flex flex-col md:flex-row justify-start items-start md:items-center md:space-x-6 xl:space-x-8 w-full"
-        ref={index === arrayLength - 1 ? lastElementRef : null}
+        ref={index === arrayLength ?? 0 - 1 ? lastElementRef : null}
       >
         <div className="w-full md:w-40">
           <HistoryImageTag
@@ -77,25 +81,11 @@ export const SolutionHistoryItemDetails: React.FC<Props> = ({
           </div>
 
           {showViewDetailsButton === false && (
-            <div className="flex md:justify-end justify-center space-x-8 items-start w-full ">
-              <div className="grid grid-cols-3 gap-2 text-white text-sm text-center font-bold leading-6">
-                <div className="p-2 rounded-lg shadow-lg bg-purple-600">
-                  Paid: ${content.jobPrice?.toFixed(2)}
-                </div>
-
-                <div
-                  className={`${getPaymentOrderStatusClass(
-                    content.status
-                  )} p-2 rounded-lg shadow-lg`}
-                >
-                  {content.status}
-                </div>
-
-                <HistoryDetailsButton
-                  url={`/history/order-details?orderId=${content.id}&solutionist=${content.solutionistId}&customer=${content.customerId}`}
-                />
-              </div>
-            </div>
+            <HistoryTableStatus
+              price={content.jobPrice}
+              status={content.status}
+              url={url}
+            />
           )}
         </div>
       </div>

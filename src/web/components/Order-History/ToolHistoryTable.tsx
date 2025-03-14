@@ -1,9 +1,10 @@
-import { getPaymentOrderStatusClass } from "./CustomerJopPostingOrderHistory";
 import { ToolOrderHistory } from "../../lib/types/DIYToolsListings";
 import { ToolHistoryItemDetails } from "./ToolHistoryItemDetails";
 import { SortData } from "../common-sections/SortData";
 import { InfiniteScrollMessages } from "../common-sections/InfiniteScrollMessages";
 import { NoDataMessage } from "./Common/NoDataMessage";
+import { historyItemDetails, historySort } from "./Common/Order-History-CSS";
+import { getPaymentOrderStatusClass } from "./Common/Index";
 
 export type HistorySharedProps = {
   loading: boolean;
@@ -46,11 +47,11 @@ export const ToolHistoryTable: React.FC<Props> = ({
 
   return (
     <>
-      <div className="flex justify-center space-x-8 items-start w-full ">
+      <div className={historySort}>
         <SortData sortList={historyProp.sortList} handleSort={handleSort} />
       </div>
 
-      <div className="flex-row min-h-screen justify-center items-center md:mx-8 md:px-64">
+      <div className={historyItemDetails}>
         {toolsRentalHistoryByCustomer &&
         toolsRentalHistoryByCustomer.length > 0 ? (
           toolsRentalHistoryByCustomer?.map((order) => (

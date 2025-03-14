@@ -30,7 +30,6 @@ import { RentOrderDetails } from "./web/components/Rent-Tools/RentOrderDetails";
 import { ToolsOrderHistory } from "./web/components/Order-History/ToolsOrderHistory";
 import { RentalToolsOrderHistoryDetails } from "./web/components/Order-History/RentalToolsOrderHistoryDetails";
 import { JobRequestsOrderHistory } from "./web/components/Order-History/JobRequestsOrderHistory";
-import { JobRequestsOrderHistoryDetails } from "./web/components/Order-History/JobRequestsOrderHistoryDetails";
 import {
   Return,
   StripePayment,
@@ -38,6 +37,7 @@ import {
 import { SolutionOrderHistory } from "./web/components/Order-History/SolutionOrderHistory";
 import { ToolRentalOrderDetails } from "./web/components/Order-History/ToolRentalOrderDetails";
 import { JobRequestOrderDetails } from "./web/components/Order-History/JobRequestOrderDetails";
+import { SolutionOrderDetails } from "./web/components/Order-History/SolutionOrderDetails";
 
 function App() {
   return (
@@ -99,9 +99,9 @@ function App() {
             />
             <Route path="solution" element={<SolutionOrderHistory />} />
             <Route
-              path="order-details"
-              element={<JobRequestsOrderHistoryDetails />}
-            />
+              path="customer-Solution order-details"
+              element={<SolutionOrderDetails />}
+            />{" "}
             <Route
               path="job-requests-order"
               element={<JobRequestsOrderHistory />}

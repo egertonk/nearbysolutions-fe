@@ -4,6 +4,7 @@ import { JobPosting } from "../../lib/types/FindWorkPostAJobtypesData";
 import { JobPostingHistoryItemDetails } from "./JobPostingHistoryItemDetails";
 import { HistorySharedProps } from "./ToolHistoryTable";
 import { NoDataMessage } from "./Common/NoDataMessage";
+import { historyItemDetails, historySort } from "./Common/Order-History-CSS";
 
 type Props = {
   jobPostingHistoryForPoster: JobPosting[] | undefined;
@@ -20,11 +21,11 @@ export const JobPostingHistoryTable: React.FC<Props> = ({
 
   return (
     <>
-      <div className="flex justify-center space-x-8 items-start w-full ">
+      <div className={historySort}>
         <SortData sortList={historyProp.sortList} handleSort={handleSort} />
       </div>
 
-      <div className="flex-row min-h-screen justify-center items-center md:mx-8 md:px-64">
+      <div className={historyItemDetails}>
         {jobPostingHistoryForPoster && jobPostingHistoryForPoster.length > 0 ? (
           jobPostingHistoryForPoster?.map((order) => (
             <JobPostingHistoryItemDetails

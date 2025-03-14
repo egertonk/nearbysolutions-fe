@@ -6,7 +6,7 @@ import {
   getWrapperSearchTerm,
   getWrapperWthId,
   getWrapperWthIds,
-  getWrapperWthUserIdAndOrderId,
+  getWrapperWithPayload,
 } from "./fetchGet";
 import {
   CustommerResponseTypes,
@@ -16,7 +16,6 @@ import {
 import { CountryTypes } from "../lib/types/countryTypes";
 import { OrderTypes } from "../lib/types/orderTypes";
 import {
-  defaultJobOrderHistory,
   emptyJobPostingOrderHistoryDetails,
   FullJobPostingDetails,
   JobPosting,
@@ -35,6 +34,10 @@ import {
   emptyToolOrderHistoryWithPagination,
   emptyToolRentalListing,
 } from "../lib/default-data/ToolemptyData";
+import {
+  emptySolutionOrderHistoryDetails,
+  SolutionOrderHistoryDetails,
+} from "../lib/types/OrderSolutionTypes";
 
 // Generic Fetch Wrapper
 const fetchData = async <T,>(endpoint: string): Promise<T> =>
@@ -183,13 +186,17 @@ export const getJobPostingOrderDetailsByCustomer = (
   solutionistId: number,
   orderId: number,
   posterId: number
-): Promise<JobPostingOrderHistoryDetails> =>
-  getWrapperWthUserIdAndOrderId(
-    "job-postings-order-history",
-    orderId,
-    solutionistId,
-    posterId
+): Promise<JobPostingOrderHistoryDetails> => {
+  const params = new URLSearchParams({
+    orderId: orderId.toString(),
+    solutionistId: solutionistId.toString(),
+    posterId: posterId.toString(),
+  });
+
+  return getWrapperWithPayload(
+    `job-postings-order-history/details?${params.toString()}`
   );
+};
 export const useJobPostingOrderDetailsBuCustomer = (
   solutionistId: number,
   orderId: number,
@@ -200,7 +207,6 @@ export const useJobPostingOrderDetailsBuCustomer = (
     () => getJobPostingOrderDetailsByCustomer(solutionistId, orderId, posterId),
     emptyJobPostingOrderHistoryDetails
   );
-
 
 // No License Permit Verification Service
 export const getNoLicensePermitVerificationService = () =>
@@ -244,10 +250,10 @@ export const useGetToolRentalListingWithId = (userId: number, toolId: number) =>
 export const getToolsRentalHistoryByCustomerId = (
   id: number
 ): Promise<ToolOrderHistoryWithPagination> =>
-  getWrapperWthId("order-history/renter", id);
+  getWrapperWthId("tools-order-history/renter", id);
 export const useToolsRentalHistoryByCustomerId = (id: number) =>
   useFetchData(
-    ["order-history"],
+    ["tools-order-history-renter"],
     () => getToolsRentalHistoryByCustomerId(id),
     emptyToolOrderHistoryWithPagination
   );
@@ -256,17 +262,52 @@ export const getToolsOrderDetailsByCustomer = (
   userId: number,
   id: number,
   posterId: number
-): Promise<ToolOrderHistoryDetails> =>
-  getWrapperWthUserIdAndOrderId("order-history", id, userId, posterId);
+): Promise<ToolOrderHistoryDetails> => {
+  const params = new URLSearchParams({
+    id: id.toString(),
+    userId: userId.toString(),
+    posterId: posterId.toString(),
+  });
+
+  return getWrapperWithPayload(
+    `tools-order-history/details?${params.toString()}`
+  );
+};
 export const useToolsOrderDetailsBuCustomer = (
   userId: number,
   id: number,
   posterId: number
 ) =>
   useFetchData(
-    ["order-history-customer-details"],
+    ["tools-order-history-customer-details"],
     () => getToolsOrderDetailsByCustomer(userId, id, posterId),
     emptyToolOrderHistoryDetails
+  );
+
+export const getSolutionOrderDetailsByCustomer = (
+  solutionistId: number,
+  orderId: number,
+  customerId: number
+): Promise<SolutionOrderHistoryDetails> => {
+  const params = new URLSearchParams({
+    orderId: orderId.toString(),
+    solutionistId: solutionistId.toString(),
+    customerId: customerId.toString(),
+  });
+
+  return getWrapperWithPayload(
+    `solution-job-order-history/details?${params.toString()}`
+  );
+};
+export const useSolutionOrderDetailsBuCustomer = (
+  solutionistId: number,
+  orderId: number,
+  customerId: number
+) =>
+  useFetchData(
+    ["solution-job-order-history-details"],
+    () => getSolutionOrderDetailsByCustomer(solutionistId, orderId, customerId),
+    emptySolutionOrderHistoryDetails
   );
 
 export const getToolsRentalHistoryByOrderId = (id: number) =>

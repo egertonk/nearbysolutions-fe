@@ -1,37 +1,19 @@
 import React, { useState } from "react";
 import { RentalOrderHistory } from "../../lib/types/DIYToolsListings copy";
 import { useNavigate } from "react-router";
-
-type OrderStatus =
-  | "Order-Confirmed"
-  | "Picked-Up"
-  | "Dropped-Off"
-  | "Completed";
-
-export const getOrderStatusClass = (
-  orderStatus: OrderStatus | string
-): string => {
-  const statusClasses: Record<OrderStatus | "default", string> = {
-    "Order-Confirmed": "bg-purple-900 text-white",
-    "Picked-Up": "bg-blue-900 text-white",
-    "Dropped-Off": "bg-yellow-100 text-yellow-800",
-    Completed: "bg-green-100 text-green-800",
-    default: "bg-red-100 text-red-800",
-  };
-
-  return statusClasses[orderStatus as OrderStatus] || statusClasses["default"];
-};
+import { getOrderStatusClass, toolRentalOrderStatuses } from "./Common/Index";
 
 type OrderListProps = {
   orderList: RentalOrderHistory[];
 };
 
-export const RentalToolsOrderHistory: React.FC<OrderListProps> = ({ orderList }) => {
+export const RentalToolsOrderHistory: React.FC<OrderListProps> = ({
+  orderList,
+}) => {
   const navigate = useNavigate();
   const [statusFilter, setStatusFilter] = useState<string>("All orders");
   const [sortBy, setSortBy] = useState<string>("date");
 
-  console.log("orderList = ", orderList);
   // Filter and sort orders
   const filteredOrders = orderList
     ?.filter((order) =>
@@ -58,11 +40,11 @@ export const RentalToolsOrderHistory: React.FC<OrderListProps> = ({ orderList })
                 onChange={(e) => setStatusFilter(e.target.value)}
                 className="block w-full min-w-[8rem] rounded-lg border border-gray-p-2.5 text-sm text-gray-900 focus:border-primary-500 focus:ring-primary-500 dark:border-gray-600 dark:bg-gray-700 dark:text-white dark:placeholder:text-gray-400 dark:focus:border-primary-500 dark:focus:ring-primary-500"
               >
-                <option value="All orders">All orders</option>
-                <option value="Order-Confirmed">Order-Confirmed</option>
-                <option value="Picked-Up">Picked-Up</option>
-                <option value="Dropped-Off">Dropped-Off</option>
-                <option value="Completed">Completed</option>
+                {toolRentalOrderStatuses.map((status) => (
+                  <option key={status} value={status}>
+                    {status}
+                  </option>
+                ))}
               </select>
 
               <select
