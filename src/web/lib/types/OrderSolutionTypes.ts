@@ -105,7 +105,7 @@ export type CustomerFormData = {
 };
 
 export type SolutionJobOrderHistory = {
-  id: number;
+  orderId: number;
   solutionistId: number;
   solutionistName: string;
   solutionistEmail: string;
@@ -157,7 +157,7 @@ export type SolutionJobOrderHistoryWithPagination = {
 };
 
 export const defaultSolutionJobOrderHistory: SolutionJobOrderHistory = {
-  id: 0,
+  orderId: 0,
   solutionistId: 0,
   solutionistName: "",
   solutionistEmail: "",

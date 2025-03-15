@@ -24,7 +24,7 @@ export const SolutionHistoryItemDetails: React.FC<Props> = ({
   lastElementRef,
 }) => {
   const params = new URLSearchParams({
-    orderId: `${content.id}`,
+    orderId: `${content.orderId}`,
     solutionist: `${content.solutionistId}`,
     customer: `${content.customerId}`,
   });
@@ -53,7 +53,9 @@ export const SolutionHistoryItemDetails: React.FC<Props> = ({
           <div className="w-full flex flex-col justify-start items-start space-y-4 mb-4">
             <h3 className="text-xl dark:text-white font-semibold leading-6 text-gray-800">
               {content.jobSelection}{" "}
-              {showViewDetailsButton === false && <>(Order #{content.id})</>}
+              {showViewDetailsButton === false && (
+                <>(Order #{content.orderId})</>
+              )}
             </h3>
 
             <div className="flex justify-start items-start flex-col space-y-2">

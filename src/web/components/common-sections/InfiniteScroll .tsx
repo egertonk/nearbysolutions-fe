@@ -23,18 +23,38 @@ export const useInfiniteScroll = (apiUrl: string, filterName?: string) => {
   const observerRef = useRef<IntersectionObserver | null>(null);
   const isFirstLoad = useRef<boolean>(true); // Track first load
 
+  const [searchTerm, setSearchTerm] = useState("");
+
+  const handleOnChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    const { value } = e.target;
+    setSearchTerm(value);
+  };
+
   // Fetch data from API
-  const fetchData = async (pageNum: number, isFullRefresh: boolean) => {
+  const fetchData = async (
+    pageNum: number,
+    isFullRefresh: boolean,
+    isSearch: boolean,
+    searchTerm?: string
+  ) => {
     setLoading(true);
     try {
-      const response = await fetch(`${apiUrl}?page=${pageNum}&size=10`);
+      const response = await fetch(
+        `${isSearch ? searchTerm : apiUrl}?page=${
+          isSearch ? 0 : pageNum
+        }&size=10`
+      );
       if (!response.ok) throw new Error("Failed to fetch data");
 
       const data = await response.json();
-      setItems((prev) =>
-        isFullRefresh ? data.content : [...prev, ...data.content]
-      );
-      setHasMore(data.content.length > 0);
+
+      if (isSearch) setItems(data.content);
+      else {
+        setItems((prev) =>
+          isFullRefresh ? data.content : [...prev, ...data.content]
+        );
+        setHasMore(data.content.length > 0);
+      }
     } catch (error) {
       console.error("Error fetching data:", error);
     } finally {
@@ -67,7 +87,7 @@ export const useInfiniteScroll = (apiUrl: string, filterName?: string) => {
     }
 
     if (page > previousPage) {
-      fetchData(page, false);
+      fetchData(page, false, false);
       setPreviousPage(page);
     }
   }, [page]);
@@ -79,7 +99,7 @@ export const useInfiniteScroll = (apiUrl: string, filterName?: string) => {
       setItems([]); // Clear previous data
       setHasMore(true);
 
-      fetchData(0, true); // Ensure API is called when filter changes
+      fetchData(0, true, false); // Ensure API is called when filter changes
     }
   }, [filterName]);
 
@@ -98,6 +118,13 @@ export const useInfiniteScroll = (apiUrl: string, filterName?: string) => {
     window.scrollTo({ top: 0, behavior: "smooth" });
   };
 
+  // Handle search form submission
+  const handleSubmit = (searchTerm: string, url: string) => {
+    if (searchTerm.length > 0) {
+      fetchData(page, false, true, url);
+    }
+  };
+
   return {
     items,
     loading,
@@ -105,5 +132,9 @@ export const useInfiniteScroll = (apiUrl: string, filterName?: string) => {
     lastElementRef,
     showScrollButton,
     scrollToTop,
+    handleSubmit,
+    searchTerm,
+    setSearchTerm,
+    handleOnChange,
   };
 };

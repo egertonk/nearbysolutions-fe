@@ -6,6 +6,7 @@ import { useState } from "react";
 import { SolutionJobOrderHistory } from "../../lib/types/OrderSolutionTypes";
 import ImageUploader from "../common-sections/ImageUploader ";
 import { historyMainPage } from "./Common/Order-History-CSS";
+import { SearchUI } from "../search/SearchUI";
 
 type Props = {
   isOrderSumary?: boolean;
@@ -28,6 +29,9 @@ export const SolutionOrderHistory: React.FC<Props> = ({ isOrderSumary }) => {
     lastElementRef,
     showScrollButton,
     scrollToTop,
+    handleSubmit,
+    searchTerm,
+    handleOnChange,
   } = useInfiniteScroll(
     `${localHostURL}/solution-job-order-history/customer/${53}/${
       filterName ?? "All"
@@ -38,6 +42,16 @@ export const SolutionOrderHistory: React.FC<Props> = ({ isOrderSumary }) => {
   return (
     <div className={historyMainPage}>
       <MainTitle title={"Solution Order History"} />
+
+      <SearchUI
+        handleOnChange={handleOnChange}
+        handleSubmit={() =>
+          handleSubmit(
+            searchTerm,
+            `${localHostURL}/solution-job-order-history/customer-search/${searchTerm}/${53}`
+          )
+        }
+      />
 
       <SolutionHistoryTable
         SolutionHistoryByCustomer={

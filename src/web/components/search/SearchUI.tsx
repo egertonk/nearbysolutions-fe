@@ -27,7 +27,7 @@ export const SearchUI: React.FC<Props> = ({
     handleOnChange(e);
     setIsTyping(e.target.value.length > 0); // Only show list when input length is greater than 0
   };
-
+  console.log("isTyping", isTyping);
   return (
     <>
       <div className="flex justify-center rounded py-4">
